@@ -71,7 +71,7 @@ class ImportYouTube extends Command
             try {
                 $this->importVideo($id, $path);
             } catch (Exception $e) {
-                $this->error($e->getMessage());
+                $this->error($id . ': ' . $e->getMessage());
             }
             $bar->advance();
         }
