@@ -19,7 +19,7 @@ class CreateVideosTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('custom_url')->nullable();
-            $table->string('country');
+            $table->string('country')->nullable();
             $table->string('type')->default('youtube');
             $table->timestamp('published_at');
             $table->timestamps();
