@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Channel;
 use App\Models\Video;
+use Exception;
 use Google_Client;
 use Google_Service_YouTube;
 use Illuminate\Console\Command;
@@ -67,7 +68,11 @@ class ImportYouTube extends Command
         $bar->start();
         foreach ($videos as $id => $file) {
             $path = realpath($directory . DIRECTORY_SEPARATOR . $file);
-            $this->importVideo($id, $path);
+            try {
+                $this->importVideo($id, $path);
+            } catch (Exception $e) {
+                $this->error($e->getMessage());
+            }
             $bar->advance();
         }
         $bar->finish();
@@ -130,6 +135,7 @@ class ImportYouTube extends Command
                 'published_at' => $video->getSnippet()->publishedAt,
             ];
         }
+        throw new Exception('Video not found');
     }
 
     /**
@@ -154,5 +160,6 @@ class ImportYouTube extends Command
                 'published_at' => $channel->getSnippet()->publishedAt,
             ];
         }
+        throw new Exception('Channel not found');
     }
 }
