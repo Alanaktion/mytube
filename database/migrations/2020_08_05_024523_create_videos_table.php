@@ -17,21 +17,22 @@ class CreateVideosTable extends Migration
             $table->id();
             $table->string('uuid')->unique();
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->string('custom_url');
             $table->string('country');
+            $table->string('type')->default('youtube');
             $table->timestamp('published_at');
             $table->timestamps();
         });
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('channel_id');
+            $table->unsignedBigInteger('channel_id')->nullable();
             $table->foreign('channel_id')
                 ->references('id')->on('channels');
             $table->string('uuid')->unique();
             $table->string('title');
             $table->text('description');
-            $table->string('file_path');
+            $table->string('file_path')->nullable();
             $table->timestamp('published_at');
             $table->timestamps();
         });

@@ -7,6 +7,7 @@ use App\Models\Video;
 use Google_Client;
 use Google_Service_YouTube;
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportYouTube extends Command
 {
@@ -36,6 +37,7 @@ class ImportYouTube extends Command
      */
     public function handle()
     {
+        $verbosity = $this->getOutput()->getVerbosity();
         $directory = $this->argument('directory');
         if (!is_dir($directory)) {
             $this->error('The specified directory does not exist.');
@@ -50,9 +52,9 @@ class ImportYouTube extends Command
         foreach ($files as $file) {
             // Match filename pattern from youtube-dl
             // Long-term this should be made better somehow
-            if (preg_match('/-([A-Za-z0-9_\-]{11})\./', $file, $matches)) {
+            if (preg_match('/-([A-Za-z0-9_\-]{11})\.(mp4|m4v|avi|mkv|webm)$/', $file, $matches)) {
                 $videos[$matches[1]] = $file;
-            } else {
+            } elseif ($verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
                 $this->warn('Unmatched file: ' . $file);
             }
         }
@@ -64,9 +66,9 @@ class ImportYouTube extends Command
         $bar = $this->output->createProgressBar($videoCount);
         $bar->start();
         foreach ($videos as $id => $file) {
-            $this->importVideo($id, $file);
+            $path = realpath($directory . DIRECTORY_SEPARATOR . $file);
+            $this->importVideo($id, $path);
             $bar->advance();
-            return 2; // TEST
         }
         $bar->finish();
 
@@ -76,7 +78,7 @@ class ImportYouTube extends Command
     /**
      * Retrieve and store video metadata if it doesn't already exist
      */
-    protected function importVideo(string $id, string $file): Video
+    protected function importVideo(string $id, string $filePath): Video
     {
         if ($video = Video::where('uuid', $id)->first()) {
             return $video;
@@ -91,8 +93,9 @@ class ImportYouTube extends Command
                 'uuid' => $channelData['id'],
                 'title' => $channelData['title'],
                 'description' => $channelData['description'],
-                'channel_url' => $channelData['channel_url'],
+                'custom_url' => $channelData['custom_url'],
                 'country' => $channelData['country'],
+                'type' => 'youtube',
                 'published_at' => $channelData['published_at'],
             ]);
         }
@@ -102,6 +105,7 @@ class ImportYouTube extends Command
             'title' => $data['title'],
             'description' => $data['description'],
             'published_at' => $data['published_at'],
+            'file_path' => $filePath,
         ]);
     }
 
