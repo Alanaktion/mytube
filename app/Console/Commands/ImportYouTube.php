@@ -8,6 +8,7 @@ use Exception;
 use Google_Client;
 use Google_Service_YouTube;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportYouTube extends Command
@@ -64,6 +65,8 @@ class ImportYouTube extends Command
         $videoCount = count($videos);
         $this->info("Importing $videoCount videos...");
 
+        $errorCount = 0;
+
         $bar = $this->output->createProgressBar($videoCount);
         $bar->start();
         foreach ($videos as $id => $file) {
@@ -71,11 +74,16 @@ class ImportYouTube extends Command
             try {
                 $this->importVideo($id, $path);
             } catch (Exception $e) {
-                $this->error($id . ': ' . $e->getMessage());
+                $errorCount ++;
+                Log::warning("Error importing file $path: {$e->getMessage()}");
             }
             $bar->advance();
         }
         $bar->finish();
+
+        if ($errorCount) {
+            $this->error("Encountered errors importing $errorCount files.");
+        }
 
         return 0;
     }
