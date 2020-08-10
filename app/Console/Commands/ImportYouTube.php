@@ -119,7 +119,7 @@ class ImportYouTube extends Command
         $response = $this->youtube->videos->listVideos('snippet', [
             'id' => $id,
         ]);
-        usleep(5e5);
+        usleep(1e5);
         foreach ($response as $video) {
             /** @var \Google_Service_YouTube_Video $video */
             return [
@@ -142,7 +142,7 @@ class ImportYouTube extends Command
         $response = $this->youtube->channels->listChannels('snippet', [
             'id' => $id,
         ]);
-        usleep(5e5);
+        usleep(1e5);
         foreach ($response as $channel) {
             /** @var \Google_Service_YouTube_Channel $channel */
             return [
