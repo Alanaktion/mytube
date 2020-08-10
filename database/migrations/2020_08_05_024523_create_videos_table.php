@@ -18,7 +18,7 @@ class CreateVideosTable extends Migration
             $table->string('uuid')->unique();
             $table->string('title');
             $table->text('description');
-            $table->string('custom_url');
+            $table->string('custom_url')->nullable();
             $table->string('country');
             $table->string('type')->default('youtube');
             $table->timestamp('published_at');
