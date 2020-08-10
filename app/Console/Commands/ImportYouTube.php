@@ -80,6 +80,7 @@ class ImportYouTube extends Command
             $bar->advance();
         }
         $bar->finish();
+        $this->line();
 
         if ($errorCount) {
             $this->error("Encountered errors importing $errorCount files.");
