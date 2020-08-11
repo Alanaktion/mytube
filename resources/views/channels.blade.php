@@ -6,11 +6,11 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 pb-5">
         @forelse ($channels as $channel)
             <div>
-                <a href="/user/{{ $channel->uuid }}" class="block mb-1 text-blue-400 hover:text-blue-300">
+                <a href="/channels/{{ $channel->uuid }}" class="block mb-1 text-blue-400 hover:text-blue-300">
                     {{ $channel->title }}
                 </a>
                 <div class="text-sm text-ngray-400">
-                    {{ $channel->published_at->format('F j, Y ga') }}
+                    {{ $channel->published_at->format('F j, Y') }}
                 </div>
                 <div class="text-xs text-ngray-600 overflow-hidden">
                     {{ Str::limit($channel->description, 60) }}

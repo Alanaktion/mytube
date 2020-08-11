@@ -24,8 +24,10 @@ class HomeController extends Controller
 
     public function videos()
     {
+        $videos = Video::orderBy('published_at', 'desc')
+            ->simplePaginate(24);
         return view('videos', [
-            'videos' => Video::orderBy('published_at', 'desc')->get(),
+            'videos' => $videos,
         ]);
     }
 
@@ -33,6 +35,25 @@ class HomeController extends Controller
     {
         return view('channels', [
             'channels' => Channel::orderBy('published_at', 'desc')->get(),
+        ]);
+    }
+
+    public function videoShow(Video $video)
+    {
+        $video->load('channel');
+        return view('videoShow', [
+            'video' => $video,
+        ]);
+    }
+
+    public function channelShow(Channel $channel)
+    {
+        $videos = $channel->videos()
+            ->orderBy('published_at', 'desc')
+            ->simplePaginate(24);
+        return view('channelShow', [
+            'channel' => $channel,
+            'videos' => $videos,
         ]);
     }
 }

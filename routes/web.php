@@ -18,8 +18,8 @@ Route::get('/', 'HomeController@index');
 Route::get('/videos', 'HomeController@videos');
 Route::get('/channels', 'HomeController@channels');
 
-// Route::get('/videos/{video:uuid}', 'HomeController@videoShow');
-// Route::get('/channels/{channel:uuid}', 'HomeController@channelShow');
+Route::get('/videos/{video:uuid}', 'HomeController@videoShow');
+Route::get('/channels/{channel:uuid}', 'HomeController@channelShow');
 
 Auth::routes();
 
