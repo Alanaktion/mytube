@@ -9,7 +9,10 @@
                 <a href="/videos/{{ $video->uuid }}" class="block mb-1 text-blue-400 hover:text-blue-300">
                     {{ $video->title }}
                 </a>
-                <div class="text-xs text-ngray-700 h-16 overflow-hidden">
+                <div class="text-sm text-ngray-800">
+                    {{ $video->published_at->format('F j, Y H:i') }}
+                </div>
+                <div class="text-xs text-ngray-600 overflow-hidden">
                     {{ Str::limit($video->description, 60) }}
                 </div>
             </div>
