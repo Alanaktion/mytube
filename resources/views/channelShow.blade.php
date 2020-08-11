@@ -6,7 +6,7 @@
         <h1 class="text-2xl lg:text-3xl mb-2">{{ $channel->title }}</h1>
         <p class="text-lg">{{ $channel->videos->count() }} videos</p>
     </header>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 pb-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 pb-5 lg:mb-6">
         @forelse ($videos as $video)
             <div>
                 <a href="/videos/{{ $video->uuid }}" class="block mb-1 text-blue-400 hover:text-blue-300">

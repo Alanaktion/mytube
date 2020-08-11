@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function videos()
     {
         $videos = Video::orderBy('published_at', 'desc')
-            ->simplePaginate(24);
+            ->paginate(24);
         return view('videos', [
             'videos' => $videos,
         ]);
@@ -50,7 +50,7 @@ class HomeController extends Controller
     {
         $videos = $channel->videos()
             ->orderBy('published_at', 'desc')
-            ->simplePaginate(24);
+            ->paginate(24);
         return view('channelShow', [
             'channel' => $channel,
             'videos' => $videos,
