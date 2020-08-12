@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Channel;
+use App\Models\ImportError;
 use App\Models\Video;
 use Exception;
 use Google_Client;
@@ -75,6 +76,12 @@ class ImportYouTube extends Command
                 $this->importVideo($id, $path);
             } catch (Exception $e) {
                 $errorCount ++;
+                if ($e->getMessage() != 'Video previously failed to import') {
+                    ImportError::updateOrCreate([
+                        'uuid' => $id,
+                        'file_path' => $path,
+                    ]);
+                }
                 Log::warning("Error importing file $path: {$e->getMessage()}");
             }
             $bar->advance();
@@ -97,6 +104,10 @@ class ImportYouTube extends Command
     {
         if ($video = Video::where('uuid', $id)->first()) {
             return $video;
+        }
+
+        if (ImportError::where('uuid', $id)->first()) {
+            throw new Exception('Video previously failed to import');
         }
 
         $data = $this->getVideoData($id);
