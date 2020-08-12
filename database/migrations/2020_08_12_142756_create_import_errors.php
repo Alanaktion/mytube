@@ -17,6 +17,7 @@ class CreateImportErrors extends Migration
             $table->id();
             $table->string('uuid');
             $table->string('file_path')->nullable();
+            $table->string('type')->default('youtube');
             $table->timestamps();
         });
     }
