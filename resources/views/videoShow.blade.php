@@ -28,8 +28,6 @@
             Download
         </a>
     </header>
-    <div class="text-gray-400">
-        <pre class="font-sans">{{ $video->description }}</pre>
-    </div>
+    <div class="text-gray-400 whitespace-pre-wrap">{{ $video->description }}</div>
 </div>
 @endsection
