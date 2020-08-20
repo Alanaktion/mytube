@@ -15,10 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index');
-Route::get('/videos', 'HomeController@videos');
-Route::get('/channels', 'HomeController@channels');
+Route::get('/search', 'HomeController@search');
 
+Route::get('/videos', 'HomeController@videos');
 Route::get('/videos/{video:uuid}', 'HomeController@videoShow');
+
+Route::get('/channels', 'HomeController@channels');
 Route::get('/channels/{channel:uuid}', 'HomeController@channelShow');
 
 Auth::routes();

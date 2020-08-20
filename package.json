@@ -12,12 +12,12 @@
     "devDependencies": {
         "axios": "^0.19",
         "cross-env": "^7.0",
-        "laravel-mix": "^5.0.1",
-        "lodash": "^4.17.19",
-        "vue-template-compiler": "^2.6.11"
+        "laravel-mix": "^5.0.5",
+        "lodash": "^4.17.20",
+        "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
         "@tailwindcss/ui": "^0.5.0",
-        "tailwindcss": "^1.6.2"
+        "tailwindcss": "^1.7.3"
     }
 }
