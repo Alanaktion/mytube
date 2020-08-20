@@ -40,6 +40,7 @@ class HomeController extends Controller
         return view('search', [
             'videos' => $videos,
             'channels' => $channels,
+            'q' => $q,
         ]);
     }
 
