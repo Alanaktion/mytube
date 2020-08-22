@@ -9,6 +9,14 @@ class Video extends Model
     protected $guarded = [];
     protected $dates = ['published_at'];
 
+    public function getSourceLinkAttribute(): ?string
+    {
+        if ($this->channel->type == 'youtube') {
+            return 'https://www.youtube.com/watch?v=' . $this->uuid;
+        }
+        return null;
+    }
+
     public function channel()
     {
         return $this->belongsTo(Channel::class);

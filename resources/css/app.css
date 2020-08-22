@@ -3,3 +3,29 @@
 @tailwind components;
 
 @tailwind utilities;
+
+[data-tooltip] {
+    position: relative;
+}
+[data-tooltip]::before {
+    content: attr(aria-label);
+    @apply invisible absolute z-10 max-w-xs bg-ngray-700 text-white py-1 px-2 rounded shadow-sm font-normal text-base whitespace-no-wrap;
+    bottom: calc(100% + 0.3rem);
+    left: 50%;
+    transform: translateX(-50%);
+}
+[data-tooltip]::after {
+    content: '';
+    @apply invisible absolute z-20;
+    bottom: calc(100% - 0.3rem);
+    left: 50%;
+    border-width: 0.35rem;
+    border-color: theme('colors.ngray.700') transparent transparent transparent;
+    transform: translateX(-50%);
+}
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after,
+[data-tooltip]:focus::before,
+[data-tooltip]:focus::after {
+    @apply visible;
+}
