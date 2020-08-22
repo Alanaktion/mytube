@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <header class="mb-3 md:mb-4 lg:mb-6">
-        <div class="flex">
+        <div class="flex items-center gap-2">
             <h1 class="text-2xl lg:text-3xl mb-2">{{ $channel->title }}</h1>
             @if ($channel->source_link)
                 <a href="{{ $channel->source_link }}" class="bg-transparent hover:bg-red-600 text-white font-bold py-2 px-5 rounded-full flex" aria-label="View on YouTube" data-tooltip>
