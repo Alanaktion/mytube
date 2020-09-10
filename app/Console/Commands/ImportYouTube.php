@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Channel;
 use App\Models\ImportError;
 use App\Models\Video;
 use Exception;
@@ -94,7 +93,12 @@ class ImportYouTube extends Command
      */
     protected function importVideo(string $id, string $filePath): Video
     {
-        if ($video = Video::where('uuid', $id)->first()) {
+        $video = Video::where('uuid', $id)
+            ->whereHas('channel', function ($query) {
+                $query->where('type', 'youtube');
+            })
+            ->first();
+        if ($video) {
             if ($video->file_path === null) {
                 $video->file_path = $filePath;
                 $video->save();
@@ -106,77 +110,6 @@ class ImportYouTube extends Command
             throw new Exception('Video previously failed to import');
         }
 
-        $data = $this->getVideoData($id);
-
-        $channel = Channel::where('uuid', $data['channel_id'])->first();
-        if (!$channel) {
-            $channelData = $this->getChannelData($data['channel_id']);
-            $channel = Channel::create([
-                'uuid' => $channelData['id'],
-                'title' => $channelData['title'],
-                'description' => $channelData['description'],
-                'custom_url' => $channelData['custom_url'],
-                'country' => $channelData['country'],
-                'type' => 'youtube',
-                'published_at' => $channelData['published_at'],
-            ]);
-        }
-
-        return $channel->videos()->create([
-            'uuid' => $data['id'],
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'published_at' => $data['published_at'],
-            'file_path' => $filePath,
-        ]);
-    }
-
-    /**
-     * Get metadata for a video from YouTube by video ID
-     *
-     * @link https://developers.google.com/youtube/v3/docs/videos
-     */
-    protected function getVideoData(string $id): array
-    {
-        $response = $this->youtube->videos->listVideos('snippet', [
-            'id' => $id,
-        ]);
-        usleep(1e5);
-        foreach ($response as $video) {
-            /** @var \Google_Service_YouTube_Video $video */
-            return [
-                'id' => $video->id,
-                'channel_id' => $video->getSnippet()->channelId,
-                'title' => $video->getSnippet()->title,
-                'description' => $video->getSnippet()->description,
-                'published_at' => $video->getSnippet()->publishedAt,
-            ];
-        }
-        throw new Exception('Video not found');
-    }
-
-    /**
-     * Get metadata for a channel from YouTube by channel ID
-     *
-     * @link https://developers.google.com/youtube/v3/docs/channels
-     */
-    protected function getChannelData(string $id): array
-    {
-        $response = $this->youtube->channels->listChannels('snippet', [
-            'id' => $id,
-        ]);
-        usleep(1e5);
-        foreach ($response as $channel) {
-            /** @var \Google_Service_YouTube_Channel $channel */
-            return [
-                'id' => $channel->id,
-                'title' => $channel->getSnippet()->title,
-                'description' => $channel->getSnippet()->description,
-                'custom_url' => $channel->getSnippet()->customUrl,
-                'country' => $channel->getSnippet()->country,
-                'published_at' => $channel->getSnippet()->publishedAt,
-            ];
-        }
-        throw new Exception('Channel not found');
+        Video::importYouTube($id, $filePath);
     }
 }

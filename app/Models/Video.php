@@ -2,12 +2,39 @@
 
 namespace App\Models;
 
+use App\Clients\YouTube;
 use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
     protected $guarded = [];
     protected $dates = ['published_at'];
+
+    public static function importYouTube(string $id, ?string $filePath = null): Video
+    {
+        $video = Video::where('uuid', $id)
+            ->whereHas('channel', function ($query) {
+                $query->where('type', 'youtube');
+            })
+            ->first();
+        if ($video) {
+            if ($video->file_path === null) {
+                $video->file_path = $filePath;
+                $video->save();
+            }
+            return $video;
+        }
+
+        $data = YouTube::getVideoData($id);
+        $channel = Channel::importYouTube($data['channel_id']);
+        return $channel->videos()->create([
+            'uuid' => $data['id'],
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'published_at' => $data['published_at'],
+            'file_path' => $filePath,
+        ]);
+    }
 
     public function getSourceLinkAttribute(): ?string
     {
