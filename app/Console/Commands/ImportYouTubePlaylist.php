@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Channel;
 use App\Models\ImportError;
+use App\Models\Playlist;
 use App\Models\Video;
 use Exception;
 use Google_Client;
@@ -12,9 +13,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportYouTube extends Command
+class ImportYouTubePlaylist extends Command
 {
-    protected $signature = 'youtube:import-fs {directory}';
+    protected $signature = 'youtube:import-playlist {id*}';
 
     protected $description = 'Import YouTube videos from the filesystem.';
 
@@ -40,73 +41,113 @@ class ImportYouTube extends Command
      */
     public function handle()
     {
-        $verbosity = $this->getOutput()->getVerbosity();
-        $directory = $this->argument('directory');
-        if (!is_dir($directory)) {
-            $this->error('The specified directory does not exist.');
-            return 1;
-        }
+        $ids = $this->argument('id');
 
-        $this->line('Scanning directory...');
-        $cwd = getcwd();
-        chdir($directory);
-        $files = glob('*.*') + glob('**/*.*');
-        $videos = [];
-        foreach ($files as $file) {
-            // Match filename pattern from youtube-dl
-            // Long-term this should be made better somehow
-            if (preg_match('/-([A-Za-z0-9_\-]{11})\.(mp4|m4v|avi|mkv|webm)$/', $file, $matches)) {
-                $videos[$matches[1]] = $file;
-            } elseif ($verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
-                $this->warn('Unmatched file: ' . $file);
+        foreach ($ids as $id) {
+            if (!preg_match('/^PL[0-9a-z_-]{32}$/i', $id)) {
+                $this->error('Invalid ID ' . $id);
+                continue;
             }
-        }
-        chdir($cwd);
 
-        $videoCount = count($videos);
-        $this->info("Importing $videoCount videos...");
-
-        $errorCount = 0;
-
-        $bar = $this->output->createProgressBar($videoCount);
-        $bar->start();
-        foreach ($videos as $id => $file) {
-            $path = realpath($directory . DIRECTORY_SEPARATOR . $file);
-            try {
-                $this->importVideo($id, $path);
-            } catch (Exception $e) {
-                $errorCount ++;
-                if ($e->getMessage() != 'Video previously failed to import') {
-                    ImportError::updateOrCreate([
-                        'uuid' => $id,
-                        'file_path' => $path,
-                    ]);
-                }
-                Log::warning("Error importing file $path: {$e->getMessage()}");
-            }
-            $bar->advance();
-        }
-        $bar->finish();
-        $this->line('');
-
-        if ($errorCount) {
-            $this->error("Encountered errors importing $errorCount files.");
-            return 1;
+            $this->info($id);
+            $playlist = $this->importPlaylist($id);
+            $this->importPlaylistItems($playlist);
         }
 
         return 0;
     }
 
+    protected function importPlaylist(string $id): Playlist
+    {
+        if ($playlist = Playlist::where('uuid', $id)->first()) {
+            return $playlist;
+        }
+
+        $data = $this->getPlaylistData($id);
+
+        $channel = Channel::where('uuid', $data['channel_id'])->first();
+        if (!$channel) {
+            $channelData = $this->getChannelData($data['channel_id']);
+            $channel = Channel::create([
+                'uuid' => $channelData['id'],
+                'title' => $channelData['title'],
+                'description' => $channelData['description'],
+                'custom_url' => $channelData['custom_url'],
+                'country' => $channelData['country'],
+                'type' => 'youtube',
+                'published_at' => $channelData['published_at'],
+            ]);
+        }
+
+        return $channel->playlists()->create([
+            'uuid' => $data['id'],
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'published_at' => $data['published_at'],
+        ]);
+    }
+
+    protected function getPlaylistData(string $id): array
+    {
+        $response = $this->youtube->playlists->listPlaylists('snippet', [
+            'id' => $id,
+        ]);
+        usleep(1e5);
+        foreach ($response as $playlist) {
+            /** @var \Google_Service_YouTube_Playlist $playlist */
+            return [
+                'id' => $playlist->id,
+                'channel_id' => $playlist->getSnippet()->channelId,
+                'title' => $playlist->getSnippet()->title,
+                'description' => $playlist->getSnippet()->description,
+                'published_at' => $playlist->getSnippet()->publishedAt,
+            ];
+        }
+        throw new Exception('Playlist not found');
+    }
+
+    protected function importPlaylistItems(Playlist $playlist): void
+    {
+        $playlist->load([
+            'items:id,playlist_id,uuid',
+        ]);
+
+        $items = $this->getPlaylistItemData($playlist->uuid);
+        $bar = $this->output->createProgressBar(count($items));
+        foreach ($items as $item) {
+            /** @var \Google_Service_YouTube_PlaylistItem $item */
+            $bar->advance();
+            if ($playlist->items->firstWhere('uuid', $item->id)) {
+                // Skip existing playlist items
+                continue;
+            }
+
+            $videoId = $item->getSnippet()->getResourceId()->videoId;
+            $video = $this->importVideo($videoId, null);
+            $playlist->items()->create([
+                'video_id' => $video->id,
+                'uuid' => $item->id,
+                'position' => $item->getSnippet()->position
+            ]);
+        }
+        $bar->finish();
+    }
+
+    protected function getPlaylistItemData(string $id): \Google_Service_YouTube_PlaylistItemListResponse
+    {
+        $response = $this->youtube->playlistItems->listPlaylistItems('snippet', [
+            'playlistId' => $id,
+        ]);
+        usleep(1e5);
+        return $response;
+    }
+
     /**
      * Retrieve and store video metadata if it doesn't already exist
      */
-    protected function importVideo(string $id, string $filePath): Video
+    protected function importVideo(string $id, ?string $filePath = null): Video
     {
         if ($video = Video::where('uuid', $id)->first()) {
-            if ($video->file_path === null) {
-                $video->file_path = $filePath;
-                $video->save();
-            }
             return $video;
         }
 
