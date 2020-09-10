@@ -7,11 +7,8 @@ use App\Models\ImportError;
 use App\Models\Playlist;
 use App\Models\Video;
 use Exception;
-use Google_Client;
 use Google_Service_YouTube;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportYouTubePlaylist extends Command
 {
@@ -21,17 +18,10 @@ class ImportYouTubePlaylist extends Command
 
     protected $youtube;
 
-    public function __construct()
+    public function __construct(Google_Service_YouTube $youtube)
     {
         parent::__construct();
-
-        $client = new Google_Client();
-        $client->setApplicationName('API code samples');
-        $client->setScopes([
-            'https://www.googleapis.com/auth/youtube.readonly',
-        ]);
-        $client->setDeveloperKey(config('services.youtube.key'));
-        $this->youtube = new Google_Service_YouTube($client);
+        $this->youtube = $youtube;
     }
 
     /**
