@@ -60,6 +60,14 @@ class Playlist extends Model
         }
     }
 
+    public function getSourceLinkAttribute(): ?string
+    {
+        if ($this->channel->type == 'youtube') {
+            return 'https://www.youtube.com/playlist?list=' . $this->uuid;
+        }
+        return null;
+    }
+
     public function channel()
     {
         return $this->belongsTo(Channel::class);

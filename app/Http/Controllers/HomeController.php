@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Channel;
+use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Http\Request;
 
@@ -13,11 +14,15 @@ class HomeController extends Controller
         $videos = Video::latest()
             ->limit(18)
             ->get();
+        $playlists = Playlist::latest()
+            ->limit(6)
+            ->get();
         $channels = Channel::latest()
             ->limit(6)
             ->get();
         return view('home', [
             'videos' => $videos,
+            'playlists' => $playlists,
             'channels' => $channels,
         ]);
     }
@@ -76,6 +81,28 @@ class HomeController extends Controller
         return view('channelShow', [
             'channel' => $channel,
             'videos' => $videos,
+        ]);
+    }
+
+    public function playlists()
+    {
+        $playlists = Playlist::orderBy('published_at', 'desc')
+            ->paginate(24);
+        return view('playlists', [
+            'playlists' => $playlists,
+        ]);
+    }
+
+    public function playlistShow(Playlist $playlist)
+    {
+        $playlist->load('channel');
+        $items = $playlist->items()
+            ->with('video')
+            ->orderBy('position', 'asc')
+            ->paginate(24);
+        return view('playlistShow', [
+            'playlist' => $playlist,
+            'items' => $items,
         ]);
     }
 }

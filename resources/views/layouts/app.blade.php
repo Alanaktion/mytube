@@ -20,10 +20,17 @@
                         {{ config('app.name', 'MyTube') }}
                     </span>
                 </a>
-                {{-- <div class="ml-5 flex items-baseline">
-                    <a href="/" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-ngray-700 focus:outline-none focus:text-white focus:bg-ngray-700">Home</a>
-                    <a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-ngray-300 hover:text-white hover:bg-ngray-700 focus:outline-none focus:text-white focus:bg-ngray-700">Link</a>
-                </div> --}}
+                <div class="hidden md:flex items-baseline ml-6">
+                    <a href="/videos" class="px-3 py-2 rounded-md text-sm font-medium focus:outline-none {{ Route::current()->uri == 'videos' ? 'text-white bg-ngray-700 focus:text-white focus:bg-ngray-700' : 'text-ngray-300 hover:text-white hover:bg-ngray-700 focus:text-white focus:bg-ngray-700' }}">
+                        Videos
+                    </a>
+                    <a href="/playlists" class="ml-3 px-3 py-2 rounded-md text-sm font-medium focus:outline-none {{ Route::current()->uri == 'playlists' ? 'text-white bg-ngray-700 focus:text-white focus:bg-ngray-700' : 'text-ngray-300 hover:text-white hover:bg-ngray-700 focus:text-white focus:bg-ngray-700' }}">
+                        Playlists
+                    </a>
+                    <a href="/channels" class="ml-3 px-3 py-2 rounded-md text-sm font-medium focus:outline-none {{ Route::current()->uri == 'channels' ? 'text-white bg-ngray-700 focus:text-white focus:bg-ngray-700' : 'text-ngray-300 hover:text-white hover:bg-ngray-700 focus:text-white focus:bg-ngray-700' }}">
+                        Channels
+                    </a>
+                </div>
                 <form class="ml-auto" action="/search">
                     <input type="search" class="bg-ngray-900 bg-opacity-75 focus:bg-opacity-100 focus:outline-none focus:shadow-outline rounded-lg py-2 px-4 block w-full placeholder-ngray-400 text-ngray-100 appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="Search">
                 </form>

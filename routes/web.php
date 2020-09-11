@@ -23,6 +23,9 @@ Route::get('/videos/{video:uuid}', 'HomeController@videoShow');
 Route::get('/channels', 'HomeController@channels');
 Route::get('/channels/{channel:uuid}', 'HomeController@channelShow');
 
+Route::get('/playlists', 'HomeController@playlists');
+Route::get('/playlists/{playlist:uuid}', 'HomeController@playlistShow');
+
 Auth::routes();
 
 Route::get('/admin', 'AdminController@index');
