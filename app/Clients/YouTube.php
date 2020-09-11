@@ -90,15 +90,30 @@ class YouTube
      * Get playlist items by playlist ID
      *
      * @link https://developers.google.com/youtube/v3/docs/playlistItems
+     *
+     * @return \Google_Service_YouTube_PlaylistItem[]
      */
-    public static function getPlaylistItemData(string $id): \Google_Service_YouTube_PlaylistItemListResponse
+    public static function getPlaylistItemData(string $id): array
     {
         /** @var \Google_Service_YouTube $youtube */
         $youtube = App::make('Google_Service_YouTube');
-        $response = $youtube->playlistItems->listPlaylistItems('snippet', [
+        $params = [
             'playlistId' => $id,
-        ]);
-        usleep(1e5);
-        return $response;
+            'maxResults' => 50,
+        ];
+        $results = [];
+        do {
+            $response = $youtube->playlistItems->listPlaylistItems('snippet', $params);
+            foreach ($response as $item) {
+                $results[] = $item;
+            }
+            $params['pageToken'] = $response->nextPageToken;
+            usleep(1e5);
+            if (count($results) >= $response->getPageInfo()->totalResults) {
+                break;
+            }
+        } while (true);
+
+        return $results;
     }
 }
