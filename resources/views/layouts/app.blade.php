@@ -12,7 +12,7 @@
     <nav class="bg-ngray-800">
         <div class="container">
             <div class="flex items-center h-16">
-                <a href="/" class="flex items-center">
+                <a href="/" class="flex items-center mr-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="inline h-8 w-8 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
                         <polygon points="5 3 19 12 5 21 5 3"/>
                     </svg>

@@ -15,6 +15,7 @@ class HomeController extends Controller
             ->limit(18)
             ->get();
         $playlists = Playlist::latest()
+            ->withCount('items')
             ->limit(6)
             ->get();
         $channels = Channel::latest()
@@ -37,6 +38,7 @@ class HomeController extends Controller
             ->limit(24)
             ->get();
         $playlists = Playlist::latest()
+            ->withCount('items')
             ->where('title', 'like', "%$q%")
             ->orWhere('uuid', $q)
             ->limit(18)
@@ -79,20 +81,30 @@ class HomeController extends Controller
         ]);
     }
 
-    public function channelShow(Channel $channel)
+    public function channelShow(Channel $channel, Request $request)
     {
         $videos = $channel->videos()
-            ->orderBy('published_at', 'desc')
-            ->paginate(24);
+            ->orderBy('published_at', 'desc');
+        $playlists = $channel->playlists()
+            ->withCount('items')
+            ->orderBy('published_at', 'desc');
+        $q = $request->input('q');
+        if ($q) {
+            $videos->where('title', 'like', "%$q%");
+            $playlists->where('title', 'like', "%$q%");
+        }
         return view('channelShow', [
             'channel' => $channel,
-            'videos' => $videos,
+            'videos' => $videos->paginate(24),
+            'playlists' => $playlists->get(),
+            'channelQ' => $q,
         ]);
     }
 
     public function playlists()
     {
         $playlists = Playlist::orderBy('published_at', 'desc')
+            ->withCount('items')
             ->paginate(24);
         return view('playlists', [
             'playlists' => $playlists,
