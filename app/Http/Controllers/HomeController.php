@@ -36,6 +36,11 @@ class HomeController extends Controller
             ->orWhere('uuid', $q)
             ->limit(24)
             ->get();
+        $playlists = Playlist::latest()
+            ->where('title', 'like', "%$q%")
+            ->orWhere('uuid', $q)
+            ->limit(18)
+            ->get();
         $channels = Channel::latest()
             ->where('title', 'like', "%$q%")
             ->orWhere('uuid', $q)
@@ -44,6 +49,7 @@ class HomeController extends Controller
 
         return view('search', [
             'videos' => $videos,
+            'playlists' => $playlists,
             'channels' => $channels,
             'q' => $q,
         ]);
