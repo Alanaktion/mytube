@@ -66,7 +66,7 @@ class ImportYouTube extends Command
             try {
                 $this->importVideo($id, $path);
             } catch (Exception $e) {
-                $errorCount ++;
+                $errorCount++;
                 if ($e->getMessage() != 'Video previously failed to import') {
                     ImportError::updateOrCreate([
                         'uuid' => $id,
@@ -110,6 +110,6 @@ class ImportYouTube extends Command
             throw new Exception('Video previously failed to import');
         }
 
-        Video::importYouTube($id, $filePath);
+        return Video::importYouTube($id, $filePath);
     }
 }

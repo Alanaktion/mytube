@@ -18,7 +18,7 @@ class Video extends Model
             })
             ->first();
         if ($video) {
-            if ($video->file_path === null) {
+            if ($video->file_path === null && $filePath !== null) {
                 $video->file_path = $filePath;
                 $video->save();
             }
