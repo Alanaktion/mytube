@@ -8,6 +8,8 @@ use Exception;
 use Google_Service_YouTube;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportYouTube extends Command
@@ -39,9 +41,8 @@ class ImportYouTube extends Command
         }
 
         $this->line('Scanning directory...');
-        $cwd = getcwd();
-        chdir($directory);
-        $files = glob('*.*') + glob('**/*.*');
+        $files = $this->getDirectoryFiles($directory);
+        dd($files);
         $videos = [];
         foreach ($files as $file) {
             // Match filename pattern from youtube-dl
@@ -52,7 +53,6 @@ class ImportYouTube extends Command
                 $this->warn('Unmatched file: ' . $file);
             }
         }
-        chdir($cwd);
 
         $videoCount = count($videos);
         $this->info("Importing $videoCount videos...");
@@ -62,18 +62,17 @@ class ImportYouTube extends Command
         $bar = $this->output->createProgressBar($videoCount);
         $bar->start();
         foreach ($videos as $id => $file) {
-            $path = realpath($directory . DIRECTORY_SEPARATOR . $file);
             try {
-                $this->importVideo($id, $path);
+                $this->importVideo($id, $file);
             } catch (Exception $e) {
                 $errorCount++;
                 if ($e->getMessage() != 'Video previously failed to import') {
                     ImportError::updateOrCreate([
                         'uuid' => $id,
-                        'file_path' => $path,
+                        'file_path' => $file,
                     ]);
                 }
-                Log::warning("Error importing file $path: {$e->getMessage()}");
+                Log::warning("Error importing file $file: {$e->getMessage()}");
             }
             $bar->advance();
         }
@@ -111,5 +110,19 @@ class ImportYouTube extends Command
         }
 
         return Video::importYouTube($id, $filePath);
+    }
+
+    protected function getDirectoryFiles(string $directory): array
+    {
+        $files = [];
+        $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+        foreach ($rii as $file) {
+            /** @var \SplFileInfo $file */
+            if ($file->isDir()) {
+                continue;
+            }
+            $files[] = $file->getRealPath();
+        }
+        return $files;
     }
 }
