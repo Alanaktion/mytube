@@ -42,7 +42,6 @@ class ImportYouTube extends Command
 
         $this->line('Scanning directory...');
         $files = $this->getDirectoryFiles($directory);
-        dd($files);
         $videos = [];
         foreach ($files as $file) {
             // Match filename pattern from youtube-dl
@@ -115,7 +114,14 @@ class ImportYouTube extends Command
     protected function getDirectoryFiles(string $directory): array
     {
         $files = [];
-        $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+        $rii = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(
+                $directory,
+                RecursiveDirectoryIterator::KEY_AS_PATHNAME
+            ),
+            RecursiveIteratorIterator::SELF_FIRST,
+            RecursiveIteratorIterator::CATCH_GET_CHILD
+        );
         foreach ($rii as $file) {
             /** @var \SplFileInfo $file */
             if ($file->isDir()) {
