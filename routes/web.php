@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,18 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index');
-Route::get('/search', 'HomeController@search');
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/search', [HomeController::class, 'search']);
 
-Route::get('/videos', 'HomeController@videos');
-Route::get('/videos/{video:uuid}', 'HomeController@videoShow');
+Route::get('/videos', [HomeController::class, 'videos']);
+Route::get('/videos/{video:uuid}', [HomeController::class, 'videoShow']);
 
-Route::get('/channels', 'HomeController@channels');
-Route::get('/channels/{channel:uuid}', 'HomeController@channelShow');
+Route::get('/channels', [HomeController::class, 'channels']);
+Route::get('/channels/{channel:uuid}', [HomeController::class, 'channelShow']);
 
-Route::get('/playlists', 'HomeController@playlists');
-Route::get('/playlists/{playlist:uuid}', 'HomeController@playlistShow');
+Route::get('/playlists', [HomeController::class, 'playlists']);
+Route::get('/playlists/{playlist:uuid}', [HomeController::class, 'playlistShow']);
 
 Auth::routes();
 
-Route::get('/admin', 'AdminController@index');
+Route::get('/admin', [AdminController::class, 'index']);

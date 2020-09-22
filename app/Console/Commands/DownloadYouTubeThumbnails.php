@@ -49,8 +49,12 @@ class DownloadYouTubeThumbnails extends Command
 
     protected function downloadThumbnail(string $uuid)
     {
-        $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/maxresdefault.jpg");
+        $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/hqdefault.jpg");
         Storage::disk('public')->put("thumbs/youtube/{$uuid}.jpg", $data, 'public');
-        usleep(2e5);
+
+        $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/maxresdefault.jpg");
+        Storage::disk('public')->put("thumbs/youtube-maxres/{$uuid}.jpg", $data, 'public');
+
+        usleep(250e3);
     }
 }
