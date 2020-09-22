@@ -21,11 +21,9 @@ class DownloadYouTubeThumbnails extends Command
      */
     public function handle()
     {
-        $videos = Video::whereHas([
-            'channel' => function ($query) {
-                $query->where('type', 'youtube');
-            },
-        ])->get();
+        $videos = Video::whereHas('channel', function ($query) {
+            $query->where('type', 'youtube');
+        })->get();
 
         $bar = $this->output->createProgressBar($videos->count());
         $bar->start();
