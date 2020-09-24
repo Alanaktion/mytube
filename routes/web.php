@@ -29,7 +29,7 @@ Route::get('/channels/{channel:uuid}', [HomeController::class, 'channelShow']);
 Route::get('/playlists', [HomeController::class, 'playlists']);
 Route::get('/playlists/{playlist:uuid}', [HomeController::class, 'playlistShow']);
 
-Route::get('/image/thumb/{video:uuid}', [ImageController::class, 'showVideoThumb']);
+Route::get('/images/thumbs/{video:uuid}', [ImageController::class, 'showVideoThumb']);
 
 Auth::routes();
 
