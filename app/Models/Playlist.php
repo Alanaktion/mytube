@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Clients\YouTube;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Playlist extends Model
 {
@@ -51,12 +52,16 @@ class Playlist extends Model
             }
 
             $videoId = $item->getSnippet()->getResourceId()->videoId;
-            $video = Video::importYouTube($videoId);
-            $this->items()->create([
-                'video_id' => $video->id,
-                'uuid' => $item->id,
-                'position' => $item->getSnippet()->position
-            ]);
+            try {
+                $video = Video::importYouTube($videoId);
+                $this->items()->create([
+                    'video_id' => $video->id,
+                    'uuid' => $item->id,
+                    'position' => $item->getSnippet()->position
+                ]);
+            } catch (\Exception $e) {
+                Log::warning('Failed importing playlist item: ' . $videoId);
+            }
         }
     }
 
