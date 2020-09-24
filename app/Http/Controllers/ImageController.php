@@ -24,7 +24,7 @@ class ImageController extends Controller
             $disk->put("thumbs/youtube-maxres/{$video->uuid}.jpg", $data, 'public');
         }
 
-        return redirect()->away("/thumbs/youtube/{$video->uuid}.jpg", 301);
+        return redirect()->to(Storage::url("thumbs/youtube/{$video->uuid}.jpg"), 301);
     }
 
     public function showChannel(Channel $channel)
