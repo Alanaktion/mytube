@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,8 @@ Route::get('/channels/{channel:uuid}', [HomeController::class, 'channelShow']);
 
 Route::get('/playlists', [HomeController::class, 'playlists']);
 Route::get('/playlists/{playlist:uuid}', [HomeController::class, 'playlistShow']);
+
+Route::get('/image/thumb/{video:uuid}', [ImageController::class, 'showVideoThumb']);
 
 Auth::routes();
 

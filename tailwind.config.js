@@ -17,6 +17,10 @@ module.exports = {
           '900': '#212121',
         },
       },
+      spacing: {
+        '3/4': '75%',
+        '9/16': '56.25%',
+      },
     },
     container: {
       padding: '1rem',
@@ -28,6 +32,7 @@ module.exports = {
     require('@tailwindcss/ui'),
   ],
   future: {
+    purgeLayersByDefault: true,
     removeDeprecatedGapUtilities: true,
   },
 };

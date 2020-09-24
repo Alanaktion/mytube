@@ -12,6 +12,7 @@ class HomeController extends Controller
     public function index()
     {
         $videos = Video::latest()
+            ->with('channel')
             ->limit(18)
             ->get();
         $playlists = Playlist::latest()
@@ -33,6 +34,7 @@ class HomeController extends Controller
         $q = $request->input('q');
 
         $videos = Video::latest()
+            ->with('channel')
             ->where('title', 'like', "%$q%")
             ->orWhere('uuid', $q)
             ->limit(24)
@@ -59,7 +61,8 @@ class HomeController extends Controller
 
     public function videos()
     {
-        $videos = Video::orderBy('published_at', 'desc')
+        $videos = Video::with('channel')
+            ->orderBy('published_at', 'desc')
             ->paginate(24);
         return view('videos', [
             'videos' => $videos,
