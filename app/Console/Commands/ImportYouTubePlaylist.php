@@ -30,7 +30,7 @@ class ImportYouTubePlaylist extends Command
         $ids = $this->argument('id');
 
         foreach ($ids as $id) {
-            if (!preg_match('/^PL[0-9a-z_-]{32}$/i', $id)) {
+            if (!preg_match('/^PL[0-9a-z_-]{16,32}$/i', $id)) {
                 $this->error('Invalid ID ' . $id);
                 continue;
             }
