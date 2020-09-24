@@ -25,10 +25,10 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 pb-5 lg:mb-6">
         @forelse ($items as $item)
             <div>
-                <div class="relative pb-9/16 mb-3">
-                    <img class="absolute w-full h-full object-cover" src="/images/thumbs/{{ $item->video->uuid }}" alt>
-                </div>
                 <a href="/videos/{{ $item->video->uuid }}" class="block mb-1 text-blue-400 hover:text-blue-300">
+                    <div class="relative pb-9/16 mb-1">
+                        <img class="absolute w-full h-full object-cover" src="/images/thumbs/{{ $item->video->uuid }}" alt>
+                    </div>
                     {{ $item->video->title }}
                 </a>
                 <a href="/channels/{{ $item->video->channel->uuid }}" class="font-bold text-sm text-ngray-300 hover:text-ngray-100">
