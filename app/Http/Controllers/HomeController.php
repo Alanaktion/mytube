@@ -31,7 +31,7 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        $q = $request->input('q');
+        $q = strtr($request->input('q'), ' ', '%');
 
         $videos = Video::latest()
             ->with('channel')
@@ -91,7 +91,7 @@ class HomeController extends Controller
         $playlists = $channel->playlists()
             ->withCount('items')
             ->orderBy('published_at', 'desc');
-        $q = $request->input('q');
+        $q = strtr($request->input('q'), ' ', '%');
         if ($q) {
             $videos->where('title', 'like', "%$q%");
             $playlists->where('title', 'like', "%$q%");
