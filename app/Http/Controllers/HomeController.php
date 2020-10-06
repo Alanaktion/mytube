@@ -55,7 +55,7 @@ class HomeController extends Controller
             'videos' => $videos,
             'playlists' => $playlists,
             'channels' => $channels,
-            'q' => $q,
+            'q' => $request->input('q'),
         ]);
     }
 
@@ -100,7 +100,7 @@ class HomeController extends Controller
             'channel' => $channel,
             'videos' => $videos->paginate(24),
             'playlists' => $playlists->get(),
-            'channelQ' => $q,
+            'channelQ' => $request->input('q'),
         ]);
     }
 
