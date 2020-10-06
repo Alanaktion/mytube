@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Clients\YouTube;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Video extends Model
 {
@@ -50,7 +51,7 @@ class Video extends Model
     }
 
     /**
-     * Get a web-accessible symlink to the source file
+     * Get a web-accessible symlink to the source file.
      */
     public function link(): string
     {
@@ -69,5 +70,27 @@ class Video extends Model
         }
 
         return "/storage/videos/$file";
+    }
+
+    /**
+     * Download thumbnail and poster images for a video.
+     */
+    public function downloadThumbs(): bool
+    {
+        if ($this->channel->type != 'youtube') {
+            return false;
+        }
+
+        $disk = Storage::disk('public');
+        $exists = $disk->exists("thumbs/youtube/{$this->uuid}.jpg");
+        if (!$exists) {
+            $data = file_get_contents("https://img.youtube.com/vi/{$this->uuid}/hqdefault.jpg");
+            $disk->put("thumbs/youtube/{$this->uuid}.jpg", $data, 'public');
+
+            $data = file_get_contents("https://img.youtube.com/vi/{$this->uuid}/maxresdefault.jpg");
+            $disk->put("thumbs/youtube-maxres/{$this->uuid}.jpg", $data, 'public');
+        }
+
+        return true;
     }
 }

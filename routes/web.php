@@ -30,6 +30,7 @@ Route::get('/playlists', [HomeController::class, 'playlists']);
 Route::get('/playlists/{playlist:uuid}', [HomeController::class, 'playlistShow']);
 
 Route::get('/images/thumbs/{video:uuid}', [ImageController::class, 'showVideoThumb']);
+Route::get('/images/posters/{video:uuid}', [ImageController::class, 'showVideoPoster']);
 
 Auth::routes();
 

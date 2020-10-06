@@ -10,21 +10,18 @@ class ImageController extends Controller
 {
     public function showVideoThumb(Video $video)
     {
-        if ($video->channel->type != 'youtube') {
+        if (!$video->downloadThumbs()) {
             return abort(404);
         }
-
-        $disk = Storage::disk('public');
-        $exists = $disk->exists("thumbs/youtube/{$video->uuid}.jpg");
-        if (!$exists) {
-            $data = file_get_contents("https://img.youtube.com/vi/{$video->uuid}/hqdefault.jpg");
-            $disk->put("thumbs/youtube/{$video->uuid}.jpg", $data, 'public');
-
-            $data = file_get_contents("https://img.youtube.com/vi/{$video->uuid}/maxresdefault.jpg");
-            $disk->put("thumbs/youtube-maxres/{$video->uuid}.jpg", $data, 'public');
-        }
-
         return redirect()->to(Storage::url("thumbs/youtube/{$video->uuid}.jpg"), 301);
+    }
+
+    public function showVideoPoster(Video $video)
+    {
+        if (!$video->downloadThumbs()) {
+            return abort(404);
+        }
+        return redirect()->to(Storage::url("thumbs/youtube-maxres/{$video->uuid}.jpg"), 301);
     }
 
     public function showChannel(Channel $channel)
