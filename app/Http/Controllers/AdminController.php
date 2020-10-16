@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
+use App\Models\Playlist;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -23,6 +26,10 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin');
+        return view('admin', [
+            'videoCount' => Video::count(),
+            'channelCount' => Channel::count(),
+            'playlistCount' => Playlist::count(),
+        ]);
     }
 }

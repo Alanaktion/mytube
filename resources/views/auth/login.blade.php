@@ -6,7 +6,9 @@
         Sign in
     </h2>
     <form class="mt-8" action="{{ route('login') }}" method="POST">
+        @csrf
         <input type="hidden" name="remember" value="true">
+
         <div class="rounded-md shadow-sm">
             <div>
                 <input aria-label="Email address" name="email" type="email" required class="bg-ngray-800 bg-opacity-75 border border-ngray-700 focus:outline-none focus:shadow-outline rounded-t-lg py-2 px-4 block w-full placeholder-ngray-400 text-ngray-100 appearance-none leading-normal" placeholder="Email address" value="{{ old('email') }}" autocomplete="email">
@@ -15,6 +17,12 @@
                 <input aria-label="Password" name="password" type="password" required class="bg-ngray-800 bg-opacity-75 border border-ngray-700 focus:outline-none focus:shadow-outline rounded-b-lg py-2 px-4 block w-full placeholder-ngray-400 text-ngray-100 appearance-none leading-normal" placeholder="Password" autocomplete="current-password">
             </div>
         </div>
+
+        @error('email')
+        <div class="my-2 text-red-400" role="alert">
+            <strong>{{ $message }}</strong>
+        </div>
+        @enderror
 
         <div class="mt-6 flex items-center justify-between">
             <button type="submit" class="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full">

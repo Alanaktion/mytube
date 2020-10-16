@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 
 class AddUser extends Command
 {
@@ -44,7 +45,7 @@ class AddUser extends Command
         $user = User::create([
             'name' => $name,
             'email' => $email,
-            'password' => $password,
+            'password' => Hash::make($password),
         ]);
         $this->info('Created user with ID ' . $user->id);
         return 0;
