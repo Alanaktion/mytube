@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessPlaylistImport;
 use App\Models\Channel;
 use App\Models\Playlist;
 use App\Models\Video;
@@ -31,5 +32,17 @@ class AdminController extends Controller
             'channelCount' => Channel::count(),
             'playlistCount' => Playlist::count(),
         ]);
+    }
+
+    public function playlistImport(Request $request)
+    {
+        $request->validate([
+            'playlistIds' => 'required|string',
+        ]);
+        $ids = array_map('trim', explode("\n", $request->input('playlistIds')));
+        foreach ($ids as $id) {
+            ProcessPlaylistImport::dispatch($id);
+        }
+        redirect()->back()->with('message', 'Playlist import started.');
     }
 }

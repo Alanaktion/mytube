@@ -35,3 +35,4 @@ Route::get('/images/posters/{video:uuid}', [ImageController::class, 'showVideoPo
 Auth::routes();
 
 Route::get('/admin', [AdminController::class, 'index']);
+Route::post('/admin/playlists', [AdminController::class, 'playlistImport']);

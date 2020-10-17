@@ -32,7 +32,7 @@
                     </a>
                 </div>
                 <form class="ml-auto" action="/search">
-                    <input type="search" class="bg-ngray-900 bg-opacity-75 focus:bg-opacity-100 focus:outline-none focus:shadow-outline rounded-lg py-2 px-4 block w-full placeholder-ngray-400 text-ngray-100 appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="Search">
+                    <input type="search" class="bg-ngray-900 bg-opacity-75 focus:bg-opacity-100 focus:outline-none focus:shadow-outline rounded-full py-2 pl-5 pr-3 block w-full placeholder-ngray-400 text-ngray-100 appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="Search">
                 </form>
             </div>
         </div>
