@@ -71,7 +71,7 @@
         <form action="/admin/playlists" method="post">
             @csrf
             <label for="playlistIds" class="block font-semibold mb-1">Playlist IDs</label>
-            <textarea name="playlistIds" id="playlistIds" class="bg-ngray-900 border border-ngray-600 focus:bg-opacity-100 focus:outline-none focus:shadow-outline rounded py-2 px-3 block w-full placeholder-ngray-400 text-ngray-100 leading-normal mb-2" required></textarea>
+            <textarea name="playlistIds" id="playlistIds" class="bg-ngray-800 bg-opacity-50 border border-ngray-700 focus:bg-opacity-100 focus:outline-none focus:shadow-outline rounded py-2 px-3 block w-full placeholder-ngray-400 text-ngray-100 leading-normal mb-2" required></textarea>
 
             <button type="submit" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded">
                 Import Playlists
