@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Clients\YouTube;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class Video extends Model
@@ -84,11 +85,16 @@ class Video extends Model
         $disk = Storage::disk('public');
         $exists = $disk->exists("thumbs/youtube/{$this->uuid}.jpg");
         if (!$exists) {
-            $data = file_get_contents("https://img.youtube.com/vi/{$this->uuid}/hqdefault.jpg");
-            $disk->put("thumbs/youtube/{$this->uuid}.jpg", $data, 'public');
+            try {
+                $data = file_get_contents("https://img.youtube.com/vi/{$this->uuid}/hqdefault.jpg");
+                $disk->put("thumbs/youtube/{$this->uuid}.jpg", $data, 'public');
 
-            $data = file_get_contents("https://img.youtube.com/vi/{$this->uuid}/maxresdefault.jpg");
-            $disk->put("thumbs/youtube-maxres/{$this->uuid}.jpg", $data, 'public');
+                $data = file_get_contents("https://img.youtube.com/vi/{$this->uuid}/maxresdefault.jpg");
+                $disk->put("thumbs/youtube-maxres/{$this->uuid}.jpg", $data, 'public');
+            } catch (\Exception $e) {
+                Log::warning("Error downloading thumbnail {$this->uuid}: {$e->getMessage()}");
+                return false;
+            }
         }
 
         return true;
