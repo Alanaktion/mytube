@@ -43,6 +43,6 @@ class AdminController extends Controller
         foreach ($ids as $id) {
             ProcessPlaylistImport::dispatch($id);
         }
-        redirect()->back()->with('message', 'Playlist import started.');
+        redirect('/admin')->with('message', 'Playlist import started.');
     }
 }
