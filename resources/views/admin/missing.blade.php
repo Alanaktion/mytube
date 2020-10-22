@@ -6,7 +6,7 @@
         Videos missing files
     </div>
 
-    <table class="min-w-full divide-y divide-ngray-800">
+    <table class="min-w-full divide-y divide-ngray-800 mb-4">
         <thead>
             <tr>
                 <th class="px-6 py-3 bg-ngray-800 text-left text-xs leading-4 font-medium text-ngray-300 uppercase tracking-wider">
@@ -63,7 +63,9 @@
                     <td class="px-6 py-4 text-right leading-5 font-medium">
                         @if ($video->source_link)
                             <a href="{{ $video->source_link }}" class="text-blue-400 hover:text-blue-300">
-                                Source
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                </svg>
                             </a>
                         @endif
                     </td>
