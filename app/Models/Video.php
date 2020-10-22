@@ -51,6 +51,11 @@ class Video extends Model
         return $this->belongsTo(Channel::class);
     }
 
+    public function playlists()
+    {
+        return $this->belongsToMany(Playlist::class, 'playlist_items');
+    }
+
     /**
      * Get a web-accessible symlink to the source file.
      */
