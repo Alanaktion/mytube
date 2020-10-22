@@ -2,19 +2,13 @@
 
 @section('content')
 <div class="container">
-    @if (session('status'))
-        <div class="alert alert-success" role="alert">
-            {{ session('status') }}
-        </div>
-    @endif
-
-    @if (session('status'))
+    @if (session('message'))
     <div class="flex items-center bg-green-900 border border-green-600 p-3 rounded mb-3">
         <svg class="w-6 h-6 mr-2 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
         <span class="text-green-100">
-            {{ session('status') }}
+            {{ session('message') }}
         </span>
     </div>
     @endif
@@ -77,6 +71,14 @@
                 Import Playlists
             </button>
         </form>
+
+        <div>
+            <p class="mb-3">{{ $missingCount }} videos are missing local files</p>
+
+            <a href="/admin/missing" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded">
+                View all
+            </a>
+        </div>
     </div>
 </div>
 @endsection

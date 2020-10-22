@@ -27,10 +27,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin', [
+        return view('admin.index', [
             'videoCount' => Video::count(),
             'channelCount' => Channel::count(),
             'playlistCount' => Playlist::count(),
+            'missingCount' => Video::whereNull('file_path')->count(),
         ]);
     }
 
@@ -43,6 +44,21 @@ class AdminController extends Controller
         foreach ($ids as $id) {
             ProcessPlaylistImport::dispatch($id);
         }
-        return redirect('/admin')->with('message', 'Playlist import started.');
+
+        $message = 'Playlist import started.';
+        if (config('queue.default') == 'sync') {
+            $message = 'Playlists imported.';
+        }
+        return redirect('/admin')->with('message', $message);
+    }
+
+    public function missing()
+    {
+        $videos = Video::with('channel')
+            ->whereNull('file_path')
+            ->orderBy('created_at', 'desc');
+        return view('admin.missing', [
+            'videos' => $videos->paginate(),
+        ]);
     }
 }
