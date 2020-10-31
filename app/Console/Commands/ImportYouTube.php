@@ -117,7 +117,7 @@ class ImportYouTube extends Command
         $rii = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(
                 $directory,
-                RecursiveDirectoryIterator::KEY_AS_PATHNAME & RecursiveDirectoryIterator::FOLLOW_SYMLINKS
+                RecursiveDirectoryIterator::FOLLOW_SYMLINKS
             ),
             RecursiveIteratorIterator::SELF_FIRST,
             RecursiveIteratorIterator::CATCH_GET_CHILD
