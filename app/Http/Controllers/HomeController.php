@@ -77,33 +77,6 @@ class HomeController extends Controller
         ]);
     }
 
-    public function channels()
-    {
-        return view('channels', [
-            'channels' => Channel::orderBy('published_at', 'desc')->get(),
-        ]);
-    }
-
-    public function channelShow(Channel $channel, Request $request)
-    {
-        $videos = $channel->videos()
-            ->orderBy('published_at', 'desc');
-        $playlists = $channel->playlists()
-            ->withCount('items')
-            ->orderBy('published_at', 'desc');
-        $q = strtr($request->input('q'), ' ', '%');
-        if ($q) {
-            $videos->where('title', 'like', "%$q%");
-            $playlists->where('title', 'like', "%$q%");
-        }
-        return view('channelShow', [
-            'channel' => $channel,
-            'videos' => $videos->paginate(24),
-            'playlists' => $playlists->get(),
-            'channelQ' => $request->input('q'),
-        ]);
-    }
-
     public function playlists()
     {
         $playlists = Playlist::orderBy('published_at', 'desc')

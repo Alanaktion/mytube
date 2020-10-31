@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Auth;
@@ -23,8 +24,10 @@ Route::get('/search', [HomeController::class, 'search']);
 Route::get('/videos', [HomeController::class, 'videos']);
 Route::get('/videos/{video:uuid}', [HomeController::class, 'videoShow']);
 
-Route::get('/channels', [HomeController::class, 'channels']);
-Route::get('/channels/{channel:uuid}', [HomeController::class, 'channelShow']);
+Route::get('/channels', [ChannelController::class, 'index']);
+Route::get('/channels/{channel:uuid}', [ChannelController::class, 'videos']);
+Route::get('/channels/{channel:uuid}/playlists', [ChannelController::class, 'playlists']);
+Route::get('/channels/{channel:uuid}/search', [ChannelController::class, 'search']);
 
 Route::get('/playlists', [HomeController::class, 'playlists']);
 Route::get('/playlists/{playlist:uuid}', [HomeController::class, 'playlistShow']);
