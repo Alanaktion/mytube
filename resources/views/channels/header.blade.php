@@ -11,7 +11,7 @@
         @endif
     </div>
     <form class="sm:ml-auto mt-3 sm:mt-0" action="/channels/{{ $channel->uuid }}/search">
-        <input type="search" class="bg-ngray-800 focus:outline-none focus:shadow-outline rounded-full py-2 px-4 block w-full placeholder-ngray-400 text-ngray-100 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="Search channel">
+        <input type="search" class="bg-ngray-800 bg-opacity-50 focus:outline-none focus:shadow-outline rounded-full py-2 px-4 block w-full placeholder-ngray-400 text-ngray-100 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="Search channel">
     </form>
 </header>
 <nav class="flex border-b border-ngray-700 mb-3 md:mb-4 lg:mb-6">
