@@ -14,11 +14,32 @@
         <input type="search" class="bg-ngray-800 focus:outline-none focus:shadow-outline rounded-full py-2 px-4 block w-full placeholder-ngray-400 text-ngray-100 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="Search channel">
     </form>
 </header>
-<nav class="flex border-b border-ngray-700 pb-3 mb-3 md:pb-4 md:mb-4 lg:pb-6 lg:mb-6">
-    <a class="px-3 py-2 rounded text-ngray-100 hover:bg-ngray-700 @if($tab == 'videos') bg-blue-600 @endif mr-2" href="/channels/{{ $channel->uuid }}">
+<nav class="flex border-b border-ngray-700 mb-3 md:mb-4 lg:mb-6">
+    <a
+        class="px-3 py-2
+            @if($tab == 'videos')
+                text-blue-400 -mb-px border-b-2 border-blue-400 hover:text-blue-300
+            @else
+                text-ngray-300 hover:text-white
+            @endif mr-2"
+        href="/channels/{{ $channel->uuid }}">
         Videos
     </a>
-    <a class="px-3 py-2 rounded text-ngray-100 hover:bg-ngray-700 @if($tab == 'playlists') bg-blue-600 @endif" href="/channels/{{ $channel->uuid }}/playlists">
+    <a
+        class="px-3 py-2
+            @if($tab == 'playlists')
+                text-blue-400 -mb-px border-b-2 border-blue-400 hover:text-blue-300
+            @else
+                text-ngray-300 hover:text-white
+            @endif"
+        href="/channels/{{ $channel->uuid }}/playlists">
         Playlists
     </a>
+    @if($tab == 'search')
+        <a
+            class="px-3 py-2 text-blue-400 -mb-px border-b-2 border-blue-400 hover:text-blue-300"
+            href="/channels/{{ $channel->uuid }}/playlists">
+            Search Results
+        </a>
+    @endif
 </nav>
