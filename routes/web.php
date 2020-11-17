@@ -39,4 +39,5 @@ Auth::routes();
 
 Route::get('/admin', [AdminController::class, 'index']);
 Route::post('/admin/playlists', [AdminController::class, 'playlistImport']);
+Route::post('/admin/channels', [AdminController::class, 'channelImport']);
 Route::get('/admin/missing', [AdminController::class, 'missing']);

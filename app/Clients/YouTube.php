@@ -61,6 +61,70 @@ class YouTube
     }
 
     /**
+     * Get an array of videos on a channel
+     *
+     * @link https://developers.google.com/youtube/v3/docs/search/list
+     */
+    public static function getChannelVideos(string $id): array
+    {
+        return self::searchChannel($id, 'video');
+    }
+
+    /**
+     * Get an array of playlists on a channel
+     *
+     * @link https://developers.google.com/youtube/v3/docs/search/list
+     */
+    public static function getChannelPlaylists(string $id): array
+    {
+        return self::searchChannel($id, 'playlist');
+    }
+
+    /**
+     * Get search results for a type of item by channel ID
+     *
+     * This is hard-limited to 500 results on YouTube's end. It also has a quota
+     * cost of 100 units, which is very high compared to e.g. listing playlist
+     * items which only consumes 1 unit, so it should be avoided.
+     *
+     * Free accounts can call this endpoint ~20 times a day at best, so
+     * paginating a full 500 results will consume 1000 units, or about half a
+     * day's quota. A complete import of a single channel's playlist and videos
+     * (up to what is allowed) can potentially consume an *entire* day's
+     * API quota.
+     *
+     * @todo Investigate options for working around the 500 item limit, or
+     *       using alternative methods like youtube-dl's page scraping.
+     *
+     * @link https://developers.google.com/youtube/v3/docs/search/list
+     */
+    protected static function searchChannel(string $id, string $type): array
+    {
+        /** @var \Google_Service_YouTube $youtube */
+        $youtube = App::make('Google_Service_YouTube');
+        $params = [
+            'channelId' => $id,
+            'order' => 'date',
+            'type' => $type,
+            'maxResults' => 50,
+        ];
+        $results = [];
+        do {
+            $response = $youtube->search->listSearch('snippet', $params);
+            foreach ($response as $item) {
+                $results[] = $item;
+            }
+            $params['pageToken'] = $response->nextPageToken;
+            usleep(1e5);
+            if (count($results) >= $response->getPageInfo()->totalResults) {
+                break;
+            }
+        } while (true);
+
+        return $results;
+    }
+
+    /**
      * Get metadata for a playlist by ID
      *
      * @link https://developers.google.com/youtube/v3/docs/playlists

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessChannelImport;
 use App\Jobs\ProcessPlaylistImport;
 use App\Models\Channel;
 use App\Models\Playlist;
@@ -48,6 +49,24 @@ class AdminController extends Controller
         $message = 'Playlist import started.';
         if (config('queue.default') == 'sync') {
             $message = 'Playlists imported.';
+        }
+        return redirect('/admin')->with('message', $message);
+    }
+
+    public function channelImport(Request $request)
+    {
+        $request->validate([
+            'channelId' => 'required|string',
+        ]);
+        ProcessChannelImport::dispatch(
+            $request->input('channel_id'),
+            $request->boolean('videos'),
+            $request->boolean('playlists')
+        );
+
+        $message = 'Channel import started.';
+        if (config('queue.default') == 'sync') {
+            $message = 'Channel imported.';
         }
         return redirect('/admin')->with('message', $message);
     }

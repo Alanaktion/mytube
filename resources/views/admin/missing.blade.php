@@ -6,7 +6,7 @@
         Videos missing files
     </div>
 
-    <table class="min-w-full divide-y divide-ngray-800 mb-4">
+    <table class="min-w-full divide-y divide-ngray-800 shadow overflow-hidden sm:rounded-lg mb-4">
         <thead>
             <tr>
                 <th class="px-6 py-3 bg-ngray-800 text-left text-xs leading-4 font-medium text-ngray-300 uppercase tracking-wider">

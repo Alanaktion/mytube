@@ -58,13 +58,14 @@
         </div>
     </div>
 
-    <div class="text-sm uppercase font-semibold text-gray-400 mb-2">
-        Manual Import
-    </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-5 lg:mb-6">
         <form action="/admin/playlists" method="post">
             @csrf
-            <label for="playlistIds" class="block font-semibold mb-1">Playlist IDs</label>
+            <div class="text-sm uppercase font-semibold text-gray-400 mb-2">
+                Playlist Import
+            </div>
+
+            <label for="playlistIds" class="block font-semibold text-ngray-300 mb-1">Playlist IDs</label>
             <textarea name="playlistIds" id="playlistIds" class="bg-ngray-800 bg-opacity-50 border border-ngray-700 focus:bg-opacity-100 focus:outline-none focus:shadow-outline rounded py-2 px-3 block w-full placeholder-ngray-400 text-ngray-100 leading-normal mb-2" required></textarea>
 
             <button type="submit" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded">
@@ -72,11 +73,47 @@
             </button>
         </form>
 
+        <form action="/admin/channels" method="post">
+            @csrf
+            <div class="text-sm uppercase font-semibold text-gray-400 mb-2">
+                Channel Import
+            </div>
+
+            <label for="channelId" class="block font-semibold text-ngray-300 mb-1">Channel ID</label>
+            <input type="text" name="channelId" id="channelId" class="bg-ngray-800 bg-opacity-50 border border-ngray-700 focus:bg-opacity-100 focus:outline-none focus:shadow-outline rounded py-2 px-3 block w-full placeholder-ngray-400 text-ngray-100 leading-normal mb-2" required>
+
+            <div class="flex items-start mb-3">
+                <div class="flex items-center h-5">
+                    <input id="playlists" name="playlists" type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out">
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                    <label for="playlists" class="font-semibold text-ngray-300">Playlists</label>
+                    <p class="text-ngray-400">Import all playlists on the channel with their corresponding videos.</p>
+                </div>
+            </div>
+            <div class="flex items-start mb-3">
+                <div class="flex items-center h-5">
+                    <input id="videos" name="videos" type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out">
+                </div>
+                <div class="ml-3 text-sm leading-5">
+                    <label for="videos" class="font-semibold text-ngray-300">Videos</label>
+                    <p class="text-ngray-400">Import all videos on the channel.</p>
+                </div>
+            </div>
+
+            <button type="submit" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded">
+                Import Channel
+            </button>
+        </form>
+
         <div>
+            <div class="text-sm uppercase font-semibold text-gray-400 mb-2">
+                Missing Files
+            </div>
             <p class="mb-3">{{ $missingCount }} videos are missing local files</p>
 
             <a href="/admin/missing" class="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded">
-                View all
+                View all →
             </a>
         </div>
     </div>
