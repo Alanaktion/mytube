@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'MyTube') }}</title>
     <script src="{{ mix('js/app.js') }}" defer></script>
@@ -35,7 +35,7 @@
     </script>
 </head>
 <body class="dark:bg-trueGray-900 dark:text-trueGray-100 antialiased">
-    <nav class="bg-gray-800 dark:bg-trueGray-800">
+    <nav class="bg-gray-800 dark:bg-trueGray-800 px-safe">
         <div class="container">
             <div class="flex items-center h-16">
                 <a href="/" class="flex items-center mr-4">
@@ -64,7 +64,7 @@
         </div>
     </nav>
 
-    <main class="py-4 lg:py-6 xl:py-8">
+    <main class="py-4 lg:py-6 xl:py-8 px-safe">
         @yield('content')
     </main>
 </body>
