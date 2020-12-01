@@ -57,7 +57,7 @@
                             @endforelse
                         </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-trueGray-300">
+                    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-700 dark:text-trueGray-300">
                         {{ $video->published_at->format('F j, Y') }}
                     </td>
                     <td class="px-6 py-4 text-right leading-5 font-medium">

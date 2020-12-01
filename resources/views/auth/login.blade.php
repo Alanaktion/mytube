@@ -11,10 +11,10 @@
 
         <div class="rounded-md shadow-sm">
             <div class="mb-3 lg:mb-4">
-                <input aria-label="Email address" name="email" type="email" required class="dark:bg-trueGray-800 dark:bg-opacity-75 border border-gray-300 dark:border-trueGray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded py-2 px-4 block w-full placeholder-gray-500 dark:placeholder-trueGray-400 text-gray-900 dark:text-trueGray-100 appearance-none leading-normal" placeholder="Email address" value="{{ old('email') }}" autocomplete="email">
+                <input aria-label="Email address" name="email" type="email" required class="dark:bg-trueGray-800 dark:bg-opacity-75 border border-gray-300 dark:border-trueGray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-500 rounded py-2 px-4 block w-full placeholder-gray-500 dark:placeholder-trueGray-400 text-gray-900 dark:text-trueGray-100 appearance-none leading-normal" placeholder="Email address" value="{{ old('email') }}" autocomplete="email" autofocus>
             </div>
             <div>
-                <input aria-label="Password" name="password" type="password" required class="dark:bg-trueGray-800 dark:bg-opacity-75 border border-gray-300 dark:border-trueGray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded py-2 px-4 block w-full placeholder-gray-500 dark:placeholder-trueGray-400 text-gray-900 dark:text-trueGray-100 appearance-none leading-normal" placeholder="Password" autocomplete="current-password">
+                <input aria-label="Password" name="password" type="password" required class="dark:bg-trueGray-800 dark:bg-opacity-75 border border-gray-300 dark:border-trueGray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-500 rounded py-2 px-4 block w-full placeholder-gray-500 dark:placeholder-trueGray-400 text-gray-900 dark:text-trueGray-100 appearance-none leading-normal" placeholder="Password" autocomplete="current-password">
             </div>
         </div>
 
