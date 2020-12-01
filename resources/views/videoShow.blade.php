@@ -21,7 +21,7 @@
                 </div>
             </div>
             <p class="text-lg">
-                <a class="text-blue-400 hover:text-blue-300" href="/channels/{{ $video->channel->uuid }}">
+                <a class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300" href="/channels/{{ $video->channel->uuid }}">
                     {{ $video->channel->title }}
                 </a>
             </p>
@@ -36,12 +36,12 @@
                 </a>
             @endif
             @if ($video->file_path)
-                <a href="{{ $video->link() }}" class="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full" download>
+                <a href="{{ $video->link() }}" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full" download>
                     Download
                 </a>
             @endif
         </div>
     </header>
-    <div class="text-gray-400 whitespace-pre-wrap">{{ $video->description }}</div>
+    <div class="text-gray-600 dark:text-trueGray-400 whitespace-pre-wrap">{{ $video->description }}</div>
 </div>
 @endsection

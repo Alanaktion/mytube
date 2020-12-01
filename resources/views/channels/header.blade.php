@@ -11,16 +11,16 @@
         @endif
     </div>
     <form class="sm:ml-auto mt-3 sm:mt-0" action="/channels/{{ $channel->uuid }}/search">
-        <input type="search" class="bg-ngray-800 bg-opacity-50 focus:outline-none focus:shadow-outline rounded-full py-2 px-4 block w-full placeholder-ngray-400 text-ngray-100 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="Search channel">
+        <input type="search" class="dark:bg-trueGray-850 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="Search channel">
     </form>
 </header>
-<nav class="flex border-b border-ngray-700 mb-3 md:mb-4 lg:mb-6">
+<nav class="flex border-b border-gray-300 dark:border-trueGray-700 mb-3 md:mb-4 lg:mb-6">
     <a
         class="px-3 py-2
             @if($tab == 'videos')
-                text-blue-400 -mb-px border-b-2 border-blue-400 hover:text-blue-300
+                -mb-px border-b-2 text-blue-600 border-blue-600 hover:text-blue-500 dark:text-blue-400 dark:border-blue-400 dark:hover:text-blue-300
             @else
-                text-ngray-300 hover:text-white
+                text-gray-700 hover:text-gray-900 dark:text-trueGray-300 dark:hover:text-white
             @endif mr-2"
         href="/channels/{{ $channel->uuid }}">
         Videos
@@ -28,16 +28,16 @@
     <a
         class="px-3 py-2
             @if($tab == 'playlists')
-                text-blue-400 -mb-px border-b-2 border-blue-400 hover:text-blue-300
+                -mb-px border-b-2 text-blue-600 border-blue-600 hover:text-blue-500 dark:text-blue-400 dark:border-blue-400 dark:hover:text-blue-300
             @else
-                text-ngray-300 hover:text-white
+                text-gray-700 hover:text-gray-900 dark:text-trueGray-300 dark:hover:text-white
             @endif"
         href="/channels/{{ $channel->uuid }}/playlists">
         Playlists
     </a>
     @if($tab == 'search')
         <a
-            class="px-3 py-2 text-blue-400 -mb-px border-b-2 border-blue-400 hover:text-blue-300"
+            class="px-3 py-2 -mb-px -mb-px border-b-2 text-blue-600 border-blue-600 hover:text-blue-500 dark:text-blue-400 dark:border-blue-400 dark:hover:text-blue-300"
             href="/channels/{{ $channel->uuid }}/playlists">
             Search Results
         </a>
