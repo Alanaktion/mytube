@@ -4,9 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'MyTube') }}</title>
+    <title>{{ config('app.name') }}</title>
     <script src="{{ mix('js/app.js') }}" defer></script>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link rel="search" type="application/opensearchdescription+xml" title="{{ config('app.name') }}" href="{{ url('/opensearch.xml') }}">
     <script>
         // Set color scheme dynamically
         const media = window.matchMedia('(prefers-color-scheme: dark)')
@@ -43,7 +44,7 @@
                         <polygon points="5 3 19 12 5 21 5 3"/>
                     </svg>
                     <span class="text-gray-100 dark:text-trueGray-100 font-semibold text-xl tracking-tight">
-                        {{ config('app.name', 'MyTube') }}
+                        {{ config('app.name') }}
                     </span>
                 </a>
                 <div class="hidden md:flex items-center ml-6 gap-2 lg:gap-3 flex-1">

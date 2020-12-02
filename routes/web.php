@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\MetaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -42,12 +43,5 @@ Route::post('/admin/playlists', [AdminController::class, 'playlistImport']);
 Route::post('/admin/channels', [AdminController::class, 'channelImport']);
 Route::get('/admin/missing', [AdminController::class, 'missing']);
 
-Route::get('/robots.txt', function () {
-    $disallow = '';
-    if (!config('app.robots')) {
-        $disallow = ' /';
-    }
-    $text = 'User-agent: *' . PHP_EOL . 'Disallow:' . $disallow . PHP_EOL;
-    return response($text, 200)
-        ->header('Content-Type', 'text/plain');
-});
+Route::get('/robots.txt', [MetaController::class, 'robots']);
+Route::get('/opensearch.xml', [MetaController::class, 'openSearch']);
