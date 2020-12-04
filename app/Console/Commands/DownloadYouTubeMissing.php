@@ -30,18 +30,25 @@ class DownloadYouTubeMissing extends Command
     public function handle()
     {
         $videos = Video::whereNull('file_path')->get();
+        if (!$videos->count()) {
+            $this->info('No video are missing local files.');
+            return 0;
+        }
 
         $this->withProgressBar($videos, function (Video $video, $bar) {
             if ($this->option('queue')) {
                 // Queue the video download
-                DownloadVideo::dispatch($video->uuid);
+                DownloadVideo::dispatch($video->uuid)->onQueue('download');
             } else {
                 // Download the video
                 $video->downloadVideo();
             }
         });
-
         $this->line('');
+
+        if ($this->option('queue')) {
+            $this->info(sprintf('Queued %u downloads.', $videos->count()));
+        }
 
         return 0;
     }
