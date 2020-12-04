@@ -68,7 +68,10 @@ class ImportYouTube extends Command
                 if ($e->getMessage() != 'Video previously failed to import') {
                     ImportError::updateOrCreate([
                         'uuid' => $id,
+                        'type' => 'youtube',
+                    ], [
                         'file_path' => $file,
+                        'reason' => $e->getMessage(),
                     ]);
                 }
                 Log::warning("Error importing file $file: {$e->getMessage()}");

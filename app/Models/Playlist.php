@@ -60,6 +60,12 @@ class Playlist extends Model
                     'position' => $item->getSnippet()->position
                 ]);
             } catch (\Exception $e) {
+                ImportError::updateOrCreate([
+                    'uuid' => $videoId,
+                    'type' => 'youtube',
+                ], [
+                    'reason' => $e->getMessage(),
+                ]);
                 Log::warning('Failed importing playlist item: ' . $videoId);
             }
         }

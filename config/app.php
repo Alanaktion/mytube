@@ -244,4 +244,20 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Youtube-dl Configuration
+    |--------------------------------------------------------------------------
+    |
+    | These configuration options determine where video files will be
+    | downloaded to, where the location of the youtube-dl executable file is,
+    | and other youtube-dl-related options.
+    |
+    */
+
+    'ytdl' => [
+        'directory' => env('YTDL_DOWNLOAD_DIR', storage_path('app/videos')),
+        'path' => env('YTDL_PATH'),
+    ],
+
 ];

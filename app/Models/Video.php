@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Clients\YouTube;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use YoutubeDl\YoutubeDl;
 
 class Video extends Model
 {
@@ -103,5 +106,49 @@ class Video extends Model
         }
 
         return true;
+    }
+
+    /**
+     * Download the video file from the source link
+     *
+     * If the file already exists, the download is skipped.
+     *
+     * @link https://github.com/norkunas/youtube-dl-php
+     * @link https://unix.stackexchange.com/a/454072
+     * @link https://github.com/ytdl-org/youtube-dl/issues/4886#issuecomment-334068157
+     */
+    public function downloadVideo(?string $downloadDir = null): void
+    {
+        if (!$this->source_link) {
+            throw new Exception('Video does not have a usable source link');
+        }
+
+        // Exit if a file already exists
+        if ($this->file_path && file_exists($this->file_path)) {
+            return;
+        }
+
+        // Set the base yt-dl configuration
+        $dl = new YoutubeDl([
+            'continue' => true,
+            'format' => 'bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best',
+            'merge-output-format' => 'mp4',
+        ]);
+
+        // Set download path
+        $dir = Str::finish(config('app.ytdl.directory'), DIRECTORY_SEPARATOR);
+        if ($downloadDir === null) {
+            $this->loadMissing('channel:id,name');
+            $dir .= Str::slug($this->channel->name);
+        } else {
+            $dir .= $downloadDir;
+        }
+        $dl->setDownloadPath($dir);
+
+        // Download the video file and save the resulting path
+        $result = $dl->download($this->source_link);
+        $file = $result->getFile();
+        $this->file_path = $file->getRealPath();
+        $this->save();
     }
 }

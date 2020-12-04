@@ -1,11 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "alanaktion/mytube",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "description": "A self-hosted YouTube mirror app",
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
@@ -17,6 +13,7 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
+        "norkunas/youtube-dl-php": "^1.6",
         "predis/predis": "^1.1"
     },
     "require-dev": {
