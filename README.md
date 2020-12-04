@@ -44,15 +44,17 @@ Many features require the ability to queue actions such as large imports and dow
 This can work with just a database, but it works best if you have something like Redis installed. There are really only two required steps for a basic queue setup:
 
 1. Set the `QUEUE_CONNECTION` value in your `.env` file to whatever you want to use for queues. You can use `database` by default, or `redis` if you have that installed.
-2. Start a command-line process to run the queued jobs: `php artisan queue:work --timeout=3600`. The high timeout gives each job enough time to complete longer tasks, like a video download.
+2. Start a command-line process to run the queued jobs: `php artisan queue:work`.
 
 If you choose to use Redis, you may require additional changes to the Redis configuration in your `.env` file, but the defaults should work for a typical local installation.
 
 You can also specify the order you want to process specific queues in. For example if you want metadata imports to run before slower video downloads:
 
 ```bash
-php artisan queue:work --timeout=3600 --queue=import,download
+php artisan queue:work --queue=import,default,download
 ```
+
+A production environment will likely work best with additional setup to ensure the queue workers stay running. See the [Laravel Queue Worker documentation](https://laravel.com/docs/queues#running-the-queue-worker) for more details. In particular, heavily-used environments may find value in running a separate worker for each queue, or running multiple download queues in parallel if the additional IO is not an issue.
 
 ## Administration
 
@@ -66,9 +68,9 @@ php artisan user:add
 
 ## Importing data
 
-### Existing files
+### Local video files
 
-You can import existing video files from your filesystem:
+You can import existing video files from your local filesystem:
 
 ```bash
 php artisan youtube:import-fs <directory>
@@ -107,3 +109,5 @@ You can also specify the path to your youtube-dl app if it is not included on yo
 ```ini
 YTDL_PATH=/usr/local/bin/youtube-dl
 ```
+
+Keep in mind that this involves downloading the video files from YouTube, and potentially re-encoding some incompatible audio streams. This can require significant network bandwidth, disk IO, and CPU in some cases. You should also be familiar with the YouTube terms of use, including usage of the API and website, to ensure your usage is not contradictory to those terms. The [youtube-dl](https://youtube-dl.org) project may have additional information on these topics.
