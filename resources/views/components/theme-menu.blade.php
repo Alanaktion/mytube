@@ -5,7 +5,7 @@
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
         </svg>
     </button>
-    <div class="origin-top-right absolute right-0 mt-1 w-40 py-1 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850"
+    <div class="origin-top-right absolute right-0 mt-1 w-40 py-1 z-10 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="theme-menu"
