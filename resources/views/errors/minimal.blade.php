@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>@yield('title')</title>
+    <script src="{{ mix('js/app.js') }}" defer></script>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <x-theme-script />
 </head>
 <body>
     <div class="relative flex items-top justify-center min-h-screen bg-gray-50 dark:bg-trueGray-900 sm:items-center sm:pt-0 px-safe">
