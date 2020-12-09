@@ -38,6 +38,6 @@ class YouTubeDl extends YTDLBase
         ]);
 
         $process->mustRun(is_callable($this->debug) ? $this->debug : null);
-        return array_map('trim', explode("\n", $process->getOutput()));
+        return array_map('trim', explode("\n", trim($process->getOutput())));
     }
 }
