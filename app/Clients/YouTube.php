@@ -111,6 +111,7 @@ class YouTube
         $results = [];
         do {
             $response = $youtube->search->listSearch('snippet', $params);
+            // TODO: normalize result structure to ease usage
             foreach ($response as $item) {
                 $results[] = $item;
             }

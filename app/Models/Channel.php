@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Clients\YouTube;
+use App\Clients\YouTubeDl;
 use Illuminate\Database\Eloquent\Model;
 
 class Channel extends Model
@@ -48,8 +49,19 @@ class Channel extends Model
      */
     public function importVideos()
     {
+        $ytdl = new YouTubeDl();
+        if ($ytdl->getVersion()) {
+            $ids = $ytdl->getChannelVideoIds($this->uuid);
+            foreach ($ids as $id) {
+                Video::importYouTube($id);
+            }
+            return;
+        }
+
         $videos = YouTube::getChannelVideos($this->uuid);
         foreach ($videos as $data) {
+            /** @var Google_Service_YouTube_SearchResult $data */
+            // TODO: fix to use search result correctly
             $this->videos()->firstOrCreate([
                 'uuid' => $data['id'],
             ], [
@@ -65,8 +77,22 @@ class Channel extends Model
      */
     public function importPlaylists(bool $importItems = true)
     {
+        $ytdl = new YouTubeDl();
+        if ($ytdl->getVersion()) {
+            $ids = $ytdl->getChannelPlaylistIds($this->uuid);
+            foreach ($ids as $id) {
+                $playlist = Playlist::importYouTube($id);
+                if ($importItems) {
+                    $playlist->importYouTubeItems();
+                }
+            }
+            return;
+        }
+
         $playlists = YouTube::getChannelPlaylists($this->uuid);
         foreach ($playlists as $data) {
+            /** @var Google_Service_YouTube_SearchResult $data */
+            // TODO: fix to use search result correctly
             $playlist = $this->playlists()->firstOrCreate([
                 'uuid' => $data['id'],
             ], [
