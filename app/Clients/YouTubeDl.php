@@ -8,11 +8,10 @@ class YouTubeDl extends YTDLBase
 {
     public function getVersion(): ?string
     {
-        $process = $this->createProcess([
-            '--version',
-        ]);
-
         try {
+            $process = $this->createProcess([
+                '--version',
+            ]);
             $process->mustRun(is_callable($this->debug) ? $this->debug : null);
             return $process->getOutput();
         } catch (\Exception $e) {
@@ -22,12 +21,12 @@ class YouTubeDl extends YTDLBase
 
     public function getChannelVideoIds(string $channelId): array
     {
-        return $this->getIdsByUrl("https://www.youtube.com/c/${channelId}/videos");
+        return $this->getIdsByUrl("https://www.youtube.com/channel/${channelId}/videos");
     }
 
     public function getChannelPlaylistIds(string $channelId): array
     {
-        return $this->getIdsByUrl("https://www.youtube.com/c/${channelId}/playlists");
+        return $this->getIdsByUrl("https://www.youtube.com/channel/${channelId}/playlists");
     }
 
     protected function getIdsByUrl(string $url): array
