@@ -48,7 +48,7 @@ class Channel extends Model
      */
     public function importVideos()
     {
-        $videos = YouTube::getChannelVideos($this->id);
+        $videos = YouTube::getChannelVideos($this->uuid);
         foreach ($videos as $data) {
             $this->videos()->firstOrCreate([
                 'uuid' => $data['id'],
@@ -65,7 +65,7 @@ class Channel extends Model
      */
     public function importPlaylists(bool $importItems = true)
     {
-        $playlists = YouTube::getChannelPlaylists($this->id);
+        $playlists = YouTube::getChannelPlaylists($this->uuid);
         foreach ($playlists as $data) {
             $playlist = $this->playlists()->firstOrCreate([
                 'uuid' => $data['id'],

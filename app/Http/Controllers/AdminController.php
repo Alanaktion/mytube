@@ -59,7 +59,7 @@ class AdminController extends Controller
             'channelId' => 'required|string',
         ]);
         ProcessChannelImport::dispatch(
-            $request->input('channel_id'),
+            $request->input('channelId'),
             $request->boolean('videos'),
             $request->boolean('playlists')
         )->onQueue('import');
