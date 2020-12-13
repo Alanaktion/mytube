@@ -65,6 +65,7 @@ class HomeController extends Controller
             ->orderBy('published_at', 'desc')
             ->paginate(24);
         return view('videos', [
+            'title' => __('Videos'),
             'videos' => $videos,
         ]);
     }
@@ -73,6 +74,7 @@ class HomeController extends Controller
     {
         $video->load('channel');
         return view('videoShow', [
+            'title' => $video->title,
             'video' => $video,
         ]);
     }
@@ -83,6 +85,7 @@ class HomeController extends Controller
             ->withCount('items')
             ->paginate(24);
         return view('playlists', [
+            'title' => __('Playlists'),
             'playlists' => $playlists,
         ]);
     }
@@ -95,6 +98,7 @@ class HomeController extends Controller
             ->orderBy('position', 'asc')
             ->paginate(24);
         return view('playlistShow', [
+            'title' => $playlist->title,
             'playlist' => $playlist,
             'items' => $items,
         ]);

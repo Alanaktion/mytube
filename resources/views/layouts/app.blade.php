@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name') }}</title>
+    <title>{{ !empty($title) ? $title . ' - ' : null }}{{ config('app.name') }}</title>
     <script src="{{ mix('js/app.js') }}" defer></script>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link rel="search" type="application/opensearchdescription+xml" title="{{ config('app.name') }}" href="{{ url('/opensearch.xml') }}">

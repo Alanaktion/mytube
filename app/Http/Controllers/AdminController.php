@@ -29,6 +29,7 @@ class AdminController extends Controller
     public function index()
     {
         return view('admin.index', [
+            'title' => __('Administration'),
             'videoCount' => Video::count(),
             'channelCount' => Channel::count(),
             'playlistCount' => Playlist::count(),
@@ -77,6 +78,7 @@ class AdminController extends Controller
             ->whereNull('file_path')
             ->orderBy('created_at', 'desc');
         return view('admin.missing', [
+            'title' => __('Administration'),
             'videos' => $videos->paginate(),
         ]);
     }

@@ -19,6 +19,7 @@ class ChannelController extends Controller
         $videos = $channel->videos()
             ->orderBy('published_at', 'desc');
         return view('channels.videos', [
+            'title' => $channel->title,
             'channel' => $channel,
             'videos' => $videos->paginate(24),
         ]);
@@ -30,6 +31,7 @@ class ChannelController extends Controller
             ->withCount('items')
             ->orderBy('published_at', 'desc');
         return view('channels.playlists', [
+            'title' => $channel->title,
             'channel' => $channel,
             'playlists' => $playlists->get(),
         ]);
@@ -49,6 +51,7 @@ class ChannelController extends Controller
             $playlists->where('title', 'like', "%$q%");
         }
         return view('channels.search', [
+            'title' => $channel->title,
             'channel' => $channel,
             'videos' => $videos->paginate(24),
             'playlists' => $playlists->get(),
