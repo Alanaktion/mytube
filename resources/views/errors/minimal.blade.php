@@ -6,6 +6,7 @@
     <title>@yield('title')</title>
     <script src="{{ mix('js/app.js') }}" defer></script>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url('/favicon.svg') }}" type="image/svg+xml">
     <x-theme-script />
 </head>
 <body>
