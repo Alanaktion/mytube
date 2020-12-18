@@ -42,6 +42,20 @@
             @endif
         </div>
     </header>
-    <div class="text-gray-600 dark:text-trueGray-400 whitespace-pre-wrap">{{ $video->description }}</div>
+    <div class="sm:grid grid-cols-3 md:grid-cols-4">
+        <div class="sm:col-span-2 md:col-span-3 mb-4">
+            <div class="text-gray-600 dark:text-trueGray-400 whitespace-pre-wrap">{{ $video->description }}</div>
+        </div>
+        <div>
+            @if ($video->playlists)
+                <div class="text-xl mb-3">
+                    Related Playlists
+                </div>
+                @foreach ($video->playlists as $playlist)
+                    <x-playlist-link :playlist="$playlist" />
+                @endforeach
+            @endif
+        </div>
+    </div>
 </div>
 @endsection
