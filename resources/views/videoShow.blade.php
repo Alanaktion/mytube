@@ -47,7 +47,7 @@
             <div class="text-gray-600 dark:text-trueGray-400 whitespace-pre-wrap">{{ $video->description }}</div>
         </div>
         <div>
-            @if ($video->playlists)
+            @if ($video->playlists->count())
                 <div class="text-xl mb-3">
                     Related Playlists
                 </div>
