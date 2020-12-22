@@ -14,7 +14,6 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "norkunas/youtube-dl-php": "^1.6",
-        "php-ffmpeg/php-ffmpeg": "^0.16.0",
         "predis/predis": "^1.1"
     },
     "require-dev": {

@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Channel;
 use App\Models\Video;
-use FFMpeg\Coordinate\TimeCode;
-use FFMpeg\FFMpeg;
-use FFMpeg\FFProbe;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -106,26 +103,25 @@ class ImageController extends Controller
             return false;
         }
 
-        /** @var TimeCode|null $duration */
-        $duration = FFProbe::create()->format($video->file_path)->get('duration');
-        /** @var \FFMpeg\Media\Video $video */
-        $video = FFMpeg::create()->open($video->file_path);
+        // Determine video duration
+        $path = escapeshellarg($video->file_path);
+        $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path");
 
         // Seek to 30% of video duration, or 10 seconds if duration is unknown.
-        $seconds = $duration ? floor($duration->toSeconds() * 0.30) : 10;
+        $seconds = $duration ? floor($duration * 0.30) : 10;
         $framePath = storage_path("{$video->uuid}-frame.png");
-        $video
-            ->frame(TimeCode::fromSeconds($seconds))
-            ->save($framePath);
+        shell_exec("ffmpeg -ss $seconds -i $path -vframes 1 -vcodec png -an -y " . escapeshellarg($framePath));
 
         Storage::makeDirectory('public/thumbs/generated');
 
-        // Generate cropped/resampled image
+        // Generate resampled + cropped image
         $thumb = Image::make($framePath)->resize($w, $h, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         })->resizeCanvas($w, $h, 'center', false, '#000');
         $thumb->save(storage_path("public/thumbs/generated/{$video->uuid}{$suffix}.jpg"));
+
+        unlink($framePath);
 
         return true;
     }
