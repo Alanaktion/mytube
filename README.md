@@ -44,15 +44,9 @@ Many features require the ability to queue actions such as large imports and dow
 This can work with just a database, but it works best if you have something like Redis installed. There are really only two required steps for a basic queue setup:
 
 1. Set the `QUEUE_CONNECTION` value in your `.env` file to whatever you want to use for queues. You can use `database` by default, or `redis` if you have that installed.
-2. Start a command-line process to run the queued jobs: `php artisan queue:work`.
+2. Start a command-line process to run the queued jobs: `php artisan queue:work --queue=default,download`.
 
 If you choose to use Redis, you may require additional changes to the Redis configuration in your `.env` file, but the defaults should work for a typical local installation.
-
-You can also specify the order you want to process specific queues in. For example if you want metadata imports to run before slower video downloads:
-
-```bash
-php artisan queue:work --queue=import,default,download
-```
 
 A production environment will likely work best with additional setup to ensure the queue workers stay running. See the [Laravel Queue Worker documentation](https://laravel.com/docs/queues#running-the-queue-worker) for more details. In particular, heavily-used environments may find value in running a separate worker for each queue, or running multiple download queues in parallel if the additional IO is not an issue.
 
