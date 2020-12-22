@@ -109,7 +109,7 @@ class ImageController extends Controller
 
         // Seek to 30% of video duration, or 10 seconds if duration is unknown.
         $seconds = $duration ? floor($duration * 0.30) : 10;
-        $framePath = storage_path("{$video->uuid}-frame.png");
+        $framePath = storage_path("app/{$video->uuid}-frame.png");
         shell_exec("ffmpeg -ss $seconds -i $path -vframes 1 -vcodec png -an -y " . escapeshellarg($framePath));
 
         Storage::makeDirectory('public/thumbs/generated');
@@ -119,7 +119,7 @@ class ImageController extends Controller
             $constraint->aspectRatio();
             $constraint->upsize();
         })->resizeCanvas($w, $h, 'center', false, '#000');
-        $thumb->save(storage_path("public/thumbs/generated/{$video->uuid}{$suffix}.jpg"));
+        $thumb->save(storage_path("app/public/thumbs/generated/{$video->uuid}{$suffix}.jpg"));
 
         unlink($framePath);
 
