@@ -23,17 +23,26 @@ class DownloadYouTubeThumbnails extends Command
     {
         $videos = Video::whereHas('channel', function ($query) {
             $query->where('type', 'youtube');
+        })->where(function ($query) {
+            $query->whereNull('thumbnail_url')
+                ->orWhereNull('poster_url');
         })->get();
 
         $bar = $this->output->createProgressBar($videos->count());
         $bar->start();
         foreach ($videos as $video) {
             $bar->advance();
-            if ($this->hasThumbnail($video->uuid)) {
-                continue;
-            }
             try {
                 $this->downloadThumbnail($video->uuid);
+                if (!$video->thumbnail_url) {
+                    $video->thumbnail_url = Storage::url("public/thumbs/youtube/{$video->uuid}.jpg");
+                }
+                if (!$video->poster_url) {
+                    $video->poster_url = Storage::url("public/thumbs/youtube-maxres/{$video->uuid}.jpg");
+                }
+                if ($video->isDirty()) {
+                    $video->save();
+                }
             } catch (Exception $e) {
                 Log::warning("Error downloading thumbnail {$video->uuid}: {$e->getMessage()}");
             }
@@ -42,18 +51,19 @@ class DownloadYouTubeThumbnails extends Command
         $this->line('');
     }
 
-    protected function hasThumbnail(string $uuid): bool
-    {
-        return Storage::disk('public')->exists("thumbs/youtube/{$uuid}.jpg");
-    }
-
     protected function downloadThumbnail(string $uuid)
     {
-        $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/hqdefault.jpg");
-        Storage::disk('public')->put("thumbs/youtube/{$uuid}.jpg", $data, 'public');
+        $disk = Storage::disk('public');
 
-        $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/maxresdefault.jpg");
-        Storage::disk('public')->put("thumbs/youtube-maxres/{$uuid}.jpg", $data, 'public');
+        if (!$disk->exists("thumbs/youtube/{$uuid}.jpg")) {
+            $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/hqdefault.jpg");
+            $disk->put("thumbs/youtube/{$uuid}.jpg", $data, 'public');
+        }
+
+        if (!$disk->exists("thumbs/youtube-maxres/{$uuid}.jpg")) {
+            $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/maxresdefault.jpg");
+            $disk->put("thumbs/youtube-maxres/{$uuid}.jpg", $data, 'public');
+        }
 
         usleep(250e3);
     }

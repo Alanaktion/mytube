@@ -49,32 +49,6 @@ class Video extends Model
         return null;
     }
 
-    public function getThumbnailAttribute(): ?string
-    {
-        if (!$this->channel->type == 'youtube') {
-            return null;
-        }
-        $disk = Storage::disk('public');
-        $filePath = "thumbs/youtube/{$this->uuid}.jpg";
-        if (!$disk->exists($filePath)) {
-            return url('/images/thumbs/' . $this->uuid);
-        }
-        return $disk->url($filePath);
-    }
-
-    public function getPosterAttribute(): ?string
-    {
-        if (!$this->channel->type == 'youtube') {
-            return null;
-        }
-        $disk = Storage::disk('public');
-        $filePath = "thumbs/youtube-maxres/{$this->uuid}.jpg";
-        if (!$disk->exists($filePath)) {
-            return url('/images/posters/' . $this->uuid);
-        }
-        return $disk->url($filePath);
-    }
-
     public function channel()
     {
         return $this->belongsTo(Channel::class);
@@ -105,33 +79,6 @@ class Video extends Model
         }
 
         return "/storage/videos/$file";
-    }
-
-    /**
-     * Download thumbnail and poster images for a video.
-     */
-    public function downloadThumbs(): bool
-    {
-        if ($this->channel->type != 'youtube') {
-            return false;
-        }
-
-        $disk = Storage::disk('public');
-        $exists = $disk->exists("thumbs/youtube/{$this->uuid}.jpg");
-        if (!$exists) {
-            try {
-                $data = file_get_contents("https://img.youtube.com/vi/{$this->uuid}/hqdefault.jpg");
-                $disk->put("thumbs/youtube/{$this->uuid}.jpg", $data, 'public');
-
-                $data = file_get_contents("https://img.youtube.com/vi/{$this->uuid}/maxresdefault.jpg");
-                $disk->put("thumbs/youtube-maxres/{$this->uuid}.jpg", $data, 'public');
-            } catch (\Exception $e) {
-                Log::warning("Error downloading thumbnail {$this->uuid}: {$e->getMessage()}");
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**

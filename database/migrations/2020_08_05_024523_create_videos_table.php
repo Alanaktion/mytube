@@ -21,7 +21,7 @@ class CreateVideosTable extends Migration
             $table->string('custom_url')->nullable();
             $table->string('country')->nullable();
             $table->string('type')->default('youtube');
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
         Schema::create('videos', function (Blueprint $table) {
@@ -33,7 +33,7 @@ class CreateVideosTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('file_path')->nullable();
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }

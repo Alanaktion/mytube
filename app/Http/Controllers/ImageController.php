@@ -4,28 +4,129 @@ namespace App\Http\Controllers;
 
 use App\Models\Channel;
 use App\Models\Video;
+use FFMpeg\Coordinate\TimeCode;
+use FFMpeg\FFMpeg;
+use FFMpeg\FFProbe;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ImageController extends Controller
 {
     public function showVideoThumb(Video $video)
     {
-        if (!$video->downloadThumbs()) {
-            return abort(404);
+        if ($video->thumbnail_url) {
+            return redirect()->to($video->thumbnail_url, 301);
         }
-        return redirect()->to(Storage::url("thumbs/youtube/{$video->uuid}.jpg"), 301);
+
+        $video->load('channel:id,type');
+
+        // Download a thumbnail from the source
+        $disk = Storage::disk('public');
+        if ($video->channel->type == 'youtube') {
+            $exists = false;
+            if ($disk->exists("thumbs/youtube/{$video->uuid}.jpg")) {
+                $exists = true;
+            } else {
+                try {
+                    $data = file_get_contents("https://img.youtube.com/vi/{$video->uuid}/hqdefault.jpg");
+                    $disk->put("thumbs/youtube/{$video->uuid}.jpg", $data, 'public');
+                    $exists = true;
+                } catch (\Exception $e) {
+                    //
+                }
+            }
+            if ($exists) {
+                $video->thumbnail_url = Storage::url("public/thumbs/youtube/{$video->uuid}.jpg");
+                $video->save();
+                return redirect()->to($video->thumbnail_url, 301);
+            }
+        }
+
+        // Generate a thumbnail
+        if ($disk->exists("thumbs/generated/{$video->uuid}@360p.jpg") || $this->generateImage($video, 480, 360, '@360p')) {
+            $video->thumbnail_url = Storage::url("thumbs/generated/{$video->uuid}@360p.jpg");
+            $video->save();
+            return redirect()->to($video->thumbnail_url, 301);
+        }
+
+        return abort(404);
     }
 
     public function showVideoPoster(Video $video)
     {
-        if (!$video->downloadThumbs()) {
-            return abort(404);
+        if ($video->poster_url) {
+            return redirect()->to($video->poster_url, 301);
         }
-        return redirect()->to(Storage::url("thumbs/youtube-maxres/{$video->uuid}.jpg"), 301);
+
+        $video->load('channel:id,type');
+
+        // Download a thumbnail from the source
+        $disk = Storage::disk('public');
+        if ($video->channel->type == 'youtube') {
+            $exists = false;
+            if ($disk->exists("thumbs/youtube-maxres/{$video->uuid}.jpg")) {
+                $exists = true;
+            } else {
+                try {
+                    $data = file_get_contents("https://img.youtube.com/vi/{$video->uuid}/maxresdefault.jpg");
+                    $disk->put("thumbs/youtube-maxres/{$video->uuid}.jpg", $data, 'public');
+                    $exists = true;
+                } catch (\Exception $e) {
+                    //
+                }
+            }
+            if ($exists) {
+                $video->poster_url = Storage::url("public/thumbs/youtube-maxres/{$video->uuid}.jpg");
+                $video->save();
+                return redirect()->to($video->poster_url, 301);
+            }
+        }
+
+        // Generate a thumbnail
+        if ($disk->exists("thumbs/generated/{$video->uuid}@720p.jpg") || $this->generateImage($video, 1280, 720, '@720p')) {
+            $video->poster_url = Storage::url("thumbs/generated/{$video->uuid}@720p.jpg");
+            $video->save();
+            return redirect()->to($video->poster_url, 301);
+        }
+
+        return abort(404);
     }
 
     public function showChannel(Channel $channel)
     {
         // TODO: implement channel profile image fetching
+    }
+
+    /**
+     * Generate an image from a video's local file using ffmpeg
+     */
+    protected function generateImage(Video $video, int $w, int $h, string $suffix = ''): bool
+    {
+        if (!$video->file_path || !is_file($video->file_path)) {
+            return false;
+        }
+
+        /** @var TimeCode|null $duration */
+        $duration = FFProbe::create()->format($video->file_path)->get('duration');
+        /** @var \FFMpeg\Media\Video $video */
+        $video = FFMpeg::create()->open($video->file_path);
+
+        // Seek to 30% of video duration, or 10 seconds if duration is unknown.
+        $seconds = $duration ? floor($duration->toSeconds() * 0.30) : 10;
+        $framePath = storage_path("{$video->uuid}-frame.png");
+        $video
+            ->frame(TimeCode::fromSeconds($seconds))
+            ->save($framePath);
+
+        Storage::makeDirectory('public/thumbs/generated');
+
+        // Generate cropped/resampled image
+        $thumb = Image::make($framePath)->resize($w, $h, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        })->resizeCanvas($w, $h, 'center', false, '#000');
+        $thumb->save(storage_path("public/thumbs/generated/{$video->uuid}{$suffix}.jpg"));
+
+        return true;
     }
 }
