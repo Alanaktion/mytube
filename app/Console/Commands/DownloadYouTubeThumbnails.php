@@ -49,7 +49,7 @@ class DownloadYouTubeThumbnails extends Command
                     try {
                         $this->generateImage($video);
                     } catch (Exception $e2) {
-                        Log::warning("Error generating thumbnail {$video->uuid}: {$e->getMessage()}");
+                        Log::warning("Error generating thumbnail {$video->uuid}: {$e2->getMessage()}");
                     }
                 } else {
                     Log::warning("Error downloading thumbnail {$video->uuid}: {$e->getMessage()}");
