@@ -24,6 +24,7 @@
             @endif mr-2"
         href="/channels/{{ $channel->uuid }}">
         Videos
+        <span class="ml-1 px-2 align-middle text-sm bg-gray-200 dark:bg-trueGray-700 text-black dark:text-white rounded-full">{{ $channel->videos()->count() }}</span>
     </a>
     <a
         class="px-3 py-2
@@ -34,6 +35,17 @@
             @endif"
         href="/channels/{{ $channel->uuid }}/playlists">
         Playlists
+        <span class="ml-1 px-2 align-middle text-sm bg-gray-200 dark:bg-trueGray-700 text-black dark:text-white rounded-full">{{ $channel->playlists()->count() }}</span>
+    </a>
+    <a
+        class="px-3 py-2
+            @if($tab == 'about')
+                -mb-px border-b-2 text-blue-600 border-blue-600 hover:text-blue-500 dark:text-blue-400 dark:border-blue-400 dark:hover:text-blue-300
+            @else
+                text-gray-700 hover:text-gray-900 dark:text-trueGray-300 dark:hover:text-white
+            @endif"
+        href="/channels/{{ $channel->uuid }}/about">
+        About
     </a>
     @if($tab == 'search')
         <a

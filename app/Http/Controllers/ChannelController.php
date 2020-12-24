@@ -58,4 +58,12 @@ class ChannelController extends Controller
             'channelQ' => $request->input('q'),
         ]);
     }
+
+    public function about(Channel $channel)
+    {
+        return view('channels.about', [
+            'title' => $channel->title,
+            'channel' => $channel,
+        ]);
+    }
 }

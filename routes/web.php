@@ -29,6 +29,7 @@ Route::get('/channels', [ChannelController::class, 'index']);
 Route::get('/channels/{channel:uuid}', [ChannelController::class, 'videos']);
 Route::get('/channels/{channel:uuid}/playlists', [ChannelController::class, 'playlists']);
 Route::get('/channels/{channel:uuid}/search', [ChannelController::class, 'search']);
+Route::get('/channels/{channel:uuid}/about', [ChannelController::class, 'about']);
 
 Route::get('/playlists', [HomeController::class, 'playlists']);
 Route::get('/playlists/{playlist:uuid}', [HomeController::class, 'playlistShow']);
