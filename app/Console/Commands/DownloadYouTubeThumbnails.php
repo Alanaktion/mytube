@@ -45,9 +45,14 @@ class DownloadYouTubeThumbnails extends Command
                     $video->save();
                 }
             } catch (Exception $e) {
-                Log::warning("Error downloading thumbnail {$video->uuid}: {$e->getMessage()}");
                 if ($this->option('generate')) {
-                    $this->generateImage($video);
+                    try {
+                        $this->generateImage($video);
+                    } catch (Exception $e2) {
+                        Log::warning("Error generating thumbnail {$video->uuid}: {$e->getMessage()}");
+                    }
+                } else {
+                    Log::warning("Error downloading thumbnail {$video->uuid}: {$e->getMessage()}");
                 }
             }
         }
@@ -83,12 +88,12 @@ class DownloadYouTubeThumbnails extends Command
 
         // Determine video duration
         $path = escapeshellarg($video->file_path);
-        $duration = trim(shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path"));
+        $duration = trim(shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path 2>/dev/null"));
 
         // Seek to 30% of video duration, or 10 seconds if duration is unknown.
         $seconds = $duration ? floor($duration * 0.30) : 10;
         $framePath = storage_path("app/{$video->uuid}-frame.png");
-        shell_exec("ffmpeg -ss $seconds -i $path -vframes 1 -vcodec png -an -y " . escapeshellarg($framePath));
+        shell_exec("ffmpeg -ss $seconds -i $path -vframes 1 -vcodec png -an -y " . escapeshellarg($framePath) . " 2>/dev/null");
 
         Storage::makeDirectory('public/thumbs/generated');
 
