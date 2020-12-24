@@ -44,7 +44,7 @@ class AdminController extends Controller
         ]);
         $ids = array_map('trim', explode("\n", $request->input('playlistIds')));
         foreach ($ids as $id) {
-            ProcessPlaylistImport::dispatch($id)->onQueue('import');
+            ProcessPlaylistImport::dispatch($id);
         }
 
         $message = 'Playlist import started.';
@@ -63,7 +63,7 @@ class AdminController extends Controller
             $request->input('channelId'),
             $request->boolean('videos'),
             $request->boolean('playlists')
-        )->onQueue('import');
+        );
 
         $message = 'Channel import started.';
         if (config('queue.default') == 'sync') {
