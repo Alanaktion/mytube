@@ -1,6 +1,7 @@
-<header class="mb-3 sm:flex">
+<header class="mb-3 xl:mb-5 sm:flex">
     <div class="flex items-center gap-2">
-        <h1 class="text-2xl lg:text-3xl mb-2">{{ $channel->title }}</h1>
+        <img class="h-10 w-10 rounded-full" src="{{ $channel->image_url ?? '/images/channels/' . $channel->uuid }}" alt="{{ $channel->name }}">
+        <h1 class="text-2xl lg:text-3xl ml-3">{{ $channel->title }}</h1>
         @if ($channel->source_link)
             <a href="{{ $channel->source_link }}" class="bg-transparent text-red-600 hover:bg-red-600 hover:text-white font-bold py-2 px-4 rounded-full flex" aria-label="View on YouTube" data-tooltip>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block w-5 h-5" aria-hidden="true">

@@ -55,6 +55,7 @@ class YouTube
                 'custom_url' => $channel->getSnippet()->customUrl,
                 'country' => $channel->getSnippet()->country,
                 'published_at' => $channel->getSnippet()->publishedAt,
+                'thumbnails' => $channel->getSnippet()->getThumbnails(),
             ];
         }
         throw new Exception('Channel not found');

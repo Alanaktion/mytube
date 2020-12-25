@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Clients\YouTube;
 use App\Models\Channel;
 use App\Models\Video;
 use Illuminate\Support\Facades\Storage;
@@ -41,7 +42,7 @@ class ImageController extends Controller
 
         // Generate a thumbnail
         if ($disk->exists("thumbs/generated/{$video->uuid}@360p.jpg") || $this->generateImage($video, 480, 360, '@360p')) {
-            $video->thumbnail_url = Storage::url("thumbs/generated/{$video->uuid}@360p.jpg");
+            $video->thumbnail_url = Storage::url("public/thumbs/generated/{$video->uuid}@360p.jpg");
             $video->save();
             return redirect()->to($video->thumbnail_url, 301);
         }
@@ -81,7 +82,7 @@ class ImageController extends Controller
 
         // Generate a thumbnail
         if ($disk->exists("thumbs/generated/{$video->uuid}@720p.jpg") || $this->generateImage($video, 1280, 720, '@720p')) {
-            $video->poster_url = Storage::url("thumbs/generated/{$video->uuid}@720p.jpg");
+            $video->poster_url = Storage::url("public/thumbs/generated/{$video->uuid}@720p.jpg");
             $video->save();
             return redirect()->to($video->poster_url, 301);
         }
@@ -91,7 +92,35 @@ class ImageController extends Controller
 
     public function showChannel(Channel $channel)
     {
-        // TODO: implement channel profile image fetching
+        if ($channel->image_url) {
+            return redirect()->to($channel->image_url, 301);
+        }
+
+        $disk = Storage::disk('public');
+        if ($channel->type == 'youtube') {
+            $channelData = YouTube::getChannelData($channel->uuid);
+            try {
+                if ($md = $channelData['thumbnails']->getMedium()) {
+                    $data = file_get_contents($md->url);
+                    $disk->put("thumbs/youtube-channel/{$channel->uuid}.jpg", $data, 'public');
+                    $channel->image_url = Storage::url("public/thumbs/youtube-channel/{$channel->uuid}.jpg");
+                }
+                if ($lg = $channelData['thumbnails']->getMedium()) {
+                    $data = file_get_contents($lg->url);
+                    $disk->put("thumbs/youtube-channel-lg/{$channel->uuid}.jpg", $data, 'public');
+                    $channel->image_url_lg = Storage::url("public/thumbs/youtube-channel-lg/{$channel->uuid}.jpg");
+                }
+                $channel->save();
+            } catch (\Exception $e) {
+                //
+            }
+        }
+
+        if ($channel->image_url) {
+            return redirect()->to($channel->image_url, 301);
+        }
+
+        return abort(404);
     }
 
     /**

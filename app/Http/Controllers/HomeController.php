@@ -20,6 +20,7 @@ class HomeController extends Controller
             ->limit(6)
             ->get();
         $channels = Channel::latest()
+            ->withCount('videos')
             ->limit(6)
             ->get();
         return view('home', [
@@ -46,6 +47,7 @@ class HomeController extends Controller
             ->limit(18)
             ->get();
         $channels = Channel::latest()
+            ->withCount('videos')
             ->where('title', 'like', "%$q%")
             ->orWhere('uuid', $q)
             ->limit(18)

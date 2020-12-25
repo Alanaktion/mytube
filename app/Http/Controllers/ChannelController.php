@@ -10,7 +10,9 @@ class ChannelController extends Controller
     public function index()
     {
         return view('channels.index', [
-            'channels' => Channel::orderBy('published_at', 'desc')->get(),
+            'channels' => Channel::orderBy('published_at', 'desc')
+                ->withCount('videos')
+                ->get(),
         ]);
     }
 
