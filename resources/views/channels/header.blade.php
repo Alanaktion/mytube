@@ -12,7 +12,7 @@
         @endif
     </div>
     <form class="sm:ml-auto mt-3 sm:mt-0" action="/channels/{{ $channel->uuid }}/search">
-        <input type="search" class="dark:bg-trueGray-850 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="Search channel">
+        <input type="search" class="dark:bg-trueGray-850 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-gray-400 dark:border-trueGray-700 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="Search channel">
     </form>
 </header>
 <nav class="flex border-b border-gray-300 dark:border-trueGray-700 mb-3 md:mb-4 lg:mb-6">
