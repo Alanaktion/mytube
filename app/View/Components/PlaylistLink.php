@@ -8,6 +8,7 @@ use Illuminate\View\Component;
 class PlaylistLink extends Component
 {
     public $playlist;
+    public $firstVideo;
 
     /**
      * Create a new component instance.
@@ -17,6 +18,10 @@ class PlaylistLink extends Component
     public function __construct(Playlist $playlist)
     {
         $this->playlist = $playlist;
+        $firstItem = $playlist->items()->orderBy('position', 'asc')->first();
+        if ($firstItem !== null) {
+            $this->firstVideo = $firstItem->video;
+        }
     }
 
     /**

@@ -25,6 +25,10 @@ nav .container {
     -webkit-line-clamp: 3;
 }
 
+.backdrop-blur {
+    backdrop-filter: blur(1rem);
+}
+
 [data-tooltip] {
     position: relative;
 }
