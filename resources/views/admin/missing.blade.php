@@ -31,7 +31,7 @@
                         <div class="flex items-center">
                             <div class="flex-shrink-0 w-20">
                                 <div class="relative pb-9/16">
-                                    <img class="absolute w-full h-full object-cover" src="{{ $video->thumbnail_url }}" alt>
+                                    <img class="absolute w-full h-full object-cover" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
                                 </div>
                             </div>
                             <div class="ml-4">

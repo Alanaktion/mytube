@@ -72,6 +72,16 @@ php artisan youtube:import-fs <directory>
 
 This will scan the given directory for files that include YouTube video IDs in their filenames, and will fetch and store metadata from those videos. The videos will only be recognized if they have the YouTube UUID right before the file extension, as is the default in `youtube-dl`.
 
+For best browser support, files should be in MP4 containers, with MPEG4 video and AAC audio. To download videos in this compatible single-file format:
+
+```bash
+youtube-dl -f bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best \
+    --merge-output-format mp4 \
+    <URL>
+```
+
+This will avoid video transcoding where possible, but may occasionally require re-encoding the audio stream (which requires `ffmepg` or `avconv` to be available). Using only the `merge-output-format` option will usually work, but may not download the ideal source formats, requiring more transcoding and potentially a lower quality result.
+
 ### Playlists
 
 Playlists can be imported by their IDs, either from command-line or from the admin web UI.
