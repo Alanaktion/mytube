@@ -4,10 +4,13 @@ namespace App\Models;
 
 use App\Clients\YouTube;
 use App\Clients\YouTubeDl;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Channel extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
     protected $dates = ['published_at'];
 

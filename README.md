@@ -115,3 +115,85 @@ YTDL_PATH=/usr/local/bin/youtube-dl
 ```
 
 Keep in mind that this involves downloading the video files from YouTube, and potentially re-encoding some incompatible audio streams. This can require significant network bandwidth, disk IO, and CPU in some cases. You should also be familiar with the YouTube terms of use, including usage of the API and website, to ensure your usage is not contradictory to those terms. The [youtube-dl](https://youtube-dl.org) project may have additional information on these topics.
+
+## GraphQL API
+
+The application provides a GraphQL API for accessing data in the archive. An example implementation of an API client is the [Expo-based mobile app](https://github.com/Alanaktion/mytube-exbo). Most access is not limited to authenticated users, but user-specific functionality will require a valid OAuth bearer token.
+
+This includes a [GraphiQL](https://github.com/graphql/graphiql) web interface for querying the API, available at the `/graphiql` path. This can be disabled by setting the `ENABLE_GRAPHIQL` environment variable to false.
+
+The API currently provides filterable access to channels and videos. All results are paginated lists of resources.
+
+### Examples
+
+This example gets recent videos with some basic metadata, including the channel. The `page` argument is optional.
+
+```graphql
+{
+  videos(page: 1) {
+    data {
+      id
+      uuid
+      title
+      published_at
+      video {
+        id
+        uuid
+        title
+      }
+    }
+    current_page
+    last_page
+    total
+  }
+}
+
+```
+
+This example searches channels by title.
+
+```graphql
+{
+  channels(search: "Example") {
+    data {
+      id
+      uuid
+      title
+    }
+    current_page
+    last_page
+    total
+  }
+}
+```
+
+This example gets a specific video.
+
+```graphql
+{
+  videos(uuid: "PF4YxGsF1DY") {
+    data {
+      title
+      published_at
+    }
+  }
+}
+```
+
+This example gets a list of videos from a specific channel.
+
+```graphql
+{
+  videos(channel_id: 6) {
+    data {
+      title
+      published_at
+    }
+    current_page
+    last_page
+    total
+  }
+}
+```
+
+Many of these options can be combined. For example, you can search videos by title, and filter the result to a specific channel. Every result set is a paginated list, even if only a specific resource is selected (_e.g._ when the `id` or `uuid` argument is used).

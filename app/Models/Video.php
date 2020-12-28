@@ -4,14 +4,15 @@ namespace App\Models;
 
 use App\Clients\YouTube;
 use Exception;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use YoutubeDl\YoutubeDl;
 
 class Video extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
     protected $dates = ['published_at'];
 
