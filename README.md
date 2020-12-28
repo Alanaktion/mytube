@@ -122,8 +122,6 @@ The application provides a GraphQL API for accessing data in the archive. An exa
 
 This includes a [GraphiQL](https://github.com/graphql/graphiql) web interface for querying the API, available at the `/graphiql` path. This can be disabled by setting the `ENABLE_GRAPHIQL` environment variable to false.
 
-The API currently provides filterable access to channels and videos. All results are paginated lists of resources.
-
 ### Examples
 
 This example gets recent videos with some basic metadata, including the channel. The `page` argument is optional.
