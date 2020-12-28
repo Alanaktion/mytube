@@ -74,7 +74,12 @@ class HomeController extends Controller
 
     public function videoShow(Video $video)
     {
-        $video->load('channel');
+        $video->load([
+            'channel',
+            'playlists' => function ($query) {
+                $query->withCount('items');
+            },
+        ]);
         return view('videoShow', [
             'title' => $video->title,
             'video' => $video,
