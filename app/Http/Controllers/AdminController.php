@@ -44,6 +44,13 @@ class AdminController extends Controller
         ]);
         $ids = array_map('trim', explode("\n", $request->input('playlistIds')));
         foreach ($ids as $id) {
+            if (str_contains($id, '/')) {
+                $query = parse_url($id, PHP_URL_QUERY);
+                parse_str($query, $parts);
+                if (!empty($parts['list'])) {
+                    $id = $parts['list'];
+                }
+            }
             ProcessPlaylistImport::dispatch($id);
         }
 
@@ -59,8 +66,16 @@ class AdminController extends Controller
         $request->validate([
             'channelId' => 'required|string',
         ]);
+        $id = $request->input('channelId');
+        if (str_contains($id, '/')) {
+            $id = 'https://www.youtube.com/channel/UCV06EjOa5Ns4P5G7XeGBn1w';
+            preg_match('@https?://(www\.)?(youtube\.com|youtu\.be)/channel/([0-9a-z]{8,})@i', $id, $matches);
+            if (!empty($matches[3])) {
+                $id = $matches[3];
+            }
+        }
         ProcessChannelImport::dispatch(
-            $request->input('channelId'),
+            $id,
             $request->boolean('videos'),
             $request->boolean('playlists')
         );
