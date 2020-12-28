@@ -44,6 +44,11 @@ class VideoType extends GraphQLType
                 'type' => Type::string(),
                 'description' => 'A relative URL for the video\'s poster image.',
             ],
+            'source_link' => [
+                'type' => Type::string(),
+                'description' => 'The URL to the original source video.',
+                'selectable' => false,
+            ],
             'published_at' => [
                 'type' => Type::string(),
                 'description' => 'An ISO 8601 date of when the video was initially published.',

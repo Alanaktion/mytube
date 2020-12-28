@@ -44,10 +44,8 @@ class Video extends Model
 
     public function getSourceLinkAttribute(): ?string
     {
-        if ($this->channel->type == 'youtube') {
-            return 'https://www.youtube.com/watch?v=' . $this->uuid;
-        }
-        return null;
+        // TODO: update this when non-YouTube channels are supported
+        return 'https://www.youtube.com/watch?v=' . $this->uuid;
     }
 
     public function channel()
