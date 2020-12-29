@@ -15,7 +15,7 @@
             @endif
         </div>
         <p class="text-lg">
-            {{ trans_choice('1 video|:count videos', $items->count()) }}
+            {{ trans_choice('1 video|:count videos', $items->total()) }}
             <span class="mx-2">&middot;</span>
             <a class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300" href="/channels/{{ $playlist->channel->uuid }}">
                 {{ $playlist->channel->title }}
