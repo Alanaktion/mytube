@@ -84,10 +84,7 @@ class Channel extends Model
         if ($ytdl->getVersion()) {
             $ids = $ytdl->getChannelPlaylistIds($this->uuid);
             foreach ($ids as $id) {
-                $playlist = Playlist::importYouTube($id);
-                if ($importItems) {
-                    $playlist->importYouTubeItems();
-                }
+                $playlist = Playlist::importYouTube($id, $importItems);
             }
             return;
         }

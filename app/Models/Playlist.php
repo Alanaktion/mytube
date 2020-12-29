@@ -18,19 +18,18 @@ class Playlist extends Model
                 $query->where('type', 'youtube');
             })
             ->first();
-        if ($playlist) {
-            return $playlist;
-        }
 
-        $data = YouTube::getPlaylistData($id);
-        $channel = Channel::importYouTube($data['channel_id']);
-        /** @var Playlist $playlist */
-        $playlist = $channel->playlists()->create([
-            'uuid' => $data['id'],
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'published_at' => $data['published_at'],
-        ]);
+        if (!$playlist) {
+            $data = YouTube::getPlaylistData($id);
+            $channel = Channel::importYouTube($data['channel_id']);
+            /** @var Playlist $playlist */
+            $playlist = $channel->playlists()->create([
+                'uuid' => $data['id'],
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'published_at' => $data['published_at'],
+            ]);
+        }
 
         if ($importItems) {
             $playlist->importYouTubeItems();
