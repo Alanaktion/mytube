@@ -55,7 +55,7 @@ class ChannelsQuery extends Query
     public function resolve($root, $args, $context, SelectFields $fields)
     {
         $channels = Channel::with($fields->getRelations())
-            ->select($fields->getSelect())
+            ->select(array_merge($fields->getSelect(), ['uuid']))
             ->latest();
 
         if (isset($args['id'])) {
