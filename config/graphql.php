@@ -59,40 +59,6 @@ return [
     // both the 'query' fields and the 'mutation' fields.
     //
     // You can also provide a middleware that will only apply to the given schema
-    //
-    // Example:
-    //
-    //  'schema' => 'default',
-    //
-    //  'schemas' => [
-    //      'default' => [
-    //          'query' => [
-    //              'users' => 'App\GraphQL\Query\UsersQuery'
-    //          ],
-    //          'mutation' => [
-    //
-    //          ]
-    //      ],
-    //      'user' => [
-    //          'query' => [
-    //              'profile' => 'App\GraphQL\Query\ProfileQuery'
-    //          ],
-    //          'mutation' => [
-    //
-    //          ],
-    //          'middleware' => ['auth'],
-    //      ],
-    //      'user/me' => [
-    //          'query' => [
-    //              'profile' => 'App\GraphQL\Query\MyProfileQuery'
-    //          ],
-    //          'mutation' => [
-    //
-    //          ],
-    //          'middleware' => ['auth'],
-    //      ],
-    //  ]
-    //
     'schemas' => [
         'default' => [
             'query' => [
@@ -109,13 +75,6 @@ return [
 
     // The types available in the application. You can then access it from the
     // facade like this: GraphQL::type('user')
-    //
-    // Example:
-    //
-    // 'types' => [
-    //     'user' => 'App\GraphQL\Type\UserType'
-    // ]
-    //
     'types' => [
         'Video' => \App\GraphQL\Types\VideoType::class,
         'Channel' => \App\GraphQL\Types\ChannelType::class,

@@ -6,7 +6,6 @@ namespace App\GraphQL\Queries;
 
 use App\GraphQL\Middleware\ResolvePage;
 use App\Models\Channel;
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
@@ -53,7 +52,7 @@ class ChannelsQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $fields)
+    public function resolve($root, $args, $context, SelectFields $fields)
     {
         $channels = Channel::with($fields->getRelations())
             ->select($fields->getSelect())
@@ -72,8 +71,6 @@ class ChannelsQuery extends Query
                 ->orWhere('uuid', $q);
         }
 
-        $results = $channels->paginate(15, ['*'], 'page');
-
-        return $results;
+        return $channels->paginate(15, ['*'], 'page');
     }
 }

@@ -6,6 +6,7 @@ use App\Clients\YouTube;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use YoutubeDl\YoutubeDl;
 
@@ -61,15 +62,17 @@ class Video extends Model
     /**
      * Get a web-accessible symlink to the source file.
      */
-    public function link(): string
+    public function getFileLinkAttribute(): ?string
     {
+        if (!$this->file_path) {
+            return null;
+        }
+
         $ext = pathinfo($this->file_path, PATHINFO_EXTENSION);
         $file = "{$this->uuid}.{$ext}";
 
         // Ensure video directory exists
-        if (!is_dir(storage_path('app/public/videos'))) {
-            mkdir(storage_path('app/public/videos'), 0755, true);
-        }
+        Storage::makeDirectory('public/videos');
 
         // Create symlink if it doesn't exist
         $linkPath = storage_path('app/public/videos') . DIRECTORY_SEPARATOR . $file;

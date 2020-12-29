@@ -5,7 +5,7 @@
     @if ($video->file_path)
         <div class="relative mb-4 lg:mb-6" style="padding-bottom: 56.25%;">
             <video class="absolute w-full h-full" controls poster="{{ $video->poster_url ?? "/images/posters/{$video->uuid}" }}">
-                <source src="{{ $video->link() }}">
+                <source src="{{ $video->file_link }}">
                 <code>{{ $video->file_path }}</code>
             </video>
         </div>
@@ -36,7 +36,7 @@
                 </a>
             @endif
             @if ($video->file_path)
-                <a href="{{ $video->link() }}" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full" download>
+                <a href="{{ $video->file_link }}" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full" download>
                     Download
                 </a>
             @endif

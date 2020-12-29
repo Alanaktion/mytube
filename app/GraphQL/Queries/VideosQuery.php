@@ -6,7 +6,6 @@ namespace App\GraphQL\Queries;
 
 use App\GraphQL\Middleware\ResolvePage;
 use App\Models\Video;
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
@@ -57,7 +56,7 @@ class VideosQuery extends Query
         ];
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $resolveInfo, SelectFields $fields)
+    public function resolve($root, $args, $context, SelectFields $fields)
     {
         $videos = Video::with($fields->getRelations())
             ->select($fields->getSelect())
