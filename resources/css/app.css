@@ -26,7 +26,7 @@ nav .container {
 }
 
 .backdrop-blur {
-    backdrop-filter: blur(1rem);
+    backdrop-filter: blur(2rem);
 }
 
 [data-tooltip] {
