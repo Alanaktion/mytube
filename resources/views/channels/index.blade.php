@@ -10,6 +10,6 @@
             <div class="text-gray-400 dark:text-trueGray-600 py-6">No available channels</div>
         @endforelse
     </div>
-    {{ $videos->links() }}
+    {{ $channels->links() }}
 </div>
 @endsection
