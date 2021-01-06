@@ -5,6 +5,8 @@ use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MetaController;
+use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +24,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/search', [HomeController::class, 'search']);
 
-Route::get('/videos', [HomeController::class, 'videos']);
-Route::get('/videos/{video:uuid}', [HomeController::class, 'videoShow']);
+Route::get('/videos', [VideoController::class, 'index']);
+Route::get('/videos/{video:uuid}', [VideoController::class, 'show']);
 
 Route::get('/channels', [ChannelController::class, 'index']);
 Route::get('/channels/{channel:uuid}', [ChannelController::class, 'videos']);
@@ -31,8 +33,8 @@ Route::get('/channels/{channel:uuid}/playlists', [ChannelController::class, 'pla
 Route::get('/channels/{channel:uuid}/search', [ChannelController::class, 'search']);
 Route::get('/channels/{channel:uuid}/about', [ChannelController::class, 'about']);
 
-Route::get('/playlists', [HomeController::class, 'playlists']);
-Route::get('/playlists/{playlist:uuid}', [HomeController::class, 'playlistShow']);
+Route::get('/playlists', [PlaylistController::class, 'index']);
+Route::get('/playlists/{playlist:uuid}', [PlaylistController::class, 'show']);
 
 Route::get('/images/thumbs/{video:uuid}', [ImageController::class, 'showVideoThumb']);
 Route::get('/images/posters/{video:uuid}', [ImageController::class, 'showVideoPoster']);

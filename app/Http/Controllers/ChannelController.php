@@ -9,10 +9,11 @@ class ChannelController extends Controller
 {
     public function index()
     {
+        $channels = Channel::orderBy('published_at', 'desc')
+            ->withCount('videos')
+            ->paginate(24);
         return view('channels.index', [
-            'channels' => Channel::orderBy('published_at', 'desc')
-                ->withCount('videos')
-                ->get(),
+            'channels' => $channels,
         ]);
     }
 
