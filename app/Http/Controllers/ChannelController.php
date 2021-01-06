@@ -11,7 +11,7 @@ class ChannelController extends Controller
     {
         $channels = Channel::orderBy('published_at', 'desc')
             ->withCount('videos')
-            ->paginate(24);
+            ->paginate(36);
         return view('channels.index', [
             'channels' => $channels,
         ]);
