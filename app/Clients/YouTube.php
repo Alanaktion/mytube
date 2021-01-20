@@ -16,7 +16,7 @@ class YouTube
     {
         /** @var \Google_Service_YouTube $youtube */
         $youtube = App::make('Google_Service_YouTube');
-        $response = $youtube->videos->listVideos('snippet', [
+        $response = $youtube->videos->listVideos(['snippet', 'status'], [
             'id' => $id,
         ]);
         usleep(1e5);
@@ -27,6 +27,7 @@ class YouTube
                 'channel_id' => $video->getSnippet()->channelId,
                 'title' => $video->getSnippet()->title,
                 'description' => $video->getSnippet()->description,
+                'visibility' => $video->getStatus()->privacyStatus,
                 'published_at' => $video->getSnippet()->publishedAt,
             ];
         }

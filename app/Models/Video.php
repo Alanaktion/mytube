@@ -14,6 +14,10 @@ class Video extends Model
 {
     use HasFactory;
 
+    public const VISIBILITY_PUBLIC = 'public';
+    public const VISIBILITY_UNLISTED = 'unlisted';
+    public const VISIBILITY_PRIVATE = 'private';
+
     protected $guarded = [];
     protected $dates = ['published_at'];
 
@@ -38,6 +42,7 @@ class Video extends Model
             'uuid' => $data['id'],
             'title' => $data['title'],
             'description' => $data['description'],
+            'source_visibility' => $data['visibility'],
             'published_at' => $data['published_at'],
             'file_path' => $filePath,
         ]);
