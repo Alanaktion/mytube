@@ -4,12 +4,44 @@
 
 @tailwind utilities;
 
-body {
-    padding-bottom: env(safe-area-inset-bottom);
+@layer base {
+    body {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
 }
-nav .container {
-    padding-top: env(safe-area-inset-top);
+
+@layer components {
+    nav .container {
+        padding-top: env(safe-area-inset-top);
+    }
+
+    [data-tooltip] {
+        position: relative;
+    }
+    [data-tooltip]::before {
+        content: attr(aria-label);
+        @apply invisible absolute z-10 max-w-xs bg-trueGray-700 text-white py-1 px-2 rounded shadow-sm font-normal text-base whitespace-nowrap;
+        bottom: calc(100% + 0.3rem);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    [data-tooltip]::after {
+        content: '';
+        @apply invisible absolute z-20;
+        bottom: calc(100% - 0.3rem);
+        left: 50%;
+        border-width: 0.35rem;
+        border-color: theme('colors.trueGray.700') transparent transparent transparent;
+        transform: translateX(-50%);
+    }
+    [data-tooltip]:hover::before,
+    [data-tooltip]:hover::after,
+    [data-tooltip]:focus::before,
+    [data-tooltip]:focus::after {
+        @apply visible;
+    }
 }
+
 .px-safe {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
@@ -29,28 +61,12 @@ nav .container {
     backdrop-filter: blur(2rem);
 }
 
-[data-tooltip] {
-    position: relative;
+.text-shadow {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
 }
-[data-tooltip]::before {
-    content: attr(aria-label);
-    @apply invisible absolute z-10 max-w-xs bg-trueGray-700 text-white py-1 px-2 rounded shadow-sm font-normal text-base whitespace-nowrap;
-    bottom: calc(100% + 0.3rem);
-    left: 50%;
-    transform: translateX(-50%);
+.text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-[data-tooltip]::after {
-    content: '';
-    @apply invisible absolute z-20;
-    bottom: calc(100% - 0.3rem);
-    left: 50%;
-    border-width: 0.35rem;
-    border-color: theme('colors.trueGray.700') transparent transparent transparent;
-    transform: translateX(-50%);
-}
-[data-tooltip]:hover::before,
-[data-tooltip]:hover::after,
-[data-tooltip]:focus::before,
-[data-tooltip]:focus::after {
-    @apply visible;
+.text-shadow-md {
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
 }
