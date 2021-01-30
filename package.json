@@ -11,9 +11,9 @@
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.2.1",
-        "alpinejs": "^2.7.3",
-        "laravel-mix": "^6.0.0",
-        "postcss": "^8.2.2",
+        "alpinejs": "^2.8.0",
+        "laravel-mix": "^6.0.11",
+        "postcss": "^8.2.4",
         "tailwindcss": "^2.0.2"
     }
 }

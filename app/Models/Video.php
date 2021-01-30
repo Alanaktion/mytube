@@ -50,8 +50,13 @@ class Video extends Model
 
     public function getSourceLinkAttribute(): ?string
     {
-        // TODO: update this when non-YouTube channels are supported
-        return 'https://www.youtube.com/watch?v=' . $this->uuid;
+        if ($this->source_type == 'youtube') {
+            return 'https://www.youtube.com/watch?v=' . $this->uuid;
+        }
+        if ($this->source_type == 'floatplane') {
+            return 'https://www.floatplane.com/post/' . $this->uuid;
+        }
+        return null;
     }
 
     public function channel()

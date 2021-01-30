@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Clients\YouTube;
 use App\Clients\YouTubeDl;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -48,10 +49,17 @@ class Channel extends Model
     }
 
     /**
-     * Import any missing videos for this channel, up to 500.
+     * Import any missing videos for this channel
+     *
+     * If youtube-dl is not available, this will be limited to 500 items and
+     * will consume a large amount of the API quota.
      */
     public function importVideos()
     {
+        if ($this->type == 'youtube') {
+            throw new Exception('Importing videos is not supported for this channel type.');
+        }
+
         $ytdl = new YouTubeDl();
         if ($ytdl->getVersion()) {
             $ids = $ytdl->getChannelVideoIds($this->uuid);
@@ -76,10 +84,17 @@ class Channel extends Model
     }
 
     /**
-     * Import any missing playlists for this channel, up to 500.
+     * Import any missing playlists for this channel
+     *
+     * If youtube-dl is not available, this will be limited to 500 items and
+     * will consume a large amount of the API quota.
      */
     public function importPlaylists(bool $importItems = true)
     {
+        if ($this->type == 'youtube') {
+            throw new Exception('Importing playlists is not supported for this channel type.');
+        }
+
         $ytdl = new YouTubeDl();
         if ($ytdl->getVersion()) {
             $ids = $ytdl->getChannelPlaylistIds($this->uuid);
@@ -111,6 +126,9 @@ class Channel extends Model
     {
         if ($this->type == 'youtube') {
             return 'https://www.youtube.com/channel/' . $this->uuid;
+        }
+        if ($this->type == 'floatplane') {
+            return 'https://www.floatplane.com/channel/' . $this->custom_url;
         }
         return null;
     }

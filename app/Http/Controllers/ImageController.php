@@ -20,7 +20,7 @@ class ImageController extends Controller
 
         // Download a thumbnail from the source
         $disk = Storage::disk('public');
-        if ($video->channel->type == 'youtube') {
+        if ($video->source_type == 'youtube') {
             $exists = false;
             if ($disk->exists("thumbs/youtube/{$video->uuid}.jpg")) {
                 $exists = true;
@@ -60,7 +60,7 @@ class ImageController extends Controller
 
         // Download a thumbnail from the source
         $disk = Storage::disk('public');
-        if ($video->channel->type == 'youtube') {
+        if ($video->source_type == 'youtube') {
             $exists = false;
             if ($disk->exists("thumbs/youtube-maxres/{$video->uuid}.jpg")) {
                 $exists = true;
