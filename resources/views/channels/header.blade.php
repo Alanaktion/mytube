@@ -7,7 +7,7 @@
                 class="bg-transparent text-red-600 hover:bg-red-600 hover:text-white font-bold py-2 px-4 rounded-full flex"
                 aria-label="View on {{ $channel->type == 'youtube' ? 'YouTube' : ucfirst($channel->type) }}"
                 data-tooltip>
-                <x-source-icon :type="$channel->type" />
+                <x-source-icon :type="$channel->type" class="h-5 w-5" />
             </a>
         @endif
     </div>
