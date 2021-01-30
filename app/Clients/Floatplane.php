@@ -33,6 +33,7 @@ class Floatplane
             'id' => $result['id'],
             'title' => $result['title'],
             'channel_id' => $result['creator']['id'],
+            'channel_url' => $result['creator']['urlname'],
             'description' => $result['videoAttachments'][0]['description'],
             'published_at' => new Carbon($result['releaseDate']),
             'poster' => $result['thumbnail']['path'],

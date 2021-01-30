@@ -77,7 +77,7 @@ class Video extends Model
         $posterUrl = Storage::url('public/' . $file);
 
         // Create video
-        $channel = Channel::importFloatplane($data['channel_id']);
+        $channel = Channel::importFloatplane($data['channel_url']);
         return $channel->videos()->create([
             'uuid' => $data['id'],
             'title' => $data['title'],
