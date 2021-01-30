@@ -7,7 +7,9 @@ use App\Jobs\ProcessPlaylistImport;
 use App\Models\Channel;
 use App\Models\Playlist;
 use App\Models\Video;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -67,6 +69,8 @@ class AdminController extends Controller
             'videoIds' => 'required|string',
         ]);
         $ids = array_map('trim', explode("\n", $request->input('videoIds')));
+        $count = count($ids);
+        $success = 0;
         foreach ($ids as $id) {
             if (str_contains($id, '/')) {
                 if (str_contains($id, 'v=')) {
@@ -79,14 +83,19 @@ class AdminController extends Controller
                     $id = basename($id);
                 }
             }
-            if (preg_match('/^[0-9a-z_-]{11}$/i', $id)) {
-                Video::importYouTube($id);
-            } elseif (preg_match('/^[0-9a-z_-]{10}$/i', $id)) {
-                Video::importFloatplane($id);
+            try {
+                if (preg_match('/^[0-9a-z_-]{11}$/i', $id)) {
+                    Video::importYouTube($id);
+                } elseif (preg_match('/^[0-9a-z_-]{10}$/i', $id)) {
+                    Video::importFloatplane($id);
+                }
+                $success++;
+            } catch (Exception $e) {
+                Log::warning($e->getMessage());
             }
         }
 
-        $message = 'Videos imported.';
+        $message = "{$success} of {$count} videos imported.";
         return redirect('/admin')->with('message', $message);
     }
 
