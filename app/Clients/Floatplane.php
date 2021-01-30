@@ -29,6 +29,12 @@ class Floatplane
     {
         $result = self::request("/api/v3/content/post?id=$id");
         $images = collect($result['thumbnail']['childImages'])->sortBy('width');
+        if ($images->count()) {
+            $thumb = $images->first()['path'];
+        } else {
+            $parts = pathinfo($result['thumbnail']['path']);
+            $thumb = "{$parts['dirname']}/{$parts['basename']}_400x225.{$parts['extension']}";
+        }
         return [
             'id' => $result['id'],
             'title' => $result['title'],
@@ -37,7 +43,7 @@ class Floatplane
             'description' => $result['videoAttachments'][0]['description'],
             'published_at' => new Carbon($result['releaseDate']),
             'poster' => $result['thumbnail']['path'],
-            'thumbnail' => $images->first()['path'],
+            'thumbnail' => $thumb,
         ];
     }
 
