@@ -69,13 +69,11 @@ class Video extends Model
 
         // Download images
         $disk = Storage::disk('public');
-        $data = file_get_contents($data['thumbnail']);
         $file = 'thumbs/floatplane/' . basename($data['thumbnail']);
-        $disk->put($file, $data, 'public');
+        $disk->put($file, file_get_contents($data['thumbnail']), 'public');
         $thumbnailUrl = Storage::url('public/' . $file);
-        $data = file_get_contents($data['poster']);
         $file = 'thumbs/floatplane/' . basename($data['poster']);
-        $disk->put($file, $data, 'public');
+        $disk->put($file, file_get_contents($data['poster']), 'public');
         $posterUrl = Storage::url('public/' . $file);
 
         // Create video
