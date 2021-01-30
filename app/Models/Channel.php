@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Clients\Floatplane;
 use App\Clients\YouTube;
 use App\Clients\YouTubeDl;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Channel extends Model
 {
@@ -43,6 +45,40 @@ class Channel extends Model
 
         if ($importPlaylists) {
             $channel->importPlaylists($importPlaylistItems === null || $importPlaylistItems);
+        }
+
+        return $channel;
+    }
+
+    public static function importFloatplane(string $url): Channel
+    {
+        $channel = Channel::where('custom_url', $url)
+            ->where('type', 'floatplane')
+            ->first();
+        if (!$channel) {
+            $channelData = Floatplane::getChannelData($url);
+
+            // Download images
+            $disk = Storage::disk('public');
+            $data = file_get_contents($channelData['icon']);
+            $file = 'thumbs/floatplane-channel/' . basename($channelData['icon']);
+            $disk->put($file, $data, 'public');
+            $imageUrl = Storage::url('public/' . $file);
+            $data = file_get_contents($channelData['icon-lg']);
+            $file = 'thumbs/floatplane-channel/' . basename($channelData['icon-lg']);
+            $disk->put($file, $data, 'public');
+            $imageUrlLg = Storage::url('public/' . $file);
+
+            // Create channel
+            $channel = Channel::create([
+                'uuid' => $channelData['id'],
+                'title' => $channelData['title'],
+                'description' => $channelData['description'],
+                'custom_url' => $channelData['custom_url'],
+                'type' => 'floatplane',
+                'image_url' => $imageUrl,
+                'image_url_lg' => $imageUrlLg,
+            ]);
         }
 
         return $channel;

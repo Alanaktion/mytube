@@ -62,6 +62,8 @@ php artisan user:add
 
 ## Importing data
 
+Importing data may require a usable API key or user account for some sources and some object types. In particular, most YouTube imports require a YouTube API Key, and Floatplane imports currently rely on a session ID from a logged-in user with access to the imported data.
+
 ### Local video files
 
 You can import existing video files from your local filesystem:

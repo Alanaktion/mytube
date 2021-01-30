@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Clients\Floatplane;
 use App\Clients\YouTube;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,9 +43,52 @@ class Video extends Model
             'uuid' => $data['id'],
             'title' => $data['title'],
             'description' => $data['description'],
+            'source_type' => 'youtube',
             'source_visibility' => $data['visibility'],
             'published_at' => $data['published_at'],
             'file_path' => $filePath,
+        ]);
+    }
+
+    public static function importFloatplane(string $id, ?string $filePath = null): Video
+    {
+        $video = Video::where('uuid', $id)
+            ->whereHas('channel', function ($query) {
+                $query->where('type', 'floatplane');
+            })
+            ->first();
+        if ($video) {
+            if ($video->file_path === null && $filePath !== null) {
+                $video->file_path = $filePath;
+                $video->save();
+            }
+            return $video;
+        }
+
+        $data = Floatplane::getVideoData($id);
+
+        // Download images
+        $disk = Storage::disk('public');
+        $data = file_get_contents($data['thumbnail']);
+        $file = 'thumbs/floatplane/' . basename($data['thumbnail']);
+        $disk->put($file, $data, 'public');
+        $thumbnailUrl = Storage::url('public/' . $file);
+        $data = file_get_contents($data['poster']);
+        $file = 'thumbs/floatplane/' . basename($data['poster']);
+        $disk->put($file, $data, 'public');
+        $posterUrl = Storage::url('public/' . $file);
+
+        // Create video
+        $channel = Channel::importFloatplane($data['channel_id']);
+        return $channel->videos()->create([
+            'uuid' => $data['id'],
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'source_type' => 'floatplane',
+            'published_at' => $data['published_at'],
+            'file_path' => $filePath,
+            'thumbnail_url' => $thumbnailUrl,
+            'poster_url' => $posterUrl,
         ]);
     }
 

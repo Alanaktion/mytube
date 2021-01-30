@@ -34,4 +34,8 @@ return [
         'key' => env('YOUTUBE_API_KEY'),
     ],
 
+    'floatplane' => [
+        'session_id' => env('FLOATPLANE_SESSION_ID'),
+    ],
+
 ];
