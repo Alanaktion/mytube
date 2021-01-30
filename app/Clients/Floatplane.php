@@ -33,7 +33,7 @@ class Floatplane
             $thumb = $images->first()['path'];
         } else {
             $parts = pathinfo($result['thumbnail']['path']);
-            $thumb = "{$parts['dirname']}/{$parts['basename']}_400x225.{$parts['extension']}";
+            $thumb = "{$parts['dirname']}/{$parts['filename']}_400x225.{$parts['extension']}";
         }
         return [
             'id' => $result['id'],
