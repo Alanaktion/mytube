@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 {{ $type == 'floatplane' ? '399.9 400' : '24 24' }}"
-    {{ attributes->merge(['class' => 'inline-block']) }}
+    {{ $attributes->merge(['class' => 'inline-block']) }}
     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
     aria-hidden="true">
     @if ($type == 'youtube')
