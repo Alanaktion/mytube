@@ -65,11 +65,25 @@
                 Playlist Import
             </div>
 
-            <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Playlist IDs</label>
+            <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Playlist URLs/IDs</label>
             <textarea name="playlistIds" id="playlistIds" class="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:bg-trueGray-800 dark:bg-opacity-50 dark:border-trueGray-700 dark:focus:border-blue-500 rounded-md mb-2" rows="5" required></textarea>
 
             <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded">
                 Import Playlists
+            </button>
+        </form>
+
+        <form action="/admin/videos" method="post">
+            @csrf
+            <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
+                Video Import
+            </div>
+
+            <label for="videoIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Video IDs/URLs</label>
+            <textarea name="videoIds" id="videoIds" class="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:bg-trueGray-800 dark:bg-opacity-50 dark:border-trueGray-700 dark:focus:border-blue-500 rounded-md mb-2" rows="5" required></textarea>
+
+            <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded">
+                Import Videos
             </button>
         </form>
 

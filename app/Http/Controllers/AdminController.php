@@ -61,6 +61,35 @@ class AdminController extends Controller
         return redirect('/admin')->with('message', $message);
     }
 
+    public function videoImport(Request $request)
+    {
+        $request->validate([
+            'videoIds' => 'required|string',
+        ]);
+        $ids = array_map('trim', explode("\n", $request->input('videoIds')));
+        foreach ($ids as $id) {
+            if (str_contains($id, '/')) {
+                if (str_contains($id, 'v=')) {
+                    $query = parse_url($id, PHP_URL_QUERY);
+                    parse_str($query, $parts);
+                    if (!empty($parts['v'])) {
+                        $id = $parts['v'];
+                    }
+                } else {
+                    $id = basename($id);
+                }
+            }
+            if (preg_match('/^[0-9a-z_-]{11}$/i', $id)) {
+                Video::importYouTube($id);
+            } elseif (preg_match('/^[0-9a-z_-]{10}$/i', $id)) {
+                Video::importFloatplane($id);
+            }
+        }
+
+        $message = 'Videos imported.';
+        return redirect('/admin')->with('message', $message);
+    }
+
     public function channelImport(Request $request)
     {
         $request->validate([
