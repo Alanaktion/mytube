@@ -16,7 +16,7 @@ class YouTube
     {
         /** @var \Google_Service_YouTube $youtube */
         $youtube = App::make('Google_Service_YouTube');
-        $response = $youtube->videos->listVideos(['snippet', 'status'], [
+        $response = $youtube->videos->listVideos(['snippet', 'status', 'liveStreamingDetails'], [
             'id' => $id,
         ]);
         usleep(1e5);
@@ -29,6 +29,7 @@ class YouTube
                 'description' => $video->getSnippet()->description,
                 'visibility' => $video->getStatus()->privacyStatus,
                 'published_at' => $video->getSnippet()->publishedAt,
+                'is_livestream' => $video->getLiveStreamingDetails() ? true : false,
             ];
         }
         throw new Exception('Video not found');

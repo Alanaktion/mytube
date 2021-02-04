@@ -3,7 +3,9 @@
         <div class="relative pb-9/16 mb-2">
             <img class="absolute w-full h-full object-cover" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
         </div>
-        {{ $video->title }}
+        <span title="{{ $video->title }}">
+            {{ $video->title }}
+        </span>
         @if ($video->source_visibility != 'public')
             <div class="absolute top-1 right-1 text-white" aria-label="Visibility: {{ ucfirst($video->source_visibility) }}" title="{{ ucfirst($video->source_visibility) }}">
                 <svg class="w-5 h-5 drop-shadow" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

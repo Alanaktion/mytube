@@ -72,7 +72,7 @@ class Playlist extends Model
 
     public function getSourceLinkAttribute(): ?string
     {
-        if ($this->source->type == 'youtube') {
+        if ($this->channel->type == 'youtube') {
             return 'https://www.youtube.com/playlist?list=' . $this->uuid;
         }
         return null;

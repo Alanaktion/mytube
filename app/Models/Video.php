@@ -45,6 +45,7 @@ class Video extends Model
             'description' => $data['description'],
             'source_type' => 'youtube',
             'source_visibility' => $data['visibility'],
+            'is_livestream' => $data['is_livestream'],
             'published_at' => $data['published_at'],
             'file_path' => $filePath,
         ]);
