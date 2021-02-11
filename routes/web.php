@@ -25,16 +25,16 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/search', [HomeController::class, 'search']);
 
 Route::get('/videos', [VideoController::class, 'index']);
-Route::get('/videos/{video:uuid}', [VideoController::class, 'show']);
+Route::get('/videos/{video:uuid}', [VideoController::class, 'show'])->name('video');
 
 Route::get('/channels', [ChannelController::class, 'index']);
-Route::get('/channels/{channel:uuid}', [ChannelController::class, 'videos']);
+Route::get('/channels/{channel:uuid}', [ChannelController::class, 'videos'])->name('channel');
 Route::get('/channels/{channel:uuid}/playlists', [ChannelController::class, 'playlists']);
 Route::get('/channels/{channel:uuid}/search', [ChannelController::class, 'search']);
 Route::get('/channels/{channel:uuid}/about', [ChannelController::class, 'about']);
 
 Route::get('/playlists', [PlaylistController::class, 'index']);
-Route::get('/playlists/{playlist:uuid}', [PlaylistController::class, 'show']);
+Route::get('/playlists/{playlist:uuid}', [PlaylistController::class, 'show'])->name('playlist');
 
 Route::get('/images/thumbs/{video:uuid}', [ImageController::class, 'showVideoThumb']);
 Route::get('/images/posters/{video:uuid}', [ImageController::class, 'showVideoPoster']);
