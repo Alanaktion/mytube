@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Clients\YouTube;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 class Playlist extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
     protected $dates = ['published_at'];
 

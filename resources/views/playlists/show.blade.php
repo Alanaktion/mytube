@@ -13,6 +13,14 @@
                     <x-source-icon :type="$playlist->channel->type" class="h-5 w-5" />
                 </a>
             @endif
+            @auth
+                <form action="/playlists/{{ $playlist->uuid }}/refresh" method="post" class="ml-auto">
+                    @csrf
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded" title="Refresh the playlist from the source.">
+                        Refresh
+                    </button>
+                </form>
+            @endauth
         </div>
         <p class="text-lg">
             {{ trans_choice('1 video|:count videos', $items->total()) }}

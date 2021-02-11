@@ -35,6 +35,7 @@ Route::get('/channels/{channel:uuid}/about', [ChannelController::class, 'about']
 
 Route::get('/playlists', [PlaylistController::class, 'index']);
 Route::get('/playlists/{playlist:uuid}', [PlaylistController::class, 'show'])->name('playlist');
+Route::post('/playlists/{playlist:uuid}/refresh', [PlaylistController::class, 'refresh']);
 
 Route::get('/images/thumbs/{video:uuid}', [ImageController::class, 'showVideoThumb']);
 Route::get('/images/posters/{video:uuid}', [ImageController::class, 'showVideoPoster']);
