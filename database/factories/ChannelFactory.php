@@ -29,6 +29,8 @@ class ChannelFactory extends Factory
             'custom_url' => $this->faker->userName,
             'country' => $this->faker->countryCode,
             'type' => 'youtube',
+            'image_url' => $this->faker->imageUrl(160, 160),
+            'image_url_lg' => $this->faker->imageUrl(512, 512),
             'published_at' => now(),
         ];
     }

@@ -26,6 +26,8 @@ class VideoFactory extends Factory
             'uuid' => Str::random(11),
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
+            'thumbnail_url' => $this->faker->imageUrl(),
+            'poster_url' => $this->faker->imageUrl(1280, 720),
             'published_at' => now(),
         ];
     }
