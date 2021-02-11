@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Playlist;
+use Exception;
 use Illuminate\Console\Command;
 
 class UpdateYouTubePlaylists extends Command
@@ -22,9 +23,20 @@ class UpdateYouTubePlaylists extends Command
             $query->where('type', 'youtube');
         })->get();
 
-        $this->withProgressBar($playlists, function ($p) {
-            Playlist::importYouTube($p->uuid);
+        /** @var Playlist[] */
+        $errors = [];
+
+        $this->withProgressBar($playlists, function ($p) use ($errors) {
+            try {
+                Playlist::importYouTube($p->uuid);
+            } catch (Exception $e) {
+                $errors[] = $p;
+            }
         });
+
+        foreach ($errors as $e) {
+            $this->error("Failed to update playlist {$e->uuid}");
+        }
 
         return 0;
     }
