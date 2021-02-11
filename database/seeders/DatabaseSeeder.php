@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Channel;
+use App\Models\Playlist;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,8 +16,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Channel::factory()
-            ->times(5)
-            ->hasVideos(10)
+            ->times(4)
+            ->hasVideos(8)
+            ->create();
+        Playlist::factory()
+            ->hasItems(3)
             ->create();
     }
 }
