@@ -24,7 +24,7 @@ mousetrap.bind('/', () => {
 });
 
 // Video page key bindings
-if (location.pathname.match(/^\/videos\/[0-9a-z_-]+/)) {
+if (location.pathname.match(/^\/videos\/[0-9a-z_-]+/i)) {
     // Play/pause
     mousetrap.bind(['k', 'space'], () => {
         const el = document.querySelector('video');
