@@ -3,14 +3,14 @@
 @section('content')
 <div class="container">
     @if ($video->file_path)
-        <div class="relative mb-4 lg:mb-6" style="padding-bottom: 56.25%;">
+        <div class="relative mb-4 lg:mb-6 pb-9/16">
             <video class="absolute w-full h-full" controls poster="{{ $video->poster_url ?? "/images/posters/{$video->uuid}" }}">
                 <source src="{{ $video->file_link }}">
                 <code>{{ $video->file_path }}</code>
             </video>
         </div>
     @elseif (config('app.embed') && $video->source_type == 'youtube')
-        <div class="relative mb-4 lg:mb-6">
+        <div class="relative mb-4 lg:mb-6 pb-9/16">
             <iframe src="https://www.youtube.com/embed/{{ $video->uuid }}"
                 referrerpolicy="no-referrer"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
