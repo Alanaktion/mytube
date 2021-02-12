@@ -17,7 +17,9 @@ mousetrap.bind('g a', () => {
     location = '/admin';
 });
 mousetrap.bind('/', () => {
-    document.querySelector('input[type=search]').focus();
+    const el = document.querySelector('input[type=search]');
+    el.focus();
+    el.select();
     return false;
 });
 
