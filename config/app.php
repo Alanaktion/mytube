@@ -271,5 +271,5 @@ return [
     |
     */
 
-    'embed' => env('EMBED_MISSING', true),
+    'embed' => env('EMBED_MISSING', false),
 ];
