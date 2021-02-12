@@ -9,6 +9,13 @@
                 <code>{{ $video->file_path }}</code>
             </video>
         </div>
+    @elseif (config('app.embed') && $video->source_type == 'youtube')
+        <div class="relative mb-4 lg:mb-6">
+            <iframe src="https://www.youtube.com/embed/{{ $video->uuid }}"
+                referrerpolicy="no-referrer"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
     @endif
     <header class="sm:flex items-center mb-3 md:mb-4 lg:mb-6">
         <div class="mb-3 sm:mb-0">

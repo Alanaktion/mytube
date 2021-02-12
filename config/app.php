@@ -260,4 +260,16 @@ return [
         'path' => env('YTDL_PATH'),
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable third-party embeds
+    |--------------------------------------------------------------------------
+    |
+    | This boolean value determines whether the videos will be embedded from
+    | their source websites when a local file is unavailable.
+    |
+    */
+
+    'embed' => env('EMBED_MISSING', true),
 ];
