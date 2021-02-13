@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Clients\Floatplane;
+use App\Clients\Twitch;
 use App\Clients\YouTube;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -84,6 +85,50 @@ class Video extends Model
             'title' => $data['title'],
             'description' => $data['description'],
             'source_type' => 'floatplane',
+            'published_at' => $data['published_at'],
+            'file_path' => $filePath,
+            'thumbnail_url' => $thumbnailUrl,
+            'poster_url' => $posterUrl,
+        ]);
+    }
+
+    public static function importTwitch(int $id, ?string $filePath = null): Video
+    {
+        $video = Video::where('uuid', $id)
+            ->whereHas('channel', function ($query) {
+                $query->where('type', 'twitch');
+            })
+            ->first();
+        if ($video) {
+            if ($video->file_path === null && $filePath !== null) {
+                $video->file_path = $filePath;
+                $video->save();
+            }
+            return $video;
+        }
+
+        $twitch = new Twitch();
+        $data = $twitch->getVideos($id)[0];
+
+        // Download images
+        $disk = Storage::disk('public');
+        $url = str_replace(['%{width}', '%{height}'], [640, 360], $data['thumbnail_url']);
+        $file = "thumbs/twitch/{$data['id']}.png";
+        $disk->put($file, file_get_contents($url), 'public');
+        $thumbnailUrl = Storage::url('public/' . $file);
+
+        $url = str_replace(['%{width}', '%{height}'], [1280, 720], $data['thumbnail_url']);
+        $file = "thumbs/twitch/{$data['id']}-poster.png";
+        $disk->put($file, file_get_contents($url), 'public');
+        $posterUrl = Storage::url('public/' . $file);
+
+        // Create video
+        $channel = Channel::importTwitch($data['channel_url']);
+        return $channel->videos()->create([
+            'uuid' => $data['id'], // may want a Twitch prefix or something, this is an int
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'source_type' => 'twitch',
             'published_at' => $data['published_at'],
             'file_path' => $filePath,
             'thumbnail_url' => $thumbnailUrl,

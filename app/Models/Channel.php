@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Clients\Floatplane;
+use App\Clients\Twitch;
 use App\Clients\YouTube;
 use App\Clients\YouTubeDl;
 use Exception;
@@ -78,6 +79,37 @@ class Channel extends Model
                 'type' => 'floatplane',
                 'image_url' => $imageUrl,
                 'image_url_lg' => $imageUrlLg,
+            ]);
+        }
+
+        return $channel;
+    }
+
+    public static function importTwitch(string $url): Channel
+    {
+        $channel = Channel::where('custom_url', $url)
+            ->where('type', 'twitch')
+            ->first();
+        if (!$channel) {
+            $twitch = new Twitch();
+            $channelData = $twitch->getUser($url);
+
+            // Download images
+            $disk = Storage::disk('public');
+            $data = file_get_contents($channelData['profile_image_url']);
+            $file = 'thumbs/twitch-user/' . basename($channelData['profile_image_url']);
+            $disk->put($file, $data, 'public');
+            $imageUrl = Storage::url('public/' . $file);
+
+            // Create channel
+            $channel = Channel::create([
+                'uuid' => $channelData['id'], // may want a Twitch prefix or something, this is an int
+                'title' => $channelData['display_name'],
+                'description' => $channelData['description'],
+                'custom_url' => $channelData['login'],
+                'type' => 'twitch',
+                'image_url' => $imageUrl,
+                'image_url_lg' => $imageUrl,
             ]);
         }
 

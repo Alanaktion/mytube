@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ea547cbf82f242eef55afa912df0c0d",
+    "content-hash": "e36116d4fbb88c480b312e599ba91fa2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3216,6 +3216,114 @@
                 "source": "https://github.com/rebing/graphql-laravel/tree/6.1.0"
             },
             "time": "2020-11-27T17:43:01+00:00"
+        },
+        {
+            "name": "romanzipp/laravel-twitch",
+            "version": "4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/romanzipp/Laravel-Twitch.git",
+                "reference": "394ff744b4734e5d99670a4b4c6ed2bbec446968"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/romanzipp/Laravel-Twitch/zipball/394ff744b4734e5d99670a4b4c6ed2bbec446968",
+                "reference": "394ff744b4734e5d99670a4b4c6ed2bbec446968",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.0",
+                "illuminate/cache": "^5.5|^6.0|^7.0|^8.0",
+                "illuminate/console": "^5.5|^6.0|^7.0|^8.0",
+                "illuminate/support": "^5.5|^6.0|^7.0|^8.0",
+                "php": "^7.2|^8.0",
+                "romanzipp/php-cs-fixer-config": "^1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "mockery/mockery": "^1.3.2",
+                "orchestra/testbench": "^3.8|^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "romanzipp\\Twitch\\Providers\\TwitchServiceProvider"
+                    ],
+                    "aliases": {
+                        "Twitch": "romanzipp\\Twitch\\Facades\\Twitch"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "romanzipp\\Twitch\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "romanzipp",
+                    "email": "ich@ich.wtf",
+                    "homepage": "https://ich.wtf"
+                }
+            ],
+            "description": "Twitch PHP Wrapper for Laravel",
+            "support": {
+                "issues": "https://github.com/romanzipp/Laravel-Twitch/issues",
+                "source": "https://github.com/romanzipp/Laravel-Twitch/tree/4.0.2"
+            },
+            "time": "2021-01-15T19:52:15+00:00"
+        },
+        {
+            "name": "romanzipp/php-cs-fixer-config",
+            "version": "1.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/romanzipp/PHP-CS-Fixer-Config.git",
+                "reference": "96053962b762d99c547fef475fe77f7929f1b927"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/romanzipp/PHP-CS-Fixer-Config/zipball/96053962b762d99c547fef475fe77f7929f1b927",
+                "reference": "96053962b762d99c547fef475fe77f7929f1b927",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.12",
+                "phpunit/phpunit": "^7.0|^8.0|^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "romanzipp\\Fixer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "romanzipp",
+                    "email": "ich@ich.wtf",
+                    "homepage": "https://ich.wtf"
+                }
+            ],
+            "description": "Personal PHP-CS-Fixer Configuration",
+            "support": {
+                "issues": "https://github.com/romanzipp/PHP-CS-Fixer-Config/issues",
+                "source": "https://github.com/romanzipp/PHP-CS-Fixer-Config/tree/1.0.10"
+            },
+            "time": "2021-02-03T16:44:14+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

@@ -15,7 +15,8 @@
         "laravel/ui": "^3.0",
         "norkunas/youtube-dl-php": "^1.6",
         "predis/predis": "^1.1",
-        "rebing/graphql-laravel": "^6.1"
+        "rebing/graphql-laravel": "^6.1",
+        "romanzipp/laravel-twitch": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
