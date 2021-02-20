@@ -6,6 +6,7 @@ use App\Models\ImportError;
 use App\Models\Video;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\Console\Output\OutputInterface;
