@@ -73,7 +73,15 @@ class AdminController extends Controller
         $success = 0;
         foreach ($ids as $id) {
             if (str_contains($id, '/')) {
-                if (str_contains($id, 'v=')) {
+                if (strpos($id, 'twitch.tv') !== false) {
+                    if (preg_match('/^(https:\/\/)?(www\.)?twitch\.tv\/videos\/(v[0-9]+)/i', $id, $matches)) {
+                        $id = $matches[3];
+                    }
+                } elseif (strpos($id, 'floatplane.com') !== false) {
+                    if (preg_match('/^(https:\/\/)?(www\.)?floatplane\.com\/post\/([0-9a-z_-]{10})/i', $id, $matches)) {
+                        $id = $matches[3];
+                    }
+                } elseif (strpos($id, 'v=') !== false) {
                     $query = parse_url($id, PHP_URL_QUERY);
                     parse_str($query, $parts);
                     if (!empty($parts['v'])) {
@@ -86,6 +94,8 @@ class AdminController extends Controller
             try {
                 if (preg_match('/^[0-9a-z_-]{11}$/i', $id)) {
                     Video::importYouTube($id);
+                } elseif (preg_match('/^v?[0-9]{9}$/', $id)) {
+                    Video::importTwitch($id);
                 } elseif (preg_match('/^[0-9a-z_-]{10}$/i', $id)) {
                     Video::importFloatplane($id);
                 }
@@ -101,12 +111,12 @@ class AdminController extends Controller
 
     public function channelImport(Request $request)
     {
+        // TODO: handle Twitch and Floatplane URLs
         $request->validate([
             'channelId' => 'required|string',
         ]);
         $id = $request->input('channelId');
         if (str_contains($id, '/')) {
-            $id = 'https://www.youtube.com/channel/UCV06EjOa5Ns4P5G7XeGBn1w';
             preg_match('@https?://(www\.)?(youtube\.com|youtu\.be)/channel/([0-9a-z]{8,})@i', $id, $matches);
             if (!empty($matches[3])) {
                 $id = $matches[3];
