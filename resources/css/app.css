@@ -42,6 +42,17 @@
     }
 }
 
+@layer utilities {
+    @variants responsive {
+        .tooltip-left::before {
+            transform: translateX(calc(-100% + 1.5rem));
+        }
+        .tooltip-right::before {
+            transform: translateX(calc(100% - 1.5rem));
+        }
+    }
+}
+
 .px-safe {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);

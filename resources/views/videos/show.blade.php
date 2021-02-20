@@ -47,7 +47,7 @@
         <div class="sm:ml-auto flex gap-2">
             @if ($video->source_link)
                 <a href="{{ $video->source_link }}"
-                    class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full flex items-center"
+                    class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full flex items-center sm:tooltip-left"
                     aria-label="Watch on {{ $video->source_type == 'youtube' ? 'YouTube' : ucfirst($video->source_type) }}"
                     data-tooltip>
                     <x-source-icon :type="$video->source_type" class="h-5 w-5" />
