@@ -10,6 +10,7 @@ use App\Models\Video;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -74,8 +75,8 @@ class AdminController extends Controller
         foreach ($ids as $id) {
             if (str_contains($id, '/')) {
                 if (strpos($id, 'twitch.tv') !== false) {
-                    if (preg_match('/^(https:\/\/)?(www\.)?twitch\.tv\/videos\/(v[0-9]+)/i', $id, $matches)) {
-                        $id = $matches[3];
+                    if (preg_match('/^(https:\/\/)?(www\.)?twitch\.tv\/videos\/(v?[0-9]+)/i', $id, $matches)) {
+                        $id = Str::start($matches[3], 'v');
                     }
                 } elseif (strpos($id, 'floatplane.com') !== false) {
                     if (preg_match('/^(https:\/\/)?(www\.)?floatplane\.com\/post\/([0-9a-z_-]{10})/i', $id, $matches)) {
@@ -95,9 +96,11 @@ class AdminController extends Controller
                 if (preg_match('/^[0-9a-z_-]{11}$/i', $id)) {
                     Video::importYouTube($id);
                 } elseif (preg_match('/^v?[0-9]{9}$/', $id)) {
-                    Video::importTwitch($id);
+                    Video::importTwitch(ltrim($id, 'v'));
                 } elseif (preg_match('/^[0-9a-z_-]{10}$/i', $id)) {
                     Video::importFloatplane($id);
+                } else {
+                    continue;
                 }
                 $success++;
             } catch (Exception $e) {
