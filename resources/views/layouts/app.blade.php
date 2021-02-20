@@ -28,6 +28,7 @@
                     <x-nav-link href="/playlists" text="Playlists" />
                     <x-nav-link href="/channels" text="Channels" />
                     @auth
+                        <x-nav-link href="/favorites" text="Favorites" />
                         <x-nav-link href="/admin" text="Admin" />
                     @endauth
                     <x-theme-menu class="ml-auto" />

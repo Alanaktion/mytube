@@ -36,4 +36,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function favoriteVideos()
+    {
+        return $this->belongsToMany(Video::class, 'user_favorite_videos')
+            ->withTimestamps();
+    }
 }

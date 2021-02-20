@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChannelController;
+use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MetaController;
@@ -42,6 +43,9 @@ Route::get('/images/posters/{video:uuid}', [ImageController::class, 'showVideoPo
 Route::get('/images/channels/{channel:uuid}', [ImageController::class, 'showChannel']);
 
 Auth::routes();
+
+Route::get('/favorites', [FavoritesController::class, 'index']);
+Route::post('/favorites/toggleVideo', [FavoritesController::class, 'toggleVideo']);
 
 Route::get('/admin', [AdminController::class, 'index']);
 Route::post('/admin/playlists', [AdminController::class, 'playlistImport']);

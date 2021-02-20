@@ -45,6 +45,9 @@
             </p>
         </div>
         <div class="sm:ml-auto flex gap-2">
+            @auth
+                <x-favorite-toggle :video="$video" />
+            @endauth
             @if ($video->source_link)
                 <a href="{{ $video->source_link }}"
                     class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full flex items-center sm:tooltip-left"

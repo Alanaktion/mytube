@@ -48,7 +48,10 @@
             transform: translateX(calc(-100% + 1.5rem));
         }
         .tooltip-right::before {
-            transform: translateX(calc(100% - 1.5rem));
+            transform: translateX(-1.5rem);
+        }
+        .tooltip-center::before {
+            transform: translateX(-50%);
         }
     }
 }

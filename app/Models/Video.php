@@ -227,4 +227,10 @@ class Video extends Model
         $this->file_path = $file->getRealPath();
         $this->save();
     }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'user_favorite_videos')
+            ->withTimestamps();
+    }
 }
