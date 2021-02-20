@@ -195,6 +195,9 @@ class Channel extends Model
         if ($this->type == 'youtube') {
             return 'https://www.youtube.com/channel/' . $this->uuid;
         }
+        if ($this->type == 'twitch') {
+            return 'https://www.twitch.tv/' . $this->custom_url;
+        }
         if ($this->type == 'floatplane') {
             return 'https://www.floatplane.com/channel/' . $this->custom_url;
         }

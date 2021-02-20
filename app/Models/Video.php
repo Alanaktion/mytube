@@ -92,9 +92,9 @@ class Video extends Model
         ]);
     }
 
-    public static function importTwitch(int $id, ?string $filePath = null): Video
+    public static function importTwitch(string $id, ?string $filePath = null): Video
     {
-        $video = Video::where('uuid', $id)
+        $video = Video::where('uuid', Str::start($id, 'v'))
             ->whereHas('channel', function ($query) {
                 $query->where('type', 'twitch');
             })
@@ -125,7 +125,7 @@ class Video extends Model
         // Create video
         $channel = Channel::importTwitch($data['user_login']);
         return $channel->videos()->create([
-            'uuid' => $data['id'], // may want a Twitch prefix or something, this is an int
+            'uuid' => Str::start($data['id'], 'v'),
             'title' => $data['title'],
             'description' => $data['description'],
             'source_type' => 'twitch',
@@ -140,6 +140,9 @@ class Video extends Model
     {
         if ($this->source_type == 'youtube') {
             return 'https://www.youtube.com/watch?v=' . $this->uuid;
+        }
+        if ($this->source_type == 'twitch') {
+            return 'https://www.twitch.tv/videos/' . $this->uuid;
         }
         if ($this->source_type == 'floatplane') {
             return 'https://www.floatplane.com/post/' . $this->uuid;
