@@ -18,7 +18,7 @@ class Twitch
         $this->client = new TwitchLib();
 
         // Get access token
-        $result = $this->client->getOAuthToken(null, GrantType::CLIENT_CREDENTIALS, ['user:read']);
+        $result = $this->client->getOAuthToken(null, GrantType::CLIENT_CREDENTIALS, ['user_read']);
         if (!$result->success()) {
             throw new Exception($result->getErrorMessage());
         }

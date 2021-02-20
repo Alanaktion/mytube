@@ -123,7 +123,7 @@ class Video extends Model
         $posterUrl = Storage::url('public/' . $file);
 
         // Create video
-        $channel = Channel::importTwitch($data['channel_url']);
+        $channel = Channel::importTwitch($data['user_login']);
         return $channel->videos()->create([
             'uuid' => $data['id'], // may want a Twitch prefix or something, this is an int
             'title' => $data['title'],
