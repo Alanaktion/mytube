@@ -7,7 +7,7 @@
     } else {
         docCL.remove('dark')
     }
-    media.addListener(m => {
+    media.addEventListener('change', () => {
         if ('theme' in localStorage) {
             return
         }
