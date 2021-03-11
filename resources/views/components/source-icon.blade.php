@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 {{ $type == 'floatplane' ? '399.9 400' : '24 24' }}"
+    viewBox="0 0 {{ $type == 'twitter' ? '16 16' : ($type == 'floatplane' ? '399.9 400' : '24 24') }}"
     {{ $attributes->merge(['class' => 'inline-block']) }}
     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
     aria-hidden="true">
@@ -12,6 +12,8 @@
     @elseif ($type == 'twitch')
         <path d="M20.597 12.734l-3.429 3.429h-5.387l-2.939 2.939v-2.939H4.434V1.959h16.163zM2.474 0l-.98 3.919V21.55h4.41V24h2.448l2.45-2.45h3.917l7.837-7.835V0z" fill="currentColor" fill-rule="evenodd"/>
         <path d="M9.822 11.755h1.959V5.877H9.82zm5.387 0h1.96V5.877h-1.96z" fill="currentColor" fill-rule="evenodd"/>
+    @elseif ($type == 'twitter')
+        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" fill="currentColor"/>
     @else
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" fill="none" stroke="currentColor"/>
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" fill="none" stroke="currentColor"/>

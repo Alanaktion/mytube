@@ -73,15 +73,23 @@ class AdminController extends Controller
         $count = count($ids);
         $success = 0;
         foreach ($ids as $id) {
+            $source = 'youtube';
             if (str_contains($id, '/')) {
                 if (strpos($id, 'twitch.tv') !== false) {
                     if (preg_match('/^(https:\/\/)?(www\.)?twitch\.tv\/videos\/(v?[0-9]+)/i', $id, $matches)) {
                         $id = Str::start($matches[3], 'v');
                     }
+                    $source = 'twitch';
+                } elseif (strpos($id, 'twitter.com') !== false) {
+                    if (preg_match('/^(https:\/\/)?(www\.)?twitter\.com\/([^\/]+)\/status\/([0-9]+)/i', $id, $matches)) {
+                        $id = $matches[4];
+                    }
+                    $source = 'twitter';
                 } elseif (strpos($id, 'floatplane.com') !== false) {
                     if (preg_match('/^(https:\/\/)?(www\.)?floatplane\.com\/post\/([0-9a-z_-]{10})/i', $id, $matches)) {
                         $id = $matches[3];
                     }
+                    $source = 'floatplane';
                 } elseif (strpos($id, 'v=') !== false) {
                     $query = parse_url($id, PHP_URL_QUERY);
                     parse_str($query, $parts);
@@ -95,9 +103,11 @@ class AdminController extends Controller
             try {
                 if (preg_match('/^[0-9a-z_-]{11}$/i', $id)) {
                     Video::importYouTube($id);
-                } elseif (preg_match('/^v?[0-9]{9}$/', $id)) {
+                } elseif ($source == 'twitch' || preg_match('/^v?[0-9]{9}$/', $id)) {
                     Video::importTwitch(ltrim($id, 'v'));
-                } elseif (preg_match('/^[0-9a-z_-]{10}$/i', $id)) {
+                } elseif ($source == 'twitter' || preg_match('/^[0-9]{19}$/', $id)) {
+                    Video::importTwitter($id);
+                } elseif ($source == 'floatplane' || preg_match('/^[0-9a-z_-]{10}$/i', $id)) {
                     Video::importFloatplane($id);
                 } else {
                     continue;

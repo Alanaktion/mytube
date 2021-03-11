@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Clients\Floatplane;
 use App\Clients\Twitch;
+use App\Clients\Twitter;
 use App\Clients\YouTube;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -136,6 +137,57 @@ class Video extends Model
         ]);
     }
 
+    public static function importTwitter(string $id, ?string $filePath = null): Video
+    {
+        $video = Video::where('uuid', Str::start($id, 'v'))
+            ->whereHas('channel', function ($query) {
+                $query->where('type', 'twitch');
+            })
+            ->first();
+        if ($video) {
+            if ($video->file_path === null && $filePath !== null) {
+                $video->file_path = $filePath;
+                $video->save();
+            }
+            return $video;
+        }
+
+        $twitter = new Twitter();
+        $data = $twitter->getStatus($id);
+
+        // Download images
+        if ($data->entities && $data->entities->media) {
+            $media = $data->entities->media[0];
+            $url = substr($media->media_url_https, 0, -4);
+
+            $disk = Storage::disk('public');
+            $file = 'thumbs/twitter/' . basename($url) . '-small.jpg';
+            $params = [
+                'format' => 'jpg',
+                'name' => 'small',
+            ];
+            $disk->put($file, file_get_contents($url . '?' . http_build_query($params)), 'public');
+            $thumbnailUrl = Storage::url('public/' . $file);
+
+            $file = 'thumbs/twitter/' . basename($media->media_url_https);
+            $disk->put($file, file_get_contents($media->media_url_https), 'public');
+            $posterUrl = Storage::url('public/' . $file);
+        }
+
+        // Create video
+        $channel = Channel::importTwitter($data->user->screen_name);
+        return $channel->videos()->create([
+            'uuid' => $data->id_str,
+            'title' => Str::limit($data->full_text, 80, '…'),
+            'description' => $data->full_text,
+            'source_type' => 'twitter',
+            'published_at' => $data->created_at,
+            'file_path' => $filePath,
+            'thumbnail_url' => $thumbnailUrl,
+            'poster_url' => $posterUrl,
+        ]);
+    }
+
     public function getSourceLinkAttribute(): ?string
     {
         if ($this->source_type == 'youtube') {
@@ -146,6 +198,9 @@ class Video extends Model
         }
         if ($this->source_type == 'floatplane') {
             return 'https://www.floatplane.com/post/' . $this->uuid;
+        }
+        if ($this->source_type == 'twitter') {
+            return 'https://twitter.com/' . $this->channel->custom_url . '/status/' . $this->uuid;
         }
         return null;
     }

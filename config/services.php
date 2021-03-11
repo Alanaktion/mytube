@@ -38,4 +38,9 @@ return [
         'session_id' => env('FLOATPLANE_SESSION_ID'),
     ],
 
+    'twitter' => [
+        'consumer_key' => env('TWITTER_CONSUMER_KEY'),
+        'consumer_secret' => env('TWITTER_CONSUMER_SECRET'),
+    ],
+
 ];

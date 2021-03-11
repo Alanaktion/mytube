@@ -14,7 +14,7 @@ return [
     /*
      * The Redirect URI to use for generating OAuth authorization.
      */
-    'redirect_url' => env('TWITCH_HELIX_REDIRECT_URI'),
+    'redirect_url' => env('TWITCH_HELIX_REDIRECT_URI', 'http://localhost'),
 
     'oauth_client_credentials' => [
         /*

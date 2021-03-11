@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Clients\Floatplane;
 use App\Clients\Twitch;
+use App\Clients\Twitter;
 use App\Clients\YouTube;
 use App\Clients\YouTubeDl;
 use Exception;
@@ -116,6 +117,39 @@ class Channel extends Model
         return $channel;
     }
 
+    public static function importTwitter(string $url): Channel
+    {
+        $channel = Channel::where('custom_url', $url)
+            ->where('type', 'twitter')
+            ->first();
+
+        if (!$channel) {
+            $twitter = new Twitter();
+            $channelData = $twitter->getUser($url);
+
+            // Download images
+            $disk = Storage::disk('public');
+            $data = file_get_contents($channelData->profile_image_url_https);
+            $file = 'thumbs/twitter-user/' . basename($channelData->profile_image_url_https);
+            $disk->put($file, $data, 'public');
+            $imageUrl = Storage::url('public/' . $file);
+
+            // Create channel
+            $channel = Channel::create([
+                'uuid' => $channelData->id_str, // may want a Twitter prefix or something, this is an int
+                'title' => $channelData->name,
+                'description' => $channelData->description,
+                'custom_url' => $channelData->screen_name,
+                'type' => 'twitter',
+                'image_url' => $imageUrl,
+                'image_url_lg' => $imageUrl,
+                'published_at' => $channelData->created_at,
+            ]);
+        }
+
+        return $channel;
+    }
+
     /**
      * Import any missing videos for this channel
      *
@@ -200,6 +234,9 @@ class Channel extends Model
         }
         if ($this->type == 'floatplane') {
             return 'https://www.floatplane.com/channel/' . $this->custom_url;
+        }
+        if ($this->type == 'twitter') {
+            return 'https://twitter.com/' . $this->custom_url;
         }
         return null;
     }
