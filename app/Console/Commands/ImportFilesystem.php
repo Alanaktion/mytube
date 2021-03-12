@@ -11,21 +11,16 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportTwitch extends Command
+class ImportFilesystem extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'twitch:import-fs {directory}';
+    protected $signature = 'import:filesystem {--source=} {directory}';
+
+    protected $description = 'Import videos from the filesystem.';
 
     /**
-     * The console command description.
-     *
-     * @var string
+     * @var \App\Sources\Source[]
      */
-    protected $description = 'Import Twitch videos from the filesystem.';
+    protected $sources = [];
 
     /**
      * Execute the console command.
@@ -41,16 +36,44 @@ class ImportTwitch extends Command
             return 1;
         }
 
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            /** @var \App\Sources\Source $source */
+            $this->sources[$source->getSourceType()] = $source;
+        }
+
+        $type = $this->option('source');
+        if ($type && !isset($this->sources[$type])) {
+            $this->error('Unable to find source type: ' . $type);
+            return 2;
+        }
+
         $this->line('Scanning directory...');
         $files = $this->getDirectoryFiles($directory);
         $videos = [];
         foreach ($files as $file) {
-            // Match Twitch filename suffix from youtube-dl
-            // Long-term this should be made better somehow
-            if (preg_match('/-v([0-9]{9})\.(mp4|m4v|avi|mkv|webm)$/', $file, $matches)) {
-                $videos[$matches[1]] = $file;
-            } elseif ($verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
-                $this->warn('Unmatched file: ' . $file);
+            $type = $this->option('source');
+            if ($type === null) {
+                // Auto-detect source type from file
+                foreach ($this->sources as $key => $source) {
+                    /** @var \App\Sources\Source $source */
+                    $id = $source->matchFilename(basename($file));
+                    if ($id !== null) {
+                        $type = $key;
+                        break;
+                    }
+                }
+            } else {
+                $id = $this->sources[$type]->matchFilename(basename($file));
+            }
+            if ($id !== null) {
+                $videos[] = [
+                    'type' => $type,
+                    'id' => $id,
+                    'file' => $file,
+                ];
+            } elseif ($id === null && $verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
+                $this->warn('Unable to find source for file: ' . $file);
             }
         }
 
@@ -59,11 +82,10 @@ class ImportTwitch extends Command
 
         $errorCount = 0;
 
-        $bar = $this->output->createProgressBar($videoCount);
-        $bar->start();
-        foreach ($videos as $id => $file) {
+        $this->withProgressBar($videos, function (array $video) use (&$errorCount) {
+            list ($type, $id, $file) = $video;
             try {
-                $this->importVideo($id, $file);
+                Video::import($type, $id);
             } catch (Exception $e) {
                 $errorCount++;
                 if ($e->getMessage() != 'Video previously failed to import') {
@@ -77,14 +99,12 @@ class ImportTwitch extends Command
                 }
                 Log::warning("Error importing file $file: {$e->getMessage()}");
             }
-            $bar->advance();
-        }
-        $bar->finish();
+        });
         $this->line('');
 
         if ($errorCount) {
             $this->error("Encountered errors importing $errorCount files.");
-            return 1;
+            return 3;
         }
 
         return 0;
@@ -93,28 +113,24 @@ class ImportTwitch extends Command
     /**
      * Retrieve and store video metadata if it doesn't already exist
      */
-    protected function importVideo(string $id, string $filePath): Video
-    {
-        $video = Video::where('uuid', $id)
-            ->whereHas('channel', function ($query) {
-                $query->where('type', 'twitch');
-            })
-            ->first();
-        if ($video) {
-            if ($video->file_path === null) {
-                $video->file_path = $filePath;
-                $video->save();
-            }
-            return $video;
-        }
-
+    protected function importVideo(
+        string $type,
+        string $id,
+        string $filePath
+    ): Video {
+        $id = $this->sources[$type]->canonicalizeVideo($id);
         if (ImportError::where('uuid', $id)->first()) {
             throw new Exception('Video previously failed to import');
         }
 
-        return Video::importTwitch($id, $filePath);
+        return Video::import($type, $id, $filePath);
     }
 
+    /**
+     * Get all of the files in a directory recursively.
+     *
+     * This returns an array of all files in a directory, with complete paths.
+     */
     protected function getDirectoryFiles(string $directory): array
     {
         $files = [];

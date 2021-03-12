@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Sources\Twitch\TwitchSource;
 use Google_Client;
 use Google_Service_YouTube;
-use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
             $client->setDeveloperKey(config('services.youtube.key'));
             return new Google_Service_YouTube($client);
         });
+
+        $this->app->tag([
+            TwitchSource::class,
+        ], 'sources');
     }
 
     /**

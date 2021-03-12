@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Clients;
+namespace App\Sources\Twitch;
 
 use Exception;
 use romanzipp\Twitch\Enums\GrantType;
 use romanzipp\Twitch\Twitch as TwitchLib;
 
-class Twitch
+class TwitchClient
 {
     protected $client;
 

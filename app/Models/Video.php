@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Clients\Floatplane;
-use App\Clients\Twitch;
 use App\Clients\Twitter;
 use App\Clients\YouTube;
 use Exception;
@@ -23,6 +22,42 @@ class Video extends Model
 
     protected $guarded = [];
     protected $dates = ['published_at'];
+
+    public static function import(
+        string $type,
+        string $id,
+        ?string $filePath = null
+    ): Video {
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            /** @var \App\Sources\Source $source */
+            if ($source->getSourceType() == $type) {
+                $id = $source->canonicalizeVideo($id);
+
+                // Check for existing previous import
+                $video = Video::where('uuid', Str::start($id, 'v'))
+                    ->whereHas('channel', function ($query) use ($type) {
+                        $query->where('type', $type);
+                    })
+                    ->first();
+
+                // Import from the source if the video was not found
+                if ($video === null) {
+                    $video = $source->importVideo($id);
+                }
+
+                break;
+            }
+        }
+        if (!isset($video)) {
+            throw new Exception('Unable to import source type ' . $type);
+        }
+        if ($filePath !== null && $video->file_path === null) {
+            $video->file_path = $filePath;
+            $video->save();
+        }
+        return $video;
+    }
 
     public static function importYouTube(string $id, ?string $filePath = null): Video
     {
@@ -93,48 +128,12 @@ class Video extends Model
         ]);
     }
 
+    /**
+     * @deprecated
+     */
     public static function importTwitch(string $id, ?string $filePath = null): Video
     {
-        $video = Video::where('uuid', Str::start($id, 'v'))
-            ->whereHas('channel', function ($query) {
-                $query->where('type', 'twitch');
-            })
-            ->first();
-        if ($video) {
-            if ($video->file_path === null && $filePath !== null) {
-                $video->file_path = $filePath;
-                $video->save();
-            }
-            return $video;
-        }
-
-        $twitch = new Twitch();
-        $data = $twitch->getVideos($id)[0];
-
-        // Download images
-        $disk = Storage::disk('public');
-        $url = str_replace(['%{width}', '%{height}'], [640, 360], $data['thumbnail_url']);
-        $file = "thumbs/twitch/{$data['id']}.png";
-        $disk->put($file, file_get_contents($url), 'public');
-        $thumbnailUrl = Storage::url('public/' . $file);
-
-        $url = str_replace(['%{width}', '%{height}'], [1280, 720], $data['thumbnail_url']);
-        $file = "thumbs/twitch/{$data['id']}-poster.png";
-        $disk->put($file, file_get_contents($url), 'public');
-        $posterUrl = Storage::url('public/' . $file);
-
-        // Create video
-        $channel = Channel::importTwitch($data['user_login']);
-        return $channel->videos()->create([
-            'uuid' => Str::start($data['id'], 'v'),
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'source_type' => 'twitch',
-            'published_at' => $data['published_at'],
-            'file_path' => $filePath,
-            'thumbnail_url' => $thumbnailUrl,
-            'poster_url' => $posterUrl,
-        ]);
+        return self::import('twitch', $id, $filePath);
     }
 
     public static function importTwitter(string $id, ?string $filePath = null): Video

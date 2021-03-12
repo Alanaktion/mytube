@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Clients\Floatplane;
-use App\Clients\Twitch;
 use App\Clients\Twitter;
 use App\Clients\YouTube;
 use App\Clients\YouTubeDl;
@@ -18,6 +17,28 @@ class Channel extends Model
 
     protected $guarded = [];
     protected $dates = ['published_at'];
+
+    public static function import(string $type, string $id): Channel
+    {
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            /** @var \App\Sources\Source $source */
+            if ($source->getSourceType() == $type) {
+                $field = $source->getChannelField();
+
+                // Check for existing previous import
+                $channel = Channel::where($field, $id)
+                    ->where('type', $type)
+                    ->first();
+                if ($channel) {
+                    return $channel;
+                }
+
+                return $source->importChannel($id);
+            }
+        }
+        throw new Exception('Unable to import source type ' . $type);
+    }
 
     public static function importYouTube(
         string $id,
@@ -86,35 +107,12 @@ class Channel extends Model
         return $channel;
     }
 
+    /**
+     * @deprecated
+     */
     public static function importTwitch(string $url): Channel
     {
-        $channel = Channel::where('custom_url', $url)
-            ->where('type', 'twitch')
-            ->first();
-        if (!$channel) {
-            $twitch = new Twitch();
-            $channelData = $twitch->getUser($url);
-
-            // Download images
-            $disk = Storage::disk('public');
-            $data = file_get_contents($channelData['profile_image_url']);
-            $file = 'thumbs/twitch-user/' . basename($channelData['profile_image_url']);
-            $disk->put($file, $data, 'public');
-            $imageUrl = Storage::url('public/' . $file);
-
-            // Create channel
-            $channel = Channel::create([
-                'uuid' => $channelData['id'], // may want a Twitch prefix or something, this is an int
-                'title' => $channelData['display_name'],
-                'description' => $channelData['description'],
-                'custom_url' => $channelData['login'],
-                'type' => 'twitch',
-                'image_url' => $imageUrl,
-                'image_url_lg' => $imageUrl,
-            ]);
-        }
-
-        return $channel;
+        return self::import('twitch', $url);
     }
 
     public static function importTwitter(string $url): Channel
