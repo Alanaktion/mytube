@@ -67,13 +67,17 @@ class ImportTwitter extends Command
             } catch (Exception $e) {
                 $errorCount++;
                 if ($e->getMessage() != 'Video previously failed to import') {
-                    ImportError::updateOrCreate([
-                        'uuid' => $id,
-                        'type' => 'twitter',
-                    ], [
-                        'file_path' => $file,
-                        'reason' => $e->getMessage(),
-                    ]);
+                    try {
+                        ImportError::updateOrCreate([
+                            'uuid' => $id,
+                            'type' => 'twitter',
+                        ], [
+                            'file_path' => $file,
+                            'reason' => $e->getMessage(),
+                        ]);
+                    } catch (Exception $ee) {
+                        $this->error($ee->getMessage());
+                    }
                 }
                 Log::warning("Error importing file $file: {$e->getMessage()}");
             }
