@@ -10,7 +10,7 @@
             </svg>
         </button>
     </div>
-    <div class="origin-top-right absolute left-0 sm:left-auto sm:right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none z-10"
+    <div class="origin-top-left sm:origin-top-right absolute left-0 sm:left-auto sm:right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none z-10"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="source-menu"
@@ -39,8 +39,9 @@
             @endphp
             @foreach ($sources as $sourceKey => $sourceName)
                 <a href="{{ url("$path?source=$sourceKey") }}"
-                    class="block px-4 py-2 text-sm {{ $value == $sourceKey ? 'text-white bg-blue-400 dark:bg-blue-600 hover:bg-blue-500 dark:hover:bg-blue-500' : 'text-gray-700 dark:text-trueGray-300 hover:bg-gray-100 dark:hover:bg-trueGray-700' }}"
+                    class="flex items-center px-4 py-2 text-sm {{ $value == $sourceKey ? 'text-white bg-blue-400 dark:bg-blue-600 hover:bg-blue-500 dark:hover:bg-blue-500' : 'text-gray-700 dark:text-trueGray-300 hover:bg-gray-100 dark:hover:bg-trueGray-700' }}"
                     role="menuitem">
+                    <x-source-icon :type="$sourceKey" class="h-5 w-5 mr-2" />
                     {{ $sourceName }}
                 </a>
             @endforeach
