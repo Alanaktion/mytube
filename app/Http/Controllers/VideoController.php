@@ -3,17 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Video;
+use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $videos = Video::with('channel')
-            ->orderBy('published_at', 'desc')
-            ->paginate(24);
+            ->orderBy('published_at', 'desc');
+        $source = $request->input('source');
+        if ($source !== null) {
+            $videos->where('source_type', $source);
+        }
         return view('videos.index', [
             'title' => __('Videos'),
-            'videos' => $videos,
+            'videos' => $videos->paginate(24)->withQueryString(),
+            'source' => $source,
         ]);
     }
 

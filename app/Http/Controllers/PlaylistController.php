@@ -4,17 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ProcessPlaylistImport;
 use App\Models\Playlist;
+use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $playlists = Playlist::orderBy('published_at', 'desc')
-            ->withCount('items')
-            ->paginate(24);
+            ->withCount('items');
+        $source = $request->input('source');
+        if ($source !== null) {
+            $playlists->whereHas('channel', function ($query) use ($source) {
+                $query->where('type', $source);
+            });
+        }
         return view('playlists.index', [
             'title' => __('Playlists'),
-            'playlists' => $playlists,
+            'playlists' => $playlists->paginate(24)->withQueryString(),
+            'source' => $source,
         ]);
     }
 

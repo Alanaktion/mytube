@@ -7,13 +7,18 @@ use Illuminate\Http\Request;
 
 class ChannelController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $channels = Channel::orderBy('published_at', 'desc')
-            ->withCount('videos')
-            ->paginate(36);
+            ->withCount('videos');
+        $source = $request->input('source');
+        if ($source !== null) {
+            $channels->where('type', $source);
+        }
         return view('channels.index', [
-            'channels' => $channels,
+            'title' => __('Channels'),
+            'channels' => $channels->paginate(36)->withQueryString(),
+            'source' => $source,
         ]);
     }
 
