@@ -34,7 +34,7 @@
                     <x-theme-menu class="ml-auto" />
                 </div>
                 <form class="ml-auto md:ml-6" action="/search">
-                    <input type="search" class="dark:bg-trueGray-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-gray-400 dark:border-trueGray-700 appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="Search">
+                    <input type="search" class="dark:bg-trueGray-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-transparent appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="Search">
                 </form>
             </div>
         </div>
