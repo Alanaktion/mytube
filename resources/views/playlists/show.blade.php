@@ -8,7 +8,7 @@
             @if ($playlist->source_link)
                 <a href="{{ $playlist->source_link }}"
                     class="bg-transparent text-red-600 hover:bg-red-600 hover:text-white font-bold py-2 px-3 rounded-full flex"
-                    aria-label="View on {{ $playlist->channel->type == 'youtube' ? 'YouTube' : ucfirst($playlist->channel->type) }}"
+                    aria-label="{{ __('View on :source', ['source' => $playlist->channel->type == 'youtube' ? 'YouTube' : ucfirst($playlist->channel->type)]) }}"
                     data-tooltip>
                     <x-source-icon :type="$playlist->channel->type" class="h-5 w-5" />
                 </a>
@@ -16,8 +16,8 @@
             @auth
                 <form action="/playlists/{{ $playlist->uuid }}/refresh" method="post" class="ml-auto">
                     @csrf
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded" title="Refresh the playlist from the source.">
-                        Refresh
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded" title="{{ __('Refresh the playlist from the source.') }}">
+                        {{ __('Refresh') }}
                     </button>
                 </form>
             @endauth
@@ -34,7 +34,9 @@
         @forelse ($items as $item)
             <x-video-link :video="$item->video" />
         @empty
-            <div class="text-gray-400 dark:text-trueGray-600 py-6">No available videos</div>
+            <div class="text-gray-400 dark:text-trueGray-600 py-6">
+                {{ __('No available videos') }}
+            </div>
         @endforelse
     </div>
     {{ $items->links() }}

@@ -5,6 +5,9 @@
 @tailwind utilities;
 
 @layer base {
+    html, body {
+        height: 100%;
+    }
     body {
         padding-bottom: env(safe-area-inset-bottom);
     }
@@ -20,7 +23,8 @@
     }
     [data-tooltip]::before {
         content: attr(aria-label);
-        @apply invisible absolute z-10 max-w-xs bg-trueGray-700 text-white py-1 px-2 rounded shadow-sm font-normal text-base whitespace-nowrap;
+        @apply invisible absolute z-10 max-w-xs text-white py-1 px-2 rounded shadow-sm font-normal text-sm whitespace-nowrap;
+        background-color: rgba(0, 0, 0, 0.9);
         bottom: calc(100% + 0.3rem);
         left: 50%;
         transform: translateX(-50%);
@@ -31,7 +35,7 @@
         bottom: calc(100% - 0.3rem);
         left: 50%;
         border-width: 0.35rem;
-        border-color: theme('colors.trueGray.700') transparent transparent transparent;
+        border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
         transform: translateX(-50%);
     }
     [data-tooltip]:hover::before,

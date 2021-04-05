@@ -1,8 +1,8 @@
 <button type="button"
-    class="p-2 rounded-full text-sm font-medium focus:outline-none text-red-600 focus:bg-gray-700 dark:focus:bg-trueGray-700 dark:text-red-500 hover:bg-gray-700 dark:hover:bg-trueGray-700 tooltip-right sm:tooltip-center"
+    class="p-2 rounded-full text-sm font-medium focus:outline-none text-red-600 focus:bg-gray-700 dark:focus:bg-trueGray-700 dark:text-red-500 hover:bg-gray-300 dark:hover:bg-trueGray-700 tooltip-right sm:tooltip-center"
     data-tooltip
     x-data='@json(['isFavorite' => $isFavorite(), 'uuid' => $video->uuid])'
-    x-bind:aria-label="isFavorite ? 'Remove from Favorites' : 'Add to Favorites'"
+    x-bind:aria-label="isFavorite ? '{{ __('Remove from Favorites') }}' : '{{ __('Add to Favorites') }}'"
     x-init="$watch('isFavorite', val => setIsFavorite(val))"
     @click="isFavorite = !isFavorite">
     <svg class="w-6 h-6" x-bind:fill="isFavorite ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

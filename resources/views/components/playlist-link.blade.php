@@ -13,7 +13,7 @@
         {{ $playlist->title }}
     </a>
     <div class="text-sm text-gray-800 dark:text-trueGray-400">
-        {{ $playlist->published_at->format('F j, Y') }}
+        {{ $playlist->published_at->translatedFormat('F j, Y') }}
     </div>
     @if ($playlist->description)
         <div class="text-xs text-gray-500 dark:text-trueGray-600 overflow-hidden">

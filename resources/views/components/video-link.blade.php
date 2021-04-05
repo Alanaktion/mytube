@@ -27,7 +27,7 @@
         @endif
     </a>
     <div class="text-sm text-gray-800 dark:text-trueGray-400">
-        {{ $video->published_at->format('F j, Y') }}
+        {{ $video->published_at->translatedFormat('F j, Y') }}
     </div>
     @if ($showChannel)
         <a href="/channels/{{ $video->channel->uuid }}" class="text-gray-600 hover:text-gray-700 dark:text-trueGray-500 dark:hover:text-trueGray-400">

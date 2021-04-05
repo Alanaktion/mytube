@@ -109,6 +109,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Locale List
+    |--------------------------------------------------------------------------
+    |
+    | This map of locale codes and names will determine the list of available
+    | languages to select from in the UI, and to be selected automatically
+    | for the user based on their browser settings.
+    |
+    */
+
+    'locale_list' => [
+        'en' => 'English',
+        'en_GB' => 'English (UK)',
+        'es' => 'Español',
+        // 'ja' => '日本語',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Faker Locale
     |--------------------------------------------------------------------------
     |

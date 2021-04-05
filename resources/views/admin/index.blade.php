@@ -14,7 +14,7 @@
                     </svg>
                 </div>
                 <div>
-                    <div class="text-gray-600 dark:text-trueGray-400">Videos</div>
+                    <div class="text-gray-600 dark:text-trueGray-400">{{ __('Videos') }}</div>
                     <div class="text-2xl">{{ $videoCount }}</div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                     </svg>
                 </div>
                 <div>
-                    <div class="text-gray-600 dark:text-trueGray-400">Channels</div>
+                    <div class="text-gray-600 dark:text-trueGray-400">{{ __('Channels') }}</div>
                     <div class="text-2xl">{{ $channelCount }}</div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     </svg>
                 </div>
                 <div>
-                    <div class="text-gray-600 dark:text-trueGray-400">Playlists</div>
+                    <div class="text-gray-600 dark:text-trueGray-400">{{ __('Playlists') }}</div>
                     <div class="text-2xl">{{ $playlistCount }}</div>
                 </div>
             </div>

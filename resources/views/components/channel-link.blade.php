@@ -7,7 +7,7 @@
             {{ $channel->title }}
         </a>
         <div class="text-sm mb-1">
-            {{ $channel->published_at->format('F j, Y') }}
+            {{ $channel->published_at->translatedFormat('F j, Y') }}
         </div>
         <div class="text-sm text-gray-700 dark:text-trueGray-400 line-clamp">
             {{ trans_choice('1 video|:count videos', $channel->videos_count) }}

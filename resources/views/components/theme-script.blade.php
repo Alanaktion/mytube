@@ -11,7 +11,7 @@
         if ('theme' in localStorage) {
             return
         }
-        if (m.matches) {
+        if (media.matches) {
             docCL.add('dark')
         } else {
             docCL.remove('dark')

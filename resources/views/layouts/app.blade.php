@@ -11,7 +11,7 @@
     <link rel="search" type="application/opensearchdescription+xml" title="{{ config('app.name') }}" href="{{ url('/opensearch.xml') }}">
     <x-theme-script />
 </head>
-<body class="dark:bg-trueGray-900 dark:text-trueGray-100 antialiased">
+<body class="dark:bg-trueGray-900 dark:text-trueGray-100 antialiased flex flex-col">
     <nav class="bg-gray-800 dark:bg-trueGray-800 px-safe">
         <div class="container">
             <div class="flex items-center h-16">
@@ -34,7 +34,7 @@
                     <x-theme-menu class="ml-auto" />
                 </div>
                 <form class="ml-auto md:ml-6" action="/search">
-                    <input type="search" class="dark:bg-trueGray-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-transparent appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="Search">
+                    <input type="search" class="dark:bg-trueGray-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-transparent appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="{{ __('Search') }}">
                 </form>
             </div>
         </div>
@@ -56,5 +56,11 @@
 
         @yield('content')
     </main>
+
+    <footer class="mt-auto">
+        <div class="container my-4">
+            <x-lang-menu />
+        </div>
+    </footer>
 </body>
 </html>

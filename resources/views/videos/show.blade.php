@@ -26,6 +26,14 @@
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
             </div>
+        @elseif ($video->source_type == 'twitter')
+            <div class="mb-4">
+                <blockquote class="twitter-tweet" data-conversation="none" data-align="center" data-dnt="true">
+                    <p>{{ $video->description }}</p>
+                    <a href="{{ $video->source_link }}">{{ $video->published_at }}</a>
+                </blockquote>
+                <script async defer src="https://platform.twitter.com/widgets.js"></script>
+            </div>
         @endif
     @endif
     <header class="sm:flex items-center mb-3 md:mb-4 lg:mb-6">
@@ -35,7 +43,7 @@
                     {{ $video->title }}
                 </h2>
                 <div class="text-sm text-gray-400" title="{{ $video->published_at }}">
-                    {{ $video->published_at->format('F j, Y @ g:ia') }}
+                    {{ $video->published_at->translatedFormat('F j, Y @ g:ia') }}
                 </div>
             </div>
             <p class="text-lg">
@@ -51,14 +59,14 @@
             @if ($video->source_link)
                 <a href="{{ $video->source_link }}"
                     class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full flex items-center sm:tooltip-left"
-                    aria-label="Watch on {{ $video->source_type == 'youtube' ? 'YouTube' : ucfirst($video->source_type) }}"
+                    aria-label="{{ __('Watch on :source', ['source' => $video->source_type == 'youtube' ? 'YouTube' : ucfirst($video->source_type)]) }}"
                     data-tooltip>
                     <x-source-icon :type="$video->source_type" class="h-5 w-5" />
                 </a>
             @endif
             @if ($video->file_path)
                 <a href="{{ $video->file_link }}" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full" download>
-                    Download
+                    {{ __('Download') }}
                 </a>
             @endif
         </div>
@@ -70,7 +78,7 @@
         <div>
             @if ($video->playlists->count())
                 <div class="text-xl mb-3">
-                    Related Playlists
+                    {{ __('Related playlists') }}
                 </div>
                 @foreach ($video->playlists as $playlist)
                     <x-playlist-link :playlist="$playlist" />

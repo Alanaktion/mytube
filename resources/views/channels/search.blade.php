@@ -9,7 +9,9 @@
         @forelse ($videos as $video)
             <x-video-link :video="$video" />
         @empty
-            <div class="text-gray-400 dark:text-trueGray-600 py-6">No available videos</div>
+            <div class="text-gray-400 dark:text-trueGray-600 py-6 col-span-full">
+                {{ __('No available videos') }}
+            </div>
         @endforelse
     </div>
     {{ $videos->links() }}
