@@ -122,7 +122,7 @@ return [
         'en' => 'English',
         'en_GB' => 'English (UK)',
         'es' => 'Español',
-        // 'ja' => '日本語',
+        'ja' => '日本語',
     ],
 
     /*
