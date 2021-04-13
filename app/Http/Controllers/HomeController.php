@@ -11,15 +11,15 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $videos = Video::latest()
+        $videos = Video::latest('id')
             ->with('channel')
             ->limit(18)
             ->get();
-        $playlists = Playlist::latest()
+        $playlists = Playlist::latest('id')
             ->withCount('items')
             ->limit(6)
             ->get();
-        $channels = Channel::latest()
+        $channels = Channel::latest('id')
             ->withCount('videos')
             ->limit(6)
             ->get();
@@ -34,19 +34,19 @@ class HomeController extends Controller
     {
         $q = strtr($request->input('q'), ' ', '%');
 
-        $videos = Video::latest()
+        $videos = Video::latest('id')
             ->with('channel')
             ->where('title', 'like', "%$q%")
             ->orWhere('uuid', $q)
             ->limit(24)
             ->get();
-        $playlists = Playlist::latest()
+        $playlists = Playlist::latest('id')
             ->withCount('items')
             ->where('title', 'like', "%$q%")
             ->orWhere('uuid', $q)
             ->limit(18)
             ->get();
-        $channels = Channel::latest()
+        $channels = Channel::latest('id')
             ->withCount('videos')
             ->where('title', 'like', "%$q%")
             ->orWhere('uuid', $q)

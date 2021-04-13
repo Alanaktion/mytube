@@ -10,7 +10,7 @@ class VideoController extends Controller
     public function index(Request $request)
     {
         $videos = Video::with('channel')
-            ->orderBy('published_at', 'desc');
+            ->latest('published_at');
         $source = $request->input('source');
         if ($source !== null) {
             $videos->where('source_type', $source);

@@ -25,11 +25,13 @@ class Channel extends Model
         bool $importPlaylists = false,
         ?bool $importPlaylistItems = null
     ): Channel {
+        /** @var Channel|null $channel */
         $channel = Channel::where('uuid', $id)
             ->where('type', 'youtube')
             ->first();
         if (!$channel) {
             $channelData = YouTube::getChannelData($id);
+            /** @var Channel $channel */
             $channel = Channel::create([
                 'uuid' => $channelData['id'],
                 'title' => $channelData['title'],

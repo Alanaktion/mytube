@@ -16,7 +16,7 @@ mousetrap.bind('g c', () => {
 mousetrap.bind('g a', () => {
     location = '/admin';
 });
-mousetrap.bind('/', () => {
+mousetrap.bind(['/', 'command+k', 'ctrl+k'], () => {
     const el = document.querySelector('input[type=search]');
     el.focus();
     el.select();

@@ -1,5 +1,5 @@
 @php
-/** @var $attributes \Illuminate\View\ComponentAttributeBag */
+/** @var \Illuminate\View\ComponentAttributeBag $attributes */
 $tag = $attributes->has('href') ? 'a' : 'button';
 $classList = [
     'inline-flex items-center justify-center font-medium border border-transparent',

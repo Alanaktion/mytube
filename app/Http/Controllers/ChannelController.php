@@ -9,7 +9,7 @@ class ChannelController extends Controller
 {
     public function index(Request $request)
     {
-        $channels = Channel::orderBy('published_at', 'desc')
+        $channels = Channel::latest('published_at')
             ->withCount('videos');
         $source = $request->input('source');
         if ($source !== null) {
@@ -25,7 +25,7 @@ class ChannelController extends Controller
     public function videos(Channel $channel)
     {
         $videos = $channel->videos()
-            ->orderBy('published_at', 'desc');
+            ->latest('published_at');
         return view('channels.videos', [
             'title' => $channel->title,
             'channel' => $channel,
@@ -37,7 +37,7 @@ class ChannelController extends Controller
     {
         $playlists = $channel->playlists()
             ->withCount('items')
-            ->orderBy('published_at', 'desc');
+            ->latest('published_at');
         return view('channels.playlists', [
             'title' => $channel->title,
             'channel' => $channel,
@@ -49,10 +49,10 @@ class ChannelController extends Controller
     {
         // TODO: show video and playlists results in single list
         $videos = $channel->videos()
-            ->orderBy('published_at', 'desc');
+            ->latest('published_at');
         $playlists = $channel->playlists()
             ->withCount('items')
-            ->orderBy('published_at', 'desc');
+            ->latest('published_at');
         $q = strtr($request->input('q'), ' ', '%');
         if ($q) {
             $videos->where('title', 'like', "%$q%");

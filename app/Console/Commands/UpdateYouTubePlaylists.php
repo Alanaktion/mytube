@@ -21,7 +21,7 @@ class UpdateYouTubePlaylists extends Command
     {
         $playlists = Playlist::whereHas('channel', function ($query) {
             $query->where('type', 'youtube');
-        })->get();
+        })->cursor();
 
         /** @var Playlist[] */
         $errors = [];

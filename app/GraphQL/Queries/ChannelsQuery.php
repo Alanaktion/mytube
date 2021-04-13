@@ -56,7 +56,7 @@ class ChannelsQuery extends Query
     {
         $channels = Channel::with($fields->getRelations())
             ->select(array_merge($fields->getSelect(), ['uuid']))
-            ->latest();
+            ->latest('id');
 
         if (isset($args['id'])) {
             $channels->where('id', $args['id']);

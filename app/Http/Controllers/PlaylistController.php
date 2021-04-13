@@ -10,7 +10,7 @@ class PlaylistController extends Controller
 {
     public function index(Request $request)
     {
-        $playlists = Playlist::orderBy('published_at', 'desc')
+        $playlists = Playlist::latest('published_at')
             ->withCount('items');
         $source = $request->input('source');
         if ($source !== null) {

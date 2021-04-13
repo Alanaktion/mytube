@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ProcessChannelImport;
 use App\Jobs\ProcessPlaylistImport;
-use App\Models\Channel;
-use App\Models\Playlist;
 use App\Models\Video;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -33,11 +32,23 @@ class AdminController extends Controller
     {
         return view('admin.index', [
             'title' => __('Administration'),
-            'videoCount' => Video::count(),
-            'channelCount' => Channel::count(),
-            'playlistCount' => Playlist::count(),
+            'videoCount' => $this->fastCount('videos'),
+            'channelCount' => $this->fastCount('channels'),
+            'playlistCount' => $this->fastCount('playlists'),
             'missingCount' => Video::whereNull('file_path')->count(),
         ]);
+    }
+
+    /**
+     * Get an approximate row count for an InnoDB table
+     *
+     * Due to a limitation in Laravel/PDO, the table name is NOT parameterized,
+     * and MUST be a trusted value (not from the user).
+     */
+    protected function fastCount(string $table): ?int
+    {
+        $result = DB::select("show table status like '{$table}'");
+        return $result[0]->Rows ?? null;
     }
 
     public function playlistImport(Request $request)
