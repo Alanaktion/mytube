@@ -15,7 +15,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "norkunas/youtube-dl-php": "^1.6",
-        "overtrue/laravel-lang": "~3.0",
+        "overtrue/laravel-lang": "~4.2",
         "predis/predis": "^1.1",
         "rebing/graphql-laravel": "^6.1",
         "romanzipp/laravel-twitch": "^4.0"
