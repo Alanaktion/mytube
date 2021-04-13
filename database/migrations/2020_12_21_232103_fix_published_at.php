@@ -19,8 +19,11 @@ class FixPublishedAt extends Migration
         // Previously, published_at timestamps would be reset to the current
         // timestamp on every table update, which is *really* not what we want.
 
-        DB::statement('ALTER TABLE channels CHANGE published_at published_at timestamp NULL DEFAULT CURRENT_TIMESTAMP');
-        DB::statement('ALTER TABLE videos CHANGE published_at published_at timestamp NULL DEFAULT CURRENT_TIMESTAMP');
+        $connection = config('database.default');
+        if (config("database.connections.{$connection}.driver") == 'mysql') {
+            DB::statement('ALTER TABLE channels CHANGE published_at published_at timestamp NULL DEFAULT CURRENT_TIMESTAMP');
+            DB::statement('ALTER TABLE videos CHANGE published_at published_at timestamp NULL DEFAULT CURRENT_TIMESTAMP');
+        }
     }
 
     /**

@@ -47,8 +47,12 @@ class AdminController extends Controller
      */
     protected function fastCount(string $table): ?int
     {
-        $result = DB::select("show table status like '{$table}'");
-        return $result[0]->Rows ?? null;
+        $connection = config('database.default');
+        if (config("database.connections.{$connection}.driver") == 'mysql') {
+            $result = DB::select("show table status like '{$table}'");
+            return $result[0]->Rows ?? null;
+        }
+        return DB::select("select count(*) as count from {$table}")[0]->count ?? null;
     }
 
     public function playlistImport(Request $request)
@@ -163,7 +167,7 @@ class AdminController extends Controller
     {
         $videos = Video::with(['channel', 'playlists'])
             ->whereNull('file_path')
-            ->orderBy('created_at', 'desc');
+            ->latest('id');
         return view('admin.missing', [
             'title' => __('Administration'),
             'videos' => $videos->paginate(),
