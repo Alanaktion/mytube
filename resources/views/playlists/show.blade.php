@@ -16,9 +16,9 @@
             @auth
                 <form action="/playlists/{{ $playlist->uuid }}/refresh" method="post" class="ml-auto">
                     @csrf
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded" title="{{ __('Refresh the playlist from the source.') }}">
+                    <x-button type="submit" small title="{{ __('Refresh the playlist from the source.') }}">
                         {{ __('Refresh') }}
-                    </button>
+                    </x-button>
                 </form>
             @endauth
         </div>

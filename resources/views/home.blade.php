@@ -12,9 +12,9 @@
             </div>
         @endforelse
     </div>
-    <a class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full" href="/videos">
+    <x-button rounded primary href="/videos">
         {{ __('All videos') }} →
-    </a>
+    </x-button>
 
     <div class="mb-10 xl:mb-16"></div>
 
@@ -28,9 +28,9 @@
             </div>
         @endforelse
     </div>
-    <a class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full" href="/playlists">
+    <x-button rounded primary href="/playlists">
         {{ __('All playlists') }} →
-    </a>
+    </x-button>
 
     <div class="mb-10 xl:mb-16"></div>
 
@@ -44,8 +44,8 @@
             </div>
         @endforelse
     </div>
-    <a class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full" href="/channels">
+    <x-button rounded primary href="/channels">
         {{ __('All channels') }} →
-    </a>
+    </x-button>
 </div>
 @endsection

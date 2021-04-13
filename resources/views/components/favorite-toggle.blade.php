@@ -1,5 +1,5 @@
 <button type="button"
-    class="p-2 rounded-full text-sm font-medium focus:outline-none text-red-600 focus:bg-gray-300 dark:focus:bg-trueGray-700 dark:text-red-500 hover:bg-gray-300 dark:hover:bg-trueGray-700 tooltip-right sm:tooltip-center"
+    class="p-2 rounded-full text-sm font-medium text-red-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-red-500 hover:bg-gray-300 dark:hover:bg-trueGray-700 tooltip-right sm:tooltip-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-red-600"
     data-tooltip
     x-data='@json(['isFavorite' => $isFavorite(), 'uuid' => $video->uuid])'
     x-bind:aria-label="isFavorite ? '{{ __('Remove from Favorites') }}' : '{{ __('Add to Favorites') }}'"

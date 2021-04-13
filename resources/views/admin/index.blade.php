@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-5 lg:mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6 pb-5 lg:mb-6">
         <form action="/admin/playlists" method="post">
             @csrf
             <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
@@ -57,9 +57,9 @@
             <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Playlist URLs/IDs</label>
             <textarea name="playlistIds" id="playlistIds" class="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:bg-trueGray-800 dark:bg-opacity-50 dark:border-trueGray-700 dark:focus:border-blue-500 rounded-md mb-2" rows="5" required></textarea>
 
-            <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded">
+            <x-button type="submit" small>
                 Import Playlists
-            </button>
+            </x-button>
         </form>
 
         <form action="/admin/videos" method="post">
@@ -71,9 +71,9 @@
             <label for="videoIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Video IDs/URLs</label>
             <textarea name="videoIds" id="videoIds" class="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:bg-trueGray-800 dark:bg-opacity-50 dark:border-trueGray-700 dark:focus:border-blue-500 rounded-md mb-2" rows="5" required></textarea>
 
-            <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded">
+            <x-button type="submit" small>
                 Import Videos
-            </button>
+            </x-button>
         </form>
 
         <form action="/admin/channels" method="post">
@@ -104,9 +104,9 @@
                 </div>
             </div>
 
-            <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded">
+            <x-button type="submit" small>
                 Import Channel
-            </button>
+            </x-button>
         </form>
 
         <div>
@@ -115,9 +115,9 @@
             </div>
             <p class="mb-3">{{ $missingCount }} videos are missing local files</p>
 
-            <a href="/admin/missing" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded">
+            <x-button href="/admin/missing" small>
                 View all →
-            </a>
+            </x-button>
         </div>
     </div>
 </div>

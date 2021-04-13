@@ -25,9 +25,9 @@
         @enderror
 
         <div class="mt-6 flex items-center justify-between">
-            <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full">
+            <x-button type="submit" rounded primary>
                 Sign in
-            </button>
+            </x-button>
             <div class="text-sm leading-5">
                 <a href="{{ route('password.request') }}" class="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 focus:outline-none focus:underline">
                     Forgot your password?

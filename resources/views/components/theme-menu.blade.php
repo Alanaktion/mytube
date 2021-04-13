@@ -1,11 +1,14 @@
-<div {{ $attributes->merge(['class' => 'relative']) }} x-data="themeData()" x-init="$watch('currentTheme', val => setTheme(val))">
-    <button type="button" class="px-3 py-2 rounded-md text-sm font-medium focus:outline-none focus:text-white focus:bg-gray-700 dark:focus:bg-trueGray-700 text-gray-300 dark:text-trueGray-300 hover:text-white hover:bg-gray-700 dark:hover:bg-trueGray-700" title="{{ __('Toggle Dark Theme') }}" id="theme-menu" :aria-expanded="open ? 'true' : 'false'" aria-haspopup="true" @click="open = true">
-        <span class="sr-only">{{ __('Toggle Dark Theme') }}</span>
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<div class="relative" x-data="themeData()" x-init="$watch('currentTheme', val => setTheme(val))">
+    <button type="button"
+        class="p-2 rounded-full text-sm font-medium text-blue-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-blue-400 hover:bg-gray-200 dark:hover:bg-trueGray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-blue-600 tooltip-left"
+        aria-label="{{ __('Toggle Dark Theme') }}"
+        :data-tooltip="!open"
+        @click="open = true">
+        <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
         </svg>
     </button>
-    <div class="origin-top-right absolute right-0 mt-1 w-40 py-1 z-10 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850"
+    <div class="origin-bottom-right absolute right-0 bottom-7 w-40 py-1 mb-2 z-10 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="theme-menu"
@@ -16,7 +19,8 @@
         x-transition:enter-end="transform opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-100"
         x-transition:leave-start="transform opacity-100 scale-100"
-        x-transition:leave-end="transform opacity-0 scale-95">
+        x-transition:leave-end="transform opacity-0 scale-95"
+        x-cloak>
         <template x-for="item in themes" :key="item">
             <button type="button"
                 :class="{

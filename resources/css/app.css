@@ -23,7 +23,7 @@
     }
     [data-tooltip]::before {
         content: attr(aria-label);
-        @apply invisible absolute z-10 max-w-xs text-white py-1 px-2 rounded shadow-sm font-normal text-sm whitespace-nowrap;
+        @apply invisible absolute z-20 max-w-xs text-white py-1 px-2 rounded shadow-sm font-normal text-sm whitespace-nowrap;
         background-color: rgba(0, 0, 0, 0.9);
         bottom: calc(100% + 0.3rem);
         left: 50%;
@@ -42,7 +42,7 @@
     [data-tooltip]:hover::after,
     [data-tooltip]:focus::before,
     [data-tooltip]:focus::after {
-        @apply visible;
+        @apply visible ring-0 ring-transparent ring-offset-0 ring-offset-transparent;
     }
 }
 
@@ -81,4 +81,8 @@
 
 .drop-shadow {
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+[x-cloak] {
+    display: none !important;
 }

@@ -1,6 +1,6 @@
-<div x-data="{ open: false }" class="relative inline-block text-left">
+<div x-data="{ open: false }" class="relative">
     <button type="button"
-        class="p-2 rounded-full text-sm font-medium focus:outline-none text-blue-600 focus:bg-gray-300 dark:focus:bg-trueGray-700 dark:text-blue-400 hover:bg-gray-200 dark:hover:bg-trueGray-800 tooltip-right"
+        class="p-2 rounded-full text-sm font-medium text-blue-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-blue-400 hover:bg-gray-200 dark:hover:bg-trueGray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-blue-600 tooltip-left"
         aria-label="{{ __('Change language') }}"
         :data-tooltip="!open"
         @click="open = true">
@@ -9,7 +9,7 @@
         </svg>
     </button>
 
-    <div class="origin-bottom-left absolute left-0 bottom-7 mb-2 w-56 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none z-10"
+    <div class="origin-bottom-right absolute right-0 bottom-7 mb-2 w-40 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none z-10"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="source-menu"
@@ -20,7 +20,8 @@
         x-transition:enter-end="transform opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-100"
         x-transition:leave-start="transform opacity-100 scale-100"
-        x-transition:leave-end="transform opacity-0 scale-95">
+        x-transition:leave-end="transform opacity-0 scale-95"
+        x-cloak>
         <div class="py-1" role="none">
             @foreach (config('app.locale_list') as $code => $name)
                 <a href="?lang={{ $code }}"

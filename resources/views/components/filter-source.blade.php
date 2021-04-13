@@ -10,7 +10,7 @@
             </svg>
         </button>
     </div>
-    <div class="origin-top-left sm:origin-top-right absolute left-0 sm:left-auto sm:right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none z-10"
+    <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none z-10"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="source-menu"
@@ -21,7 +21,8 @@
         x-transition:enter-end="transform opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-100"
         x-transition:leave-start="transform opacity-100 scale-100"
-        x-transition:leave-end="transform opacity-0 scale-95">
+        x-transition:leave-end="transform opacity-0 scale-95"
+        x-cloak>
         <div class="py-1" role="none">
             <a href="{{ url("$path") }}"
                 class="block px-4 py-2 text-sm {{ !$value ? 'text-white bg-blue-400 dark:bg-blue-600 hover:bg-blue-500 dark:hover:bg-blue-500' : 'text-gray-700 dark:text-trueGray-300 hover:bg-gray-100 dark:hover:bg-trueGray-700' }}"

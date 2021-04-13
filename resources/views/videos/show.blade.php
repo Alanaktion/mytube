@@ -52,22 +52,22 @@
                 </a>
             </p>
         </div>
-        <div class="sm:ml-auto flex gap-2">
+        <div class="sm:ml-auto flex items-center gap-2">
             @auth
                 <x-favorite-toggle :video="$video" />
             @endauth
             @if ($video->source_link)
                 <a href="{{ $video->source_link }}"
-                    class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full flex items-center sm:tooltip-left"
+                    class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full flex items-center sm:tooltip-left focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-red-600"
                     aria-label="{{ __('Watch on :source', ['source' => $video->source_type == 'youtube' ? 'YouTube' : ucfirst($video->source_type)]) }}"
                     data-tooltip>
                     <x-source-icon :type="$video->source_type" class="h-5 w-5" />
                 </a>
             @endif
             @if ($video->file_path)
-                <a href="{{ $video->file_link }}" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full" download>
+                <x-button href="{{ $video->file_link }}" rounded download>
                     {{ __('Download') }}
-                </a>
+                </x-button>
             @endif
         </div>
     </header>

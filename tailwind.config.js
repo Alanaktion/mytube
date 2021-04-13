@@ -7,12 +7,22 @@ module.exports = {
         './resources/**/*.blade.php',
     ],
     theme: {
+        colors: {
+            transparent: defaultTheme.colors.transparent,
+            current: defaultTheme.colors.current,
+            black: colors.black,
+            white: colors.white,
+            gray: colors.coolGray,
+            trueGray: {
+                ... colors.trueGray,
+                850: '#1d1d1d',
+            },
+            red: colors.red,
+            green: colors.emerald,
+            blue: colors.blue,
+        },
         extend: {
             colors: {
-                trueGray: {
-                    ... colors.trueGray,
-                    850: '#1d1d1d',
-                },
             },
             spacing: {
                 '3/4': '75%',
