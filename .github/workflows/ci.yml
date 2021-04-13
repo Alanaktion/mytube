@@ -35,4 +35,4 @@ jobs:
         touch database/database.sqlite
         php artisan migrate --seed --env=testing
     - name: Execute tests
-      run: php artisan test --env=testing
+      run: php artisan test --without-tty --env=testing

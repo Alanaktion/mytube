@@ -34,7 +34,7 @@ class GraphQLTest extends TestCase
         $this->assertGreaterThanOrEqual(5, $response->json('data.videos.total'));
     }
 
-    public function testQueryVideoByUUID()
+    public function testQueryVideoByUuid()
     {
         $video = Video::first();
         $response = $this->postJson('/graphql', [
@@ -171,7 +171,7 @@ class GraphQLTest extends TestCase
         $this->assertGreaterThanOrEqual(5, $response->json('data.channels.total'));
     }
 
-    public function testQueryChannelByUUID()
+    public function testQueryChannelByUuid()
     {
         $channel = Channel::first();
         $response = $this->postJson('/graphql', [
