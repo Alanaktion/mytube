@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f5d0f6247e5df63fb7da0bde04af663",
+    "content-hash": "4717bf361af8aebb00e9ec291d9bd26f",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -1290,20 +1290,27 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "7.0.9",
+            "version": "8.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "679a65755db37b35acd36a5e0ca51e055815a00a"
+                "reference": "7c5f7dd0665a862a8e5e64b84cda184280d33d3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/679a65755db37b35acd36a5e0ca51e055815a00a",
-                "reference": "679a65755db37b35acd36a5e0ca51e055815a00a",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/7c5f7dd0665a862a8e5e64b84cda184280d33d3c",
+                "reference": "7c5f7dd0665a862a8e5e64b84cda184280d33d3c",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*"
+            },
+            "require-dev": {
+                "andrey-helldar/pretty-array": "^2.1",
+                "andrey-helldar/support": "^3.2",
+                "php": "^8.0",
+                "phpunit/phpunit": "^9.5",
+                "symfony/var-dumper": "^5.2"
             },
             "suggest": {
                 "andrey-helldar/laravel-lang-publisher": "Easy installation and update of translation files for your project",
@@ -1317,7 +1324,8 @@
             ],
             "authors": [
                 {
-                    "name": "Laravel-Lang Team"
+                    "name": "Laravel-Lang Team",
+                    "homepage": "https://github.com/Laravel-Lang"
                 }
             ],
             "description": "Languages for Laravel",
@@ -1329,9 +1337,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Lang/lang/issues",
-                "source": "https://github.com/Laravel-Lang/lang/tree/7.0.9"
+                "source": "https://github.com/Laravel-Lang/lang"
             },
-            "time": "2020-11-30T20:35:41+00:00"
+            "time": "2021-04-07T07:45:47+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2243,71 +2251,6 @@
                 "source": "https://github.com/opis/closure/tree/3.6.2"
             },
             "time": "2021-04-09T13:42:10+00:00"
-        },
-        {
-            "name": "overtrue/laravel-lang",
-            "version": "4.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/overtrue/laravel-lang.git",
-                "reference": "653189caa6eac682fa5d15482f271489721231c7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/overtrue/laravel-lang/zipball/653189caa6eac682fa5d15482f271489721231c7",
-                "reference": "653189caa6eac682fa5d15482f271489721231c7",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "laravel-lang/lang": "^7.0",
-                "symfony/process": "^5.0.0"
-            },
-            "require-dev": {
-                "laravel/framework": "~8.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Overtrue\\LaravelLang\\TranslationServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Overtrue\\LaravelLang\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "overtrue",
-                    "email": "anzhengchao@gmail.com"
-                }
-            ],
-            "description": "List of 75 languages for Laravel 4, 5, 6 and 7",
-            "keywords": [
-                "i18n",
-                "languages",
-                "laravel",
-                "locale",
-                "overtrue"
-            ],
-            "support": {
-                "issues": "https://github.com/overtrue/laravel-lang/issues",
-                "source": "https://github.com/overtrue/laravel-lang/tree/4.2.1"
-            },
-            "funding": [
-                {
-                    "url": "https://www.patreon.com/overtrue",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2020-11-12T01:44:31+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",

@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Google_Client;
 use Google_Service_YouTube;
-use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
