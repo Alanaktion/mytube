@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminQueueController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
@@ -52,6 +53,8 @@ Route::post('/admin/playlists', [AdminController::class, 'playlistImport']);
 Route::post('/admin/videos', [AdminController::class, 'videoImport']);
 Route::post('/admin/channels', [AdminController::class, 'channelImport']);
 Route::get('/admin/missing', [AdminController::class, 'missing']);
+
+Route::get('/admin/queues', [AdminQueueController::class, 'index']);
 
 Route::get('/robots.txt', [MetaController::class, 'robots']);
 Route::get('/opensearch.xml', [MetaController::class, 'openSearch']);
