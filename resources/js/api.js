@@ -31,3 +31,11 @@ export const setTheme = value => {
 export const setLanguage = value => {
     location = `?lang=${value}`;
 };
+
+export const setSource = value => {
+    if (value === null) {
+        location = '?source=';
+        return;
+    }
+    location = `?source=${value}`;
+};

@@ -5,6 +5,7 @@ import NavMenu from './components/NavMenu.vue'
 import FavoriteToggle from './components/FavoriteToggle.vue'
 import LangMenu from './components/LangMenu.vue'
 import ThemeMenu from './components/ThemeMenu.vue'
+import SourceFilter from './components/SourceFilter.vue'
 
 createApp({
     components: {
@@ -12,5 +13,6 @@ createApp({
         FavoriteToggle,
         LangMenu,
         ThemeMenu,
+        SourceFilter,
     },
 }).mount('#app')

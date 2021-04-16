@@ -30,7 +30,7 @@
                     </a>
                 </div>
 
-                <nav-menu label="{{ __('Toggle Navigation') }}">
+                <nav-menu label="{{ __('Toggle Navigation') }}" v-cloak>
                     <div class="flex flex-col items-stretch my-3 md:my-0 md:flex-row md:items-center md:ml-6 gap-1 md:gap-2 lg:gap-3 flex-1">
                         <x-nav-link href="/videos" text="Videos" />
                         <x-nav-link href="/playlists" text="Playlists" />

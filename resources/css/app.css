@@ -44,6 +44,15 @@
     [data-tooltip]:focus::after {
         @apply visible ring-0 ring-transparent ring-offset-0 ring-offset-transparent;
     }
+
+    nav-menu[v-cloak] {
+        @apply md:flex flex-1;
+    }
+    @media (max-width: theme('screens.sm')) {
+        nav-menu[v-cloak] {
+            display: none !important;
+        }
+    }
 }
 
 @layer utilities {
