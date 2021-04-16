@@ -14,7 +14,7 @@ export const setFavorite = async (uuid, value, type='video') => {
     });
 };
 
-export const setTheme = (value) => {
+export const setTheme = value => {
     const docCL = document.documentElement.classList;
     let theme;
     if (value === 'auto') {
@@ -26,4 +26,8 @@ export const setTheme = (value) => {
     }
     docCL.add(theme);
     docCL.remove(theme === 'light' ? 'dark' : 'light');
+};
+
+export const setLanguage = value => {
+    location = `?lang=${value}`;
 };

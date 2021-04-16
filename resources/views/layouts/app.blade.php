@@ -17,7 +17,7 @@
         {{ __('Skip to content') }}
     </a>
     <nav class="bg-gray-800 dark:bg-trueGray-800 px-safe">
-        <div class="container" x-data="{ open: false }">
+        <div class="container">
             <div class="md:flex items-center">
                 <div class="flex py-2">
                     <a href="/" class="flex items-center mr-4">
@@ -28,21 +28,22 @@
                             {{ config('app.name') }}
                         </span>
                     </a>
-                    <x-nav-toggle />
                 </div>
-                {{-- TODO: add conditional aria-hidden attributes, this is tricky because they only need to be "false" on mobile --}}
-                <div class="hidden md:flex flex-col items-stretch my-3 md:my-0 md:flex-row md:items-center md:ml-6 gap-1 md:gap-2 lg:gap-3 flex-1" :class="{ 'hidden': !open, 'flex': open }">
-                    <x-nav-link href="/videos" text="Videos" />
-                    <x-nav-link href="/playlists" text="Playlists" />
-                    <x-nav-link href="/channels" text="Channels" />
-                    @auth
-                        <x-nav-link href="/favorites" text="Favorites" />
-                        <x-nav-link href="/admin" text="Admin" />
-                    @endauth
-                </div>
-                <form class="hidden mb-3 md:mb-0 md:block md:ml-6 md:py-2" :class="{ 'hidden': !open }" action="/search">
-                    <input type="search" class="dark:bg-trueGray-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-transparent appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="{{ __('Search') }}">
-                </form>
+
+                <nav-menu label="{{ __('Toggle Navigation') }}">
+                    <div class="flex flex-col items-stretch my-3 md:my-0 md:flex-row md:items-center md:ml-6 gap-1 md:gap-2 lg:gap-3 flex-1">
+                        <x-nav-link href="/videos" text="Videos" />
+                        <x-nav-link href="/playlists" text="Playlists" />
+                        <x-nav-link href="/channels" text="Channels" />
+                        @auth
+                            <x-nav-link href="/favorites" text="Favorites" />
+                            <x-nav-link href="/admin" text="Admin" />
+                        @endauth
+                    </div>
+                    <form class="mb-3 md:mb-0 md:block md:ml-6 md:py-2" action="/search">
+                        <input type="search" class="dark:bg-trueGray-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-transparent appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="{{ __('Search') }}">
+                    </form>
+                </nav-menu>
             </div>
         </div>
     </nav>
@@ -66,8 +67,12 @@
 
     <footer class="mt-auto">
         <div class="container flex justify-end my-4">
-            <x-lang-menu />
-            <x-theme-menu class="ml-2" />
+            <lang-menu
+                :locales='@json(config('app.locale_list'))'
+            ></lang-menu>
+            <theme-menu
+                class="ml-2"
+            ></theme-menu>
         </div>
     </footer>
 </div>
