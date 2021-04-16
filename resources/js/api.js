@@ -1,7 +1,7 @@
 const csrfToken = document.querySelector('[name="csrf-token"]').getAttribute('content')
 
-export const setFavorite = async (uuid, value) => {
-    fetch('/favorites/toggleVideo', {
+export const setFavorite = async (uuid, value, type='video') => {
+    fetch(`/favorites/toggle${type.charAt(0).toUpperCase() + type.slice(1)}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

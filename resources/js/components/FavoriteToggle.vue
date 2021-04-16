@@ -35,6 +35,10 @@ export default {
             type: String,
             required: true,
         },
+        type: {
+            type: String,
+            default: 'video',
+        },
         isFavorite: {
             type: Boolean,
             default: false,
@@ -49,10 +53,10 @@ export default {
         },
     },
     setup(props) {
-        const { uuid, addLabel, removeLabel } = props;
+        const { uuid, addLabel, removeLabel, type } = props;
         const isFavorite = ref(props.isFavorite);
 
-        watch(isFavorite, val => setFavorite(uuid, val));
+        watch(isFavorite, val => setFavorite(uuid, val, type));
 
         return { isFavorite, addLabel, removeLabel };
     },

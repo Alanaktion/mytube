@@ -54,14 +54,14 @@
         </div>
         <div class="sm:ml-auto flex items-center gap-2">
             @auth
-                <x-favorite-toggle :video="$video" />
+                <x-favorite-toggle :model="$video" />
             @endauth
             @if ($video->source_link)
                 <a href="{{ $video->source_link }}"
-                    class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full flex items-center sm:tooltip-left focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-red-600"
+                    class="p-2 rounded-full text-sm text-red-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-red-500 hover:bg-gray-300 dark:hover:bg-trueGray-700 tooltip-right sm:tooltip-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-red-600"
                     aria-label="{{ __('Watch on :source', ['source' => $video->source_type == 'youtube' ? 'YouTube' : ucfirst($video->source_type)]) }}"
                     data-tooltip>
-                    <x-source-icon :type="$video->source_type" class="h-5 w-5" />
+                    <x-source-icon :type="$video->source_type" class="h-6 w-6" />
                 </a>
             @endif
             @if ($video->file_path)

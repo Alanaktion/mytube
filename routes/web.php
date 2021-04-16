@@ -46,6 +46,8 @@ Auth::routes();
 
 Route::get('/favorites', [FavoritesController::class, 'index']);
 Route::post('/favorites/toggleVideo', [FavoritesController::class, 'toggleVideo']);
+Route::post('/favorites/togglePlaylist', [FavoritesController::class, 'togglePlaylist']);
+Route::post('/favorites/toggleChannel', [FavoritesController::class, 'toggleChannel']);
 
 Route::get('/admin', [AdminController::class, 'index']);
 Route::post('/admin/playlists', [AdminController::class, 'playlistImport']);
