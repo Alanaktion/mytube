@@ -112,16 +112,21 @@ class Video extends Model
         $data = $twitch->getVideos($id)[0];
 
         // Download images
-        $disk = Storage::disk('public');
-        $url = str_replace(['%{width}', '%{height}'], [640, 360], $data['thumbnail_url']);
-        $file = "thumbs/twitch/{$data['id']}.png";
-        $disk->put($file, file_get_contents($url), 'public');
-        $thumbnailUrl = Storage::url('public/' . $file);
+        if ($data['thumbnail_url']) {
+            $disk = Storage::disk('public');
+            $url = str_replace(['%{width}', '%{height}'], [640, 360], $data['thumbnail_url']);
+            $file = "thumbs/twitch/{$data['id']}.png";
+            $disk->put($file, file_get_contents($url), 'public');
+            $thumbnailUrl = Storage::url('public/' . $file);
 
-        $url = str_replace(['%{width}', '%{height}'], [1280, 720], $data['thumbnail_url']);
-        $file = "thumbs/twitch/{$data['id']}-poster.png";
-        $disk->put($file, file_get_contents($url), 'public');
-        $posterUrl = Storage::url('public/' . $file);
+            $url = str_replace(['%{width}', '%{height}'], [1280, 720], $data['thumbnail_url']);
+            $file = "thumbs/twitch/{$data['id']}-poster.png";
+            $disk->put($file, file_get_contents($url), 'public');
+            $posterUrl = Storage::url('public/' . $file);
+        } else {
+            $thumbnailUrl = null;
+            $posterUrl = null;
+        }
 
         // Create video
         $channel = Channel::importTwitch($data['user_login']);
