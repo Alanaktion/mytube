@@ -69,9 +69,11 @@
         <div class="container flex justify-end my-4">
             <lang-menu
                 :locales='@json(config('app.locale_list'))'
+                label="{{ __('Change language') }}"
             ></lang-menu>
             <theme-menu
                 class="ml-2"
+                label="{{ __('Toggle Dark Theme') }}"
             ></theme-menu>
         </div>
     </footer>
