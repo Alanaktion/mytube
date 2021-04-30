@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Channel;
+use App\Models\Playlist;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class ChannelController extends Controller
@@ -48,16 +50,10 @@ class ChannelController extends Controller
     public function search(Channel $channel, Request $request)
     {
         // TODO: show video and playlists results in single list
-        $videos = $channel->videos()
-            ->latest('published_at');
-        $playlists = $channel->playlists()
-            ->withCount('items')
-            ->latest('published_at');
-        $q = strtr($request->input('q'), ' ', '%');
-        if ($q) {
-            $videos->where('title', 'like', "%$q%");
-            $playlists->where('title', 'like', "%$q%");
-        }
+        $videos = Video::search($request->input('q'))
+            ->where('channel_id', $channel->id);
+        $playlists = Playlist::search($request->input('q'))
+            ->where('channel_id', $channel->id);
         return view('channels.search', [
             'title' => $channel->title,
             'channel' => $channel,

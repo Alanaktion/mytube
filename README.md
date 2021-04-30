@@ -50,6 +50,15 @@ If you choose to use Redis, you may require additional changes to the Redis conf
 
 A production environment will likely work best with additional setup to ensure the queue workers stay running. See the [Laravel Queue Worker documentation](https://laravel.com/docs/queues#running-the-queue-worker) for more details. In particular, heavily-used environments may find value in running a separate worker for each queue, or running multiple download queues in parallel if the additional IO is not an issue.
 
+### Search indexing
+
+MyTube uses MeiliSearch with Laravel Scout to index content and provide fast, robust searches. We intend to make this optional long-term, falling back to database matching where needed, but for now it is required.
+
+1. Install and start [MeiliSearch](https://docs.meilisearch.com/learn/getting_started/installation.html)
+2. If you are running multiple instances of MyTube, set a unique index prefix with the `SCOUT_PREFIX` value in your `.env` file
+3. Initialize your search indexes: `php artisan search:index`
+    - Subsequent changes to content will be updated automatically, but you can use this command to force a re-index with `--force`.
+
 ## Administration
 
 The web interface includes an administrative UI that offers basic functions for importing data. It's accessible at the `/admin` path on the app.

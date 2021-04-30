@@ -11,10 +11,12 @@ use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Scout\Searchable;
 
 class Channel extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $guarded = [];
     protected $dates = ['published_at'];
@@ -150,6 +152,18 @@ class Channel extends Model
         }
 
         return $channel;
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'uuid' => $this->uuid,
+            'title' => $this->title,
+            'description' => $this->description,
+            'source_type' => $this->type,
+            'published_at' => $this->published_at,
+        ];
     }
 
     /**

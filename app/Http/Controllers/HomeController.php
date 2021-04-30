@@ -32,26 +32,10 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        $q = strtr($request->input('q'), ' ', '%');
-
-        $videos = Video::latest('id')
-            ->with('channel')
-            ->where('title', 'like', "%$q%")
-            ->orWhere('uuid', $q)
-            ->limit(24)
-            ->get();
-        $playlists = Playlist::latest('id')
-            ->withCount('items')
-            ->where('title', 'like', "%$q%")
-            ->orWhere('uuid', $q)
-            ->limit(18)
-            ->get();
-        $channels = Channel::latest('id')
-            ->withCount('videos')
-            ->where('title', 'like', "%$q%")
-            ->orWhere('uuid', $q)
-            ->limit(18)
-            ->get();
+        // TODO: handle explicitly matching exact UUIDs, and prioritizing more recent objects
+        $videos = Video::search($request->input('q'))->paginate(24);
+        $playlists = Playlist::search($request->input('q'))->paginate(18);
+        $channels = Channel::search($request->input('q'))->paginate(18);
 
         return view('search', [
             'videos' => $videos,

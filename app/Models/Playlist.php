@@ -6,10 +6,12 @@ use App\Clients\YouTube;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Laravel\Scout\Searchable;
 
 class Playlist extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $guarded = [];
     protected $dates = ['published_at'];
@@ -39,6 +41,20 @@ class Playlist extends Model
         }
 
         return $playlist;
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'uuid' => $this->uuid,
+            'title' => $this->title,
+            'channel_title' => $this->channel->title,
+            'description' => $this->description,
+            'source_type' => $this->channel->source_type,
+            'channel_id' => $this->channel_id,
+            'published_at' => $this->published_at,
+        ];
     }
 
     public function importYouTubeItems()

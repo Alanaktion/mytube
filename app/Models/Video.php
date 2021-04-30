@@ -11,11 +11,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use YoutubeDl\YoutubeDl;
 
 class Video extends Model
 {
     use HasFactory;
+    use Searchable;
 
     public const VISIBILITY_PUBLIC = 'public';
     public const VISIBILITY_UNLISTED = 'unlisted';
@@ -191,6 +193,20 @@ class Video extends Model
             'thumbnail_url' => $thumbnailUrl,
             'poster_url' => $posterUrl,
         ]);
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'uuid' => $this->uuid,
+            'title' => $this->title,
+            'channel_title' => $this->channel->title,
+            'description' => $this->description,
+            'source_type' => $this->source_type,
+            'channel_id' => $this->channel_id,
+            'published_at' => $this->published_at,
+        ];
     }
 
     public function getSourceLinkAttribute(): ?string
