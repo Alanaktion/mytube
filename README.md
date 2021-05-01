@@ -74,12 +74,22 @@ A production environment will likely work best with additional setup to ensure t
 
 ### Search indexing
 
-MyTube uses MeiliSearch with Laravel Scout to index content and provide fast, robust searches. We intend to make this optional long-term, falling back to database matching where needed, but for now it is required.
+MyTube can use MeiliSearch with Laravel Scout to index content and provide fast, robust searches. It is optional, but makes the search _much_ better and it's highly recommended that you use it.
 
 1. Install and start [MeiliSearch](https://docs.meilisearch.com/learn/getting_started/installation.html)
-2. If you are running multiple instances of MyTube, set a unique index prefix with the `SCOUT_PREFIX` value in your `.env` file
-3. Initialize your search indexes: `php artisan search:index`
+2. In your `.env` file, add `SCOUT_DRIVER=meilisearch`
+3. If you are running multiple instances of MyTube, set a unique index prefix with the `SCOUT_PREFIX` value in your `.env` file
+4. Initialize your search indexes: `php artisan search:index`
     - Subsequent changes to content will be updated automatically, but you can use this command to force a re-index with `--force`.
+
+### Production optimization
+
+If you're not running the application for development/contribution purposes, it's recommended to run in optimized production mode for the best performance and to avoid leaking sensitive information like API keys.
+
+1. In `.env`, set `APP_ENV=production` and `APP_DEBUG=false`
+2. Run `php artisan optimize` to pre-cache the configuration, routing, etc.
+
+You will need to re-run `php artisan optimize` any time you update the app.
 
 ## Administration
 

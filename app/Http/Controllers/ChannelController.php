@@ -50,10 +50,24 @@ class ChannelController extends Controller
     public function search(Channel $channel, Request $request)
     {
         // TODO: show video and playlists results in single list
-        $videos = Video::search($request->input('q'))
-            ->where('channel_id', $channel->id);
-        $playlists = Playlist::search($request->input('q'))
-            ->where('channel_id', $channel->id);
+        if (config('scout.driver')) {
+            $videos = Video::search($request->input('q'))
+                ->where('channel_id', $channel->id);
+            $playlists = Playlist::search($request->input('q'))
+                ->where('channel_id', $channel->id);
+        } else {
+            $q = strtr($request->input('q'), ' ', '%');
+            $videos = $channel->videos()->latest('published_at');
+            $playlists = $channel->playlists()->latest('published_at');
+            if ($q) {
+                $videos
+                    ->where('title', 'like', "%$q%")
+                    ->orWhere('uuid', $request->input('q'));
+                $playlists
+                    ->where('title', 'like', "%$q%")
+                    ->orWhere('uuid', $request->input('q'));
+            }
+        }
         return view('channels.search', [
             'title' => $channel->title,
             'channel' => $channel,

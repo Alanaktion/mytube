@@ -33,6 +33,11 @@ class IndexSearch extends Command
      */
     public function handle()
     {
+        if (config('scout.driver') === null) {
+            $this->warn('No search index driver is configured.');
+            return 1;
+        }
+
         if ($this->option('flush')) {
             foreach (self::MODELS as $model) {
                 $this->call('scout:flush', ['model' => $model]);
