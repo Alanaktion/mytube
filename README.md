@@ -1,13 +1,35 @@
 # MyTube
 
-This is a web app in early stages, with the end goal of providing a self-hosted YouTube mirror. It is currently capable of storing metadata for existing local video files, and providing a basic web interface for discovering and watching the local videos.
+A self-hostable video archive web app
+
+[![CI](https://github.com/Alanaktion/mytube/actions/workflows/ci.yml/badge.svg)](https://github.com/Alanaktion/mytube/actions/workflows/ci.yml)
+
+## Features
+
+- Import video, channel, and playlist metadata from several sources:
+    - YouTube
+    - Twitch
+    - Twitter
+    - Floatplane
+- Import metadata from web URLs, local filesystem, and video IDs
+- Browse imported data from an intuitive web UI
+- Download videos automatically with youtube-dl
+- Light/dark mode toggle
+- Multiple languages
+- Administrator interface for importing content
+- GraphQL API for accessing public content
+- Experimental mobile app built with Expo
+
+## Demo
+
+https://mytube-app-demo.herokuapp.com/
 
 ## Requirements
 
-- PHP 7.3 or later, PHP 8 recommended
-- MySQL 8 (or any RDBMS supported by Laravel)
-- A web server with support for rewrites and following symbolic links (nginx recommended)
-- Latest Node.js LTS (for compiling static assets)
+- [PHP](https://php.net) 7.3 or later (PHP 8 recommended) with [Composer](https://getcomposer.org)
+- [MySQL](https://dev.mysql.com/downloads/) 8 (or any RDBMS supported by Laravel)
+- Web server with support for rewrites and following symbolic links ([nginx](https://nginx.org/en/) recommended)
+- [NodeJS](https://nodejs.org/en/) LTS 14 or later for building front-end assets
 
 ## Setup
 
@@ -25,7 +47,7 @@ Configure the app:
 ```bash
 cp .env.example .env
 php artisan key:generate
-vim .env # Add database and YouTube API info
+vim .env # Add database credentials
 ```
 
 Compile the assets and set up the database:
@@ -71,7 +93,7 @@ php artisan user:add
 
 ## Importing data
 
-Importing data may require a usable API key or user account for some sources and some object types. In particular, most YouTube imports require a YouTube API Key, and Floatplane imports currently rely on a session ID from a logged-in user with access to the imported data.
+Importing data may require a usable API key or user account for some sources and some object types. In particular, most YouTube, Twitch, and Twitter imports require a related API Key, and Floatplane imports currently rely on a session ID from a logged-in user with access to the imported data.
 
 ### Local video files
 
@@ -81,7 +103,9 @@ You can import existing video files from your local filesystem:
 php artisan youtube:import-fs <directory>
 ```
 
-This will scan the given directory for files that include YouTube video IDs in their filenames, and will fetch and store metadata from those videos. The videos will only be recognized if they have the YouTube UUID right before the file extension, as is the default in `youtube-dl`.
+This will recursively scan the given directory for files that include YouTube video IDs in their filenames, and will fetch and store metadata from those videos. The videos will only be recognized if they have the YouTube UUID right before the file extension, as is the default in `youtube-dl`.
+
+This works similarly for Twitch and Twitter files, using the `twitch:import-fs` and `twitter:import-fs` commands respectively.
 
 For best browser support, files should be in MP4 containers, with MPEG4 video and AAC audio. To download videos in this compatible single-file format:
 
@@ -125,7 +149,7 @@ You can also specify the path to your youtube-dl app if it is not included on yo
 YTDL_PATH=/usr/local/bin/youtube-dl
 ```
 
-Keep in mind that this involves downloading the video files from YouTube, and potentially re-encoding some incompatible audio streams. This can require significant network bandwidth, disk IO, and CPU in some cases. You should also be familiar with the YouTube terms of use, including usage of the API and website, to ensure your usage is not contradictory to those terms. The [youtube-dl](https://youtube-dl.org) project may have additional information on these topics.
+Keep in mind that this involves downloading the video files from the source, and potentially re-encoding some incompatible audio streams. This can require significant network bandwidth, disk IO, and CPU in some cases. You should also be familiar with the service's terms of use, including usage of the API and website, to ensure your usage is not contradictory to those terms. The [youtube-dl](https://youtube-dl.org) project may have additional information on these topics.
 
 ## GraphQL API
 
