@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Google_Client;
 use Google_Service_YouTube;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +34,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Model::preventLazyLoading(!app()->isProduction());
     }
 }

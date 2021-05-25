@@ -11,13 +11,13 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "@headlessui/vue": "^1.0.0",
+        "@headlessui/vue": "^1.2.0",
         "@tailwindcss/forms": "^0.2.1",
-        "@tailwindcss/line-clamp": "^0.2.0",
+        "@tailwindcss/line-clamp": "^0.2.1",
         "@vue/compiler-sfc": "^3.0.11",
-        "laravel-mix": "^6.0.11",
+        "laravel-mix": "^6.0.19",
         "mousetrap": "^1.6.5",
-        "postcss": "^8.2.6",
+        "postcss": "^8.3.0",
         "tailwindcss": "^2.1.1",
         "vue": "^3.0.11",
         "vue-loader": "^16.1.0"
