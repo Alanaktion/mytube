@@ -38,6 +38,7 @@ class ChannelController extends Controller
     public function playlists(Channel $channel)
     {
         $playlists = $channel->playlists()
+            ->with(['firstItem', 'firstItem.video'])
             ->withCount('items')
             ->latest('published_at');
         return view('channels.playlists', [
