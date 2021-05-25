@@ -197,6 +197,7 @@ class Video extends Model
 
     public function toSearchableArray()
     {
+        $this->loadMissing('channel');
         return [
             'id' => $this->id,
             'uuid' => $this->uuid,
