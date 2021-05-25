@@ -11,6 +11,7 @@ class PlaylistController extends Controller
     public function index(Request $request)
     {
         $playlists = Playlist::latest('published_at')
+            ->with(['firstItem', 'firstItem.video'])
             ->withCount('items');
         $source = $request->input('source');
         if ($source !== null) {

@@ -106,4 +106,9 @@ class Playlist extends Model
     {
         return $this->hasMany(PlaylistItem::class);
     }
+
+    public function firstItem()
+    {
+        return $this->hasOne(PlaylistItem::class)->ofMany('position', 'min');
+    }
 }

@@ -27,7 +27,9 @@ class VideoController extends Controller
         $video->load([
             'channel',
             'playlists' => function ($query) {
-                $query->withCount('items');
+                $query
+                    ->with(['firstItem', 'firstItem.video'])
+                    ->withCount('items');
             },
         ]);
         return view('videos.show', [

@@ -16,6 +16,7 @@ class HomeController extends Controller
             ->limit(18)
             ->get();
         $playlists = Playlist::latest('id')
+            ->with(['firstItem', 'firstItem.video'])
             ->withCount('items')
             ->limit(6)
             ->get();

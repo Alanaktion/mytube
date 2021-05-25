@@ -15,14 +15,17 @@ class FavoritesController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $videos = $user->favoriteVideos()
+            ->with('channel:id,uuid,title')
             ->withPivot('created_at')
             ->orderBy('user_favorite_videos.created_at', 'desc')
             ->paginate(36);
         $playlists = $user->favoritePlaylists()
+            ->with(['firstItem', 'firstItem.video'])
             ->withPivot('created_at')
             ->orderBy('user_favorite_playlists.created_at', 'desc')
             ->paginate(24);
         $channels = $user->favoriteChannels()
+            ->withCount('videos')
             ->withPivot('created_at')
             ->orderBy('user_favorite_channels.created_at', 'desc')
             ->paginate(24);
