@@ -87,7 +87,7 @@
 
             <div class="flex items-start mb-3">
                 <div class="flex items-center h-5">
-                    <input id="playlists" name="playlists" type="checkbox" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded">
+                    <input id="playlists" name="playlists" type="checkbox" class="focus:ring-blue-500 dark:ring-offset-trueGray-900 h-4 w-4 text-blue-600 border-gray-300 rounded">
                 </div>
                 <div class="ml-3 text-sm">
                     <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">Playlists</label>
@@ -96,7 +96,7 @@
             </div>
             <div class="flex items-start mb-3">
                 <div class="flex items-center h-5">
-                    <input id="videos" name="videos" type="checkbox" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded">
+                    <input id="videos" name="videos" type="checkbox" class="focus:ring-blue-500 dark:ring-offset-trueGray-900 h-4 w-4 text-blue-600 border-gray-300 rounded">
                 </div>
                 <div class="ml-3 text-sm leading-5">
                     <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">Videos</label>
