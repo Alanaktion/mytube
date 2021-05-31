@@ -73,7 +73,7 @@
     </header>
     <div class="sm:grid grid-cols-3 md:grid-cols-4">
         <div class="sm:col-span-2 md:col-span-3 mb-4">
-            <div class="text-gray-600 dark:text-trueGray-400 whitespace-pre-wrap">{{ $video->description }}</div>
+            <pre class="text-gray-600 dark:text-trueGray-400 whitespace-pre-wrap font-sans">{{ $video->description }}</pre>
         </div>
         <div>
             @if ($video->playlists->count())

@@ -43,7 +43,7 @@
                 <dt class="text-sm font-medium text-gray-500 dark:text-trueGray-400">
                     {{ __('Description') }}
                 </dt>
-                <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2 whitespace-pre-wrap">{{ $channel->description }}</dd>
+                <pre class="mt-1 text-sm sm:mt-0 sm:col-span-2 whitespace-pre-wrap font-sans">{{ $channel->description }}</pre>
             </div>
         </dl>
     </div>
