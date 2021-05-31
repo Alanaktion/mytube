@@ -42,6 +42,7 @@ class PlaylistController extends Controller
 
     public function refresh(Playlist $playlist)
     {
+        $playlist->load('channel:id,type');
         if ($playlist->channel->type != 'youtube') {
             return abort(400);
         }
