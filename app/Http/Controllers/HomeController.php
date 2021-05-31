@@ -22,7 +22,7 @@ class HomeController extends Controller
             ->get();
         $channels = Channel::latest('id')
             ->withCount('videos')
-            ->limit(6)
+            ->limit(5)
             ->get();
         return view('home', [
             'videos' => $videos,
@@ -51,7 +51,7 @@ class HomeController extends Controller
                 ->query(function ($builder) {
                     $builder->withCount('videos');
                 })
-                ->paginate(18);
+                ->paginate(15);
         } else {
             $q = strtr($request->input('q'), ' ', '%');
 
@@ -72,7 +72,7 @@ class HomeController extends Controller
                 ->withCount('videos')
                 ->where('title', 'like', "%$q%")
                 ->orWhere('uuid', $q)
-                ->limit(18)
+                ->limit(15)
                 ->get();
         }
 

@@ -27,7 +27,7 @@
     </div>
 
     <h3 class="text-xl mb-2">{{ __('Channels') }}</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 pb-5 lg:mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 pb-5 lg:mb-6">
         @forelse ($channels as $channel)
             <x-channel-link :channel="$channel" :showChannel="true" />
         @empty

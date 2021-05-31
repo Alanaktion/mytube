@@ -28,7 +28,7 @@ class FavoritesController extends Controller
             ->withCount('videos')
             ->withPivot('created_at')
             ->orderBy('user_favorite_channels.created_at', 'desc')
-            ->paginate(24);
+            ->paginate(20);
         return view('favorites.index', [
             'videos' => $videos,
             'playlists' => $playlists,

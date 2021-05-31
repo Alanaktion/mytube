@@ -19,7 +19,7 @@ class ChannelController extends Controller
         }
         return view('channels.index', [
             'title' => __('Channels'),
-            'channels' => $channels->paginate(36)->withQueryString(),
+            'channels' => $channels->paginate(35)->withQueryString(),
             'source' => $source,
         ]);
     }
