@@ -174,7 +174,7 @@ class Channel extends Model
      */
     public function importVideos()
     {
-        if ($this->type == 'youtube') {
+        if ($this->type != 'youtube') {
             throw new Exception('Importing videos is not supported for this channel type.');
         }
 
@@ -209,7 +209,7 @@ class Channel extends Model
      */
     public function importPlaylists(bool $importItems = true)
     {
-        if ($this->type == 'youtube') {
+        if ($this->type != 'youtube') {
             throw new Exception('Importing playlists is not supported for this channel type.');
         }
 
