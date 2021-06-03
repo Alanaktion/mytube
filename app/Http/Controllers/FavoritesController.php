@@ -21,6 +21,7 @@ class FavoritesController extends Controller
             ->paginate(36);
         $playlists = $user->favoritePlaylists()
             ->with(['firstItem', 'firstItem.video'])
+            ->withCount('items')
             ->withPivot('created_at')
             ->orderBy('user_favorite_playlists.created_at', 'desc')
             ->paginate(24);
