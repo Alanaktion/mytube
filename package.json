@@ -18,7 +18,7 @@
         "laravel-mix": "^6.0.19",
         "mousetrap": "^1.6.5",
         "postcss": "^8.3.0",
-        "tailwindcss": "^2.1.1",
+        "tailwindcss": "^2.1.4",
         "vue": "^3.0.11",
         "vue-loader": "^16.1.0"
     }
