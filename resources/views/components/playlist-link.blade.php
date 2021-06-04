@@ -6,7 +6,7 @@
             @else
                 {{-- TODO: handle thumbnail for playlist with no videos --}}
             @endif
-            <div class="absolute w-full bottom-0 px-3 py-2 bg-black bg-opacity-50 text-white backdrop-blur">
+            <div class="absolute w-full bottom-0 px-3 py-2 bg-black bg-opacity-50 text-white backdrop-filter backdrop-blur-xl">
                 {{ trans_choice('1 video|:count videos', $playlist->items_count) }}
             </div>
         </div>

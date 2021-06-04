@@ -73,15 +73,3 @@
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
 }
-
-.backdrop-blur {
-    backdrop-filter: blur(2rem);
-}
-
-.drop-shadow {
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
-}
-
-[x-cloak] {
-    display: none !important;
-}
