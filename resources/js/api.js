@@ -1,7 +1,7 @@
 const csrfToken = document.querySelector('[name="csrf-token"]').getAttribute('content')
 
 const queryParams = () => {
-    const parts = location.search.substring(1).split("&");
+    const parts = location.search.substring(1).split("&").filter(Boolean);
     const params = {};
     parts.forEach(p => {
         const split = p.split('=');
