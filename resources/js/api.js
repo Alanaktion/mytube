@@ -1,5 +1,23 @@
 const csrfToken = document.querySelector('[name="csrf-token"]').getAttribute('content')
 
+const queryParams = () => {
+    const parts = location.search.substring(1).split("&");
+    const params = {};
+    parts.forEach(p => {
+        const split = p.split('=');
+        params[split[0]] = split[1];
+    });
+    return params;
+}
+
+const paramsToQuery = (params) => {
+    const parts = [];
+    params.forEach((val, key) => {
+        parts.push(`${key}=${val}`);
+    });
+    return `?${parts.join('&')}`;
+}
+
 export const setFavorite = async (uuid, value, type='video') => {
     fetch(`/favorites/toggle${type.charAt(0).toUpperCase() + type.slice(1)}`, {
         method: 'POST',
@@ -33,9 +51,13 @@ export const setLanguage = value => {
 };
 
 export const setSource = value => {
-    if (value === null) {
-        location = '?source=';
-        return;
-    }
-    location = `?source=${value}`;
+    const params = queryParams();
+    params.source = value;
+    location = paramsToQuery(params);
 };
+
+export const setSort = value => {
+    const params = queryParams();
+    params.sort = value;
+    location = paramsToQuery(params);
+}

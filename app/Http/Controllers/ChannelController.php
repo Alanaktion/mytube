@@ -11,15 +11,21 @@ class ChannelController extends Controller
 {
     public function index(Request $request)
     {
-        $channels = Channel::latest('published_at')
-            ->withCount('videos');
+        $request->validate([
+            'sort' => ['sometimes', 'string', 'in:published_at,created_at'],
+            'type' => ['sometimes', 'string'],
+        ]);
+        $sort = $request->input('sort', 'published_at');
         $source = $request->input('source');
+        $channels = Channel::latest($sort)
+            ->withCount('videos');
         if ($source !== null) {
             $channels->where('type', $source);
         }
         return view('channels.index', [
             'title' => __('Channels'),
             'channels' => $channels->paginate(35)->withQueryString(),
+            'sort' => $sort,
             'source' => $source,
         ]);
     }
