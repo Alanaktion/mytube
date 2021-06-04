@@ -12,8 +12,8 @@ const queryParams = () => {
 
 const paramsToQuery = (params) => {
     const parts = [];
-    params.forEach((val, key) => {
-        parts.push(`${key}=${val}`);
+    Object.keys(params).forEach(key => {
+        parts.push(`${key}=${params[key]}`);
     });
     return `?${parts.join('&')}`;
 }
