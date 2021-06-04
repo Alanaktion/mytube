@@ -13,7 +13,8 @@ const queryParams = () => {
 const paramsToQuery = (params) => {
     const parts = [];
     Object.keys(params).forEach(key => {
-        parts.push(`${key}=${params[key]}`);
+        const val = params[key] === null ? '' : params[key];
+        parts.push(`${key}=${val}`);
     });
     return `?${parts.join('&')}`;
 }
