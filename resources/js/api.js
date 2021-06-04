@@ -48,7 +48,9 @@ export const setTheme = value => {
 };
 
 export const setLanguage = value => {
-    location = `?lang=${value}`;
+    const params = queryParams();
+    params.lang = value;
+    location = paramsToQuery(params);
 };
 
 export const setSource = value => {
