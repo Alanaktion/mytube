@@ -4,8 +4,8 @@ $options = [
     'created_at' => 'Imported',
 ];
 @endphp
-<source-filter
+<sort-by
     :options='@json($options)'
     value="{{ $value }}"
     label="{{ __('Sort') }}"
-></source-filter>
+></sort-by>
