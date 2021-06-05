@@ -54,6 +54,7 @@ Route::post('/admin/playlists', [AdminController::class, 'playlistImport']);
 Route::post('/admin/videos', [AdminController::class, 'videoImport']);
 Route::post('/admin/channels', [AdminController::class, 'channelImport']);
 Route::get('/admin/missing', [AdminController::class, 'missing']);
+Route::get('/admin/queue', [AdminController::class, 'queue']);
 
 Route::get('/robots.txt', [MetaController::class, 'robots']);
 Route::get('/opensearch.xml', [MetaController::class, 'openSearch']);

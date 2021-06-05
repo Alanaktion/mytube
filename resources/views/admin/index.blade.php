@@ -119,6 +119,17 @@
                 View all →
             </x-button>
         </div>
+
+        <div>
+            <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
+                Queued Actions
+            </div>
+            <p class="mb-3">View any current background activity</p>
+
+            <x-button href="/admin/queue" small>
+                View all →
+            </x-button>
+        </div>
     </div>
 </div>
 @endsection
