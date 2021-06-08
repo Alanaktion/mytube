@@ -30,6 +30,9 @@ module.exports = {
                 '3/4': '75%',
                 '9/16': '56.25%',
             },
+            boxShadow: {
+                'inner-white-top': 'inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+            },
         },
         container: {
             padding: '1rem',
