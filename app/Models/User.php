@@ -42,4 +42,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Video::class, 'user_favorite_videos')
             ->withTimestamps();
     }
+
+    public function favoritePlaylists()
+    {
+        return $this->belongsToMany(Playlist::class, 'user_favorite_playlists')
+            ->withTimestamps();
+    }
+
+    public function favoriteChannels()
+    {
+        return $this->belongsToMany(Channel::class, 'user_favorite_channels')
+            ->withTimestamps();
+    }
 }

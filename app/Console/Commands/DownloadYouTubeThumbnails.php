@@ -27,7 +27,7 @@ class DownloadYouTubeThumbnails extends Command
         })->where(function ($query) {
             $query->whereNull('thumbnail_url')
                 ->orWhereNull('poster_url');
-        })->get();
+        })->cursor();
 
         $bar = $this->output->createProgressBar($videos->count());
         $bar->start();

@@ -10,10 +10,12 @@ use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Scout\Searchable;
 
 class Channel extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $guarded = [];
     protected $dates = ['published_at'];
@@ -46,11 +48,13 @@ class Channel extends Model
         bool $importPlaylists = false,
         ?bool $importPlaylistItems = null
     ): Channel {
+        /** @var Channel|null $channel */
         $channel = Channel::where('uuid', $id)
             ->where('type', 'youtube')
             ->first();
         if (!$channel) {
             $channelData = YouTube::getChannelData($id);
+            /** @var Channel $channel */
             $channel = Channel::create([
                 'uuid' => $channelData['id'],
                 'title' => $channelData['title'],
@@ -148,6 +152,18 @@ class Channel extends Model
         return $channel;
     }
 
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'uuid' => $this->uuid,
+            'title' => $this->title,
+            'description' => $this->description,
+            'source_type' => $this->type,
+            'published_at' => $this->published_at,
+        ];
+    }
+
     /**
      * Import any missing videos for this channel
      *
@@ -156,7 +172,7 @@ class Channel extends Model
      */
     public function importVideos()
     {
-        if ($this->type == 'youtube') {
+        if ($this->type != 'youtube') {
             throw new Exception('Importing videos is not supported for this channel type.');
         }
 
@@ -191,7 +207,7 @@ class Channel extends Model
      */
     public function importPlaylists(bool $importItems = true)
     {
-        if ($this->type == 'youtube') {
+        if ($this->type != 'youtube') {
             throw new Exception('Importing playlists is not supported for this channel type.');
         }
 

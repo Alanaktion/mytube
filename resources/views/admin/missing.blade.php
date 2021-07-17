@@ -3,23 +3,23 @@
 @section('content')
 <div class="container">
     <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2 lg:mb-3">
-        Videos missing files
+        {{ __('Videos missing files') }}
     </div>
 
     <table class="min-w-full divide-y divide-gray-200 dark:divide-trueGray-800 shadow overflow-hidden sm:rounded-lg mb-4">
         <thead>
             <tr>
                 <th class="px-6 py-3 bg-gray-50 dark:bg-trueGray-800 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
-                    Video Title
+                    {{ __('Title') }}
                 </th>
                 <th class="px-6 py-3 bg-gray-50 dark:bg-trueGray-800 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
-                    Channel
+                    {{ __('Channel') }}
                 </th>
                 <th class="px-6 py-3 bg-gray-50 dark:bg-trueGray-800 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
-                    Playlists
+                    {{ __('Playlists') }}
                 </th>
                 <th class="px-6 py-3 bg-gray-50 dark:bg-trueGray-800 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
-                    Published
+                    {{ __('Published') }}
                 </th>
                 <th class="px-6 py-3 bg-gray-50 dark:bg-trueGray-800"></th>
             </tr>
@@ -58,7 +58,7 @@
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-700 dark:text-trueGray-300">
-                        {{ $video->published_at->format('F j, Y') }}
+                        {{ $video->published_at->translatedFormat('F j, Y') }}
                     </td>
                     <td class="px-6 py-4 text-right leading-5 font-medium">
                         @if ($video->source_link)
@@ -73,7 +73,7 @@
             @empty
                 <tr>
                     <td colspan="5" class="px-6 py-16 text-gray-500 dark:text-trueGray-500 text-center">
-                        No videos are missing local files.
+                        {{ __('No videos are missing local files.') }}
                     </td>
                 </tr>
             @endforelse

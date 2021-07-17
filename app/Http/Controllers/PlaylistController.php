@@ -4,17 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ProcessPlaylistImport;
 use App\Models\Playlist;
+use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $playlists = Playlist::orderBy('published_at', 'desc')
-            ->withCount('items')
-            ->paginate(24);
+        $request->validate([
+            'sort' => ['sometimes', 'string', 'in:published_at,created_at'],
+            'type' => ['sometimes', 'string', 'nullable'],
+        ]);
+        $sort = $request->input('sort', 'published_at');
+        $source = $request->input('source');
+        $playlists = Playlist::latest($sort)
+            ->with(['firstItem', 'firstItem.video'])
+            ->withCount('items');
+        if ($source !== null) {
+            $playlists->whereHas('channel', function ($query) use ($source) {
+                $query->where('type', $source);
+            });
+        }
         return view('playlists.index', [
             'title' => __('Playlists'),
-            'playlists' => $playlists,
+            'playlists' => $playlists->paginate(24)->withQueryString(),
+            'sort' => $sort,
+            'source' => $source,
         ]);
     }
 
@@ -34,6 +48,7 @@ class PlaylistController extends Controller
 
     public function refresh(Playlist $playlist)
     {
+        $playlist->load('channel:id,type');
         if ($playlist->channel->type != 'youtube') {
             return abort(400);
         }

@@ -22,9 +22,9 @@
 
 
         <div class="mt-6 flex items-center justify-between">
-            <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full">
+            <x-button type="submit" rounded primary>
                 {{ __('Confirm Password') }}
-            </button>
+            </x-button>
 
             @if (Route::has('password.request'))
             <div class="text-sm leading-5">

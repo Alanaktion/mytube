@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ProcessChannelImport;
 use App\Jobs\ProcessPlaylistImport;
-use App\Models\Channel;
-use App\Models\Playlist;
 use App\Models\Video;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -33,11 +34,27 @@ class AdminController extends Controller
     {
         return view('admin.index', [
             'title' => __('Administration'),
-            'videoCount' => Video::count(),
-            'channelCount' => Channel::count(),
-            'playlistCount' => Playlist::count(),
+            'videoCount' => $this->fastCount('videos'),
+            'channelCount' => $this->fastCount('channels'),
+            'playlistCount' => $this->fastCount('playlists'),
             'missingCount' => Video::whereNull('file_path')->count(),
         ]);
+    }
+
+    /**
+     * Get an approximate row count for an InnoDB table
+     *
+     * Due to a limitation in Laravel/PDO, the table name is NOT parameterized,
+     * and MUST be a trusted value (not from the user).
+     */
+    protected function fastCount(string $table): ?int
+    {
+        $connection = config('database.default');
+        if (config("database.connections.{$connection}.driver") == 'mysql') {
+            $result = DB::select("show table status like '{$table}'");
+            return $result[0]->Rows ?? null;
+        }
+        return DB::select("select count(*) as count from {$table}")[0]->count ?? null;
     }
 
     public function playlistImport(Request $request)
@@ -152,10 +169,52 @@ class AdminController extends Controller
     {
         $videos = Video::with(['channel', 'playlists'])
             ->whereNull('file_path')
-            ->orderBy('created_at', 'desc');
+            ->latest('id');
         return view('admin.missing', [
             'title' => __('Administration'),
             'videos' => $videos->paginate(),
+        ]);
+    }
+
+    public function queue()
+    {
+        $queuedJobs = [];
+        if (config('queue.default') == 'database') {
+            $rows = DB::table(config('queue.connections.database.table'))
+                ->get();
+            foreach ($rows as $row) {
+                $payload = json_decode($row->payload);
+                $queuedJobs[] = (object)[
+                    'queue' => $row->queue,
+                    'name' => basename(strtr($payload->displayName, '\\', '/')),
+                    'payload' => $payload,
+                    'attempts' => $row->attempts,
+                    'reserved_at' => $row->reserved_at ? Carbon::createFromTimestampUTC($row->reserved_at) : null,
+                    'available_at' => Carbon::createFromTimestampUTC($row->available_at),
+                ];
+            }
+        } elseif (config('queue.default') == 'redis') {
+            $queues = Redis::keys('queues:*');
+            foreach ($queues as $queue) {
+                if (substr($queue, -7) == ':notify') {
+                    continue;
+                }
+                $queue = substr($queue, strpos($queue, ':') + 1);
+                $jobs = Redis::lrange('queues:' . $queue, 0, -1);
+                foreach ($jobs as $job) {
+                    $row = json_decode($job);
+                    $queuedJobs[] = (object)[
+                        'queue' => $queue,
+                        'name' => basename(strtr($row->displayName, '\\', '/')),
+                        'payload' => $row->data,
+                        'attempts' => $row->attempts,
+                    ];
+                }
+            }
+        }
+        return view('admin.queue', [
+            'title' => __('Administration'),
+            'queue' => $queuedJobs,
         ]);
     }
 }

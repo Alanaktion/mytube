@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserFavoriteVideo extends Model
 {
-    function user()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    function video()
+    public function video()
     {
         return $this->belongsTo(Video::class);
     }

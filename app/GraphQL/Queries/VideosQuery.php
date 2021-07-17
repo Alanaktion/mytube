@@ -60,7 +60,7 @@ class VideosQuery extends Query
     {
         $videos = Video::with($fields->getRelations())
             ->select(array_merge($fields->getSelect(), ['uuid', 'file_path']))
-            ->latest();
+            ->latest('id');
 
         if (isset($args['id'])) {
             $videos->where('id', $args['id']);

@@ -31,9 +31,9 @@
 
 
         <div class="mt-6">
-            <button type="submit" class="bg-blue-600 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full">
+            <x-button type="submit" rounded primary>
                 {{ __('Send Password Reset Link') }}
-            </button>
+            </x-button>
         </div>
     </form>
 </div>

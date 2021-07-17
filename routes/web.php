@@ -46,12 +46,15 @@ Auth::routes();
 
 Route::get('/favorites', [FavoritesController::class, 'index']);
 Route::post('/favorites/toggleVideo', [FavoritesController::class, 'toggleVideo']);
+Route::post('/favorites/togglePlaylist', [FavoritesController::class, 'togglePlaylist']);
+Route::post('/favorites/toggleChannel', [FavoritesController::class, 'toggleChannel']);
 
 Route::get('/admin', [AdminController::class, 'index']);
 Route::post('/admin/playlists', [AdminController::class, 'playlistImport']);
 Route::post('/admin/videos', [AdminController::class, 'videoImport']);
 Route::post('/admin/channels', [AdminController::class, 'channelImport']);
 Route::get('/admin/missing', [AdminController::class, 'missing']);
+Route::get('/admin/queue', [AdminController::class, 'queue']);
 
 Route::get('/robots.txt', [MetaController::class, 'robots']);
 Route::get('/opensearch.xml', [MetaController::class, 'openSearch']);

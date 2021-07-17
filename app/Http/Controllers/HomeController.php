@@ -11,17 +11,18 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $videos = Video::latest()
+        $videos = Video::latest('id')
             ->with('channel')
             ->limit(18)
             ->get();
-        $playlists = Playlist::latest()
+        $playlists = Playlist::latest('id')
+            ->with(['firstItem', 'firstItem.video'])
             ->withCount('items')
             ->limit(6)
             ->get();
-        $channels = Channel::latest()
+        $channels = Channel::latest('id')
             ->withCount('videos')
-            ->limit(6)
+            ->limit(5)
             ->get();
         return view('home', [
             'videos' => $videos,
@@ -32,26 +33,48 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        $q = strtr($request->input('q'), ' ', '%');
+        if (config('scout.driver')) {
+            // TODO: handle explicitly matching exact UUIDs, and prioritizing more recent objects
+            $videos = Video::search($request->input('q'))
+                ->query(function ($builder) {
+                    $builder->with('channel');
+                })
+                ->paginate(24);
+            $playlists = Playlist::search($request->input('q'))
+                ->query(function ($builder) {
+                    $builder
+                        ->with('firstItem', 'firstItem.video')
+                        ->withCount('items');
+                })
+                ->paginate(18);
+            $channels = Channel::search($request->input('q'))
+                ->query(function ($builder) {
+                    $builder->withCount('videos');
+                })
+                ->paginate(15);
+        } else {
+            $q = strtr($request->input('q'), ' ', '%');
 
-        $videos = Video::latest()
-            ->with('channel')
-            ->where('title', 'like', "%$q%")
-            ->orWhere('uuid', $q)
-            ->limit(24)
-            ->get();
-        $playlists = Playlist::latest()
-            ->withCount('items')
-            ->where('title', 'like', "%$q%")
-            ->orWhere('uuid', $q)
-            ->limit(18)
-            ->get();
-        $channels = Channel::latest()
-            ->withCount('videos')
-            ->where('title', 'like', "%$q%")
-            ->orWhere('uuid', $q)
-            ->limit(18)
-            ->get();
+            $videos = Video::latest('id')
+                ->with('channel')
+                ->where('title', 'like', "%$q%")
+                ->orWhere('uuid', $q)
+                ->limit(24)
+                ->get();
+            $playlists = Playlist::latest('id')
+                ->with('firstItem', 'firstItem.video')
+                ->withCount('items')
+                ->where('title', 'like', "%$q%")
+                ->orWhere('uuid', $q)
+                ->limit(18)
+                ->get();
+            $channels = Channel::latest('id')
+                ->withCount('videos')
+                ->where('title', 'like', "%$q%")
+                ->orWhere('uuid', $q)
+                ->limit(15)
+                ->get();
+        }
 
         return view('search', [
             'videos' => $videos,

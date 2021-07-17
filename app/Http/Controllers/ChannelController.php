@@ -3,24 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\Channel;
+use App\Models\Playlist;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class ChannelController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $channels = Channel::orderBy('published_at', 'desc')
-            ->withCount('videos')
-            ->paginate(36);
+        $request->validate([
+            'sort' => ['sometimes', 'string', 'in:published_at,created_at'],
+            'type' => ['sometimes', 'string', 'nullable'],
+        ]);
+        $sort = $request->input('sort', 'published_at');
+        $source = $request->input('source');
+        $channels = Channel::latest($sort)
+            ->withCount('videos');
+        if ($source !== null) {
+            $channels->where('type', $source);
+        }
         return view('channels.index', [
-            'channels' => $channels,
+            'title' => __('Channels'),
+            'channels' => $channels->paginate(35)->withQueryString(),
+            'sort' => $sort,
+            'source' => $source,
         ]);
     }
 
     public function videos(Channel $channel)
     {
         $videos = $channel->videos()
-            ->orderBy('published_at', 'desc');
+            ->latest('published_at');
         return view('channels.videos', [
             'title' => $channel->title,
             'channel' => $channel,
@@ -31,8 +44,9 @@ class ChannelController extends Controller
     public function playlists(Channel $channel)
     {
         $playlists = $channel->playlists()
+            ->with(['firstItem', 'firstItem.video'])
             ->withCount('items')
-            ->orderBy('published_at', 'desc');
+            ->latest('published_at');
         return view('channels.playlists', [
             'title' => $channel->title,
             'channel' => $channel,
@@ -43,15 +57,23 @@ class ChannelController extends Controller
     public function search(Channel $channel, Request $request)
     {
         // TODO: show video and playlists results in single list
-        $videos = $channel->videos()
-            ->orderBy('published_at', 'desc');
-        $playlists = $channel->playlists()
-            ->withCount('items')
-            ->orderBy('published_at', 'desc');
-        $q = strtr($request->input('q'), ' ', '%');
-        if ($q) {
-            $videos->where('title', 'like', "%$q%");
-            $playlists->where('title', 'like', "%$q%");
+        if (config('scout.driver')) {
+            $videos = Video::search($request->input('q'))
+                ->where('channel_id', $channel->id);
+            $playlists = Playlist::search($request->input('q'))
+                ->where('channel_id', $channel->id);
+        } else {
+            $q = strtr($request->input('q'), ' ', '%');
+            $videos = $channel->videos()->latest('published_at');
+            $playlists = $channel->playlists()->latest('published_at');
+            if ($q) {
+                $videos
+                    ->where('title', 'like', "%$q%")
+                    ->orWhere('uuid', $request->input('q'));
+                $playlists
+                    ->where('title', 'like', "%$q%")
+                    ->orWhere('uuid', $request->input('q'));
+            }
         }
         return view('channels.search', [
             'title' => $channel->title,

@@ -13,14 +13,25 @@ mousetrap.bind('g p', () => {
 mousetrap.bind('g c', () => {
     location = '/channels';
 });
+mousetrap.bind('g f', () => {
+    location = '/favorites';
+});
 mousetrap.bind('g a', () => {
     location = '/admin';
 });
-mousetrap.bind('/', () => {
+mousetrap.bind(['/', 'command+k', 'ctrl+k'], () => {
     const el = document.querySelector('input[type=search]');
     el.focus();
     el.select();
     return false;
+});
+
+// Pagination key bindings
+mousetrap.bind('right', () => {
+    location = document.querySelector('a[rel="next"]').getAttribute('href');
+});
+mousetrap.bind('left', () => {
+    location = document.querySelector('a[rel="prev"]').getAttribute('href');
 });
 
 // Video page key bindings

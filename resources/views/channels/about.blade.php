@@ -8,7 +8,7 @@
         <dl>
             <div class="bg-gray-50 dark:bg-trueGray-850 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500 dark:text-trueGray-400">
-                    Source
+                    {{ __('Source') }}
                 </dt>
                 <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
                     @if ($channel->type == 'youtube')
@@ -16,7 +16,7 @@
                     @elseif ($channel->type)
                         {{ ucfirst($channel->type) }}
                     @else
-                        Unknown
+                        {{ __('Unknown') }}
                     @endif
                     @if ($channel->source_link)
                         &mdash; <a class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300" href="{{ $channel->source_link }}">{{ $channel->source_link }}</a>
@@ -25,25 +25,25 @@
             </div>
             <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500 dark:text-trueGray-400">
-                    Published
+                    {{ __('Published date') }}
                 </dt>
                 <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                    {{ $channel->published_at ? $channel->published_at->format('F j, Y') : 'Unknown' }}
+                    {{ $channel->published_at ? $channel->published_at->translatedFormat('F j, Y') : __('Unknown') }}
                 </dd>
             </div>
             <div class="bg-gray-50 dark:bg-trueGray-850 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500 dark:text-trueGray-400">
-                    Imported
+                    {{ __('Imported date') }}
                 </dt>
                 <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                    {{ $channel->created_at->format('F j, Y') }}
+                    {{ $channel->created_at->translatedFormat('F j, Y') }}
                 </dd>
             </div>
             <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500 dark:text-trueGray-400">
-                    Description
+                    {{ __('Description') }}
                 </dt>
-                <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2 whitespace-pre-wrap">{{ $channel->description }}</dd>
+                <pre class="mt-1 text-sm sm:mt-0 sm:col-span-2 whitespace-pre-wrap font-sans">{{ $channel->description }}</pre>
             </div>
         </dl>
     </div>
