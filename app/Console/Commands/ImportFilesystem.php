@@ -57,14 +57,14 @@ class ImportFilesystem extends Command
                 // Auto-detect source type from file
                 foreach ($this->sources as $key => $source) {
                     /** @var \App\Sources\Source $source */
-                    $id = $source->matchFilename(basename($file));
+                    $id = $source->video()->matchFilename(basename($file));
                     if ($id !== null) {
                         $type = $key;
                         break;
                     }
                 }
             } else {
-                $id = $this->sources[$type]->matchFilename(basename($file));
+                $id = $this->sources[$type]->video()->matchFilename(basename($file));
             }
             if ($id !== null) {
                 $videos[] = [
@@ -117,7 +117,7 @@ class ImportFilesystem extends Command
         string $id,
         string $filePath
     ): Video {
-        $id = $this->sources[$type]->canonicalizeVideo($id);
+        $id = $this->sources[$type]->video()->canonicalizeId($id);
         if (ImportError::where('uuid', $id)->first()) {
             throw new Exception('Video previously failed to import');
         }

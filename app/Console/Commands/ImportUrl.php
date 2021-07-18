@@ -29,7 +29,7 @@ class ImportUrl extends Command
             if ($type === null) {
                 foreach ($sources as $source) {
                     /** @var \App\Sources\Source $source */
-                    if ($id = $source->matchUrl($url)) {
+                    if ($id = $source->video()->matchUrl($url)) {
                         $type = $source->getSourceType();
                         $typeSource = $source;
                         break;
@@ -47,7 +47,7 @@ class ImportUrl extends Command
             if ($type === null) {
                 $this->error('Unable to find source for URL: ' . $url);
             } else {
-                $id = $typeSource->matchUrl($url);
+                $id = $typeSource->video()->matchUrl($url);
             }
             if ($id === null) {
                 $this->warn('Unable to match URL: ' . $url);

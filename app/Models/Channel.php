@@ -24,7 +24,7 @@ class Channel extends Model
         foreach ($sources as $source) {
             /** @var \App\Sources\Source $source */
             if ($source->getSourceType() == $type) {
-                $field = $source->getChannelField();
+                $field = $source->channel()->getField();
 
                 // Check for existing previous import
                 $channel = Channel::where($field, $id)
@@ -34,7 +34,7 @@ class Channel extends Model
                     return $channel;
                 }
 
-                return $source->importChannel($id);
+                return $source->channel()->import($id);
             }
         }
         throw new Exception('Unable to import source type ' . $type);
@@ -174,17 +174,12 @@ class Channel extends Model
 
     public function getSourceLinkAttribute(): ?string
     {
-        if ($this->type == 'youtube') {
-            return 'https://www.youtube.com/channel/' . $this->uuid;
-        }
-        if ($this->type == 'twitch') {
-            return 'https://www.twitch.tv/' . $this->custom_url;
-        }
-        if ($this->type == 'floatplane') {
-            return 'https://www.floatplane.com/channel/' . $this->custom_url;
-        }
-        if ($this->type == 'twitter') {
-            return 'https://twitter.com/' . $this->custom_url;
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            /** @var \App\Sources\Source $source */
+            if ($source->getSourceType() == $this->type) {
+                return $source->channel()->getSourceUrl($this);
+            }
         }
         return null;
     }

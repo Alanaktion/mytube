@@ -2,12 +2,12 @@
 
 namespace App\Sources\Floatplane;
 
-use App\Models\Channel;
-use App\Models\Playlist;
-use App\Models\Video;
 use App\Sources\Source;
-use Exception;
-use Illuminate\Support\Facades\Storage;
+use App\Sources\SourceChannel;
+use App\Sources\SourcePlaylist;
+use App\Sources\SourceVideo;
+use App\Sources\Floatplane\Source\FloatplaneChannel;
+use App\Sources\Floatplane\Source\FloatplaneVideo;
 use Illuminate\View\View;
 
 class FloatplaneSource implements Source
@@ -15,11 +15,6 @@ class FloatplaneSource implements Source
     public function getSourceType(): string
     {
         return 'floatplane';
-    }
-
-    public function getChannelField(): string
-    {
-        return 'custom_url';
     }
 
     public function getDisplayName(): string
@@ -32,97 +27,18 @@ class FloatplaneSource implements Source
         return view('sources.icon-floatplane');
     }
 
-    public function canonicalizeVideo(string $id): string
+    public function video(): SourceVideo
     {
-        return $id;
+        return new FloatplaneVideo();
     }
 
-    public function importChannel(string $id): Channel
+    public function channel(): SourceChannel
     {
-        $channelData = FloatplaneClient::getChannelData($id);
-
-        // Download images
-        $disk = Storage::disk('public');
-        $data = file_get_contents($channelData['icon']);
-        $file = 'thumbs/floatplane-channel/' . basename($channelData['icon']);
-        $disk->put($file, $data, 'public');
-        $imageUrl = Storage::url('public/' . $file);
-        $data = file_get_contents($channelData['icon-lg']);
-        $file = 'thumbs/floatplane-channel/' . basename($channelData['icon-lg']);
-        $disk->put($file, $data, 'public');
-        $imageUrlLg = Storage::url('public/' . $file);
-
-        // Create channel
-        return Channel::create([
-            'uuid' => $channelData['id'],
-            'title' => $channelData['title'],
-            'description' => $channelData['description'],
-            'custom_url' => $channelData['custom_url'],
-            'type' => 'floatplane',
-            'image_url' => $imageUrl,
-            'image_url_lg' => $imageUrlLg,
-        ]);
+        return new FloatplaneChannel();
     }
 
-    public function importVideo(string $id): Video
+    public function playlist(): ?SourcePlaylist
     {
-        $data = FloatplaneClient::getVideoData($id);
-
-        // Download images
-        $disk = Storage::disk('public');
-        $file = 'thumbs/floatplane/' . basename($data['thumbnail']);
-        $disk->put($file, file_get_contents($data['thumbnail']), 'public');
-        $thumbnailUrl = Storage::url('public/' . $file);
-        $file = 'thumbs/floatplane/' . basename($data['poster']);
-        $disk->put($file, file_get_contents($data['poster']), 'public');
-        $posterUrl = Storage::url('public/' . $file);
-
-        // Create video
-        $channel = Channel::import($this->getSourceType(), $data['channel_url']);
-        return $channel->videos()->create([
-            'uuid' => $data['id'],
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'source_type' => 'floatplane',
-            'published_at' => $data['published_at'],
-            'thumbnail_url' => $thumbnailUrl,
-            'poster_url' => $posterUrl,
-        ]);
-    }
-
-    public function supportsPlaylists(): bool
-    {
-        return false;
-    }
-
-    public function importPlaylist(string $id): Playlist
-    {
-        throw new Exception('Playlist import is not supported by this source.');
-    }
-
-    public function importPlaylistItems(Playlist $playlist): void
-    {
-        throw new Exception('Playlist import is not supported by this source.');
-    }
-
-    public function matchUrl(string $url): ?string
-    {
-        if (preg_match('/^(https:\/\/)?(www\.)?floatplane\.com\/post\/([0-9a-z_\-]{10})/i', $url, $matches)) {
-            return $matches[3];
-        }
-        return null;
-    }
-
-    public function matchId(string $id): bool
-    {
-        return (bool)preg_match('/^[0-9a-z_\-]{10}$/i', $id);
-    }
-
-    public function matchFilename(string $filename): ?string
-    {
-        if (preg_match('/-([0-9A-Za-z_\-]{10})\.(mp4|m4v|avi|mkv|webm)$/i', $filename, $matches)) {
-            return $matches[1];
-        }
         return null;
     }
 }

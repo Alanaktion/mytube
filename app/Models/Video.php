@@ -32,7 +32,7 @@ class Video extends Model
         foreach ($sources as $source) {
             /** @var \App\Sources\Source $source */
             if ($source->getSourceType() == $type) {
-                $id = $source->canonicalizeVideo($id);
+                $id = $source->video()->canonicalizeId($id);
 
                 // Check for existing previous import
                 $video = Video::where('uuid', $id)
@@ -43,7 +43,7 @@ class Video extends Model
 
                 // Import from the source if the video was not found
                 if ($video === null) {
-                    $video = $source->importVideo($id);
+                    $video = $source->video()->import($id);
                 }
 
                 break;
@@ -108,17 +108,24 @@ class Video extends Model
 
     public function getSourceLinkAttribute(): ?string
     {
-        if ($this->source_type == 'youtube') {
-            return 'https://www.youtube.com/watch?v=' . $this->uuid;
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            /** @var \App\Sources\Source $source */
+            if ($source->getSourceType() == $this->source_type) {
+                return $source->video()->getSourceUrl($this);
+            }
         }
-        if ($this->source_type == 'twitch') {
-            return 'https://www.twitch.tv/videos/' . $this->uuid;
-        }
-        if ($this->source_type == 'floatplane') {
-            return 'https://www.floatplane.com/post/' . $this->uuid;
-        }
-        if ($this->source_type == 'twitter') {
-            return 'https://twitter.com/' . $this->channel->custom_url . '/status/' . $this->uuid;
+        return null;
+    }
+
+    public function getEmbedHtmlAttribute(): ?string
+    {
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            /** @var \App\Sources\Source $source */
+            if ($source->getSourceType() == $this->source_type) {
+                return $source->video()->getEmbedHtml($this);
+            }
         }
         return null;
     }

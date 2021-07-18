@@ -31,7 +31,7 @@ class Playlist extends Model
                     return $playlist;
                 }
 
-                return $source->importPlaylist($id);
+                return $source->playlist()->import($id);
             }
         }
         throw new Exception('Unable to import source type ' . $type);
@@ -43,7 +43,7 @@ class Playlist extends Model
         foreach ($sources as $source) {
             /** @var \App\Sources\Source $source */
             if ($source->getSourceType() == $this->channel->type) {
-                $source->importPlaylistItems($this);
+                $source->playlist()->importItems($this);
             }
         }
     }
@@ -56,7 +56,7 @@ class Playlist extends Model
         $playlist = self::import('youtube', $id);
 
         if ($importItems) {
-            $playlist->importYouTubeItems();
+            $playlist->importItems();
         }
 
         return $playlist;

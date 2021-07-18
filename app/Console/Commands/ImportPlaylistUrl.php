@@ -32,7 +32,7 @@ class ImportPlaylistUrl extends Command
             if ($type === null) {
                 foreach ($sources as $source) {
                     /** @var \App\Sources\Source $source */
-                    if ($id = $source->matchUrl($url)) {
+                    if ($id = $source->playlist()->matchUrl($url)) {
                         $type = $source->getSourceType();
                         $typeSource = $source;
                         break;
@@ -50,7 +50,7 @@ class ImportPlaylistUrl extends Command
             if ($type === null) {
                 $this->error('Unable to find source for URL: ' . $url);
             } else {
-                $id = $typeSource->matchUrl($url);
+                $id = $typeSource->playlist()->matchUrl($url);
             }
             if ($id === null) {
                 $this->warn('Unable to match URL: ' . $url);
@@ -59,7 +59,7 @@ class ImportPlaylistUrl extends Command
                 $playlist = Playlist::import($type, $id);
 
                 if ($this->option('items')) {
-                    $source->importPlaylistItems($playlist);
+                    $source->playlist()->importItems($playlist);
                 }
             }
         }

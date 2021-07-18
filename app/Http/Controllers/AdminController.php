@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -63,15 +62,19 @@ class AdminController extends Controller
             'playlistIds' => 'required|string',
         ]);
         $ids = array_map('trim', explode("\n", $request->input('playlistIds')));
+        $sources = app()->tagged('sources');
         foreach ($ids as $id) {
-            if (str_contains($id, '/')) {
-                $query = parse_url($id, PHP_URL_QUERY);
-                parse_str($query, $parts);
-                if (!empty($parts['list'])) {
-                    $id = $parts['list'];
+            foreach ($sources as $source) {
+                /** @var \App\Sources\Source $source */
+                if (!$source->playlist()) {
+                    continue;
+                }
+                $matched = $source->playlist()->matchUrl($id);
+                if ($matched || $source->playlist()->matchId($id)) {
+                    ProcessPlaylistImport::dispatch($source->getSourceType(), $matched ?? $id);
+                    continue 2;
                 }
             }
-            ProcessPlaylistImport::dispatch($id);
         }
 
         $message = 'Playlist import started.';
@@ -89,47 +92,18 @@ class AdminController extends Controller
         $ids = array_map('trim', explode("\n", $request->input('videoIds')));
         $count = count($ids);
         $success = 0;
+        $sources = app()->tagged('sources');
         foreach ($ids as $id) {
-            $source = 'youtube';
-            if (str_contains($id, '/')) {
-                if (strpos($id, 'twitch.tv') !== false) {
-                    if (preg_match('/^(https:\/\/)?(www\.)?twitch\.tv\/videos\/(v?[0-9]+)/i', $id, $matches)) {
-                        $id = Str::start($matches[3], 'v');
-                    }
-                    $source = 'twitch';
-                } elseif (strpos($id, 'twitter.com') !== false) {
-                    if (preg_match('/^(https:\/\/)?(www\.)?twitter\.com\/([^\/]+)\/status\/([0-9]+)/i', $id, $matches)) {
-                        $id = $matches[4];
-                    }
-                    $source = 'twitter';
-                } elseif (strpos($id, 'floatplane.com') !== false) {
-                    if (preg_match('/^(https:\/\/)?(www\.)?floatplane\.com\/post\/([0-9a-z_-]{10})/i', $id, $matches)) {
-                        $id = $matches[3];
-                    }
-                    $source = 'floatplane';
-                } elseif (strpos($id, 'v=') !== false) {
-                    $query = parse_url($id, PHP_URL_QUERY);
-                    parse_str($query, $parts);
-                    if (!empty($parts['v'])) {
-                        $id = $parts['v'];
-                    }
-                } else {
-                    $id = basename($id);
-                }
-            }
             try {
-                if (preg_match('/^[0-9a-z_-]{11}$/i', $id)) {
-                    Video::importYouTube($id);
-                } elseif ($source == 'twitch' || preg_match('/^v?[0-9]{9}$/', $id)) {
-                    Video::importTwitch(ltrim($id, 'v'));
-                } elseif ($source == 'twitter' || preg_match('/^[0-9]{19}$/', $id)) {
-                    Video::importTwitter($id);
-                } elseif ($source == 'floatplane' || preg_match('/^[0-9a-z_-]{10}$/i', $id)) {
-                    Video::importFloatplane($id);
-                } else {
-                    continue;
+                foreach ($sources as $source) {
+                    /** @var \App\Sources\Source $source */
+                    $matched = $source->video()->matchUrl($id);
+                    if ($matched || $source->video()->matchId($id)) {
+                        Video::import($source->getSourceType(), $matched ?? $id);
+                        $success++;
+                        continue 2;
+                    }
                 }
-                $success++;
             } catch (Exception $e) {
                 Log::warning($e->getMessage());
             }
@@ -141,22 +115,24 @@ class AdminController extends Controller
 
     public function channelImport(Request $request)
     {
-        // TODO: handle Twitch and Floatplane URLs
         $request->validate([
             'channelId' => 'required|string',
         ]);
         $id = $request->input('channelId');
-        if (str_contains($id, '/')) {
-            preg_match('@https?://(www\.)?(youtube\.com|youtu\.be)/channel/([0-9a-z]{8,})@i', $id, $matches);
-            if (!empty($matches[3])) {
-                $id = $matches[3];
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            /** @var \App\Sources\Source $source */
+            $matched = $source->channel()->matchUrl($id);
+            if ($matched) {
+                ProcessChannelImport::dispatch(
+                    $source->getSourceType(),
+                    $matched,
+                    $request->boolean('videos'),
+                    $request->boolean('playlists')
+                );
+                continue;
             }
         }
-        ProcessChannelImport::dispatch(
-            $id,
-            $request->boolean('videos'),
-            $request->boolean('playlists')
-        );
 
         $message = 'Channel import started.';
         if (config('queue.default') == 'sync') {
