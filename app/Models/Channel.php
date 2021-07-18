@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use App\Clients\Floatplane;
-use App\Clients\Twitter;
-use App\Clients\YouTube;
-use App\Clients\YouTubeDl;
 use Exception;
+use App\Sources\YouTube\YouTubeClient;
+use App\Sources\YouTube\YouTubeDlClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 
 class Channel extends Model
@@ -42,29 +39,16 @@ class Channel extends Model
         throw new Exception('Unable to import source type ' . $type);
     }
 
+    /**
+     * @deprecated
+     */
     public static function importYouTube(
         string $id,
         bool $importVideos = false,
         bool $importPlaylists = false,
         ?bool $importPlaylistItems = null
     ): Channel {
-        /** @var Channel|null $channel */
-        $channel = Channel::where('uuid', $id)
-            ->where('type', 'youtube')
-            ->first();
-        if (!$channel) {
-            $channelData = YouTube::getChannelData($id);
-            /** @var Channel $channel */
-            $channel = Channel::create([
-                'uuid' => $channelData['id'],
-                'title' => $channelData['title'],
-                'description' => $channelData['description'],
-                'custom_url' => $channelData['custom_url'],
-                'country' => $channelData['country'],
-                'type' => 'youtube',
-                'published_at' => $channelData['published_at'],
-            ]);
-        }
+        $channel = self::import('youtube', $id);
 
         if ($importVideos) {
             $channel->importVideos();
@@ -77,38 +61,12 @@ class Channel extends Model
         return $channel;
     }
 
+    /**
+     * @deprecated
+     */
     public static function importFloatplane(string $url): Channel
     {
-        $channel = Channel::where('custom_url', $url)
-            ->where('type', 'floatplane')
-            ->first();
-        if (!$channel) {
-            $channelData = Floatplane::getChannelData($url);
-
-            // Download images
-            $disk = Storage::disk('public');
-            $data = file_get_contents($channelData['icon']);
-            $file = 'thumbs/floatplane-channel/' . basename($channelData['icon']);
-            $disk->put($file, $data, 'public');
-            $imageUrl = Storage::url('public/' . $file);
-            $data = file_get_contents($channelData['icon-lg']);
-            $file = 'thumbs/floatplane-channel/' . basename($channelData['icon-lg']);
-            $disk->put($file, $data, 'public');
-            $imageUrlLg = Storage::url('public/' . $file);
-
-            // Create channel
-            $channel = Channel::create([
-                'uuid' => $channelData['id'],
-                'title' => $channelData['title'],
-                'description' => $channelData['description'],
-                'custom_url' => $channelData['custom_url'],
-                'type' => 'floatplane',
-                'image_url' => $imageUrl,
-                'image_url_lg' => $imageUrlLg,
-            ]);
-        }
-
-        return $channel;
+        return self::import('floatplane', $url);
     }
 
     /**
@@ -119,37 +77,12 @@ class Channel extends Model
         return self::import('twitch', $url);
     }
 
+    /**
+     * @deprecated
+     */
     public static function importTwitter(string $url): Channel
     {
-        $channel = Channel::where('custom_url', $url)
-            ->where('type', 'twitter')
-            ->first();
-
-        if (!$channel) {
-            $twitter = new Twitter();
-            $channelData = $twitter->getUser($url);
-
-            // Download images
-            $disk = Storage::disk('public');
-            $data = file_get_contents($channelData->profile_image_url_https);
-            $file = 'thumbs/twitter-user/' . basename($channelData->profile_image_url_https);
-            $disk->put($file, $data, 'public');
-            $imageUrl = Storage::url('public/' . $file);
-
-            // Create channel
-            $channel = Channel::create([
-                'uuid' => $channelData->id_str, // may want a Twitter prefix or something, this is an int
-                'title' => $channelData->name,
-                'description' => $channelData->description,
-                'custom_url' => $channelData->screen_name,
-                'type' => 'twitter',
-                'image_url' => $imageUrl,
-                'image_url_lg' => $imageUrl,
-                'published_at' => $channelData->created_at,
-            ]);
-        }
-
-        return $channel;
+        return self::import('twitter', $url);
     }
 
     public function toSearchableArray()
@@ -176,7 +109,7 @@ class Channel extends Model
             throw new Exception('Importing videos is not supported for this channel type.');
         }
 
-        $ytdl = new YouTubeDl();
+        $ytdl = new YouTubeDlClient();
         if ($ytdl->getVersion()) {
             $ids = $ytdl->getChannelVideoIds($this->uuid);
             foreach ($ids as $id) {
@@ -185,7 +118,7 @@ class Channel extends Model
             return;
         }
 
-        $videos = YouTube::getChannelVideos($this->uuid);
+        $videos = YouTubeClient::getChannelVideos($this->uuid);
         foreach ($videos as $data) {
             /** @var Google_Service_YouTube_SearchResult $data */
             // TODO: fix to use search result correctly
@@ -211,7 +144,7 @@ class Channel extends Model
             throw new Exception('Importing playlists is not supported for this channel type.');
         }
 
-        $ytdl = new YouTubeDl();
+        $ytdl = new YouTubeDlClient();
         if ($ytdl->getVersion()) {
             $ids = $ytdl->getChannelPlaylistIds($this->uuid);
             foreach ($ids as $id) {
@@ -220,7 +153,7 @@ class Channel extends Model
             return;
         }
 
-        $playlists = YouTube::getChannelPlaylists($this->uuid);
+        $playlists = YouTubeClient::getChannelPlaylists($this->uuid);
         foreach ($playlists as $data) {
             /** @var Google_Service_YouTube_SearchResult $data */
             // TODO: fix to use search result correctly

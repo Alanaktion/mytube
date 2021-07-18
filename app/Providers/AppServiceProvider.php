@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Sources\Twitch\TwitchSource;
+use App\Sources\YouTube\YouTubeSource;
 use Google_Client;
 use Google_Service_YouTube;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->tag([
             TwitchSource::class,
+            YouTubeSource::class,
         ], 'sources');
     }
 

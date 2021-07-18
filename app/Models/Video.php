@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Clients\Floatplane;
-use App\Clients\Twitter;
-use App\Clients\YouTube;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +34,7 @@ class Video extends Model
                 $id = $source->canonicalizeVideo($id);
 
                 // Check for existing previous import
-                $video = Video::where('uuid', Str::start($id, 'v'))
+                $video = Video::where('uuid', $id)
                     ->whereHas('channel', function ($query) use ($type) {
                         $query->where('type', $type);
                     })
@@ -61,73 +58,20 @@ class Video extends Model
         return $video;
     }
 
+    /**
+     * @deprecated
+     */
     public static function importYouTube(string $id, ?string $filePath = null): Video
     {
-        $video = Video::where('uuid', $id)
-            ->whereHas('channel', function ($query) {
-                $query->where('type', 'youtube');
-            })
-            ->first();
-        if ($video) {
-            if ($video->file_path === null && $filePath !== null) {
-                $video->file_path = $filePath;
-                $video->save();
-            }
-            return $video;
-        }
-
-        $data = YouTube::getVideoData($id);
-        $channel = Channel::importYouTube($data['channel_id']);
-        return $channel->videos()->create([
-            'uuid' => $data['id'],
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'source_type' => 'youtube',
-            'source_visibility' => $data['visibility'],
-            'is_livestream' => $data['is_livestream'],
-            'published_at' => $data['published_at'],
-            'file_path' => $filePath,
-        ]);
+        return self::import('youtube', $id, $filePath);
     }
 
+    /**
+     * @deprecated
+     */
     public static function importFloatplane(string $id, ?string $filePath = null): Video
     {
-        $video = Video::where('uuid', $id)
-            ->whereHas('channel', function ($query) {
-                $query->where('type', 'floatplane');
-            })
-            ->first();
-        if ($video) {
-            if ($video->file_path === null && $filePath !== null) {
-                $video->file_path = $filePath;
-                $video->save();
-            }
-            return $video;
-        }
-
-        $data = Floatplane::getVideoData($id);
-
-        // Download images
-        $disk = Storage::disk('public');
-        $file = 'thumbs/floatplane/' . basename($data['thumbnail']);
-        $disk->put($file, file_get_contents($data['thumbnail']), 'public');
-        $thumbnailUrl = Storage::url('public/' . $file);
-        $file = 'thumbs/floatplane/' . basename($data['poster']);
-        $disk->put($file, file_get_contents($data['poster']), 'public');
-        $posterUrl = Storage::url('public/' . $file);
-
-        // Create video
-        $channel = Channel::importFloatplane($data['channel_url']);
-        return $channel->videos()->create([
-            'uuid' => $data['id'],
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'source_type' => 'floatplane',
-            'published_at' => $data['published_at'],
-            'file_path' => $filePath,
-            'thumbnail_url' => $thumbnailUrl,
-            'poster_url' => $posterUrl,
-        ]);
+        return self::import('floatplane', $id, $filePath);
     }
 
     /**
@@ -138,55 +82,12 @@ class Video extends Model
         return self::import('twitch', $id, $filePath);
     }
 
+    /**
+     * @deprecated
+     */
     public static function importTwitter(string $id, ?string $filePath = null): Video
     {
-        $video = Video::where('uuid', Str::start($id, 'v'))
-            ->whereHas('channel', function ($query) {
-                $query->where('type', 'twitch');
-            })
-            ->first();
-        if ($video) {
-            if ($video->file_path === null && $filePath !== null) {
-                $video->file_path = $filePath;
-                $video->save();
-            }
-            return $video;
-        }
-
-        $twitter = new Twitter();
-        $data = $twitter->getStatus($id);
-
-        // Download images
-        if ($data->entities && $data->entities->media) {
-            $media = $data->entities->media[0];
-            $url = substr($media->media_url_https, 0, -4);
-
-            $disk = Storage::disk('public');
-            $file = 'thumbs/twitter/' . basename($url) . '-small.jpg';
-            $params = [
-                'format' => 'jpg',
-                'name' => 'small',
-            ];
-            $disk->put($file, file_get_contents($url . '?' . http_build_query($params)), 'public');
-            $thumbnailUrl = Storage::url('public/' . $file);
-
-            $file = 'thumbs/twitter/' . basename($media->media_url_https);
-            $disk->put($file, file_get_contents($media->media_url_https), 'public');
-            $posterUrl = Storage::url('public/' . $file);
-        }
-
-        // Create video
-        $channel = Channel::importTwitter($data->user->screen_name);
-        return $channel->videos()->create([
-            'uuid' => $data->id_str,
-            'title' => Str::limit($data->full_text, 80, '…'),
-            'description' => $data->full_text,
-            'source_type' => 'twitter',
-            'published_at' => $data->created_at,
-            'file_path' => $filePath,
-            'thumbnail_url' => $thumbnailUrl,
-            'poster_url' => $posterUrl,
-        ]);
+        return self::import('twitter', $id, $filePath);
     }
 
     public function toSearchableArray()
@@ -232,7 +133,11 @@ class Video extends Model
     }
 
     /**
-     * Get a web-accessible symlink to the source file.
+     * Get a web-accessible path/URL to the source file.
+     *
+     * This currently creates a symlink to the source file in the public disk.
+     *
+     * @todo support remote file storage, e.g. storing video files on B2/S3.
      */
     public function getFileLinkAttribute(): ?string
     {

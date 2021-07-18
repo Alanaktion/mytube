@@ -2,14 +2,17 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Video;
+use App\Models\Playlist;
 use Illuminate\Console\Command;
 
 class ImportUrl extends Command
 {
-    protected $signature = 'import:url {--source=} {url*}';
+    protected $signature = 'import:playlist-url
+        {--source=}
+        {--items : Import the items with they playlist}
+        {url*}';
 
-    protected $description = 'Import videos by URL.';
+    protected $description = 'Import playlists by URL.';
 
     /**
      * Execute the console command.
@@ -53,7 +56,11 @@ class ImportUrl extends Command
                 $this->warn('Unable to match URL: ' . $url);
             }
             if ($type !== null && $id !== null) {
-                Video::import($type, $id);
+                $playlist = Playlist::import($type, $id);
+
+                if ($this->option('items')) {
+                    $source->importPlaylistItems($playlist);
+                }
             }
         }
 

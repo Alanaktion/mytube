@@ -11,6 +11,9 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @deprecated
+ */
 class ImportTwitter extends Command
 {
     /**
@@ -34,6 +37,8 @@ class ImportTwitter extends Command
      */
     public function handle()
     {
+        $this->warn('This command is deprecated, use import:filesystem --source=twitter');
+
         $verbosity = $this->getOutput()->getVerbosity();
         $directory = $this->argument('directory');
         if (!is_dir($directory)) {

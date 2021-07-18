@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Clients;
+namespace App\Sources\YouTube;
 
 use Exception;
 use Illuminate\Support\Facades\App;
 
-class YouTube
+class YouTubeClient
 {
     /**
      * Get metadata for a video from YouTube by video ID

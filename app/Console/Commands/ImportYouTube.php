@@ -12,6 +12,9 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @deprecated
+ */
 class ImportYouTube extends Command
 {
     protected $signature = 'youtube:import-fs {directory}';
@@ -33,6 +36,8 @@ class ImportYouTube extends Command
      */
     public function handle()
     {
+        $this->warn('This command is deprecated, use import:filesystem --source=youtube');
+
         $verbosity = $this->getOutput()->getVerbosity();
         $directory = $this->argument('directory');
         if (!is_dir($directory)) {

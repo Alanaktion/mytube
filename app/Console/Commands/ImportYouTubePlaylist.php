@@ -6,11 +6,14 @@ use App\Models\Playlist;
 use Google_Service_YouTube;
 use Illuminate\Console\Command;
 
+/**
+ * @deprecated
+ */
 class ImportYouTubePlaylist extends Command
 {
     protected $signature = 'youtube:import-playlist {id*}';
 
-    protected $description = 'Import YouTube videos from the filesystem.';
+    protected $description = 'Import YouTube playlists by ID.';
 
     protected $youtube;
 
@@ -27,6 +30,8 @@ class ImportYouTubePlaylist extends Command
      */
     public function handle()
     {
+        $this->warn('This command is deprecated, use import:playlist-url --source=youtube');
+
         $ids = $this->argument('id');
 
         foreach ($ids as $id) {

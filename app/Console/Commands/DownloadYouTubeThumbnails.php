@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
+/**
+ * @deprecated
+ */
 class DownloadYouTubeThumbnails extends Command
 {
     protected $signature = 'youtube:download-thumbnails {--G|generate : Generate unavailable thumbnails from video}';
@@ -22,6 +25,8 @@ class DownloadYouTubeThumbnails extends Command
      */
     public function handle()
     {
+        $this->warn('This command is deprecated as thumbnail download is now part of video import.');
+
         $videos = Video::whereHas('channel', function ($query) {
             $query->where('type', 'youtube');
         })->where(function ($query) {

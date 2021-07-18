@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Clients\YouTube;
 use App\Models\Channel;
 use App\Models\Video;
+use App\Sources\YouTube\YouTubeClient;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class ImageController extends Controller
 {
+    /**
+     * @deprecated Sources should download all images when importing videos.
+     */
     public function showVideoThumb(Video $video)
     {
         if ($video->thumbnail_url) {
@@ -41,7 +44,11 @@ class ImageController extends Controller
         }
 
         // Generate a thumbnail
-        if ($disk->exists("thumbs/generated/{$video->uuid}@360p.jpg") || $this->generateImage($video, 480, 360, '@360p')) {
+        $generated = $disk->exists("thumbs/generated/{$video->uuid}@360p.jpg");
+        if (!$generated) {
+            $generated = $this->generateImage($video, 480, 360, '@360p');
+        }
+        if ($generated) {
             $video->thumbnail_url = Storage::url("public/thumbs/generated/{$video->uuid}@360p.jpg");
             $video->save();
             return redirect()->to($video->thumbnail_url, 301);
@@ -50,6 +57,9 @@ class ImageController extends Controller
         return abort(404);
     }
 
+    /**
+     * @deprecated Sources should download all images when importing videos.
+     */
     public function showVideoPoster(Video $video)
     {
         if ($video->poster_url) {
@@ -81,7 +91,11 @@ class ImageController extends Controller
         }
 
         // Generate a thumbnail
-        if ($disk->exists("thumbs/generated/{$video->uuid}@720p.jpg") || $this->generateImage($video, 1280, 720, '@720p')) {
+        $generated = $disk->exists("thumbs/generated/{$video->uuid}@720p.jpg");
+        if (!$generated) {
+            $generated = $this->generateImage($video, 1280, 720, '@720p');
+        }
+        if ($generated) {
             $video->poster_url = Storage::url("public/thumbs/generated/{$video->uuid}@720p.jpg");
             $video->save();
             return redirect()->to($video->poster_url, 301);
@@ -90,6 +104,9 @@ class ImageController extends Controller
         return abort(404);
     }
 
+    /**
+     * @deprecated Sources should download all images when importing channels.
+     */
     public function showChannel(Channel $channel)
     {
         if ($channel->image_url) {
@@ -98,7 +115,7 @@ class ImageController extends Controller
 
         $disk = Storage::disk('public');
         if ($channel->type == 'youtube') {
-            $channelData = YouTube::getChannelData($channel->uuid);
+            $channelData = YouTubeClient::getChannelData($channel->uuid);
             try {
                 if ($md = $channelData['thumbnails']->getMedium()) {
                     $data = file_get_contents($md->url);

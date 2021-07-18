@@ -5,6 +5,9 @@ namespace App\Console\Commands;
 use App\Models\Video;
 use Illuminate\Console\Command;
 
+/**
+ * @deprecated
+ */
 class ImportFloatplaneId extends Command
 {
     protected $signature = 'floatplane:import {id*}';
@@ -18,6 +21,8 @@ class ImportFloatplaneId extends Command
      */
     public function handle()
     {
+        $this->warn('This command is deprecated, use import:url --source=floatplane');
+
         $ids = $this->argument('id');
 
         foreach ($ids as $id) {
