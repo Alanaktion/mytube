@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Playlist;
 use Illuminate\Console\Command;
 
-class ImportUrl extends Command
+class ImportPlaylistUrl extends Command
 {
     protected $signature = 'import:playlist-url
         {--source=}
