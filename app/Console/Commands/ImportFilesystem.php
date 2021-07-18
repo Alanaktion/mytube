@@ -84,7 +84,7 @@ class ImportFilesystem extends Command
 
         $this->withProgressBar($videos, function (array $video) use (&$errorCount) {
             try {
-                Video::import($video['type'], $video['id']);
+                Video::import($video['type'], $video['id'], $video['file']);
             } catch (Exception $e) {
                 $errorCount++;
                 if ($e->getMessage() != 'Video previously failed to import') {
