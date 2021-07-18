@@ -83,21 +83,20 @@ class ImportFilesystem extends Command
         $errorCount = 0;
 
         $this->withProgressBar($videos, function (array $video) use (&$errorCount) {
-            list ($type, $id, $file) = $video;
             try {
-                Video::import($type, $id);
+                Video::import($video['type'], $video['id']);
             } catch (Exception $e) {
                 $errorCount++;
                 if ($e->getMessage() != 'Video previously failed to import') {
                     ImportError::updateOrCreate([
-                        'uuid' => $id,
+                        'uuid' => $video['id'],
                         'type' => 'twitch',
                     ], [
-                        'file_path' => $file,
+                        'file_path' => $video['file'],
                         'reason' => $e->getMessage(),
                     ]);
                 }
-                Log::warning("Error importing file $file: {$e->getMessage()}");
+                Log::warning("Error importing file {$video['file']}: {$e->getMessage()}");
             }
         });
         $this->line('');
