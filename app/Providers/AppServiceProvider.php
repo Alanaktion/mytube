@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Sources\Floatplane\FloatplaneSource;
 use App\Sources\Twitch\TwitchSource;
+use App\Sources\Twitter\TwitterSource;
 use App\Sources\YouTube\YouTubeSource;
 use Google_Client;
 use Google_Service_YouTube;
@@ -29,7 +31,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->tag([
+            FloatplaneSource::class,
             TwitchSource::class,
+            TwitterSource::class,
             YouTubeSource::class,
         ], 'sources');
     }
