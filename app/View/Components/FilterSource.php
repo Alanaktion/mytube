@@ -14,9 +14,9 @@ class FilterSource extends Component
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(?string $value)
     {
-        // $this->value = $value;
+        $this->value = $value;
         $sources = app()->tagged('sources');
         foreach ($sources as $source) {
             $this->sources[$source->getSourceType()] = $source->getDisplayName();
