@@ -57,7 +57,7 @@ class TwitchSource implements Source
     public function importVideo(string $id): Video
     {
         $twitch = new TwitchClient();
-        $data = $twitch->getVideos($id)[0];
+        $data = $twitch->getVideos((int)ltrim($id, 'v'))[0];
 
         // Download images
         if ($data['thumbnail_url']) {
