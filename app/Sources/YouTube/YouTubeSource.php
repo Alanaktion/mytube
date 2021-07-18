@@ -55,8 +55,8 @@ class YouTubeSource implements Source
             'custom_url' => $channelData['custom_url'],
             'country' => $channelData['country'],
             'type' => $this->getSourceType(),
-            'img_url' => $imageUrl,
-            'img_url_lg' => $imageUrlLg,
+            'image_url' => $imageUrl,
+            'image_url_lg' => $imageUrlLg,
             'published_at' => $channelData['published_at'],
         ]);
     }
