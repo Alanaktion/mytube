@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Sources\Source;
 use Exception;
 use App\Sources\YouTube\YouTubeClient;
 use App\Sources\YouTube\YouTubeDlClient;
@@ -196,5 +197,15 @@ class Channel extends Model
     public function playlists()
     {
         return $this->hasMany(Playlist::class);
+    }
+
+    public function source(): Source
+    {
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            if ($source->getSourceType() == $this->type) {
+                return $source;
+            }
+        }
     }
 }

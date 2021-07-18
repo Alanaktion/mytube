@@ -9,6 +9,7 @@ use App\Sources\Source;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class TwitterSource implements Source
 {
@@ -20,6 +21,16 @@ class TwitterSource implements Source
     public function getChannelField(): string
     {
         return 'custom_url';
+    }
+
+    public function getDisplayName(): string
+    {
+        return 'Twitter';
+    }
+
+    public function getIcon(): View
+    {
+        return view('sources.icon-twitter');
     }
 
     public function canonicalizeVideo(string $id): string

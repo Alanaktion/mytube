@@ -9,7 +9,7 @@ use App\Models\Video;
 use App\Sources\Source;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class YouTubeSource implements Source
 {
@@ -21,6 +21,16 @@ class YouTubeSource implements Source
     public function getChannelField(): string
     {
         return 'uuid';
+    }
+
+    public function getDisplayName(): string
+    {
+        return 'YouTube';
+    }
+
+    public function getIcon(): View
+    {
+        return view('sources.icon-youtube');
     }
 
     public function canonicalizeVideo(string $id): string
@@ -135,8 +145,8 @@ class YouTubeSource implements Source
 
     public function matchUrl(string $url): ?string
     {
-        if (preg_match('/^(https:\/\/)?(www\.)?twitch\.tv\/videos\/(v?[0-9]+)/i', $url, $matches)) {
-            return Str::start($matches[3], 'v');
+        if (preg_match('/^(https:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([0-9A-Za-z_\-]{11})/i', $url, $matches)) {
+            return $matches[4];
         }
         return null;
     }

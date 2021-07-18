@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Sources\Source;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -208,5 +209,15 @@ class Video extends Model
     {
         return $this->belongsToMany(User::class, 'user_favorite_videos')
             ->withTimestamps();
+    }
+
+    public function source(): Source
+    {
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            if ($source->getSourceType() == $this->source_type) {
+                return $source;
+            }
+        }
     }
 }

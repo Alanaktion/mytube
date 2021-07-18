@@ -8,7 +8,7 @@ use App\Models\Video;
 use App\Sources\Source;
 use Exception;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class FloatplaneSource implements Source
 {
@@ -20,6 +20,16 @@ class FloatplaneSource implements Source
     public function getChannelField(): string
     {
         return 'custom_url';
+    }
+
+    public function getDisplayName(): string
+    {
+        return 'Floatplane';
+    }
+
+    public function getIcon(): View
+    {
+        return view('sources.icon-floatplane');
     }
 
     public function canonicalizeVideo(string $id): string

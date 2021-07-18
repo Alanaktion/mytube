@@ -9,6 +9,7 @@ use App\Sources\Source;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class TwitchSource implements Source
 {
@@ -21,6 +22,17 @@ class TwitchSource implements Source
     {
         return 'custom_url';
     }
+
+    public function getDisplayName(): string
+    {
+        return 'Twitch';
+    }
+
+    public function getIcon(): View
+    {
+        return view('sources.icon-twitch');
+    }
+
 
     public function canonicalizeVideo(string $id): string
     {
