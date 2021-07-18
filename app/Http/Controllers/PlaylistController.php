@@ -49,10 +49,7 @@ class PlaylistController extends Controller
     public function refresh(Playlist $playlist)
     {
         $playlist->load('channel:id,type');
-        if ($playlist->channel->type != 'youtube') {
-            return abort(400);
-        }
-        ProcessPlaylistImport::dispatch($playlist->uuid);
+        ProcessPlaylistImport::dispatch($playlist->channel->type, $playlist->uuid);
         $message = 'Playlist refresh queued.';
         if (config('queue.default') == 'sync') {
             $message = 'Playlist refreshed.';
