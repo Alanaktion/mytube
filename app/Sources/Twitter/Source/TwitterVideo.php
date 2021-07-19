@@ -55,7 +55,7 @@ class TwitterVideo implements SourceVideo
 
     public function matchUrl(string $url): ?string
     {
-        if (preg_match('/^(https?:\/\/)?(www\.)?twitter\.com\/([^/]+)\/status\/([0-9]{19})/i', $url, $matches)) {
+        if (preg_match('/^(https?:\/\/)?(www\.)?twitter\.com\/([^\/]+)\/status\/([0-9]{19})/i', $url, $matches)) {
             return $matches[4];
         }
         return null;

@@ -90,7 +90,7 @@ class ImportFilesystem extends Command
                 if ($e->getMessage() != 'Video previously failed to import') {
                     ImportError::updateOrCreate([
                         'uuid' => $video['id'],
-                        'type' => 'twitch',
+                        'type' => $video['type'],
                     ], [
                         'file_path' => $video['file'],
                         'reason' => $e->getMessage(),

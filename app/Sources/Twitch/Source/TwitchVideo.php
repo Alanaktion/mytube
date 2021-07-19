@@ -53,7 +53,7 @@ class TwitchVideo implements SourceVideo
 
     public function matchUrl(string $url): ?string
     {
-        if (preg_match('/^(https?:\/\/)?(www\.)?twitch\.tv\/videos\/(v?[0-9]+)/i', $url, $matches)) {
+        if (preg_match('/^(https?:\/\/)?(www\.)?twitch\.tv\/videos\/(v?[0-9]{9}+)/i', $url, $matches)) {
             return Str::start($matches[3], 'v');
         }
         return null;

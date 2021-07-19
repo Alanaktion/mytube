@@ -41,7 +41,7 @@ class TwitterChannel implements SourceChannel
 
     public function matchUrl(string $url): ?string
     {
-        if (preg_match('/^(https?:\/\/)?(www\.)?twitter\.com\/([^/]+)/i', $url, $matches)) {
+        if (preg_match('/^(https?:\/\/)?(www\.)?twitter\.com\/([^\/]+)/i', $url, $matches)) {
             return $matches[3];
         }
         return null;
