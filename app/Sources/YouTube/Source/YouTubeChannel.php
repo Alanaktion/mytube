@@ -5,10 +5,12 @@ namespace App\Sources\YouTube\Source;
 use App\Models\Channel;
 use App\Sources\SourceChannel;
 use App\Sources\YouTube\YouTubeClient;
-use Illuminate\Support\Facades\Storage;
+use App\Traits\DownloadsImages;
 
 class YouTubeChannel implements SourceChannel
 {
+    use DownloadsImages;
+
     public function getField(): string
     {
         return 'uuid';
@@ -19,18 +21,11 @@ class YouTubeChannel implements SourceChannel
         $channelData = YouTubeClient::getChannelData($id);
 
         // Download images
-        $disk = Storage::disk('public');
-        $imageUrl = null;
-        $imageUrlLg = null;
         if ($md = $channelData['thumbnails']->getMedium()) {
-            $data = file_get_contents($md->url);
-            $disk->put("thumbs/youtube-channel/{$id}.jpg", $data, 'public');
-            $imageUrl = Storage::url("public/thumbs/youtube-channel/{$id}.jpg");
+            $imageUrl = $this->downloadImage($md->url, "thumbs/youtube-channel/{$id}.jpg");
         }
         if ($lg = $channelData['thumbnails']->getMedium()) {
-            $data = file_get_contents($lg->url);
-            $disk->put("thumbs/youtube-channel-lg/{$id}.jpg", $data, 'public');
-            $imageUrlLg = Storage::url("public/thumbs/youtube-channel-lg/{$id}.jpg");
+            $imageUrlLg = $this->downloadImage($md->url, "thumbs/youtube-channel-lg/{$id}.jpg");
         }
 
         // Create channel
@@ -41,8 +36,8 @@ class YouTubeChannel implements SourceChannel
             'custom_url' => $channelData['custom_url'],
             'country' => $channelData['country'],
             'type' => 'youtube',
-            'image_url' => $imageUrl,
-            'image_url_lg' => $imageUrlLg,
+            'image_url' => $imageUrl ?? null,
+            'image_url_lg' => $imageUrlLg ?? null,
             'published_at' => $channelData['published_at'],
         ]);
     }

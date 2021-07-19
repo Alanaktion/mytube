@@ -6,11 +6,13 @@ use App\Models\Channel;
 use App\Models\Video;
 use App\Sources\SourceVideo;
 use App\Sources\Twitch\TwitchClient;
-use Illuminate\Support\Facades\Storage;
+use App\Traits\DownloadsImages;
 use Illuminate\Support\Str;
 
 class TwitchVideo implements SourceVideo
 {
+    use DownloadsImages;
+
     public function canonicalizeId(string $id): string
     {
         return Str::start($id, 'v');
@@ -23,16 +25,11 @@ class TwitchVideo implements SourceVideo
 
         // Download images
         if ($data['thumbnail_url']) {
-            $disk = Storage::disk('public');
             $url = str_replace(['%{width}', '%{height}'], [640, 360], $data['thumbnail_url']);
-            $file = "thumbs/twitch/{$data['id']}.png";
-            $disk->put($file, file_get_contents($url), 'public');
-            $thumbnailUrl = Storage::url('public/' . $file);
+            $thumbnailUrl = $this->downloadImage($url, "thumbs/twitch/{$data['id']}.png");
 
             $url = str_replace(['%{width}', '%{height}'], [1280, 720], $data['thumbnail_url']);
-            $file = "thumbs/twitch/{$data['id']}-poster.png";
-            $disk->put($file, file_get_contents($url), 'public');
-            $posterUrl = Storage::url('public/' . $file);
+            $posterUrl = $this->downloadImage($url, "thumbs/twitch/{$data['id']}-poster.png");
         } else {
             $thumbnailUrl = null;
             $posterUrl = null;

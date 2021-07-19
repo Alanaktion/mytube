@@ -5,10 +5,12 @@ namespace App\Sources\Twitch\Source;
 use App\Models\Channel;
 use App\Sources\SourceChannel;
 use App\Sources\Twitch\TwitchClient;
-use Illuminate\Support\Facades\Storage;
+use App\Traits\DownloadsImages;
 
 class TwitchChannel implements SourceChannel
 {
+    use DownloadsImages;
+
     public function getField(): string
     {
         return 'custom_url';
@@ -23,11 +25,7 @@ class TwitchChannel implements SourceChannel
         $channelData = $twitch->getUser($id);
 
         // Download images
-        $disk = Storage::disk('public');
-        $data = file_get_contents($channelData['profile_image_url']);
-        $file = 'thumbs/twitch-user/' . basename($channelData['profile_image_url']);
-        $disk->put($file, $data, 'public');
-        $imageUrl = Storage::url('public/' . $file);
+        $imageUrl = $this->downloadImage($channelData['profile_image_url'], 'thumbs/twitch-user');
 
         // Create channel
         return Channel::create([

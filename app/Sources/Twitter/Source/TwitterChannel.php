@@ -5,10 +5,12 @@ namespace App\Sources\Twitter\Source;
 use App\Models\Channel;
 use App\Sources\SourceChannel;
 use App\Sources\Twitter\TwitterClient;
-use Illuminate\Support\Facades\Storage;
+use App\Traits\DownloadsImages;
 
 class TwitterChannel implements SourceChannel
 {
+    use DownloadsImages;
+
     public function getField(): string
     {
         return 'custom_url';
@@ -20,11 +22,7 @@ class TwitterChannel implements SourceChannel
         $channelData = $twitter->getUser($id);
 
         // Download images
-        $disk = Storage::disk('public');
-        $data = file_get_contents($channelData->profile_image_url_https);
-        $file = 'thumbs/twitter-user/' . basename($channelData->profile_image_url_https);
-        $disk->put($file, $data, 'public');
-        $imageUrl = Storage::url('public/' . $file);
+        $imageUrl = $this->downloadImage($channelData->profile_image_url_https, 'thumbs/twitter-user');
 
         // Create channel
         return Channel::create([

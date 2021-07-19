@@ -6,11 +6,13 @@ use App\Models\Channel;
 use App\Models\Video;
 use App\Sources\SourceVideo;
 use App\Sources\Twitter\TwitterClient;
-use Illuminate\Support\Facades\Storage;
+use App\Traits\DownloadsImages;
 use Illuminate\Support\Str;
 
 class TwitterVideo implements SourceVideo
 {
+    use DownloadsImages;
+
     public function canonicalizeId(string $id): string
     {
         return $id;
@@ -26,18 +28,15 @@ class TwitterVideo implements SourceVideo
             $media = $data->entities->media[0];
             $url = substr($media->media_url_https, 0, -4);
 
-            $disk = Storage::disk('public');
             $file = 'thumbs/twitter/' . basename($url) . '-small.jpg';
             $params = [
                 'format' => 'jpg',
                 'name' => 'small',
             ];
-            $disk->put($file, file_get_contents($url . '?' . http_build_query($params)), 'public');
-            $thumbnailUrl = Storage::url('public/' . $file);
+            $thumbnailUrl = $this->downloadImage($url . '?' . http_build_query($params), $file);
 
             $file = 'thumbs/twitter/' . basename($media->media_url_https);
-            $disk->put($file, file_get_contents($media->media_url_https), 'public');
-            $posterUrl = Storage::url('public/' . $file);
+            $posterUrl = $this->downloadImage($url . '?' . http_build_query($params), $file);
         }
 
         // Create video
