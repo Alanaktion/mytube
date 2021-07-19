@@ -51,7 +51,7 @@ class GenerateThumbnails extends Command
         foreach ($videos as $video) {
             $bar->advance();
             try {
-                if ($this->generateImage($video)) {
+                if ($this->generateImages($video)) {
                     if (!$video->thumbnail_url) {
                         $video->thumbnail_url = Storage::url("public/thumbs/generated/{$video->uuid}@360p.jpg");
                     }
