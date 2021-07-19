@@ -24,7 +24,7 @@ class TwitterVideo implements SourceVideo
         $data = $twitter->getStatus($id);
 
         // Download images
-        if ($data->entities && $data->entities->media) {
+        if (!empty($data->entities) && !empty($data->entities->media)) {
             $media = $data->entities->media[0];
             $url = substr($media->media_url_https, 0, -4);
 
@@ -47,8 +47,8 @@ class TwitterVideo implements SourceVideo
             'description' => $data->full_text,
             'source_type' => 'twitter',
             'published_at' => $data->created_at,
-            'thumbnail_url' => $thumbnailUrl,
-            'poster_url' => $posterUrl,
+            'thumbnail_url' => $thumbnailUrl ?? null,
+            'poster_url' => $posterUrl ?? null,
         ]);
     }
 

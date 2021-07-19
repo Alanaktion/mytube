@@ -50,7 +50,7 @@ class TwitchVideo implements SourceVideo
 
     public function matchUrl(string $url): ?string
     {
-        if (preg_match('/^(https?:\/\/)?(www\.)?twitch\.tv\/videos\/(v?[0-9]{9}+)/i', $url, $matches)) {
+        if (preg_match('/^(https?:\/\/)?(www\.)?twitch\.tv\/videos\/(v?[0-9]{9,10}+)/i', $url, $matches)) {
             return Str::start($matches[3], 'v');
         }
         return null;
@@ -58,12 +58,12 @@ class TwitchVideo implements SourceVideo
 
     public function matchId(string $id): bool
     {
-        return (bool)preg_match('/^v?[0-9]{9}$/', $id);
+        return (bool)preg_match('/^v?[0-9]{9,10}$/', $id);
     }
 
     public function matchFilename(string $filename): ?string
     {
-        if (preg_match('/-v([0-9]{9})\.(mp4|m4v|avi|mkv|webm)$/', $filename, $matches)) {
+        if (preg_match('/-v([0-9]{9,10})\.(mp4|m4v|avi|mkv|webm)$/', $filename, $matches)) {
             return $matches[1];
         }
         return null;
