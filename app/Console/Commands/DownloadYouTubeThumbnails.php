@@ -60,6 +60,9 @@ class DownloadYouTubeThumbnails extends Command
                             if (!$video->poster_url) {
                                 $video->poster_url = Storage::url("public/thumbs/generated/{$video->uuid}@720p.jpg");
                             }
+                            if ($video->isDirty()) {
+                                $video->save();
+                            }
                         }
                     } catch (Exception $e2) {
                         Log::warning("Error generating thumbnail {$video->uuid}: {$e2->getMessage()}");
