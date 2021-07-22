@@ -17,7 +17,7 @@ trait DownloadsImages
      */
     public function downloadImage($url, $path): ?string
     {
-        if (strpos($path, '.') !== false) {
+        if (strpos($path, '.') === false) {
             $urlPath = parse_url($url, PHP_URL_PATH);
             $path = Str::finish($path, '/') . basename($urlPath);
         }
