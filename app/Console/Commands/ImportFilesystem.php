@@ -59,20 +59,22 @@ class ImportFilesystem extends Command
                     /** @var \App\Sources\Source $source */
                     $id = $source->video()->matchFilename(basename($file));
                     if ($id !== null) {
-                        $type = $key;
-                        break;
+                        $videos[] = [
+                            'type' => $type,
+                            'id' => $id,
+                            'file' => $file,
+                        ];
                     }
                 }
             } else {
                 $id = $this->sources[$type]->video()->matchFilename(basename($file));
-            }
-            if ($id !== null) {
                 $videos[] = [
                     'type' => $type,
                     'id' => $id,
                     'file' => $file,
                 ];
-            } elseif ($id === null && $verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
+            }
+            if ($id === null && $verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
                 $this->warn('Unable to find source for file: ' . $file);
             }
         }
@@ -84,6 +86,12 @@ class ImportFilesystem extends Command
 
         $this->withProgressBar($videos, function (array $video) use (&$errorCount) {
             try {
+                $prevError = ImportError::where('video_id', $video['id'])
+                    ->where('type', $video['type'])
+                    ->exists();
+                if ($prevError) {
+                    return;
+                }
                 Video::import($video['type'], $video['id'], $video['file']);
             } catch (Exception $e) {
                 $errorCount++;
