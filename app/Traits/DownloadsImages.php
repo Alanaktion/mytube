@@ -18,7 +18,8 @@ trait DownloadsImages
     public function downloadImage($url, $path): ?string
     {
         if (strpos($path, '.') !== false) {
-            $path = Str::finish($path, '/') . basename($path);
+            $urlPath = parse_url($url, PHP_URL_PATH);
+            $path = Str::finish($path, '/') . basename($urlPath);
         }
         $disk = Storage::disk('public');
         if (!$disk->exists($path)) {
