@@ -15,6 +15,9 @@ class Playlist extends Model
     protected $guarded = [];
     protected $dates = ['published_at'];
 
+    /**
+     * @api
+     */
     public static function import(string $type, string $id): Playlist
     {
         $sources = app()->tagged('sources');
@@ -48,20 +51,6 @@ class Playlist extends Model
         }
     }
 
-    /**
-     * @deprecated
-     */
-    public static function importYouTube(string $id, bool $importItems = true): Playlist
-    {
-        $playlist = self::import('youtube', $id);
-
-        if ($importItems) {
-            $playlist->importItems();
-        }
-
-        return $playlist;
-    }
-
     public function toSearchableArray()
     {
         $this->loadMissing('channel');
@@ -75,14 +64,6 @@ class Playlist extends Model
             'channel_id' => $this->channel_id,
             'published_at' => $this->published_at,
         ];
-    }
-
-    /**
-     * @deprecated
-     */
-    public function importYouTubeItems()
-    {
-        $this->importItems();
     }
 
     public function getSourceLinkAttribute(): ?string

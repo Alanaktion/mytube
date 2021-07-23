@@ -23,6 +23,9 @@ class Video extends Model
     protected $guarded = [];
     protected $dates = ['published_at'];
 
+    /**
+     * @api
+     */
     public static function import(
         string $type,
         string $id,
@@ -57,38 +60,6 @@ class Video extends Model
             $video->save();
         }
         return $video;
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function importYouTube(string $id, ?string $filePath = null): Video
-    {
-        return self::import('youtube', $id, $filePath);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function importFloatplane(string $id, ?string $filePath = null): Video
-    {
-        return self::import('floatplane', $id, $filePath);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function importTwitch(string $id, ?string $filePath = null): Video
-    {
-        return self::import('twitch', $id, $filePath);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function importTwitter(string $id, ?string $filePath = null): Video
-    {
-        return self::import('twitter', $id, $filePath);
     }
 
     public function toSearchableArray()

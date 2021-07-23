@@ -17,6 +17,9 @@ class ImportSources extends Command
      */
     public function handle()
     {
+        /**
+         * @var \App\Sources\Source[] $sources
+         */
         $sources = app()->tagged('sources');
         foreach ($sources as $source) {
             $this->line($source->getSourceType());

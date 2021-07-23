@@ -85,6 +85,7 @@ class DownloadYouTubeThumbnails extends Command
             $disk->put("thumbs/youtube/{$uuid}.jpg", $data, 'public');
         }
 
+        // TODO: cleanly handle missing maxres but present thumbnail
         if (!$disk->exists("thumbs/youtube-maxres/{$uuid}.jpg")) {
             $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/maxresdefault.jpg");
             $disk->put("thumbs/youtube-maxres/{$uuid}.jpg", $data, 'public');

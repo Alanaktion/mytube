@@ -6,6 +6,9 @@ use App\Jobs\DownloadVideo;
 use App\Models\Video;
 use Illuminate\Console\Command;
 
+/**
+ * @todo Make a generalized version of this command for all sources.
+ */
 class DownloadYouTubeMissing extends Command
 {
     /**

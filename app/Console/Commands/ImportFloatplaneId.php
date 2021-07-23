@@ -35,7 +35,7 @@ class ImportFloatplaneId extends Command
             }
 
             $this->info($id);
-            Video::importFloatplane($id);
+            Video::import('floatplane', $id);
         }
 
         return 0;

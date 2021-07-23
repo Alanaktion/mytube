@@ -48,7 +48,7 @@ class ImportYouTubePlaylist extends Command
             }
 
             $this->info($id);
-            Playlist::importYouTube($id);
+            Playlist::import('youtube', $id);
         }
 
         return 0;

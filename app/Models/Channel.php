@@ -18,6 +18,9 @@ class Channel extends Model
     protected $guarded = [];
     protected $dates = ['published_at'];
 
+    /**
+     * @api
+     */
     public static function import(string $type, string $id): Channel
     {
         $sources = app()->tagged('sources');
@@ -38,52 +41,6 @@ class Channel extends Model
             }
         }
         throw new Exception('Unable to import source type ' . $type);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function importYouTube(
-        string $id,
-        bool $importVideos = false,
-        bool $importPlaylists = false,
-        ?bool $importPlaylistItems = null
-    ): Channel {
-        $channel = self::import('youtube', $id);
-
-        if ($importVideos) {
-            $channel->importVideos();
-        }
-
-        if ($importPlaylists) {
-            $channel->importPlaylists($importPlaylistItems === null || $importPlaylistItems);
-        }
-
-        return $channel;
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function importFloatplane(string $url): Channel
-    {
-        return self::import('floatplane', $url);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function importTwitch(string $url): Channel
-    {
-        return self::import('twitch', $url);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function importTwitter(string $url): Channel
-    {
-        return self::import('twitter', $url);
     }
 
     public function toSearchableArray()
@@ -114,7 +71,7 @@ class Channel extends Model
         if ($ytdl->getVersion()) {
             $ids = $ytdl->getChannelVideoIds($this->uuid);
             foreach ($ids as $id) {
-                Video::importYouTube($id);
+                Video::import('youtube', $id);
             }
             return;
         }
@@ -149,7 +106,10 @@ class Channel extends Model
         if ($ytdl->getVersion()) {
             $ids = $ytdl->getChannelPlaylistIds($this->uuid);
             foreach ($ids as $id) {
-                $playlist = Playlist::importYouTube($id, $importItems);
+                $playlist = Playlist::import('youtube', $id);
+                if ($importItems) {
+                    $playlist->importItems();
+                }
             }
             return;
         }

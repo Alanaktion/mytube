@@ -43,6 +43,7 @@ class GenerateThumbnails extends Command
             $query->whereIn('uuid', $this->argument('uuid'));
         }
 
+        /** @var \Illuminate\Support\LazyCollection */
         $videos = $query->cursor();
 
         $bar = $this->output->createProgressBar($videos->count());
@@ -69,7 +70,7 @@ class GenerateThumbnails extends Command
         }
         $bar->finish();
         $this->line('');
-        $this->info("Generated {$videos->count()} thumbnails with {$errors} errors");
+        $this->info("Generated {$bar->getMaxSteps()} thumbnails with {$errors} errors");
 
         return 0;
     }

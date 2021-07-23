@@ -121,7 +121,7 @@ class ImportTwitter extends Command
             throw new Exception('Video previously failed to import');
         }
 
-        return Video::importTwitter($id, $filePath);
+        return Video::import('twitter', $id, $filePath);
     }
 
     protected function getDirectoryFiles(string $directory): array

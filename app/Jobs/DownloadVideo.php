@@ -53,7 +53,7 @@ class DownloadVideo implements ShouldQueue
     {
         try {
             // Import and download the video
-            $video = Video::importYouTube($this->videoId);
+            $video = Video::import('youtube', $this->videoId);
             $video->downloadVideo($this->downloadDir);
 
             // Delete any previous import errors on success

@@ -38,10 +38,16 @@ class ProcessChannelImport implements ShouldQueue
      */
     public function handle()
     {
+        $channel = Channel::import($this->type, $this->channelId);
+
+        // TODO: Update this once all sources can have videos/playlists imported
         if ($this->type == 'youtube') {
-            Channel::importYouTube($this->channelId, $this->importVideos, $this->importPlaylists);
-        } else {
-            Channel::import($this->type, $this->channelId);
+            if ($this->importVideos) {
+                $channel->importVideos();
+            }
+            if ($this->importPlaylists) {
+                $channel->importPlaylists();
+            }
         }
     }
 }

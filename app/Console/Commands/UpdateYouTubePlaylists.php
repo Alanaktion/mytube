@@ -6,6 +6,9 @@ use App\Models\Playlist;
 use Exception;
 use Illuminate\Console\Command;
 
+/**
+ * @todo Make a generalized version of this command for all sources.
+ */
 class UpdateYouTubePlaylists extends Command
 {
     protected $signature = 'youtube:update-playlists';
@@ -28,7 +31,7 @@ class UpdateYouTubePlaylists extends Command
 
         $this->withProgressBar($playlists, function ($p) use ($errors) {
             try {
-                Playlist::importYouTube($p->uuid);
+                Playlist::import('youtube', $p->uuid);
             } catch (Exception $e) {
                 $errors[] = $p;
             }

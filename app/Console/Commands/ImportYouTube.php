@@ -116,7 +116,7 @@ class ImportYouTube extends Command
             throw new Exception('Video previously failed to import');
         }
 
-        return Video::importYouTube($id, $filePath);
+        return Video::import('youtube', $id, $filePath);
     }
 
     protected function getDirectoryFiles(string $directory): array
