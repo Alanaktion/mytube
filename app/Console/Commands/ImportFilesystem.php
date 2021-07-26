@@ -60,7 +60,7 @@ class ImportFilesystem extends Command
                     $id = $source->video()->matchFilename(basename($file));
                     if ($id !== null) {
                         $videos[] = [
-                            'type' => $type,
+                            'type' => $key,
                             'id' => $id,
                             'file' => $file,
                         ];
