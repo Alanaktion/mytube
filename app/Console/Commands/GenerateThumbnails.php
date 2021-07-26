@@ -62,6 +62,9 @@ class GenerateThumbnails extends Command
                     if ($video->isDirty()) {
                         $video->save();
                     }
+                } else {
+                    Log::warning("Unable to access video file to generate thumbnail {$video->uuid}");
+                    $errors++;
                 }
             } catch (Exception $e2) {
                 Log::warning("Error generating thumbnail {$video->uuid}: {$e2->getMessage()}");
