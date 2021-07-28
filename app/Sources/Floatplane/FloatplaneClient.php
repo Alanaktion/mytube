@@ -25,15 +25,14 @@ class FloatplaneClient
         ])->get($url)->json();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public static function getVideoData(string $id): array
     {
         $result = self::request("/api/v3/content/post?id=$id");
         $images = collect($result['thumbnail']['childImages'])->sortBy('width');
-        if ($images->count()) {
-            $thumb = $images->first()['path'];
-        } else {
-            $thumb = $result['thumbnail']['path'];
-        }
+        $thumb = $images->count() !== 0 ? $images->first()['path'] : $result['thumbnail']['path'];
         return [
             'id' => $result['id'],
             'title' => $result['title'],
@@ -46,6 +45,9 @@ class FloatplaneClient
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public static function getChannelData(string $creatorUrl): array
     {
         $result = self::request("/api/v2/creator/named?creatorURL[0]=$creatorUrl");

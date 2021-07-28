@@ -66,7 +66,7 @@ class AdminController extends Controller
         foreach ($ids as $id) {
             foreach ($sources as $source) {
                 /** @var \App\Sources\Source $source */
-                if (!$source->playlist()) {
+                if ($source->playlist() === null) {
                     continue;
                 }
                 $matched = $source->playlist()->matchUrl($id);

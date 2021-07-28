@@ -11,24 +11,25 @@ use Illuminate\Console\Command;
  */
 class ImportYouTubePlaylist extends Command
 {
+    /**
+     * @var string
+     */
     protected $signature = 'youtube:import-playlist {id*}';
 
+    /**
+     * @var string
+     */
     protected $description = 'Import YouTube playlists by ID.';
 
-    protected $youtube;
-
-    public function __construct(Google_Service_YouTube $youtube)
+    public function __construct(protected Google_Service_YouTube $youtube)
     {
         parent::__construct();
-        $this->youtube = $youtube;
     }
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $this->warn('This command is deprecated, use import:playlist-url --source=youtube');
 

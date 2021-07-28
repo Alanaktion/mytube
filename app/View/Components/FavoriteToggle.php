@@ -8,7 +8,6 @@ use Illuminate\View\Component;
 
 class FavoriteToggle extends Component
 {
-    public $model;
     public $type;
 
     /**
@@ -16,9 +15,8 @@ class FavoriteToggle extends Component
      *
      * @return void
      */
-    public function __construct(Model $model)
+    public function __construct(public Model $model)
     {
-        $this->model = $model;
         $this->type = strtolower(class_basename($model));
     }
 
@@ -27,18 +25,11 @@ class FavoriteToggle extends Component
         /** @var \App\Models\User */
         $user = Auth::user();
         /** @var \Illuminate\Database\Eloquent\Relations\BelongsToMany $relation */
-        $relation = null;
-        switch ($this->type) {
-            case 'video':
-                $relation = $user->favoriteVideos();
-                break;
-            case 'playlist':
-                $relation = $user->favoritePlaylists();
-                break;
-            case 'channel':
-                $relation = $user->favoriteChannels();
-                break;
-        }
+        $relation = match ($this->type) {
+            'video' => $user->favoriteVideos(),
+            'playlist' => $user->favoritePlaylists(),
+            'channel' => $user->favoriteChannels(),
+        };
         return $relation
             ->where("{$this->type}_id", $this->model->id)
             ->exists();

@@ -23,21 +23,9 @@ class AddUser extends Command
     protected $description = 'Add an administrative user';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $name = $this->ask("User's name");
         $email = $this->ask("User's email");

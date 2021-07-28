@@ -54,7 +54,7 @@ class TwitterVideo implements SourceVideo
 
     public function matchUrl(string $url): ?string
     {
-        if (preg_match('/^(https?:\/\/)?(www\.)?twitter\.com\/([^\/]+)\/status\/([0-9]{19})/i', $url, $matches)) {
+        if (preg_match('/^(https?:\/\/)?(www\.)?twitter\.com\/([^\/]+)\/status\/(\d{19})/i', $url, $matches)) {
             return $matches[4];
         }
         return null;
@@ -62,12 +62,12 @@ class TwitterVideo implements SourceVideo
 
     public function matchId(string $id): bool
     {
-        return (bool)preg_match('/^[0-9]{19}$/i', $id);
+        return (bool)preg_match('/^\d{19}$/i', $id);
     }
 
     public function matchFilename(string $filename): ?string
     {
-        if (preg_match('/-([0-9]{19})\.(mp4|m4v|avi|mkv|webm)$/i', $filename, $matches)) {
+        if (preg_match('/-(\d{19})\.(mp4|m4v|avi|mkv|webm)$/i', $filename, $matches)) {
             return $matches[1];
         }
         return null;

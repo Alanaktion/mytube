@@ -8,6 +8,9 @@ use romanzipp\Twitch\Twitch as TwitchLib;
 
 class TwitchClient
 {
+    /**
+     * @var \romanzipp\Twitch\Twitch
+     */
     protected $client;
 
     /**

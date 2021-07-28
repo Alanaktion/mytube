@@ -7,18 +7,13 @@ use Illuminate\View\Component;
 
 class VideoLink extends Component
 {
-    public $video;
-    public $showChannel;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(Video $video, bool $showChannel = false)
+    public function __construct(public Video $video, public bool $showChannel = false)
     {
-        $this->video = $video;
-        $this->showChannel = $showChannel;
     }
 
     /**

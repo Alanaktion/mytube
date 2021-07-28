@@ -17,24 +17,25 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ImportYouTube extends Command
 {
+    /**
+     * @var string
+     */
     protected $signature = 'youtube:import-fs {directory}';
 
+    /**
+     * @var string
+     */
     protected $description = 'Import YouTube videos from the filesystem.';
 
-    protected $youtube;
-
-    public function __construct(Google_Service_YouTube $youtube)
+    public function __construct(protected Google_Service_YouTube $youtube)
     {
         parent::__construct();
-        $this->youtube = $youtube;
     }
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $this->warn('This command is deprecated, use import:filesystem --source=youtube');
 
@@ -100,7 +101,7 @@ class ImportYouTube extends Command
     protected function importVideo(string $id, string $filePath): Video
     {
         $video = Video::where('uuid', $id)
-            ->whereHas('channel', function ($query) {
+            ->whereHas('channel', function ($query): void {
                 $query->where('type', 'youtube');
             })
             ->first();
@@ -119,6 +120,9 @@ class ImportYouTube extends Command
         return Video::import('youtube', $id, $filePath);
     }
 
+    /**
+     * @return string[]
+     */
     protected function getDirectoryFiles(string $directory): array
     {
         $files = [];
@@ -135,7 +139,10 @@ class ImportYouTube extends Command
             if ($file->isDir()) {
                 continue;
             }
-            $files[] = $file->getRealPath();
+            $path = $file->getRealPath();
+            if ($path !== false) {
+                $files[] = $path;
+            }
         }
         return $files;
     }

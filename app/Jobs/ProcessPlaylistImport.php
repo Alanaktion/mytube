@@ -13,26 +13,19 @@ class ProcessPlaylistImport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $type;
-    protected $playlistId;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $type, string $playlistId)
+    public function __construct(protected string $type, protected string $playlistId)
     {
-        $this->type = $type;
-        $this->playlistId = $playlistId;
     }
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         Playlist::import($this->type, $this->playlistId);
     }

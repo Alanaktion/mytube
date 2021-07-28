@@ -32,10 +32,8 @@ class ImportTwitter extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $this->warn('This command is deprecated, use import:filesystem --source=twitter');
 
@@ -52,7 +50,7 @@ class ImportTwitter extends Command
         foreach ($files as $file) {
             // Match Twitter filename suffix from youtube-dl
             // Long-term this should be made better somehow
-            if (preg_match('/-([0-9]{19})\.(mp4|m4v|avi|mkv|webm)$/', $file, $matches)) {
+            if (preg_match('/-(\d{19})\.(mp4|m4v|avi|mkv|webm)$/', $file, $matches)) {
                 $videos[$matches[1]] = $file;
             } elseif ($verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
                 $this->warn('Unmatched file: ' . $file);
@@ -105,7 +103,7 @@ class ImportTwitter extends Command
     protected function importVideo(string $id, string $filePath): Video
     {
         $video = Video::where('uuid', $id)
-            ->whereHas('channel', function ($query) {
+            ->whereHas('channel', function ($query): void {
                 $query->where('type', 'twitter');
             })
             ->first();
@@ -124,6 +122,9 @@ class ImportTwitter extends Command
         return Video::import('twitter', $id, $filePath);
     }
 
+    /**
+     * @return string[]
+     */
     protected function getDirectoryFiles(string $directory): array
     {
         $files = [];
@@ -140,7 +141,10 @@ class ImportTwitter extends Command
             if ($file->isDir()) {
                 continue;
             }
-            $files[] = $file->getRealPath();
+            $path = $file->getRealPath();
+            if ($path !== false) {
+                $files[] = $path;
+            }
         }
         return $files;
     }

@@ -9,6 +9,9 @@ use Abraham\TwitterOAuth\TwitterOAuth;
  */
 class TwitterClient
 {
+    /**
+     * @var \Abraham\TwitterOAuth\TwitterOAuth
+     */
     protected $client;
 
     /**

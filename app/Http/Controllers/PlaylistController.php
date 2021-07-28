@@ -20,7 +20,7 @@ class PlaylistController extends Controller
             ->with(['firstItem', 'firstItem.video'])
             ->withCount('items');
         if ($source !== null) {
-            $playlists->whereHas('channel', function ($query) use ($source) {
+            $playlists->whereHas('channel', function ($query) use ($source): void {
                 $query->where('type', $source);
             });
         }

@@ -15,9 +15,9 @@ trait DownloadsImages
      * @param string $path The destination, either a full path or a directory.
      * @return string|null The new URL, or null if the file could not be downloaded.
      */
-    public function downloadImage($url, $path): ?string
+    public function downloadImage(string $url, string $path): ?string
     {
-        if (strpos($path, '.') === false) {
+        if (!str_contains($path, '.')) {
             $urlPath = parse_url($url, PHP_URL_PATH);
             $path = Str::finish($path, '/') . basename($urlPath);
         }
@@ -26,7 +26,7 @@ trait DownloadsImages
             try {
                 $image = file_get_contents($url);
                 $disk->put($path, $image, 'public');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return null;
             }
         }

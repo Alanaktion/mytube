@@ -12,7 +12,13 @@ class Playlist extends Model
     use HasFactory;
     use Searchable;
 
+    /**
+     * @var string[]
+     */
     protected $guarded = [];
+    /**
+     * @var string[]
+     */
     protected $dates = ['published_at'];
 
     /**
@@ -23,10 +29,10 @@ class Playlist extends Model
         $sources = app()->tagged('sources');
         foreach ($sources as $source) {
             /** @var \App\Sources\Source $source */
-            if ($source->getSourceType() == $type) {
+            if ($source->getSourceType() === $type) {
                 // Check for existing previous import
                 $playlist = Playlist::where('uuid', $id)
-                    ->whereHas('channel', function ($query) use ($type) {
+                    ->whereHas('channel', function ($query) use ($type): void {
                         $query->where('type', $type);
                     })
                     ->first();
@@ -51,7 +57,10 @@ class Playlist extends Model
         }
     }
 
-    public function toSearchableArray()
+    /**
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
     {
         $this->loadMissing('channel');
         return [

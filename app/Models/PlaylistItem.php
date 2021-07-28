@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlaylistItem extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $guarded = [];
 
     public function playlist()

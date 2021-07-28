@@ -66,7 +66,7 @@ class ChannelController extends Controller
             $q = strtr($request->input('q'), ' ', '%');
             $videos = $channel->videos()->latest('published_at');
             $playlists = $channel->playlists()->latest('published_at');
-            if ($q) {
+            if ($q !== '') {
                 $videos
                     ->where('title', 'like', "%$q%")
                     ->orWhere('uuid', $request->input('q'));

@@ -4,7 +4,7 @@
     "description": "A self-hosted YouTube mirror app",
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "abraham/twitteroauth": "^2.0",
         "beyondcode/laravel-prose-linter": "^1.0",
         "doctrine/dbal": "^3.1",
@@ -31,6 +31,7 @@
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3",
+        "rector/rector": "^0.11.40",
         "squizlabs/php_codesniffer": "*"
     },
     "config": {

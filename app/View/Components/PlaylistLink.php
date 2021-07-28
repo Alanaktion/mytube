@@ -7,7 +7,6 @@ use Illuminate\View\Component;
 
 class PlaylistLink extends Component
 {
-    public $playlist;
     public $firstVideo;
 
     /**
@@ -15,9 +14,8 @@ class PlaylistLink extends Component
      *
      * @return void
      */
-    public function __construct(Playlist $playlist)
+    public function __construct(public Playlist $playlist)
     {
-        $this->playlist = $playlist;
         if ($playlist->firstItem !== null) {
             $this->firstVideo = $playlist->firstItem->video;
         }

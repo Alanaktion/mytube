@@ -23,21 +23,21 @@ class AdminTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    public function testLoginRedirect()
+    public function testLoginRedirect(): void
     {
         $response = $this->get('/admin');
         $response->assertStatus(302);
         $response->assertRedirect('/login');
     }
 
-    public function testDashboard()
+    public function testDashboard(): void
     {
         $this->actingAs($this->user);
         $response = $this->get('/admin');
         $response->assertStatus(200);
     }
 
-    public function testMissingIndex()
+    public function testMissingIndex(): void
     {
         $this->actingAs($this->user);
         $response = $this->get('/admin/missing');

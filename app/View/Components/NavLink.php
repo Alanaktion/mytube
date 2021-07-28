@@ -7,8 +7,6 @@ use Illuminate\View\Component;
 
 class NavLink extends Component
 {
-    public $href;
-    public $text;
     public $active;
 
     /**
@@ -16,11 +14,9 @@ class NavLink extends Component
      *
      * @return void
      */
-    public function __construct(string $href, string $text)
+    public function __construct(public string $href, public string $text)
     {
-        $this->href = $href;
-        $this->text = $text;
-        $this->active = Route::current()->uri == ltrim($href, '/');
+        $this->active = Route::current()->uri === ltrim($href, '/');
     }
 
     /**

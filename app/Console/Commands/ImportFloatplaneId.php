@@ -10,16 +10,20 @@ use Illuminate\Console\Command;
  */
 class ImportFloatplaneId extends Command
 {
+    /**
+     * @var string
+     */
     protected $signature = 'floatplane:import {id*}';
 
+    /**
+     * @var string
+     */
     protected $description = 'Import Floatplane videos by ID.';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $this->warn('This command is deprecated, use import:url --source=floatplane');
 

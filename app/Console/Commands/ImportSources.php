@@ -6,16 +6,20 @@ use Illuminate\Console\Command;
 
 class ImportSources extends Command
 {
+    /**
+     * @var string
+     */
     protected $signature = 'import:sources';
 
+    /**
+     * @var string
+     */
     protected $description = 'List available sources to import from.';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): void
     {
         /**
          * @var \App\Sources\Source[] $sources

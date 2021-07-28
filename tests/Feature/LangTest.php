@@ -8,10 +8,8 @@ class LangTest extends TestCase
 {
     /**
      * Test switching the application language via query parameter.
-     *
-     * @return void
      */
-    public function testSwitchLanguage()
+    public function testSwitchLanguage(): void
     {
         $response = $this->get('/?lang=es');
         $response->assertSee('lang="es"', false);
@@ -20,10 +18,8 @@ class LangTest extends TestCase
 
     /**
      * Test that the language cannot be manually changed to an invalid value.
-     *
-     * @return void
      */
-    public function testSwitchLanguageInvalid()
+    public function testSwitchLanguageInvalid(): void
     {
         $response = $this->get('/?lang=asdf');
         $response->assertSee('lang="en"', false);
@@ -32,10 +28,8 @@ class LangTest extends TestCase
 
     /**
      * Test that the language can be changed via HTTP header
-     *
-     * @return void
      */
-    public function testSwitchLanguageHeader()
+    public function testSwitchLanguageHeader(): void
     {
         $response = $this->get('/', [
             'Accept-Language' => 'ja',
@@ -46,10 +40,8 @@ class LangTest extends TestCase
 
     /**
      * Test that the language setting persists in the session.
-     *
-     * @return void
      */
-    public function testLanguageSessionPersistence()
+    public function testLanguageSessionPersistence(): void
     {
         $response = $this->get('/?lang=ja');
         $response->assertSee('lang="ja"', false);

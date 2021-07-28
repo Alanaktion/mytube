@@ -7,19 +7,23 @@ use Illuminate\Console\Command;
 
 class ImportPlaylistUrl extends Command
 {
+    /**
+     * @var string
+     */
     protected $signature = 'import:playlist-url
         {--source=}
         {--items : Import the items with they playlist}
         {url*}';
 
+    /**
+     * @var string
+     */
     protected $description = 'Import playlists by URL.';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $urls = $this->argument('url');
 

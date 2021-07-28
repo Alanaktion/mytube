@@ -69,4 +69,9 @@ class YouTubePlaylist implements SourcePlaylist
     {
         return (bool)preg_match('/^PL[0-9a-z_-]{16,32}$/i', $id);
     }
+
+    public function getSourceUrl(Playlist $playlist): string
+    {
+        return 'https://www.youtube.com/playlist?list=' . $playlist->uuid;
+    }
 }

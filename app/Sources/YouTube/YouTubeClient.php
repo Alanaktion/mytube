@@ -11,6 +11,7 @@ class YouTubeClient
      * Get metadata for a video from YouTube by video ID
      *
      * @link https://developers.google.com/youtube/v3/docs/videos
+     * @return array<string, mixed>
      */
     public static function getVideoData(string $id): array
     {
@@ -29,7 +30,7 @@ class YouTubeClient
                 'description' => $video->getSnippet()->description,
                 'visibility' => $video->getStatus()->privacyStatus,
                 'published_at' => $video->getSnippet()->publishedAt,
-                'is_livestream' => $video->getLiveStreamingDetails() ? true : false,
+                'is_livestream' => (bool)$video->getLiveStreamingDetails(),
             ];
         }
         throw new Exception('Video not found');
@@ -39,6 +40,7 @@ class YouTubeClient
      * Get metadata for a channel from YouTube by channel ID
      *
      * @link https://developers.google.com/youtube/v3/docs/channels
+     * @return array<string, mixed>
      */
     public static function getChannelData(string $id): array
     {
@@ -132,6 +134,7 @@ class YouTubeClient
      * Get metadata for a playlist by ID
      *
      * @link https://developers.google.com/youtube/v3/docs/playlists
+     * @return array<string, string>
      */
     public static function getPlaylistData(string $id): array
     {

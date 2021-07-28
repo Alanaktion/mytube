@@ -7,16 +7,13 @@ use Illuminate\View\Component;
 
 class ChannelLink extends Component
 {
-    public $channel;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(Channel $channel)
+    public function __construct(public Channel $channel)
     {
-        $this->channel = $channel;
     }
 
     /**
