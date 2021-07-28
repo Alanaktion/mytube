@@ -1,11 +1,3 @@
-@php
-$sources = [
-    'youtube' => 'YouTube',
-    'twitch' => 'Twitch',
-    'twitter' => 'Twitter',
-    'floatplane' => 'Floatplane',
-];
-@endphp
 <source-filter
     :sources='@json($sources)'
     value="{{ $value }}"

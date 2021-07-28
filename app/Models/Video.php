@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-use App\Clients\Floatplane;
-use App\Clients\Twitch;
-use App\Clients\Twitter;
-use App\Clients\YouTube;
+use App\Sources\Source;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,173 +23,43 @@ class Video extends Model
     protected $guarded = [];
     protected $dates = ['published_at'];
 
-    public static function importYouTube(string $id, ?string $filePath = null): Video
-    {
-        $video = Video::where('uuid', $id)
-            ->whereHas('channel', function ($query) {
-                $query->where('type', 'youtube');
-            })
-            ->first();
-        if ($video) {
-            if ($video->file_path === null && $filePath !== null) {
-                $video->file_path = $filePath;
-                $video->save();
+    /**
+     * @api
+     */
+    public static function import(
+        string $type,
+        string $id,
+        ?string $filePath = null
+    ): Video {
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            /** @var \App\Sources\Source $source */
+            if ($source->getSourceType() == $type) {
+                $id = $source->video()->canonicalizeId($id);
+
+                // Check for existing previous import
+                $video = Video::where('uuid', $id)
+                    ->whereHas('channel', function ($query) use ($type) {
+                        $query->where('type', $type);
+                    })
+                    ->first();
+
+                // Import from the source if the video was not found
+                if ($video === null) {
+                    $video = $source->video()->import($id);
+                }
+
+                break;
             }
-            return $video;
         }
-
-        $data = YouTube::getVideoData($id);
-        $channel = Channel::importYouTube($data['channel_id']);
-        return $channel->videos()->create([
-            'uuid' => $data['id'],
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'source_type' => 'youtube',
-            'source_visibility' => $data['visibility'],
-            'is_livestream' => $data['is_livestream'],
-            'published_at' => $data['published_at'],
-            'file_path' => $filePath,
-        ]);
-    }
-
-    public static function importFloatplane(string $id, ?string $filePath = null): Video
-    {
-        $video = Video::where('uuid', $id)
-            ->whereHas('channel', function ($query) {
-                $query->where('type', 'floatplane');
-            })
-            ->first();
-        if ($video) {
-            if ($video->file_path === null && $filePath !== null) {
-                $video->file_path = $filePath;
-                $video->save();
-            }
-            return $video;
+        if (!isset($video)) {
+            throw new Exception('Unable to import source type ' . $type);
         }
-
-        $data = Floatplane::getVideoData($id);
-
-        // Download images
-        $disk = Storage::disk('public');
-        $file = 'thumbs/floatplane/' . basename($data['thumbnail']);
-        $disk->put($file, file_get_contents($data['thumbnail']), 'public');
-        $thumbnailUrl = Storage::url('public/' . $file);
-        $file = 'thumbs/floatplane/' . basename($data['poster']);
-        $disk->put($file, file_get_contents($data['poster']), 'public');
-        $posterUrl = Storage::url('public/' . $file);
-
-        // Create video
-        $channel = Channel::importFloatplane($data['channel_url']);
-        return $channel->videos()->create([
-            'uuid' => $data['id'],
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'source_type' => 'floatplane',
-            'published_at' => $data['published_at'],
-            'file_path' => $filePath,
-            'thumbnail_url' => $thumbnailUrl,
-            'poster_url' => $posterUrl,
-        ]);
-    }
-
-    public static function importTwitch(string $id, ?string $filePath = null): Video
-    {
-        $video = Video::where('uuid', Str::start($id, 'v'))
-            ->whereHas('channel', function ($query) {
-                $query->where('type', 'twitch');
-            })
-            ->first();
-        if ($video) {
-            if ($video->file_path === null && $filePath !== null) {
-                $video->file_path = $filePath;
-                $video->save();
-            }
-            return $video;
+        if ($filePath !== null && $video->file_path === null) {
+            $video->file_path = $filePath;
+            $video->save();
         }
-
-        $twitch = new Twitch();
-        $data = $twitch->getVideos($id)[0];
-
-        // Download images
-        if ($data['thumbnail_url']) {
-            $disk = Storage::disk('public');
-            $url = str_replace(['%{width}', '%{height}'], [640, 360], $data['thumbnail_url']);
-            $file = "thumbs/twitch/{$data['id']}.png";
-            $disk->put($file, file_get_contents($url), 'public');
-            $thumbnailUrl = Storage::url('public/' . $file);
-
-            $url = str_replace(['%{width}', '%{height}'], [1280, 720], $data['thumbnail_url']);
-            $file = "thumbs/twitch/{$data['id']}-poster.png";
-            $disk->put($file, file_get_contents($url), 'public');
-            $posterUrl = Storage::url('public/' . $file);
-        } else {
-            $thumbnailUrl = null;
-            $posterUrl = null;
-        }
-
-        // Create video
-        $channel = Channel::importTwitch($data['user_login']);
-        return $channel->videos()->create([
-            'uuid' => Str::start($data['id'], 'v'),
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'source_type' => 'twitch',
-            'published_at' => $data['published_at'],
-            'file_path' => $filePath,
-            'thumbnail_url' => $thumbnailUrl,
-            'poster_url' => $posterUrl,
-        ]);
-    }
-
-    public static function importTwitter(string $id, ?string $filePath = null): Video
-    {
-        $video = Video::where('uuid', Str::start($id, 'v'))
-            ->whereHas('channel', function ($query) {
-                $query->where('type', 'twitch');
-            })
-            ->first();
-        if ($video) {
-            if ($video->file_path === null && $filePath !== null) {
-                $video->file_path = $filePath;
-                $video->save();
-            }
-            return $video;
-        }
-
-        $twitter = new Twitter();
-        $data = $twitter->getStatus($id);
-
-        // Download images
-        if ($data->entities && $data->entities->media) {
-            $media = $data->entities->media[0];
-            $url = substr($media->media_url_https, 0, -4);
-
-            $disk = Storage::disk('public');
-            $file = 'thumbs/twitter/' . basename($url) . '-small.jpg';
-            $params = [
-                'format' => 'jpg',
-                'name' => 'small',
-            ];
-            $disk->put($file, file_get_contents($url . '?' . http_build_query($params)), 'public');
-            $thumbnailUrl = Storage::url('public/' . $file);
-
-            $file = 'thumbs/twitter/' . basename($media->media_url_https);
-            $disk->put($file, file_get_contents($media->media_url_https), 'public');
-            $posterUrl = Storage::url('public/' . $file);
-        }
-
-        // Create video
-        $channel = Channel::importTwitter($data->user->screen_name);
-        return $channel->videos()->create([
-            'uuid' => $data->id_str,
-            'title' => Str::limit($data->full_text, 80, '…'),
-            'description' => $data->full_text,
-            'source_type' => 'twitter',
-            'published_at' => $data->created_at,
-            'file_path' => $filePath,
-            'thumbnail_url' => $thumbnailUrl,
-            'poster_url' => $posterUrl,
-        ]);
+        return $video;
     }
 
     public function toSearchableArray()
@@ -212,17 +79,24 @@ class Video extends Model
 
     public function getSourceLinkAttribute(): ?string
     {
-        if ($this->source_type == 'youtube') {
-            return 'https://www.youtube.com/watch?v=' . $this->uuid;
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            /** @var \App\Sources\Source $source */
+            if ($source->getSourceType() == $this->source_type) {
+                return $source->video()->getSourceUrl($this);
+            }
         }
-        if ($this->source_type == 'twitch') {
-            return 'https://www.twitch.tv/videos/' . $this->uuid;
-        }
-        if ($this->source_type == 'floatplane') {
-            return 'https://www.floatplane.com/post/' . $this->uuid;
-        }
-        if ($this->source_type == 'twitter') {
-            return 'https://twitter.com/' . $this->channel->custom_url . '/status/' . $this->uuid;
+        return null;
+    }
+
+    public function getEmbedHtmlAttribute(): ?string
+    {
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            /** @var \App\Sources\Source $source */
+            if ($source->getSourceType() == $this->source_type) {
+                return $source->video()->getEmbedHtml($this);
+            }
         }
         return null;
     }
@@ -238,7 +112,11 @@ class Video extends Model
     }
 
     /**
-     * Get a web-accessible symlink to the source file.
+     * Get a web-accessible path/URL to the source file.
+     *
+     * This currently creates a symlink to the source file in the public disk.
+     *
+     * @todo support remote file storage, e.g. storing video files on B2/S3.
      */
     public function getFileLinkAttribute(): ?string
     {
@@ -309,5 +187,15 @@ class Video extends Model
     {
         return $this->belongsToMany(User::class, 'user_favorite_videos')
             ->withTimestamps();
+    }
+
+    public function source(): Source
+    {
+        $sources = app()->tagged('sources');
+        foreach ($sources as $source) {
+            if ($source->getSourceType() == $this->source_type) {
+                return $source;
+            }
+        }
     }
 }

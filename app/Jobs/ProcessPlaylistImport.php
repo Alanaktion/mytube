@@ -13,6 +13,7 @@ class ProcessPlaylistImport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $type;
     protected $playlistId;
 
     /**
@@ -20,8 +21,9 @@ class ProcessPlaylistImport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $playlistId)
+    public function __construct(string $type, string $playlistId)
     {
+        $this->type = $type;
         $this->playlistId = $playlistId;
     }
 
@@ -32,6 +34,6 @@ class ProcessPlaylistImport implements ShouldQueue
      */
     public function handle()
     {
-        Playlist::importYouTube($this->playlistId);
+        Playlist::import($this->type, $this->playlistId);
     }
 }

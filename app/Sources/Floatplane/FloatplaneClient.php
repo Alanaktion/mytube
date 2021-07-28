@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Clients;
+namespace App\Sources\Floatplane;
 
 use Carbon\Carbon;
 use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Support\Facades\Http;
 
-class Floatplane
+class FloatplaneClient
 {
     public const BASE_URL = 'https://www.floatplane.com';
 

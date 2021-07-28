@@ -82,7 +82,7 @@
                 Channel Import
             </div>
 
-            <label for="channelId" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Channel ID</label>
+            <label for="channelId" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Channel URL</label>
             <input type="text" name="channelId" id="channelId" class="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:bg-trueGray-800 dark:bg-opacity-50 dark:border-trueGray-700 dark:focus:border-blue-500 rounded-md mb-2" required>
 
             <div class="flex items-start mb-3">
@@ -91,7 +91,7 @@
                 </div>
                 <div class="ml-3 text-sm">
                     <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">Playlists</label>
-                    <p class="text-gray-500 dark:text-trueGray-400">Import all playlists on the channel with their corresponding videos.</p>
+                    <p class="text-gray-500 dark:text-trueGray-400">Import all playlists on the channel with their corresponding videos. (YouTube only)</p>
                 </div>
             </div>
             <div class="flex items-start mb-3">
@@ -100,7 +100,7 @@
                 </div>
                 <div class="ml-3 text-sm leading-5">
                     <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">Videos</label>
-                    <p class="text-gray-500 dark:text-trueGray-400">Import all videos on the channel.</p>
+                    <p class="text-gray-500 dark:text-trueGray-400">Import all videos on the channel. (YouTube only)</p>
                 </div>
             </div>
 

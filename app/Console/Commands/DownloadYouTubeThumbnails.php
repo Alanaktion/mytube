@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
+/**
+ * @deprecated
+ */
 class DownloadYouTubeThumbnails extends Command
 {
     protected $signature = 'youtube:download-thumbnails {--G|generate : Generate unavailable thumbnails from video}';
@@ -22,12 +25,15 @@ class DownloadYouTubeThumbnails extends Command
      */
     public function handle()
     {
-        $videos = Video::whereHas('channel', function ($query) {
-            $query->where('type', 'youtube');
-        })->where(function ($query) {
-            $query->whereNull('thumbnail_url')
-                ->orWhereNull('poster_url');
-        })->cursor();
+        $this->warn('This command is deprecated as thumbnail download is now part of video import.');
+
+        $videos = Video::where('source_type', 'youtube')
+            ->where(function ($query) {
+                $query
+                    ->whereNull('thumbnail_url')
+                    ->orWhereNull('poster_url');
+            })
+            ->cursor();
 
         $bar = $this->output->createProgressBar($videos->count());
         $bar->start();
@@ -47,7 +53,17 @@ class DownloadYouTubeThumbnails extends Command
             } catch (Exception $e) {
                 if ($this->option('generate')) {
                     try {
-                        $this->generateImage($video);
+                        if ($this->generateImage($video)) {
+                            if (!$video->thumbnail_url) {
+                                $video->thumbnail_url = Storage::url("public/thumbs/generated/{$video->uuid}@360p.jpg");
+                            }
+                            if (!$video->poster_url) {
+                                $video->poster_url = Storage::url("public/thumbs/generated/{$video->uuid}@720p.jpg");
+                            }
+                            if ($video->isDirty()) {
+                                $video->save();
+                            }
+                        }
                     } catch (Exception $e2) {
                         Log::warning("Error generating thumbnail {$video->uuid}: {$e2->getMessage()}");
                     }
@@ -69,6 +85,7 @@ class DownloadYouTubeThumbnails extends Command
             $disk->put("thumbs/youtube/{$uuid}.jpg", $data, 'public');
         }
 
+        // TODO: cleanly handle missing maxres but present thumbnail
         if (!$disk->exists("thumbs/youtube-maxres/{$uuid}.jpg")) {
             $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/maxresdefault.jpg");
             $disk->put("thumbs/youtube-maxres/{$uuid}.jpg", $data, 'public');
@@ -80,10 +97,14 @@ class DownloadYouTubeThumbnails extends Command
     /**
      * Generate images from a video's local file using ffmpeg
      */
-    protected function generateImage(Video $video)
+    protected function generateImage(Video $video): bool
     {
         if (!$video->file_path || !is_file($video->file_path)) {
-            return;
+            return false;
+        }
+
+        if (is_file(storage_path("app/public/thumbs/generated/{$video->uuid}@360p.jpg"))) {
+            return true;
         }
 
         // Determine video duration

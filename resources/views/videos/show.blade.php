@@ -10,31 +10,7 @@
             </video>
         </div>
     @elseif (config('app.embed'))
-        @if ($video->source_type == 'youtube')
-            <div class="relative mb-4 lg:mb-6 pb-9/16">
-                <iframe class="absolute w-full h-full"
-                    src="https://www.youtube.com/embed/{{ $video->uuid }}"
-                    referrerpolicy="no-referrer"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-            </div>
-        @elseif ($video->source_type == 'twitch')
-            <div class="relative mb-4 lg:mb-6 pb-9/16">
-                <iframe class="absolute w-full h-full"
-                    src="https://player.twitch.tv/?video={{ $video->uuid }}&amp;parent={{ request()->getHost() }}"
-                    referrerpolicy="no-referrer"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-            </div>
-        @elseif ($video->source_type == 'twitter')
-            <div class="mb-4">
-                <blockquote class="twitter-tweet" data-conversation="none" data-align="center" data-dnt="true">
-                    <p>{{ $video->description }}</p>
-                    <a href="{{ $video->source_link }}">{{ $video->published_at }}</a>
-                </blockquote>
-                <script async defer src="https://platform.twitter.com/widgets.js"></script>
-            </div>
-        @endif
+        {!! $video->embed_html !!}
     @endif
     <header class="sm:flex items-center mb-3 md:mb-4 lg:mb-6">
         <div class="mb-3 sm:mb-0">

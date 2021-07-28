@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Clients;
+namespace App\Sources\YouTube;
 
-use YoutubeDl\YoutubeDl as YTDLBase;
+use YoutubeDl\YoutubeDl;
 
-class YouTubeDl extends YTDLBase
+class YouTubeDlClient extends YoutubeDl
 {
     public function getVersion(): ?string
     {

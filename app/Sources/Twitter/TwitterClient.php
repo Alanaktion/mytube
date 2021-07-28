@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Clients;
+namespace App\Sources\Twitter;
 
-use Exception;
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 /**
  * Twitter REST API v1.1 client
  */
-class Twitter
+class TwitterClient
 {
     protected $client;
 

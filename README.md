@@ -110,12 +110,10 @@ Importing data may require a usable API key or user account for some sources and
 You can import existing video files from your local filesystem:
 
 ```bash
-php artisan youtube:import-fs <directory>
+php artisan import:filesystem <directory>
 ```
 
 This will recursively scan the given directory for files that include YouTube video IDs in their filenames, and will fetch and store metadata from those videos. The videos will only be recognized if they have the YouTube UUID right before the file extension, as is the default in `youtube-dl`.
-
-This works similarly for Twitch and Twitter files, using the `twitch:import-fs` and `twitter:import-fs` commands respectively.
 
 For best browser support, files should be in MP4 containers, with MPEG4 video and AAC audio. To download videos in this compatible single-file format:
 
@@ -125,21 +123,21 @@ youtube-dl -f bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best \
     <URL>
 ```
 
-This will avoid video transcoding where possible, but may occasionally require re-encoding the audio stream (which requires `ffmepg` or `avconv` to be available). Using only the `merge-output-format` option will usually work, but may not download the ideal source formats, requiring more transcoding and potentially a lower quality result.
+This will avoid video transcoding where possible, but may occasionally require re-encoding the audio stream (which requires `ffmpeg` or `avconv` to be available). Using only the `merge-output-format` option will usually work, but may not download the ideal source formats, requiring more transcoding and potentially a lower quality result.
 
 ### Playlists
 
-Playlists can be imported by their IDs, either from command-line or from the admin web UI.
+Playlists can be imported by their URLs, either from command-line or from the admin web UI.
 
 For CLI:
 
 ```bash
-php artisan youtube:import-playlist <playlist IDs>
+php artisan import:playlist-url <playlist URL/IDs>
 ```
 
 ### Downloading videos
 
-Any videos that have metadata imported, but no local files (_e.g._ from the playlist import), can have videos downloaded automatically. This requires [youtube-dl](https://youtube-dl.org) to be installed. You should also have `ffmpeg` installed for the best format compatibility.
+Any YouTube videos that have metadata imported, but no local files (_e.g._ from the playlist import), can have videos downloaded automatically. This requires [youtube-dl](https://youtube-dl.org) to be installed. You should also have `ffmpeg` installed for the best format compatibility.
 
 Starting the download of any videos missing local files can be started from the command-line:
 

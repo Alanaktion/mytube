@@ -13,6 +13,7 @@ class ProcessChannelImport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $type;
     protected $channelId;
     protected $importVideos;
     protected $importPlaylists;
@@ -22,8 +23,9 @@ class ProcessChannelImport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $channelId, bool $importVideos = false, bool $importPlaylists = false)
+    public function __construct(string $type, string $channelId, bool $importVideos = false, bool $importPlaylists = false)
     {
+        $this->type = $type;
         $this->channelId = $channelId;
         $this->importVideos = $importVideos;
         $this->importPlaylists = $importPlaylists;
@@ -36,6 +38,16 @@ class ProcessChannelImport implements ShouldQueue
      */
     public function handle()
     {
-        Channel::importYouTube($this->channelId, $this->importVideos, $this->importPlaylists);
+        $channel = Channel::import($this->type, $this->channelId);
+
+        // TODO: Update this once all sources can have videos/playlists imported
+        if ($this->type == 'youtube') {
+            if ($this->importVideos) {
+                $channel->importVideos();
+            }
+            if ($this->importPlaylists) {
+                $channel->importPlaylists();
+            }
+        }
     }
 }
