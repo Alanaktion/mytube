@@ -13,30 +13,23 @@ class ProcessChannelImport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $type;
-    protected $channelId;
-    protected $importVideos;
-    protected $importPlaylists;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $type, string $channelId, bool $importVideos = false, bool $importPlaylists = false)
-    {
-        $this->type = $type;
-        $this->channelId = $channelId;
-        $this->importVideos = $importVideos;
-        $this->importPlaylists = $importPlaylists;
+    public function __construct(
+        protected string $type,
+        protected string $channelId,
+        protected bool $importVideos = false,
+        protected bool $importPlaylists = false,
+    ) {
     }
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $channel = Channel::import($this->type, $this->channelId);
 

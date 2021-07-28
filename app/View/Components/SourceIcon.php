@@ -6,7 +6,6 @@ use Illuminate\View\Component;
 
 class SourceIcon extends Component
 {
-    public $type;
     protected $source;
 
     /**
@@ -14,10 +13,8 @@ class SourceIcon extends Component
      *
      * @return void
      */
-    public function __construct(string $type)
+    public function __construct(public string $type)
     {
-        $this->type = $type;
-
         $sources = app()->tagged('sources');
         foreach ($sources as $source) {
             if ($source->getSourceType() == $type) {

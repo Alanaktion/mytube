@@ -7,20 +7,20 @@ use Tests\TestCase;
 
 class PlaylistsTest extends TestCase
 {
-    public function testIndex()
+    public function testIndex(): void
     {
         $response = $this->get('/playlists');
         $response->assertStatus(200);
     }
 
-    public function testShow()
+    public function testShow(): void
     {
         $playlist = Playlist::first();
         $response = $this->get("/playlists/{$playlist->uuid}");
         $response->assertStatus(200);
     }
 
-    public function test404()
+    public function test404(): void
     {
         $response = $this->get("/playlists/invalid-uuid");
         $response->assertStatus(404);

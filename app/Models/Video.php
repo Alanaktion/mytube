@@ -20,7 +20,13 @@ class Video extends Model
     public const VISIBILITY_UNLISTED = 'unlisted';
     public const VISIBILITY_PRIVATE = 'private';
 
+    /**
+     * @var string[]
+     */
     protected $guarded = [];
+    /**
+     * @var string[]
+     */
     protected $dates = ['published_at'];
 
     /**
@@ -34,12 +40,12 @@ class Video extends Model
         $sources = app()->tagged('sources');
         foreach ($sources as $source) {
             /** @var \App\Sources\Source $source */
-            if ($source->getSourceType() == $type) {
+            if ($source->getSourceType() === $type) {
                 $id = $source->video()->canonicalizeId($id);
 
                 // Check for existing previous import
                 $video = Video::where('uuid', $id)
-                    ->whereHas('channel', function ($query) use ($type) {
+                    ->whereHas('channel', function ($query) use ($type): void {
                         $query->where('type', $type);
                     })
                     ->first();
@@ -62,7 +68,10 @@ class Video extends Model
         return $video;
     }
 
-    public function toSearchableArray()
+    /**
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
     {
         $this->loadMissing('channel');
         return [
@@ -160,7 +169,7 @@ class Video extends Model
         }
 
         // Set the base yt-dl configuration
-        $dl = new YoutubeDl([
+        $ytdl = new YoutubeDl([
             'continue' => true,
             'format' => 'bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best',
             'merge-output-format' => 'mp4',
@@ -174,10 +183,10 @@ class Video extends Model
         } else {
             $dir .= $downloadDir;
         }
-        $dl->setDownloadPath($dir);
+        $ytdl->setDownloadPath($dir);
 
         // Download the video file and save the resulting path
-        $result = $dl->download($this->source_link);
+        $result = $ytdl->download($this->source_link);
         $file = $result->getFile();
         $this->file_path = $file->getRealPath();
         $this->save();

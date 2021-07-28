@@ -36,19 +36,19 @@ class HomeController extends Controller
         if (config('scout.driver')) {
             // TODO: handle explicitly matching exact UUIDs, and prioritizing more recent objects
             $videos = Video::search($request->input('q'))
-                ->query(function ($builder) {
+                ->query(function ($builder): void {
                     $builder->with('channel');
                 })
                 ->paginate(24);
             $playlists = Playlist::search($request->input('q'))
-                ->query(function ($builder) {
+                ->query(function ($builder): void {
                     $builder
                         ->with('firstItem', 'firstItem.video')
                         ->withCount('items');
                 })
                 ->paginate(18);
             $channels = Channel::search($request->input('q'))
-                ->query(function ($builder) {
+                ->query(function ($builder): void {
                     $builder->withCount('videos');
                 })
                 ->paginate(15);

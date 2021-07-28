@@ -15,7 +15,13 @@ class Channel extends Model
     use HasFactory;
     use Searchable;
 
+    /**
+     * @var string[]
+     */
     protected $guarded = [];
+    /**
+     * @var string[]
+     */
     protected $dates = ['published_at'];
 
     /**
@@ -26,7 +32,7 @@ class Channel extends Model
         $sources = app()->tagged('sources');
         foreach ($sources as $source) {
             /** @var \App\Sources\Source $source */
-            if ($source->getSourceType() == $type) {
+            if ($source->getSourceType() === $type) {
                 $field = $source->channel()->getField();
 
                 // Check for existing previous import
@@ -43,7 +49,10 @@ class Channel extends Model
         throw new Exception('Unable to import source type ' . $type);
     }
 
-    public function toSearchableArray()
+    /**
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
     {
         return [
             'id' => $this->id,
@@ -61,7 +70,7 @@ class Channel extends Model
      * If youtube-dl is not available, this will be limited to 500 items and
      * will consume a large amount of the API quota.
      */
-    public function importVideos()
+    public function importVideos(): void
     {
         if ($this->type != 'youtube') {
             throw new Exception('Importing videos is not supported for this channel type.');
@@ -96,7 +105,7 @@ class Channel extends Model
      * If youtube-dl is not available, this will be limited to 500 items and
      * will consume a large amount of the API quota.
      */
-    public function importPlaylists(bool $importItems = true)
+    public function importPlaylists(bool $importItems = true): void
     {
         if ($this->type != 'youtube') {
             throw new Exception('Importing playlists is not supported for this channel type.');

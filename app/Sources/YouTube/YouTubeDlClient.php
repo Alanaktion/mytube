@@ -14,21 +14,30 @@ class YouTubeDlClient extends YoutubeDl
             ]);
             $process->mustRun(is_callable($this->debug) ? $this->debug : null);
             return $process->getOutput();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
 
+    /**
+     * @return string[]
+     */
     public function getChannelVideoIds(string $channelId): array
     {
         return $this->getIdsByUrl("https://www.youtube.com/channel/${channelId}/videos");
     }
 
+    /**
+     * @return string[]
+     */
     public function getChannelPlaylistIds(string $channelId): array
     {
         return $this->getIdsByUrl("https://www.youtube.com/channel/${channelId}/playlists");
     }
 
+    /**
+     * @return string[]
+     */
     protected function getIdsByUrl(string $url): array
     {
         $process = $this->createProcess([

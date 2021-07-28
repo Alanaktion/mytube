@@ -14,21 +14,13 @@ use Illuminate\Translation\FileLoader as LaravelTranslationFileLoader;
 class FileLoader extends LaravelTranslationFileLoader
 {
     /**
-     * @var array
-     */
-    protected $paths;
-
-    /**
      * Create a new file loader instance.
      *
-     * @param \Illuminate\Filesystem\Filesystem $files
      * @param array $path
      * @param array $paths
      */
-    public function __construct(Filesystem $files, $path, $paths = [])
+    public function __construct(Filesystem $files, $path, protected $paths = [])
     {
-        $this->paths = $paths;
-
         parent::__construct($files, $path);
     }
 
@@ -38,10 +30,8 @@ class FileLoader extends LaravelTranslationFileLoader
      * @param string $locale
      * @param string $group
      * @param string $namespace
-     *
-     * @return array
      */
-    public function load($locale, $group, $namespace = null)
+    public function load($locale, $group, $namespace = null): array
     {
         $defaults = [];
 
@@ -58,10 +48,8 @@ class FileLoader extends LaravelTranslationFileLoader
      * @param string $path
      * @param string $locale
      * @param string $group
-     *
-     * @return array
      */
-    protected function loadPath($path, $locale, $group)
+    protected function loadPath($path, $locale, $group): array
     {
         $result = parent::loadPath($path, $locale, $group);
 

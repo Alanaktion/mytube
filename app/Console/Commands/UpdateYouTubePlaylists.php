@@ -11,34 +11,38 @@ use Illuminate\Console\Command;
  */
 class UpdateYouTubePlaylists extends Command
 {
+    /**
+     * @var string
+     */
     protected $signature = 'youtube:update-playlists';
 
+    /**
+     * @var string
+     */
     protected $description = 'Update YouTube playlists.';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
-        $playlists = Playlist::whereHas('channel', function ($query) {
+        $playlists = Playlist::whereHas('channel', function ($query): void {
             $query->where('type', 'youtube');
         })->cursor();
 
         /** @var Playlist[] */
         $errors = [];
 
-        $this->withProgressBar($playlists, function ($p) use ($errors) {
+        $this->withProgressBar($playlists, function ($p) use ($errors): void {
             try {
                 Playlist::import('youtube', $p->uuid);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $errors[] = $p;
             }
         });
 
-        foreach ($errors as $e) {
-            $this->error("Failed to update playlist {$e->uuid}");
+        foreach ($errors as $error) {
+            $this->error("Failed to update playlist {$error->uuid}");
         }
 
         return 0;

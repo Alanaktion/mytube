@@ -32,7 +32,7 @@ class VideoController extends Controller
     {
         $video->load([
             'channel',
-            'playlists' => function ($query) {
+            'playlists' => function ($query): void {
                 $query
                     ->with(['firstItem', 'firstItem.video'])
                     ->withCount('items');

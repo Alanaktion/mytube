@@ -14,21 +14,25 @@ use Intervention\Image\Facades\Image;
  */
 class DownloadYouTubeThumbnails extends Command
 {
+    /**
+     * @var string
+     */
     protected $signature = 'youtube:download-thumbnails {--G|generate : Generate unavailable thumbnails from video}';
 
+    /**
+     * @var string
+     */
     protected $description = 'Download missing YouTube thumbnails.';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): void
     {
         $this->warn('This command is deprecated as thumbnail download is now part of video import.');
 
         $videos = Video::where('source_type', 'youtube')
-            ->where(function ($query) {
+            ->where(function ($query): void {
                 $query
                     ->whereNull('thumbnail_url')
                     ->orWhereNull('poster_url');
@@ -76,7 +80,7 @@ class DownloadYouTubeThumbnails extends Command
         $this->line('');
     }
 
-    protected function downloadThumbnail(string $uuid)
+    protected function downloadThumbnail(string $uuid): void
     {
         $disk = Storage::disk('public');
 
@@ -119,13 +123,13 @@ class DownloadYouTubeThumbnails extends Command
         Storage::makeDirectory('public/thumbs/generated');
 
         // Generate resampled + cropped images
-        $thumb = Image::make($framePath)->resize(480, 360, function ($constraint) {
+        $thumb = Image::make($framePath)->resize(480, 360, function ($constraint): void {
             $constraint->aspectRatio();
             $constraint->upsize();
         })->resizeCanvas(480, 360, 'center', false, '#000');
         $thumb->save(storage_path("app/public/thumbs/generated/{$video->uuid}@360p.jpg"));
 
-        $thumb = Image::make($framePath)->resize(1280, 720, function ($constraint) {
+        $thumb = Image::make($framePath)->resize(1280, 720, function ($constraint): void {
             $constraint->aspectRatio();
             $constraint->upsize();
         })->resizeCanvas(1280, 720, 'center', false, '#000');

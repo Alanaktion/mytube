@@ -12,10 +12,8 @@ class ConsoleTest extends TestCase
 
     /**
      * Test adding a user from the console.
-     *
-     * @return void
      */
-    public function testAddUser()
+    public function testAddUser(): void
     {
         $this->artisan('user:add')
             ->expectsQuestion("User's name", $this->faker->name)
@@ -26,10 +24,8 @@ class ConsoleTest extends TestCase
 
     /**
      * Test listing the import sources.
-     *
-     * @return void
      */
-    public function testInputSources()
+    public function testInputSources(): void
     {
         /**
          * @var \App\Sources\Source[] $sources

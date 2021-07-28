@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class GraphQLTest extends TestCase
 {
-    public function testQueryVideos()
+    public function testQueryVideos(): void
     {
         $response = $this->postJson('/graphql', [
             'query' => <<<GQL
@@ -34,7 +34,7 @@ class GraphQLTest extends TestCase
         $this->assertGreaterThanOrEqual(5, $response->json('data.videos.total'));
     }
 
-    public function testQueryVideoByUuid()
+    public function testQueryVideoByUuid(): void
     {
         $video = Video::first();
         $response = $this->postJson('/graphql', [
@@ -60,7 +60,7 @@ class GraphQLTest extends TestCase
         $response->assertJsonPath('data.videos.data.0.uuid', $video->uuid);
     }
 
-    public function testQueryVideoByTitle()
+    public function testQueryVideoByTitle(): void
     {
         $video = Video::first();
         $response = $this->postJson('/graphql', [
@@ -87,7 +87,7 @@ class GraphQLTest extends TestCase
         // the results, but not necessarily the first result.
     }
 
-    public function testQueryVideoByChannel()
+    public function testQueryVideoByChannel(): void
     {
         $channel = Channel::whereHas('videos')->first();
         $response = $this->postJson('/graphql', [
@@ -118,7 +118,7 @@ class GraphQLTest extends TestCase
      */
     protected function assertVideoResponse(\Illuminate\Testing\TestResponse $response): void
     {
-        $response->assertJson(function (AssertableJson $json) {
+        $response->assertJson(function (AssertableJson $json): void {
             $json->whereAllType([
                 'data' => 'array',
                 'data.videos' => 'array',
@@ -133,7 +133,7 @@ class GraphQLTest extends TestCase
         });
     }
 
-    public function testPagination()
+    public function testPagination(): void
     {
         $response = $this->postJson('/graphql', [
             'query' => <<<GQL
@@ -150,7 +150,7 @@ class GraphQLTest extends TestCase
         $this->assertGreaterThanOrEqual(5, $response->json('data.videos.from'));
     }
 
-    public function testQueryChannels()
+    public function testQueryChannels(): void
     {
         $response = $this->postJson('/graphql', [
             'query' => <<<GQL
@@ -171,7 +171,7 @@ class GraphQLTest extends TestCase
         $this->assertGreaterThanOrEqual(5, $response->json('data.channels.total'));
     }
 
-    public function testQueryChannelByUuid()
+    public function testQueryChannelByUuid(): void
     {
         $channel = Channel::first();
         $response = $this->postJson('/graphql', [
@@ -198,7 +198,7 @@ class GraphQLTest extends TestCase
      */
     protected function assertChannelResponse(\Illuminate\Testing\TestResponse $response): void
     {
-        $response->assertJson(function (AssertableJson $json) {
+        $response->assertJson(function (AssertableJson $json): void {
             $json->whereAllType([
                 'data' => 'array',
                 'data.channels' => 'array',

@@ -13,8 +13,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportFilesystem extends Command
 {
+    /**
+     * @var string
+     */
     protected $signature = 'import:filesystem {--source=} {directory}';
 
+    /**
+     * @var string
+     */
     protected $description = 'Import videos from the filesystem.';
 
     /**
@@ -24,10 +30,8 @@ class ImportFilesystem extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $verbosity = $this->getOutput()->getVerbosity();
         $directory = $this->argument('directory');
@@ -86,7 +90,7 @@ class ImportFilesystem extends Command
 
         $errorCount = 0;
 
-        $this->withProgressBar($videos, function (array $video) use (&$errorCount) {
+        $this->withProgressBar($videos, function (array $video) use (&$errorCount): void {
             try {
                 $prevError = ImportError::where('uuid', $video['id'])
                     ->where('type', $video['type'])
@@ -139,6 +143,7 @@ class ImportFilesystem extends Command
      * Get all of the files in a directory recursively.
      *
      * This returns an array of all files in a directory, with complete paths.
+     * @return string[]
      */
     protected function getDirectoryFiles(string $directory): array
     {
@@ -156,7 +161,10 @@ class ImportFilesystem extends Command
             if ($file->isDir()) {
                 continue;
             }
-            $files[] = $file->getRealPath();
+            $path = $file->getRealPath();
+            if ($path !== false) {
+                $files[] = $path;
+            }
         }
         return $files;
     }

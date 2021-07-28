@@ -1,4 +1,4 @@
 {
     "phpcs.standard": "PSR12",
-    "intelephense.environment.phpVersion": "7.3.0"
+    "intelephense.environment.phpVersion": "8.0.0"
 }

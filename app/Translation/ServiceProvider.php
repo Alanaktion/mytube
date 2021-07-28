@@ -15,9 +15,9 @@ class ServiceProvider extends TranslationServiceProvider
     /**
      * Register the translation line loader.
      */
-    protected function registerLoader()
+    protected function registerLoader(): void
     {
-        $this->app->singleton('translation.loader', function ($app) {
+        $this->app->singleton('translation.loader', function ($app): \App\Translation\FileLoader {
             $paths = [
                 base_path('vendor/laravel-lang/lang/src/'),
             ];

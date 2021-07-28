@@ -32,7 +32,7 @@ class ImageController extends Controller
                     $data = file_get_contents("https://img.youtube.com/vi/{$video->uuid}/hqdefault.jpg");
                     $disk->put("thumbs/youtube/{$video->uuid}.jpg", $data, 'public');
                     $exists = true;
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     //
                 }
             }
@@ -79,7 +79,7 @@ class ImageController extends Controller
                     $data = file_get_contents("https://img.youtube.com/vi/{$video->uuid}/maxresdefault.jpg");
                     $disk->put("thumbs/youtube-maxres/{$video->uuid}.jpg", $data, 'public');
                     $exists = true;
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     //
                 }
             }
@@ -128,7 +128,7 @@ class ImageController extends Controller
                     $channel->image_url_lg = Storage::url("public/thumbs/youtube-channel-lg/{$channel->uuid}.jpg");
                 }
                 $channel->save();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 //
             }
         }
@@ -161,7 +161,7 @@ class ImageController extends Controller
         Storage::makeDirectory('public/thumbs/generated');
 
         // Generate resampled + cropped image
-        $thumb = Image::make($framePath)->resize($w, $h, function ($constraint) {
+        $thumb = Image::make($framePath)->resize($w, $h, function ($constraint): void {
             $constraint->aspectRatio();
             $constraint->upsize();
         })->resizeCanvas($w, $h, 'center', false, '#000');

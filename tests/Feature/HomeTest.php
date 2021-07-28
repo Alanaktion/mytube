@@ -8,13 +8,13 @@ use Tests\TestCase;
 
 class HomeTest extends TestCase
 {
-    public function testHome()
+    public function testHome(): void
     {
         $response = $this->get('/');
         $response->assertStatus(200);
     }
 
-    public function testSearchVideo()
+    public function testSearchVideo(): void
     {
         $video = Video::first();
         $query = $video->title;
@@ -27,7 +27,7 @@ class HomeTest extends TestCase
         $this->assertTrue($videoCollection->contains($video));
     }
 
-    public function testSearchChannel()
+    public function testSearchChannel(): void
     {
         $channel = Channel::first();
         $query = $channel->title;

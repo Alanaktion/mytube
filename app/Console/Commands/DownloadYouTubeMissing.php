@@ -27,10 +27,8 @@ class DownloadYouTubeMissing extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $videos = Video::whereNull('file_path')->cursor();
         if (!$videos->count()) {
@@ -38,7 +36,7 @@ class DownloadYouTubeMissing extends Command
             return 0;
         }
 
-        $this->withProgressBar($videos, function (Video $video, $bar) {
+        $this->withProgressBar($videos, function (Video $video, $bar): void {
             if ($this->option('queue')) {
                 // Queue the video download
                 DownloadVideo::dispatch($video->uuid)->onQueue('download');

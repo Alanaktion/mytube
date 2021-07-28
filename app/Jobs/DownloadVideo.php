@@ -23,21 +23,14 @@ class DownloadVideo implements ShouldQueue
      */
     public $timeout = 3600;
 
-    public $videoId;
-    public $downloadDir;
-
-    public function __construct(string $videoId, ?string $downloadDir = null)
+    public function __construct(public string $videoId, public ?string $downloadDir = null)
     {
-        $this->videoId = $videoId;
-        $this->downloadDir = $downloadDir;
     }
 
     /**
      * Get the middleware the job should pass through.
-     *
-     * @return array
      */
-    public function middleware()
+    public function middleware(): array
     {
         return [
             (new WithoutOverlapping($this->videoId))->dontRelease(),
@@ -47,9 +40,8 @@ class DownloadVideo implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         try {
             // Import and download the video

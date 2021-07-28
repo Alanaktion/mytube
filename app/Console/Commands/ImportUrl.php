@@ -7,16 +7,20 @@ use Illuminate\Console\Command;
 
 class ImportUrl extends Command
 {
+    /**
+     * @var string
+     */
     protected $signature = 'import:url {--source=} {url*}';
 
+    /**
+     * @var string
+     */
     protected $description = 'Import videos by URL.';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $urls = $this->argument('url');
 
