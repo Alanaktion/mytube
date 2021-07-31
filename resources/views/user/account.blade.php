@@ -43,7 +43,7 @@
 
         <div class="hidden sm:block" aria-hidden="true">
             <div class="py-5">
-                <div class="border-t border-gray-200 dark:border-trueGray-700"></div>
+                <div class="border-t dark:border-trueGray-700"></div>
             </div>
         </div>
 
@@ -61,7 +61,7 @@
                     @if ($tokens->count() > 0)
                         <div class="-my-2 lg:-my-4">
                             @foreach($tokens as $token)
-                                <div class="flex items-center py-2 lg:py-4 border-b last:border-0">
+                                <div class="flex items-center py-2 lg:py-4 border-b dark:border-trueGray-700 last:border-0">
                                     <div class="mr-auto">
                                         <div class="font-medium">{{ $token->name }}</div>
                                         <div class="text-sm text-gray-600 dark:text-trueGray-400">Created {{ $token->created_at->format('Y-m-d') }}</div>
