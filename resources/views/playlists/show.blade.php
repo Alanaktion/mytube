@@ -18,7 +18,7 @@
                     <x-favorite-toggle :model="$playlist" />
                     <form action="/playlists/{{ $playlist->uuid }}/refresh" method="post">
                         @csrf
-                        <x-button type="submit" small title="{{ __('Refresh the playlist from the source.') }}">
+                        <x-button type="submit" title="{{ __('Refresh the playlist from the source.') }}">
                             {{ __('Refresh') }}
                         </x-button>
                     </form>

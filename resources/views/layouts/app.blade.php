@@ -11,7 +11,7 @@
     <link rel="search" type="application/opensearchdescription+xml" title="{{ config('app.name') }}" href="{{ url('/opensearch.xml') }}">
     <x-theme-script />
 </head>
-<body class="dark:bg-trueGray-900 dark:text-trueGray-100 antialiased @yield('class')">
+<body class="bg-gray-50 dark:bg-trueGray-900 dark:text-trueGray-100 antialiased @yield('class')">
 <div class="flex flex-col h-full" id="app">
     <a href="#content" class="sr-only focus:not-sr-only text-blue-700 dark:text-blue-400 font-bold px-3 py-1">
         {{ __('Skip to content') }}

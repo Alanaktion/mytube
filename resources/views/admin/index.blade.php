@@ -6,7 +6,7 @@
         Overview
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-5 lg:mb-6">
-        <div class="dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
+        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
+        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <div class="dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
+        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -48,87 +48,104 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6 pb-5 lg:mb-6">
-        <form action="/admin/playlists" method="post">
+        <form class="shadow overflow-hidden sm:rounded-md" action="/admin/playlists" method="post">
             @csrf
-            <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                Playlist Import
-            </div>
+            <x-card>
+                <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
+                    Playlist Import
+                </div>
 
-            <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Playlist URLs/IDs</label>
-            <x-textarea class="mb-2" name="playlistIds" id="playlistIds" rows="5" required></x-textarea>
+                <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Playlist URLs/IDs</label>
+                <x-textarea name="playlistIds" id="playlistIds" rows="5" required></x-textarea>
 
-            <x-button type="submit" small>
-                Import Playlists
-            </x-button>
+                <x-slot name="footer">
+                    <x-button type="submit" primary>
+                        Import Playlists
+                    </x-button>
+                </x-slot>
+            </x-card>
         </form>
 
-        <form action="/admin/videos" method="post">
+        <form class="shadow overflow-hidden sm:rounded-md" action="/admin/videos" method="post">
             @csrf
-            <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                Video Import
-            </div>
+            <x-card>
+                <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
+                    Video Import
+                </div>
 
-            <label for="videoIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Video IDs/URLs</label>
-            <x-textarea class="mb-2" name="videoIds" id="videoIds" rows="5" required></x-textarea>
+                <label for="videoIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Video IDs/URLs</label>
+                <x-textarea name="videoIds" id="videoIds" rows="5" required></x-textarea>
 
-            <x-button type="submit" small>
-                Import Videos
-            </x-button>
+                <x-slot name="footer">
+                    <x-button type="submit" primary>
+                        Import Videos
+                    </x-button>
+                </x-slot>
+            </x-card>
         </form>
 
         <form action="/admin/channels" method="post">
             @csrf
-            <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                Channel Import
-            </div>
+            <x-card>
+                <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
+                    Channel Import
+                </div>
 
-            <label for="channelId" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Channel URL</label>
-            <x-input class="mb-2" type="text" name="channelId" id="channelId" required />
+                <label for="channelId" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Channel URL</label>
+                <x-input class="mb-4 lg:mb-6" type="text" name="channelId" id="channelId" required />
 
-            <div class="flex items-start mb-3">
-                <div class="flex items-center h-5">
-                    <x-checkbox id="playlists" name="playlists" />
+                <div class="flex items-start mb-3">
+                    <div class="flex items-center h-5">
+                        <x-checkbox id="playlists" name="playlists" />
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">Playlists</label>
+                        <p class="text-gray-500 dark:text-trueGray-400">Import all playlists on the channel with their corresponding videos. (YouTube only)</p>
+                    </div>
                 </div>
-                <div class="ml-3 text-sm">
-                    <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">Playlists</label>
-                    <p class="text-gray-500 dark:text-trueGray-400">Import all playlists on the channel with their corresponding videos. (YouTube only)</p>
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <x-checkbox id="videos" name="videos" />
+                    </div>
+                    <div class="ml-3 text-sm leading-5">
+                        <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">Videos</label>
+                        <p class="text-gray-500 dark:text-trueGray-400">Import all videos on the channel. (YouTube only)</p>
+                    </div>
                 </div>
-            </div>
-            <div class="flex items-start mb-3">
-                <div class="flex items-center h-5">
-                    <x-checkbox id="videos" name="videos" />
-                </div>
-                <div class="ml-3 text-sm leading-5">
-                    <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">Videos</label>
-                    <p class="text-gray-500 dark:text-trueGray-400">Import all videos on the channel. (YouTube only)</p>
-                </div>
-            </div>
-
-            <x-button type="submit" small>
-                Import Channel
-            </x-button>
+                <x-slot name="footer">
+                    <x-button type="submit" primary>
+                        Import Channel
+                    </x-button>
+                </x-slot>
+            </x-card>
         </form>
 
         <div>
-            <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                Missing Files
-            </div>
-            <p class="mb-3">{{ $missingCount }} videos are missing local files</p>
-
-            <x-button href="/admin/missing" small>
-                View all →
-            </x-button>
+            <x-card>
+                <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
+                    Missing Files
+                </div>
+                <p>{{ $missingCount }} videos are missing local files</p>
+                <x-slot name="footer">
+                    <x-button href="/admin/missing" primary>
+                        View all →
+                    </x-button>
+                </x-slot>
+            </x-card>
         </div>
 
         <div>
-            <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                Queued Actions
-            </div>
-            <p class="mb-3">View any current background activity</p>
-
-            <x-button href="/admin/queue" small>
-                View all →
-            </x-button>
+            <x-card>
+                <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
+                    Queued Actions
+                </div>
+                <p>View any current background activity</p>
+                <x-slot name="footer">
+                    <x-button href="/admin/queue" primary>
+                        View all →
+                    </x-button>
+                </x-slot>
+            </x-card>
         </div>
     </div>
 </div>

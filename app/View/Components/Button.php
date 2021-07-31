@@ -14,7 +14,7 @@ class Button extends Component
     public function __construct(
         public bool $primary = false,
         public bool $rounded = false,
-        public bool $small = false,
+        public bool $large = false,
     ) {
     }
 

@@ -12,7 +12,7 @@
             </div>
         @endforelse
     </div>
-    <x-button rounded primary href="/videos">
+    <x-button rounded primary large href="/videos">
         {{ __('All videos') }} →
     </x-button>
 
@@ -28,7 +28,7 @@
             </div>
         @endforelse
     </div>
-    <x-button rounded primary href="/playlists">
+    <x-button rounded primary large href="/playlists">
         {{ __('All playlists') }} →
     </x-button>
 
@@ -44,7 +44,7 @@
             </div>
         @endforelse
     </div>
-    <x-button rounded primary href="/channels">
+    <x-button rounded primary large href="/channels">
         {{ __('All channels') }} →
     </x-button>
 </div>
