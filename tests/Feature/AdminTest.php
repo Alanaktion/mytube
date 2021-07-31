@@ -8,19 +8,22 @@ use Tests\TestCase;
 
 class AdminTest extends TestCase
 {
-    /**
-     * @var User
-     */
+    /** @var User */
     protected $user;
+    /** @var User */
+    protected $admin;
 
     /**
-     * Set up the administrator user.
+     * Set up the test users.
      */
     public function setUp(): void
     {
         parent::setUp();
 
         $this->user = User::factory()->create();
+        $this->admin = User::factory()->create([
+            'role' => User::ROLE_ADMIN,
+        ]);
     }
 
     public function testLoginRedirect(): void
@@ -32,14 +35,21 @@ class AdminTest extends TestCase
 
     public function testDashboard(): void
     {
-        $this->actingAs($this->user);
+        $this->actingAs($this->admin);
         $response = $this->get('/admin');
         $response->assertStatus(200);
     }
 
-    public function testMissingIndex(): void
+    public function testDashboardUnauthorized(): void
     {
         $this->actingAs($this->user);
+        $response = $this->get('/admin');
+        $response->assertStatus(403);
+    }
+
+    public function testMissingIndex(): void
+    {
+        $this->actingAs($this->admin);
         $response = $this->get('/admin/missing');
         $response->assertStatus(200);
 
