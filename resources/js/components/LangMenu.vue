@@ -11,9 +11,12 @@
                 </svg>
             </ListboxButton>
             <transition
-                leave-active-class="transition duration-100 ease-in"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
+                enter-active-class="transition duration-100 ease-out"
+                enter-from-class="transform scale-95 opacity-0"
+                enter-to-class="transform scale-100 opacity-100"
+                leave-active-class="transition duration-75 ease-in"
+                leave-from-class="transform scale-100 opacity-100"
+                leave-to-class="transform scale-95 opacity-0"
             >
                 <ListboxOptions
                     class="origin-bottom-right absolute right-0 bottom-7 w-40 py-1 mb-2 z-10 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
@@ -36,17 +39,10 @@
                             }"
                         >
                             <span>{{ name }}</span>
-                            <svg
+                            <CheckCircleIcon
                                 v-if="selected"
                                 class="w-4 h-4 ml-auto"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true"
-                            >
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
+                            />
                         </li>
                     </ListboxOption>
                 </ListboxOptions>
@@ -64,6 +60,7 @@ import {
     ListboxOption,
 } from "@headlessui/vue";
 import { setLanguage } from '../api';
+import { CheckCircleIcon } from '@heroicons/vue/outline';
 
 export default {
     components: {
@@ -71,6 +68,7 @@ export default {
         ListboxButton,
         ListboxOptions,
         ListboxOption,
+        CheckCircleIcon,
     },
     props: {
         locales: {

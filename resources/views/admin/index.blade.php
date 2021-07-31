@@ -55,7 +55,7 @@
             </div>
 
             <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Playlist URLs/IDs</label>
-            <textarea name="playlistIds" id="playlistIds" class="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:bg-trueGray-800 dark:bg-opacity-50 dark:border-trueGray-700 dark:focus:border-blue-500 rounded-md mb-2" rows="5" required></textarea>
+            <x-textarea class="mb-2" name="playlistIds" id="playlistIds" rows="5" required></x-textarea>
 
             <x-button type="submit" small>
                 Import Playlists
@@ -69,7 +69,7 @@
             </div>
 
             <label for="videoIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Video IDs/URLs</label>
-            <textarea name="videoIds" id="videoIds" class="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:bg-trueGray-800 dark:bg-opacity-50 dark:border-trueGray-700 dark:focus:border-blue-500 rounded-md mb-2" rows="5" required></textarea>
+            <x-textarea class="mb-2" name="videoIds" id="videoIds" rows="5" required></x-textarea>
 
             <x-button type="submit" small>
                 Import Videos
@@ -83,11 +83,11 @@
             </div>
 
             <label for="channelId" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Channel URL</label>
-            <input type="text" name="channelId" id="channelId" class="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:bg-trueGray-800 dark:bg-opacity-50 dark:border-trueGray-700 dark:focus:border-blue-500 rounded-md mb-2" required>
+            <x-input class="mb-2" type="text" name="channelId" id="channelId" required />
 
             <div class="flex items-start mb-3">
                 <div class="flex items-center h-5">
-                    <input id="playlists" name="playlists" type="checkbox" class="focus:ring-blue-500 dark:ring-offset-trueGray-900 h-4 w-4 text-blue-600 border-gray-300 rounded">
+                    <x-checkbox id="playlists" name="playlists" />
                 </div>
                 <div class="ml-3 text-sm">
                     <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">Playlists</label>
@@ -96,7 +96,7 @@
             </div>
             <div class="flex items-start mb-3">
                 <div class="flex items-center h-5">
-                    <input id="videos" name="videos" type="checkbox" class="focus:ring-blue-500 dark:ring-offset-trueGray-900 h-4 w-4 text-blue-600 border-gray-300 rounded">
+                    <x-checkbox id="videos" name="videos" />
                 </div>
                 <div class="ml-3 text-sm leading-5">
                     <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">Videos</label>

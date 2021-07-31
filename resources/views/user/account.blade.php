@@ -1,0 +1,103 @@
+@extends('layouts.app')
+
+@section('class', 'bg-gray-50')
+
+@section('content')
+<div class="container max-w-6xl lg:py-10">
+    <div class="mt-8 sm:mt-0">
+        <div class="md:grid md:grid-cols-3 md:gap-6">
+            <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-trueGray-100">Personal Information</h3>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-trueGray-400">
+                        This information is used to identify you and send you important information.
+                    </p>
+                </div>
+            </div>
+            <div class="mt-5 md:mt-0 md:col-span-2">
+                <form action="/user/account" method="POST">
+                    @csrf
+                    <div class="shadow overflow-hidden sm:rounded-md">
+                        <div class="px-4 py-5 bg-white dark:bg-trueGray-800 sm:p-6">
+                            <div class="grid grid-cols-6 gap-6">
+                                <div class="col-span-6 sm:col-span-4">
+                                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-trueGray-300 mb-2">
+                                        Name
+                                    </label>
+                                    <x-input type="text" name="name" id="name" autocomplete="name" value="{{ $user->name }}" required />
+                                </div>
+
+                                <div class="col-span-6 sm:col-span-4">
+                                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-trueGray-300 mb-2">
+                                        Email address
+                                    </label>
+                                    <x-input type="email" name="email" id="email" autocomplete="email" value="{{ $user->email }}" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 bg-gray-50 dark:bg-trueGray-850 text-right sm:px-6">
+                            <x-button type="submit" primary class="text-sm">
+                                Save
+                            </x-button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="hidden sm:block" aria-hidden="true">
+            <div class="py-5">
+                <div class="border-t border-gray-200 dark:border-trueGray-700"></div>
+            </div>
+        </div>
+
+        <div class="md:grid md:grid-cols-3 md:gap-6">
+            <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-trueGray-100">Access Tokens</h3>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-trueGray-400">
+                        These tokens are used to access your account from other applications.
+                    </p>
+                </div>
+            </div>
+            <div class="mt-5 md:mt-0 md:col-span-2">
+                <div class="shadow overflow-hidden sm:rounded-md">
+                    <div class="px-4 py-3 bg-white dark:bg-trueGray-800 sm:py-4 sm:px-6">
+                        @forelse($tokens as $token)
+                            <div class="flex items-center py-2">
+                                <div class="mr-auto">
+                                    <div class="font-medium">{{ $token->name }}</div>
+                                    <div class="text-sm text-gray-600 dark:text-trueGray-400">Created {{ $token->created_at->format('Y-m-d') }}</div>
+                                </div>
+                                @if ($token->last_used_at)
+                                    <div>Last used {{ $token->last_used_at->format('Y-m-d') }}</div>
+                                @else
+                                    <div>Never used</div>
+                                @endif
+                                <form class="ml-4" action="/user/tokens/{{ $token->id }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <x-button type="submit" small>Revoke</x-button>
+                                </form>
+                            </div>
+                        @empty
+                            <div class="py-8 lg:py-12 flex flex-col items-center">
+                                <div class="mb-4 flex flex-col items-center">
+                                    <div class="font-medium">No tokens</div>
+                                    <div class="text-gray-600 dark:text-trueGray-400">You have not created any access tokens yet.</div>
+                                </div>
+                                <form class="flex gap-3 mt-1" action="/user/tokens" method="POST">
+                                    @csrf
+                                    <label for="token-name" class="sr-only"></label>
+                                    <x-input name="name" id="token-name" placeholder="Token name" required />
+                                    <x-button class="flex-shrink-0" type="submit" small primary>Create token</x-button>
+                                </form>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

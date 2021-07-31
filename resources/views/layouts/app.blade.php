@@ -11,7 +11,7 @@
     <link rel="search" type="application/opensearchdescription+xml" title="{{ config('app.name') }}" href="{{ url('/opensearch.xml') }}">
     <x-theme-script />
 </head>
-<body class="dark:bg-trueGray-900 dark:text-trueGray-100 antialiased">
+<body class="dark:bg-trueGray-900 dark:text-trueGray-100 antialiased @yield('class')">
 <div class="flex flex-col h-full" id="app">
     <a href="#content" class="sr-only focus:not-sr-only text-blue-700 dark:text-blue-400 font-bold px-3 py-1">
         {{ __('Skip to content') }}
@@ -37,9 +37,14 @@
                         <x-nav-link href="/channels" text="Channels" />
                         @auth
                             <x-nav-link href="/favorites" text="Favorites" />
-                            <x-nav-link href="/admin" text="Admin" />
+                            @if (Auth::user()->isAdmin())
+                                <x-nav-link href="/admin" text="Admin" />
+                            @endif
                         @endauth
                     </div>
+                    @auth
+                        <user-menu name="{{ Auth::user()->name }}" token="{{ csrf_token() }}" v-cloak></user-menu>
+                    @endauth
                     <form class="mb-3 md:mb-0 md:block md:ml-6 md:py-2" action="/search">
                         <input type="search" class="dark:bg-trueGray-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-transparent appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="{{ __('Search') }}">
                     </form>

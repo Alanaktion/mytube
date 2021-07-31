@@ -14,7 +14,7 @@
                         <x-source-icon :type="$playlist->channel->type" class="h-6 w-6" />
                     </a>
                 @endif
-                @auth
+                @if (Auth::check() && Auth::user()->isAdmin())
                     <x-favorite-toggle :model="$playlist" />
                     <form action="/playlists/{{ $playlist->uuid }}/refresh" method="post">
                         @csrf
@@ -22,7 +22,7 @@
                             {{ __('Refresh') }}
                         </x-button>
                     </form>
-                @endauth
+                @endif
             </div>
         </div>
         <p class="text-lg">

@@ -4,13 +4,9 @@
             <ListboxButton
                 class="inline-flex items-center justify-center w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-white focus:ring-blue-500 dark:border-trueGray-700 dark:bg-trueGray-800 dark:text-trueGray-300 dark:focus:ring-offset-trueGray-900"
             >
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                </svg>
+                <FilterIcon class="w-4 h-4 mr-1" />
                 {{ label }}
-                <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
+                <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
             </ListboxButton>
             <transition
                 enter-active-class="transition duration-100 ease-out"
@@ -40,17 +36,10 @@
                             }"
                         >
                             {{ allSourcesLabel }}
-                            <svg
+                            <CheckCircleIcon
                                 v-if="selected"
                                 class="w-4 h-4 ml-auto"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true"
-                            >
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
+                            />
                         </li>
                     </ListboxOption>
 
@@ -78,17 +67,10 @@
                         >
                             <slot :name="`icon-${key}`"></slot>
                             <span>{{ name }}</span>
-                            <svg
+                            <CheckCircleIcon
                                 v-if="selected"
                                 class="w-4 h-4 ml-auto"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true"
-                            >
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
+                            />
                         </li>
                     </ListboxOption>
                 </ListboxOptions>
@@ -106,6 +88,7 @@ import {
     ListboxOption,
 } from "@headlessui/vue";
 import { setSource } from '../api';
+import { CheckCircleIcon, ChevronDownIcon, FilterIcon } from '@heroicons/vue/outline';
 
 export default {
     components: {
@@ -113,6 +96,9 @@ export default {
         ListboxButton,
         ListboxOptions,
         ListboxOption,
+        CheckCircleIcon,
+        ChevronDownIcon,
+        FilterIcon,
     },
     props: {
         sources: {

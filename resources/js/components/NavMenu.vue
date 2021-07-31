@@ -11,9 +11,7 @@
         @click="open = !open"
     >
         <span class="sr-only">{{ label }}</span>
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
+        <MenuIcon class="w-6 h-6" />
     </button>
 
     <div id="nav-menu" class="md:flex flex-1" v-show="visible">
@@ -23,8 +21,12 @@
 
 <script>
 import { ref, onBeforeUnmount, computed } from 'vue';
+import { MenuIcon } from '@heroicons/vue/outline';
 
 export default {
+    components: {
+        MenuIcon,
+    },
     props: {
         label: {
             type: String,
