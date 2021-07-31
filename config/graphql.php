@@ -68,9 +68,25 @@ return [
             'mutation' => [
                 // 'example_mutation' => ExampleMutation::class,
             ],
-            'middleware' => [],
+            'middleware' => [
+                'throttle:120,1',
+            ],
             'method' => ['get', 'post'],
         ],
+        'user' => [
+            'query' => [
+                'user' => \App\GraphQL\Queries\UserQuery::class,
+            ],
+            'mutation' => [
+                'setFavoriteVideo' => \App\GraphQL\Mutations\SetFavoriteVideoMutation::class,
+                'setFavoriteChannel' => \App\GraphQL\Mutations\SetFavoriteChannelMutation::class,
+            ],
+            'middleware' => [
+                'throttle:60,1',
+                'auth:sanctum',
+            ],
+            'method' => ['get', 'post'],
+        ]
     ],
 
     // The types available in the application. You can then access it from the
@@ -78,6 +94,7 @@ return [
     'types' => [
         'Video' => \App\GraphQL\Types\VideoType::class,
         'Channel' => \App\GraphQL\Types\ChannelType::class,
+        'User' => \App\GraphQL\Types\UserType::class,
     ],
 
     // The types will be loaded on demand. Default is to load all types on each request
