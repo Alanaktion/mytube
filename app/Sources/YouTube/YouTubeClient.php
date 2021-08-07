@@ -3,6 +3,11 @@
 namespace App\Sources\YouTube;
 
 use Exception;
+use Google\Service\YouTube;
+use Google\Service\YouTube\Channel;
+use Google\Service\YouTube\Playlist;
+use Google\Service\YouTube\PlaylistItem;
+use Google\Service\YouTube\Video;
 use Illuminate\Support\Facades\App;
 
 class YouTubeClient
@@ -15,14 +20,14 @@ class YouTubeClient
      */
     public static function getVideoData(string $id): array
     {
-        /** @var \Google_Service_YouTube $youtube */
-        $youtube = App::make('Google_Service_YouTube');
+        /** @var YouTube $youtube */
+        $youtube = App::make(YouTube::class);
         $response = $youtube->videos->listVideos(['snippet', 'status', 'liveStreamingDetails'], [
             'id' => $id,
         ]);
         usleep(1e5);
         foreach ($response as $video) {
-            /** @var \Google_Service_YouTube_Video $video */
+            /** @var Video $video */
             return [
                 'id' => $video->id,
                 'channel_id' => $video->getSnippet()->channelId,
@@ -44,14 +49,14 @@ class YouTubeClient
      */
     public static function getChannelData(string $id): array
     {
-        /** @var \Google_Service_YouTube $youtube */
-        $youtube = App::make('Google_Service_YouTube');
+        /** @var YouTube $youtube */
+        $youtube = App::make(YouTube::class);
         $response = $youtube->channels->listChannels('snippet', [
             'id' => $id,
         ]);
         usleep(1e5);
         foreach ($response as $channel) {
-            /** @var \Google_Service_YouTube_Channel $channel */
+            /** @var Channel $channel */
             return [
                 'id' => $channel->id,
                 'title' => $channel->getSnippet()->title,
@@ -69,6 +74,8 @@ class YouTubeClient
      * Get an array of videos on a channel
      *
      * @link https://developers.google.com/youtube/v3/docs/search/list
+     *
+     * @return Video[]
      */
     public static function getChannelVideos(string $id): array
     {
@@ -79,6 +86,8 @@ class YouTubeClient
      * Get an array of playlists on a channel
      *
      * @link https://developers.google.com/youtube/v3/docs/search/list
+     *
+     * @return Playlist[]
      */
     public static function getChannelPlaylists(string $id): array
     {
@@ -105,8 +114,8 @@ class YouTubeClient
      */
     protected static function searchChannel(string $id, string $type): array
     {
-        /** @var \Google_Service_YouTube $youtube */
-        $youtube = App::make('Google_Service_YouTube');
+        /** @var YouTube $youtube */
+        $youtube = App::make(YouTube::class);
         $params = [
             'channelId' => $id,
             'order' => 'date',
@@ -138,14 +147,14 @@ class YouTubeClient
      */
     public static function getPlaylistData(string $id): array
     {
-        /** @var \Google_Service_YouTube $youtube */
-        $youtube = App::make('Google_Service_YouTube');
+        /** @var YouTube $youtube */
+        $youtube = App::make(YouTube::class);
         $response = $youtube->playlists->listPlaylists('snippet', [
             'id' => $id,
         ]);
         usleep(1e5);
         foreach ($response as $playlist) {
-            /** @var \Google_Service_YouTube_Playlist $playlist */
+            /** @var Playlist $playlist */
             return [
                 'id' => $playlist->id,
                 'channel_id' => $playlist->getSnippet()->channelId,
@@ -162,12 +171,12 @@ class YouTubeClient
      *
      * @link https://developers.google.com/youtube/v3/docs/playlistItems
      *
-     * @return \Google_Service_YouTube_PlaylistItem[]
+     * @return PlaylistItem[]
      */
     public static function getPlaylistItemData(string $id): array
     {
-        /** @var \Google_Service_YouTube $youtube */
-        $youtube = App::make('Google_Service_YouTube');
+        /** @var YouTube $youtube */
+        $youtube = App::make(YouTube::class);
         $params = [
             'playlistId' => $id,
             'maxResults' => 50,

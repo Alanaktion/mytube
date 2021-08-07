@@ -6,8 +6,8 @@ use App\Sources\Floatplane\FloatplaneSource;
 use App\Sources\Twitch\TwitchSource;
 use App\Sources\Twitter\TwitterSource;
 use App\Sources\YouTube\YouTubeSource;
-use Google_Client;
-use Google_Service_YouTube;
+use Google\Client as GoogleClient;
+use Google\Service\YouTube;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,14 +20,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('Google_Service_YouTube', function ($app) {
-            $client = new Google_Client();
-            $client->setApplicationName('API code samples');
+        $this->app->singleton(YouTube::class, function ($app) {
+            $client = new GoogleClient();
+            $client->setApplicationName('MyTube');
             $client->setScopes([
                 'https://www.googleapis.com/auth/youtube.readonly',
             ]);
             $client->setDeveloperKey(config('services.youtube.key'));
-            return new Google_Service_YouTube($client);
+            return new YouTube($client);
         });
 
         $this->app->tag([
