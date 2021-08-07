@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\InvalidSourceException;
 use App\Sources\Source;
 use Exception;
 use App\Sources\YouTube\YouTubeClient;
@@ -46,7 +47,7 @@ class Channel extends Model
                 return $source->channel()->import($id);
             }
         }
-        throw new Exception('Unable to import source type ' . $type);
+        throw new InvalidSourceException('Unable to import source type ' . $type);
     }
 
     /**

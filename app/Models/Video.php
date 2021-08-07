@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\InvalidSourceException;
 use App\Sources\Source;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,7 +60,7 @@ class Video extends Model
             }
         }
         if (!isset($video)) {
-            throw new Exception('Unable to import source type ' . $type);
+            throw new InvalidSourceException('Unable to import source type ' . $type);
         }
         if ($filePath !== null && $video->file_path === null) {
             $video->file_path = $filePath;

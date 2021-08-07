@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Exception;
+use App\Exceptions\InvalidSourceException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -24,7 +24,7 @@ class Playlist extends Model
     /**
      * @api
      */
-    public static function import(string $type, string $id): Playlist
+    public static function import(string $type, string $id, bool $importItems = true): Playlist
     {
         $sources = app()->tagged('sources');
         foreach ($sources as $source) {
@@ -36,14 +36,17 @@ class Playlist extends Model
                         $query->where('type', $type);
                     })
                     ->first();
-                if ($playlist) {
-                    return $playlist;
+                if (!$playlist) {
+                    $playlist = $source->playlist()->import($id);
                 }
 
-                return $source->playlist()->import($id);
+                if ($importItems) {
+                    $source->playlist()->importItems($playlist);
+                }
+                return $playlist;
             }
         }
-        throw new Exception('Unable to import source type ' . $type);
+        throw new InvalidSourceException('Unable to import source type ' . $type);
     }
 
     public function importItems(): void
