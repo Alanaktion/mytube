@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\View\Component;
 
@@ -12,8 +13,11 @@ class VideoLink extends Component
      *
      * @return void
      */
-    public function __construct(public Video $video, public bool $showChannel = false)
-    {
+    public function __construct(
+        public Video $video,
+        public bool $showChannel = false,
+        public ?Playlist $playlist = null,
+    ) {
     }
 
     /**

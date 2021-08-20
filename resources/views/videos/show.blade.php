@@ -47,12 +47,25 @@
             @endif
         </div>
     </header>
-    <div class="sm:grid grid-cols-3 md:grid-cols-4">
-        <div class="sm:col-span-2 md:col-span-3 mb-4">
+    <div class="sm:flex justify-between gap-4">
+        <div class="mb-4">
             <pre class="text-gray-600 dark:text-trueGray-400 whitespace-pre-wrap font-sans">{{ $video->description }}</pre>
         </div>
-        <div>
-            @if ($video->playlists->count())
+        <div class="flex-shrink-0 sm:w-72 md:w-80">
+            @if ($playlist)
+                <div class="text-xl mb-3">
+                    {{ __('Current playlist') }}
+                </div>
+                <div class="shadow overflow-hidden sm:rounded-md">
+                    <ul class="bg-white dark:bg-trueGray-800 h-96 overflow-y-scroll">
+                        @foreach ($playlist->items as $item)
+                            <li>
+                                <x-video-playlist-item :video="$item->video" :playlist="$playlist" :current="$item->video_id == $video->id" />
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @elseif ($video->playlists->count())
                 <div class="text-xl mb-3">
                     {{ __('Related playlists') }}
                 </div>

@@ -35,7 +35,7 @@
     </header>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 pb-5 lg:mb-6">
         @forelse ($items as $item)
-            <x-video-link :video="$item->video" />
+            <x-video-link :video="$item->video" :playlist="$playlist" />
         @empty
             <div class="text-gray-400 dark:text-trueGray-600 py-6">
                 {{ __('No available videos') }}

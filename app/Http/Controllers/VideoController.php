@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Http\Request;
 
@@ -28,8 +29,14 @@ class VideoController extends Controller
         ]);
     }
 
-    public function show(Video $video)
+    public function show(Video $video, Request $request)
     {
+        if ($request->has('playlist')) {
+            $playlist = Playlist::where('uuid', $request->input('playlist'))->first();
+            if ($playlist) {
+                return $this->showWithPlaylist($video, $playlist);
+            }
+        }
         $video->load([
             'channel',
             'playlists' => function ($query): void {
@@ -41,6 +48,24 @@ class VideoController extends Controller
         return view('videos.show', [
             'title' => $video->title,
             'video' => $video,
+            'playlist' => null,
+        ]);
+    }
+
+    public function showWithPlaylist(Video $video, Playlist $playlist)
+    {
+        $playlist->load([
+            'items' => function ($query): void {
+                $query->orderBy('position', 'asc');
+            },
+            'items.video:id,uuid,title,channel_id',
+            'items.video.channel:id,title',
+        ]);
+        $video->load('channel');
+        return view('videos.show', [
+            'title' => $video->title,
+            'video' => $video,
+            'playlist' => $playlist,
         ]);
     }
 }
