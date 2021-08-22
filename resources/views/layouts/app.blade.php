@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="{{ url('/favicon.svg') }}" type="image/svg+xml">
     <link rel="search" type="application/opensearchdescription+xml" title="{{ config('app.name') }}" href="{{ url('/opensearch.xml') }}">
     <x-theme-script />
+    @yield('head')
 </head>
 <body class="bg-gray-50 dark:bg-trueGray-900 dark:text-trueGray-100 antialiased @yield('class')">
 <div class="flex flex-col h-full" id="app">

@@ -77,3 +77,14 @@
     </div>
 </div>
 @endsection
+
+@section('head')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const item = document.querySelector('.current-playlist-item');
+    if (!item) return;
+    const list = item.closest('ul');
+    list.scrollTop = item.offsetTop - list.offsetTop;
+});
+</script>
+@endsection
