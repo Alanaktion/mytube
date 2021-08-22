@@ -58,7 +58,7 @@ class VideoController extends Controller
             'items' => function ($query): void {
                 $query->orderBy('position', 'asc');
             },
-            'items.video:id,uuid,title,channel_id',
+            'items.video:id,uuid,title,channel_id,thumbnail_url',
             'items.video.channel:id,title',
         ]);
         $video->load('channel');
