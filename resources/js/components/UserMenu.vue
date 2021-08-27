@@ -4,8 +4,9 @@
             <MenuButton
                 class="flex px-3 py-2 rounded-md text-sm font-medium focus:text-white focus:bg-gray-700 dark:focus:bg-trueGray-700 text-gray-300 dark:text-trueGray-300 hover:text-white hover:bg-gray-700 dark:hover:bg-trueGray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500 dark:focus:ring-offset-trueGray-800 dark:focus:ring-blue-600"
             >
-                {{ name }}
-                <ChevronDownIcon class="w-5 h-5 ml-2 -mr-1 text-gray-300 dark:text-trueGray-300 hover:text-white" />
+                <UserCircleIcon class="hidden md:block lg:hidden w-5 h-5" />
+                <span class="md:hidden lg:block">{{ name }}</span>
+                <ChevronDownIcon class="md:hidden lg:block w-5 h-5 ml-2 -mr-1" />
             </MenuButton>
         </div>
 
@@ -25,30 +26,28 @@
             <MenuItems
                 class="origin-bottom-right absolute left-0 sm:left-auto sm:right-0 w-40 py-1 mt-2 z-10 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
             >
-                <!-- <div class="px-1 py-1"> -->
-                    <MenuItem v-slot="{ active }">
-                        <a
-                            href="/user/account"
-                            :class="[
-                                active ? 'bg-blue-500 text-white dark:bg-blue-500' : 'text-gray-700 dark:text-trueGray-300',
-                                'flex items-center appearance-none w-full px-4 py-2 text-sm capitalize cursor-pointer',
-                            ]"
-                        >
-                            Account
-                        </a>
-                    </MenuItem>
-                    <MenuItem v-slot="{ active }">
-                        <button
-                            @click="logOut"
-                            :class="[
-                                active ? 'bg-blue-500 text-white dark:bg-blue-500' : 'text-gray-700 dark:text-trueGray-300',
-                                'flex items-center appearance-none w-full px-4 py-2 text-sm capitalize cursor-pointer',
-                            ]"
-                        >
-                            Log out
-                        </button>
-                    </MenuItem>
-                <!-- </div> -->
+                <MenuItem v-slot="{ active }">
+                    <a
+                        href="/user/account"
+                        :class="[
+                            active ? 'bg-blue-500 text-white dark:bg-blue-500' : 'text-gray-700 dark:text-trueGray-300',
+                            'flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer',
+                        ]"
+                    >
+                        Account
+                    </a>
+                </MenuItem>
+                <MenuItem v-slot="{ active }">
+                    <button
+                        @click="logOut"
+                        :class="[
+                            active ? 'bg-blue-500 text-white dark:bg-blue-500' : 'text-gray-700 dark:text-trueGray-300',
+                            'flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer',
+                        ]"
+                    >
+                        Log out
+                    </button>
+                </MenuItem>
             </MenuItems>
         </transition>
     </Menu>
@@ -58,6 +57,7 @@
 import { ref } from 'vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import { ChevronDownIcon } from '@heroicons/vue/outline';
+import { UserCircleIcon } from '@heroicons/vue/solid';
 
 export default {
     components: {
@@ -66,6 +66,7 @@ export default {
         MenuItems,
         MenuItem,
         ChevronDownIcon,
+        UserCircleIcon,
     },
     props: {
         name: {
