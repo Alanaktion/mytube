@@ -30,24 +30,18 @@ class Channel extends Model
      */
     public static function import(string $type, string $id): Channel
     {
-        $sources = app()->tagged('sources');
-        foreach ($sources as $source) {
-            /** @var \App\Sources\Source $source */
-            if ($source->getSourceType() === $type) {
-                $field = $source->channel()->getField();
+        $source = source($type);
+        $field = $source->channel()->getField();
 
-                // Check for existing previous import
-                $channel = Channel::where($field, $id)
-                    ->where('type', $type)
-                    ->first();
-                if ($channel) {
-                    return $channel;
-                }
-
-                return $source->channel()->import($id);
-            }
+        // Check for existing previous import
+        $channel = Channel::where($field, $id)
+            ->where('type', $type)
+            ->first();
+        if ($channel) {
+            return $channel;
         }
-        throw new InvalidSourceException('Unable to import source type ' . $type);
+
+        return $source->channel()->import($id);
     }
 
     /**
@@ -144,14 +138,12 @@ class Channel extends Model
 
     public function getSourceLinkAttribute(): ?string
     {
-        $sources = app()->tagged('sources');
-        foreach ($sources as $source) {
-            /** @var \App\Sources\Source $source */
-            if ($source->getSourceType() == $this->type) {
-                return $source->channel()->getSourceUrl($this);
-            }
+        try {
+            $source = source($this->type);
+            return $source->channel()->getSourceUrl($this);
+        } catch (InvalidSourceException) {
+            return null;
         }
-        return null;
     }
 
     public function videos()
@@ -166,11 +158,6 @@ class Channel extends Model
 
     public function source(): Source
     {
-        $sources = app()->tagged('sources');
-        foreach ($sources as $source) {
-            if ($source->getSourceType() == $this->type) {
-                return $source;
-            }
-        }
+        return source($this->type);
     }
 }

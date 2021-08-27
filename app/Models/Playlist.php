@@ -26,38 +26,28 @@ class Playlist extends Model
      */
     public static function import(string $type, string $id, bool $importItems = true): Playlist
     {
-        $sources = app()->tagged('sources');
-        foreach ($sources as $source) {
-            /** @var \App\Sources\Source $source */
-            if ($source->getSourceType() === $type) {
-                // Check for existing previous import
-                $playlist = Playlist::where('uuid', $id)
-                    ->whereHas('channel', function ($query) use ($type): void {
-                        $query->where('type', $type);
-                    })
-                    ->first();
-                if (!$playlist) {
-                    $playlist = $source->playlist()->import($id);
-                }
+        $source = source($type);
 
-                if ($importItems) {
-                    $source->playlist()->importItems($playlist);
-                }
-                return $playlist;
-            }
+        // Check for existing previous import
+        $playlist = Playlist::where('uuid', $id)
+            ->whereHas('channel', function ($query) use ($type): void {
+                $query->where('type', $type);
+            })
+            ->first();
+        if (!$playlist) {
+            $playlist = $source->playlist()->import($id);
         }
-        throw new InvalidSourceException('Unable to import source type ' . $type);
+
+        if ($importItems) {
+            $source->playlist()->importItems($playlist);
+        }
+        return $playlist;
     }
 
     public function importItems(): void
     {
-        $sources = app()->tagged('sources');
-        foreach ($sources as $source) {
-            /** @var \App\Sources\Source $source */
-            if ($source->getSourceType() == $this->channel->type) {
-                $source->playlist()->importItems($this);
-            }
-        }
+        $source = source($this->channel->type);
+        $source->playlist()->importItems($this);
     }
 
     /**

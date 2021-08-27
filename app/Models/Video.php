@@ -38,30 +38,21 @@ class Video extends Model
         string $id,
         ?string $filePath = null
     ): Video {
-        $sources = app()->tagged('sources');
-        foreach ($sources as $source) {
-            /** @var \App\Sources\Source $source */
-            if ($source->getSourceType() === $type) {
-                $id = $source->video()->canonicalizeId($id);
+        $source = source($type);
+        $id = $source->video()->canonicalizeId($id);
 
-                // Check for existing previous import
-                $video = Video::where('uuid', $id)
-                    ->whereHas('channel', function ($query) use ($type): void {
-                        $query->where('type', $type);
-                    })
-                    ->first();
+        // Check for existing previous import
+        $video = Video::where('uuid', $id)
+            ->whereHas('channel', function ($query) use ($type): void {
+                $query->where('type', $type);
+            })
+            ->first();
 
-                // Import from the source if the video was not found
-                if ($video === null) {
-                    $video = $source->video()->import($id);
-                }
-
-                break;
-            }
+        // Import from the source if the video was not found
+        if ($video === null) {
+            $video = $source->video()->import($id);
         }
-        if (!isset($video)) {
-            throw new InvalidSourceException('Unable to import source type ' . $type);
-        }
+
         if ($filePath !== null && $video->file_path === null) {
             $video->file_path = $filePath;
             $video->save();
@@ -89,26 +80,22 @@ class Video extends Model
 
     public function getSourceLinkAttribute(): ?string
     {
-        $sources = app()->tagged('sources');
-        foreach ($sources as $source) {
-            /** @var \App\Sources\Source $source */
-            if ($source->getSourceType() == $this->source_type) {
-                return $source->video()->getSourceUrl($this);
-            }
+        try {
+            $source = source($this->source_type);
+            return $source->video()->getSourceUrl($this);
+        } catch (InvalidSourceException) {
+            return null;
         }
-        return null;
     }
 
     public function getEmbedHtmlAttribute(): ?string
     {
-        $sources = app()->tagged('sources');
-        foreach ($sources as $source) {
-            /** @var \App\Sources\Source $source */
-            if ($source->getSourceType() == $this->source_type) {
-                return $source->video()->getEmbedHtml($this);
-            }
+        try {
+            $source = source($this->source_type);
+            return $source->video()->getEmbedHtml($this);
+        } catch (InvalidSourceException) {
+            return null;
         }
-        return null;
     }
 
     public function channel()
@@ -201,11 +188,6 @@ class Video extends Model
 
     public function source(): Source
     {
-        $sources = app()->tagged('sources');
-        foreach ($sources as $source) {
-            if ($source->getSourceType() == $this->source_type) {
-                return $source;
-            }
-        }
+        return source($this->source_type);
     }
 }

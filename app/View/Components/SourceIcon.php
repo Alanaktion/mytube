@@ -15,13 +15,7 @@ class SourceIcon extends Component
      */
     public function __construct(public string $type)
     {
-        $sources = app()->tagged('sources');
-        foreach ($sources as $source) {
-            if ($source->getSourceType() == $type) {
-                $this->source = $source;
-                return;
-            }
-        }
+        $this->source = source($type);
     }
 
     /**

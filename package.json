@@ -12,16 +12,16 @@
     },
     "devDependencies": {
         "@headlessui/vue": "^1.4.0",
-        "@heroicons/vue": "^1.0.3",
+        "@heroicons/vue": "^1.0.4",
         "@tailwindcss/forms": "^0.2.1",
         "@tailwindcss/line-clamp": "^0.2.1",
-        "@vue/compiler-sfc": "^3.2.2",
+        "@vue/compiler-sfc": "^3.2.6",
         "cross-env": "^7.0.3",
-        "laravel-mix": "^6.0.27",
+        "laravel-mix": "^6.0.28",
         "mousetrap": "^1.6.5",
         "postcss": "^8.3.6",
         "tailwindcss": "^2.2.7",
-        "vue": "^3.2.2",
+        "vue": "^3.2.6",
         "vue-loader": "^16.5.0"
     }
 }
