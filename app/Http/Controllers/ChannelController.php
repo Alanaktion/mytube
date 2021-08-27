@@ -43,7 +43,7 @@ class ChannelController extends Controller
 
     public function playlists(Channel $channel)
     {
-        if (source($channel->type)->playlist()) {
+        if (!source($channel->type)->playlist()) {
             return abort(404);
         }
         $playlists = $channel->playlists()
