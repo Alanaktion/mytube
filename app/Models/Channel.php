@@ -11,6 +11,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
+/**
+ * @property int $id
+ * @property string $uuid
+ * @property string $title
+ * @property string $description
+ * @property string|null $custom_url
+ * @property string|null $country
+ * @property string $type
+ * @property string|null $image_url
+ * @property string|null $image_url_lg
+ * @property \Illuminate\Support\Carbon|null $published_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $source_link
+ * @property-read \Illuminate\Database\Eloquent\Collection|Video[] $videos
+ * @property-read \Illuminate\Database\Eloquent\Collection|Playlist[] $playlists
+ */
 class Channel extends Model
 {
     use HasFactory;
@@ -82,7 +99,7 @@ class Channel extends Model
 
         $videos = YouTubeClient::getChannelVideos($this->uuid);
         foreach ($videos as $data) {
-            /** @var Google_Service_YouTube_SearchResult $data */
+            /** @var \Google\Service\YouTube\SearchResult $data */
             // TODO: fix to use search result correctly
             $this->videos()->firstOrCreate([
                 'uuid' => $data['id'],
@@ -120,7 +137,7 @@ class Channel extends Model
 
         $playlists = YouTubeClient::getChannelPlaylists($this->uuid);
         foreach ($playlists as $data) {
-            /** @var Google_Service_YouTube_SearchResult $data */
+            /** @var \Google\Service\YouTube\SearchResult $data */
             // TODO: fix to use search result correctly
             $playlist = $this->playlists()->firstOrCreate([
                 'uuid' => $data['id'],

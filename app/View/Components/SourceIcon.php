@@ -2,11 +2,12 @@
 
 namespace App\View\Components;
 
+use App\Sources\Source;
 use Illuminate\View\Component;
 
 class SourceIcon extends Component
 {
-    protected $source;
+    protected ?Source $source;
 
     /**
      * Create a new component instance.

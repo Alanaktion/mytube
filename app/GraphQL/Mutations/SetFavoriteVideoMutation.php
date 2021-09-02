@@ -12,6 +12,7 @@ use Rebing\GraphQL\Support\Mutation;
 
 class SetFavoriteVideoMutation extends Mutation
 {
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'setFavoriteVideo',
     ];
@@ -38,6 +39,12 @@ class SetFavoriteVideoMutation extends Mutation
         ];
     }
 
+    /**
+     * @param object $root
+     * @param array<string, mixed> $args
+     * @param mixed $context
+     * @return mixed
+     */
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $video = Video::where('uuid', $args['uuid'])->first();

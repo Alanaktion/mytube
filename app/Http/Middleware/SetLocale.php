@@ -9,6 +9,9 @@ class SetLocale
 {
     public const SESSION_KEY = 'locale';
 
+    /**
+     * @return mixed
+     */
     public function handle(Request $request, Closure $next)
     {
         $session = $request->getSession();

@@ -57,6 +57,7 @@ class ImportFilesystem extends Command
         $videos = [];
         foreach ($files as $file) {
             $type = $this->option('source');
+            $id = null;
             if ($type === null) {
                 // Auto-detect source type from file
                 foreach ($this->sources as $key => $source) {

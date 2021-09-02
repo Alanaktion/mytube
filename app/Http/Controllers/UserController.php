@@ -40,7 +40,7 @@ class UserController extends Controller
         return redirect('/user/account')->with('message', 'Created access token: ' . $token->plainTextToken);
     }
 
-    public function revokeToken(Request $request, $tokenId)
+    public function revokeToken(Request $request, string $tokenId)
     {
         $request->user()->tokens()->where('id', $tokenId)->delete();
         return redirect('/user/account')->with('message', 'Access token revoked.');

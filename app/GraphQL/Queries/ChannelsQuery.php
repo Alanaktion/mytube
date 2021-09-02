@@ -13,10 +13,12 @@ use Rebing\GraphQL\Support\SelectFields;
 
 class ChannelsQuery extends Query
 {
+    /** @var class-string[] */
     protected $middleware = [
         ResolvePage::class,
     ];
 
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'channels',
         'description' => 'A list of Channel resources',
@@ -52,6 +54,12 @@ class ChannelsQuery extends Query
         ];
     }
 
+    /**
+     * @param object $root
+     * @param array<string, mixed> $args
+     * @param mixed $context
+     * @return mixed
+     */
     public function resolve($root, $args, $context, SelectFields $fields)
     {
         $channels = Channel::with($fields->getRelations())

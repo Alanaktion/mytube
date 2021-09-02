@@ -2,11 +2,13 @@
 
 namespace App\View\Components;
 
+use App\Sources\Source;
 use Illuminate\View\Component;
 
 class FilterSource extends Component
 {
-    public $sources;
+    /** @var array<string, string> */
+    public array $sources;
 
     /**
      * Create a new component instance.
@@ -15,6 +17,7 @@ class FilterSource extends Component
      */
     public function __construct(public ?string $value)
     {
+        /** @var Source[] */
         $sources = app()->tagged('sources');
         foreach ($sources as $source) {
             $this->sources[$source->getSourceType()] = $source->getDisplayName();

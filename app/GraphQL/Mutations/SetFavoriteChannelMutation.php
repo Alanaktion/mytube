@@ -12,6 +12,7 @@ use Rebing\GraphQL\Support\Mutation;
 
 class SetFavoriteChannelMutation extends Mutation
 {
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'setFavoriteChannel',
     ];
@@ -38,6 +39,12 @@ class SetFavoriteChannelMutation extends Mutation
         ];
     }
 
+    /**
+     * @param object $root
+     * @param array<string, mixed> $args
+     * @param mixed $context
+     * @return mixed
+     */
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
         $channel = Channel::where('uuid', $args['uuid'])->first();

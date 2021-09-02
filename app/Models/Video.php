@@ -12,6 +12,28 @@ use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use YoutubeDl\YoutubeDl;
 
+/**
+ * @property int $id
+ * @property int|null $channel_id
+ * @property string $uuid
+ * @property string $title
+ * @property string $description
+ * @property string $source_type
+ * @property string $source_visibility
+ * @property bool $is_livestream
+ * @property string|null $file_path
+ * @property string|null $thumbnail_url
+ * @property string|null $poster_url
+ * @property \Illuminate\Support\Carbon $published_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $source_link
+ * @property-read string $embed_html
+ * @property-read string $file_link
+ * @property-read \Illuminate\Database\Eloquent\Collection|Channel $channel
+ * @property-read \Illuminate\Database\Eloquent\Collection|Playlist[] $playlists
+ * @property-read \Illuminate\Database\Eloquent\Collection|User[] $favoritedBy
+ */
 class Video extends Model
 {
     use HasFactory;
@@ -25,6 +47,7 @@ class Video extends Model
      * @var string[]
      */
     protected $guarded = [];
+
     /**
      * @var string[]
      */
@@ -166,8 +189,8 @@ class Video extends Model
         // Set download path
         $dir = Str::finish(config('app.ytdl.directory'), DIRECTORY_SEPARATOR);
         if ($downloadDir === null) {
-            $this->loadMissing('channel:id,name');
-            $dir .= Str::slug($this->channel->name);
+            $this->loadMissing('channel:id,title');
+            $dir .= Str::slug($this->channel->title);
         } else {
             $dir .= $downloadDir;
         }

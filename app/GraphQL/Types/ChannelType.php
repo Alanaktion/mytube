@@ -10,6 +10,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class ChannelType extends GraphQLType
 {
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'Channel',
         'description' => 'A channel on a third-party site that videos are uploaded to',

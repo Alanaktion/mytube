@@ -2,20 +2,22 @@
 
 namespace App\View\Components;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Channel;
+use App\Models\Playlist;
+use App\Models\Video;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class FavoriteToggle extends Component
 {
-    public $type;
+    public string $type;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(public Model $model)
+    public function __construct(public Video|Playlist|Channel $model)
     {
         $this->type = strtolower(class_basename($model));
     }
@@ -29,6 +31,7 @@ class FavoriteToggle extends Component
             'video' => $user->favoriteVideos(),
             'playlist' => $user->favoritePlaylists(),
             'channel' => $user->favoriteChannels(),
+            default => throw new \Exception('Unknown favorite type: ' . $this->type),
         };
         return $relation
             ->where("{$this->type}_id", $this->model->id)

@@ -16,8 +16,8 @@ class FileLoader extends LaravelTranslationFileLoader
     /**
      * Create a new file loader instance.
      *
-     * @param array $path
-     * @param array $paths
+     * @param string $path
+     * @param string[] $paths
      */
     public function __construct(Filesystem $files, $path, protected $paths = [])
     {
@@ -30,6 +30,7 @@ class FileLoader extends LaravelTranslationFileLoader
      * @param string $locale
      * @param string $group
      * @param string $namespace
+     * @return array<string, string>
      */
     public function load($locale, $group, $namespace = null): array
     {
@@ -48,6 +49,7 @@ class FileLoader extends LaravelTranslationFileLoader
      * @param string $path
      * @param string $locale
      * @param string $group
+     * @return array<string, string>
      */
     protected function loadPath($path, $locale, $group): array
     {

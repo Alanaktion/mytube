@@ -7,7 +7,7 @@ use Illuminate\View\Component;
 
 class NavLink extends Component
 {
-    public $active;
+    public bool $active;
 
     /**
      * Create a new component instance.

@@ -51,8 +51,9 @@ class ImportPlaylistUrl extends Command
                     }
                 }
             }
-            if ($type === null) {
+            if ($type === null || $typeSource === null) {
                 $this->error('Unable to find source for URL: ' . $url);
+                continue;
             } else {
                 $id = $typeSource->playlist()->matchUrl($url);
             }
@@ -63,7 +64,7 @@ class ImportPlaylistUrl extends Command
                 $playlist = Playlist::import($type, $id);
 
                 if ($this->option('items')) {
-                    $source->playlist()->importItems($playlist);
+                    $typeSource->playlist()->importItems($playlist);
                 }
             }
         }

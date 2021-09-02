@@ -14,6 +14,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Static analysis
+      run: php vendor/bin/phpstan analyse --no-progress
     - name: Generate key
       run: php artisan key:generate --env=testing
     - uses: actions/setup-node@v2

@@ -1,0 +1,14 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+    level: 6
+    ignoreErrors:
+        # Don't require explicit return types on controller actions
+        - '#Method App\\Http\\Controllers\\[a-zA-Z0-9\\]+::[a-zA-Z0-9]+\(\) has no return typehint specified.#'
+        # Don't require explicit return types on model relations
+        - '#Method App\\Models\\[a-zA-Z0-9\\]+::[a-zA-Z0-9]+\(\) has no return typehint specified.#'
+        # Let me do 1e3 plz
+        - '/Parameter #1 \$microseconds of function usleep expects int, float given\./'

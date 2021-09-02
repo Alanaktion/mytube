@@ -12,6 +12,7 @@ use Rebing\GraphQL\Support\SelectFields;
 
 class UserQuery extends Query
 {
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'user',
         'description' => 'The currently authenticated user.',
@@ -22,6 +23,12 @@ class UserQuery extends Query
         return GraphQL::type('User');
     }
 
+    /**
+     * @param object $root
+     * @param array<string, mixed> $args
+     * @param mixed $context
+     * @return mixed
+     */
     public function resolve($root, $args, $context, SelectFields $fields)
     {
         return Auth::user();

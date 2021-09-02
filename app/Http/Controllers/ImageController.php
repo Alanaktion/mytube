@@ -54,7 +54,7 @@ class ImageController extends Controller
             return redirect()->to($video->thumbnail_url, 301);
         }
 
-        return abort(404);
+        abort(404);
     }
 
     /**
@@ -101,7 +101,7 @@ class ImageController extends Controller
             return redirect()->to($video->poster_url, 301);
         }
 
-        return abort(404);
+        abort(404);
     }
 
     /**
@@ -137,7 +137,7 @@ class ImageController extends Controller
             return redirect()->to($channel->image_url, 301);
         }
 
-        return abort(404);
+        abort(404);
     }
 
     /**

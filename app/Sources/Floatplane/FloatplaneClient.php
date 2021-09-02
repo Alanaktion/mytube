@@ -10,6 +10,9 @@ class FloatplaneClient
 {
     public const BASE_URL = 'https://www.floatplane.com';
 
+    /**
+     * @return array|mixed
+     */
     protected static function request(string $url)
     {
         $jar = CookieJar::fromArray(
@@ -64,6 +67,9 @@ class FloatplaneClient
         ];
     }
 
+    /**
+     * @return array<string, array>
+     */
     public static function getChannelPosts(string $uuid, int $limit = 20): array
     {
         // TODO: support offset to paginated results

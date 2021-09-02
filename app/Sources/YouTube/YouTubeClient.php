@@ -111,6 +111,8 @@ class YouTubeClient
      *       using alternative methods like youtube-dl's page scraping.
      *
      * @link https://developers.google.com/youtube/v3/docs/search/list
+     *
+     * @return Video[]|Playlist[]
      */
     protected static function searchChannel(string $id, string $type): array
     {

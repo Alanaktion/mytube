@@ -44,7 +44,7 @@ class ChannelController extends Controller
     public function playlists(Channel $channel)
     {
         if (!source($channel->type)->playlist()) {
-            return abort(404);
+            abort(404);
         }
         $playlists = $channel->playlists()
             ->with(['firstItem', 'firstItem.video'])

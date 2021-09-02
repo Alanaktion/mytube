@@ -2,11 +2,24 @@
 
 namespace App\Models;
 
-use App\Exceptions\InvalidSourceException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
+/**
+ * @property int $id
+ * @property int $channel_id
+ * @property string $uuid
+ * @property string $title
+ * @property string $description
+ * @property \Illuminate\Support\Carbon|null $published_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $source_link
+ * @property-read Channel $channel
+ * @property-read \Illuminate\Database\Eloquent\Collection|PlaylistItem[] $items
+ * @property-read PlaylistItem $firstItem
+ */
 class Playlist extends Model
 {
     use HasFactory;
@@ -62,7 +75,7 @@ class Playlist extends Model
             'title' => $this->title,
             'channel_title' => $this->channel->title,
             'description' => $this->description,
-            'source_type' => $this->channel->source_type,
+            'source_type' => $this->channel->type,
             'channel_id' => $this->channel_id,
             'published_at' => $this->published_at,
         ];

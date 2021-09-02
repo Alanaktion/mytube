@@ -29,6 +29,8 @@ class DownloadVideo implements ShouldQueue
 
     /**
      * Get the middleware the job should pass through.
+     *
+     * @return object[]
      */
     public function middleware(): array
     {
@@ -39,7 +41,6 @@ class DownloadVideo implements ShouldQueue
 
     /**
      * Execute the job.
-     *
      */
     public function handle(): void
     {

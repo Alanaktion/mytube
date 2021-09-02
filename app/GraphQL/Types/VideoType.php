@@ -11,6 +11,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class VideoType extends GraphQLType
 {
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'Video',
         'description' => 'A video from a channel',

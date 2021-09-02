@@ -12,6 +12,7 @@ class YouTubeDlClient extends YoutubeDl
             $process = $this->createProcess([
                 '--version',
             ]);
+            // @phpstan-ignore-next-line
             $process->mustRun(is_callable($this->debug) ? $this->debug : null);
             return $process->getOutput();
         } catch (\Exception) {
@@ -46,6 +47,7 @@ class YouTubeDlClient extends YoutubeDl
             '--get-id',
         ]);
 
+        // @phpstan-ignore-next-line
         $process->mustRun(is_callable($this->debug) ? $this->debug : null);
         return array_map('trim', explode("\n", trim($process->getOutput())));
     }

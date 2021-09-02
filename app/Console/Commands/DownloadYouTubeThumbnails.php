@@ -86,12 +86,18 @@ class DownloadYouTubeThumbnails extends Command
 
         if (!$disk->exists("thumbs/youtube/{$uuid}.jpg")) {
             $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/hqdefault.jpg");
+            if ($data === false) {
+                return;
+            }
             $disk->put("thumbs/youtube/{$uuid}.jpg", $data, 'public');
         }
 
         // TODO: cleanly handle missing maxres but present thumbnail
         if (!$disk->exists("thumbs/youtube-maxres/{$uuid}.jpg")) {
             $data = file_get_contents("https://img.youtube.com/vi/{$uuid}/maxresdefault.jpg");
+            if ($data === false) {
+                return;
+            }
             $disk->put("thumbs/youtube-maxres/{$uuid}.jpg", $data, 'public');
         }
 
@@ -113,7 +119,10 @@ class DownloadYouTubeThumbnails extends Command
 
         // Determine video duration
         $path = escapeshellarg($video->file_path);
-        $duration = trim(shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path 2>/dev/null"));
+        $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path 2>/dev/null");
+        if ($duration) {
+            $duration = trim($duration);
+        }
 
         // Seek to 30% of video duration, or 10 seconds if duration is unknown.
         $seconds = $duration ? floor($duration * 0.30) : 10;

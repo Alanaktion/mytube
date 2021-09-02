@@ -3,11 +3,12 @@
 namespace App\View\Components;
 
 use App\Models\Playlist;
+use App\Models\Video;
 use Illuminate\View\Component;
 
 class PlaylistLink extends Component
 {
-    public $firstVideo;
+    public ?Video $firstVideo;
 
     /**
      * Create a new component instance.

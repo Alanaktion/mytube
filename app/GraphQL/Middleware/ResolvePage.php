@@ -11,6 +11,12 @@ use Rebing\GraphQL\Support\Middleware;
 
 class ResolvePage extends Middleware
 {
+    /**
+     * @param object $root
+     * @param array<string, mixed> $args
+     * @param mixed $context
+     * @return mixed
+     */
     public function handle($root, $args, $context, ResolveInfo $info, Closure $next)
     {
         Paginator::currentPageResolver(function () use ($args) {

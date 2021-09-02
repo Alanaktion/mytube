@@ -10,6 +10,7 @@ use Rebing\GraphQL\Support\Type as GraphQLType;
 
 class UserType extends GraphQLType
 {
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'User',
         'description' => 'A registered user',

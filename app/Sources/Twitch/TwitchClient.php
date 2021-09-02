@@ -30,6 +30,8 @@ class TwitchClient
 
     /**
      * @link https://dev.twitch.tv/docs/api/reference#get-users
+     *
+     * @return array<string, mixed>
      */
     public function getUser(string $id, string $field = 'login'): array
     {
@@ -44,6 +46,8 @@ class TwitchClient
 
     /**
      * @link https://dev.twitch.tv/docs/api/reference#get-videos
+     *
+     * @return array<string, mixed>[]
      */
     public function getVideos(int $id, string $field = 'id'): array
     {
@@ -58,6 +62,8 @@ class TwitchClient
 
     /**
      * @link https://dev.twitch.tv/docs/api/reference#get-clips
+     *
+     * @return array<string, mixed>[]
      */
     public function getClips(string $id, string $field = 'id'): array
     {

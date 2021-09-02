@@ -13,10 +13,12 @@ use Rebing\GraphQL\Support\SelectFields;
 
 class VideosQuery extends Query
 {
+    /** @var class-string[] */
     protected $middleware = [
         ResolvePage::class,
     ];
 
+    /** @var array<string, string> */
     protected $attributes = [
         'name' => 'videos',
         'description' => 'A list of Video resources',
@@ -56,6 +58,12 @@ class VideosQuery extends Query
         ];
     }
 
+    /**
+     * @param object $root
+     * @param array<string, mixed> $args
+     * @param mixed $context
+     * @return mixed
+     */
     public function resolve($root, $args, $context, SelectFields $fields)
     {
         $videos = Video::with($fields->getRelations())

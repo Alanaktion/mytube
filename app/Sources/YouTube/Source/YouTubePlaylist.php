@@ -16,7 +16,6 @@ class YouTubePlaylist implements SourcePlaylist
     {
         $data = YouTubeClient::getPlaylistData($id);
         $channel = Channel::import('youtube', $data['channel_id']);
-        /** @var Playlist $playlist */
         return $channel->playlists()->create([
             'uuid' => $data['id'],
             'title' => $data['title'],

@@ -41,7 +41,7 @@ class GenerateThumbnails extends Command
             $query->whereIn('uuid', $this->argument('uuid'));
         }
 
-        /** @var \Illuminate\Support\LazyCollection */
+        /** @var \Illuminate\Support\LazyCollection<Video> */
         $videos = $query->cursor();
 
         $bar = $this->output->createProgressBar($videos->count());
@@ -91,7 +91,10 @@ class GenerateThumbnails extends Command
 
         // Determine video duration
         $path = escapeshellarg($video->file_path);
-        $duration = trim(shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path 2>/dev/null"));
+        $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path 2>/dev/null");
+        if ($duration) {
+            $duration = trim($duration);
+        }
 
         // Seek to 30% of video duration, or 10 seconds if duration is unknown.
         $seconds = $duration ? floor($duration * 0.30) : 10;
