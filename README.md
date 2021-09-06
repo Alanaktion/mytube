@@ -26,7 +26,7 @@ https://mytube-app-demo.herokuapp.com/
 
 ## Requirements
 
-- [PHP](https://php.net) 7.3 or later (PHP 8 recommended) with [Composer](https://getcomposer.org)
+- [PHP](https://php.net) 8 or later with [Composer](https://getcomposer.org)
 - [MySQL](https://dev.mysql.com/downloads/) 8 (or any RDBMS supported by Laravel)
 - Web server with support for rewrites and following symbolic links ([nginx](https://nginx.org/en/) recommended)
 - [NodeJS](https://nodejs.org/en/) LTS 14 or later for building front-end assets
@@ -57,7 +57,7 @@ npm run production
 php artisan migrate
 ```
 
-From here, you can set up your web server to point to the `public/` directory and the site should be live.
+From here, you can set up your web server to point to the `public/` directory and the site should be live. For more information on the web server setup, see the [Laravel deployment documentation](https://laravel.com/docs/8.x/deployment).
 
 ### Queues
 
@@ -71,6 +71,8 @@ This can work with just a database, but it works best if you have something like
 If you choose to use Redis, you may require additional changes to the Redis configuration in your `.env` file, but the defaults should work for a typical local installation.
 
 A production environment will likely work best with additional setup to ensure the queue workers stay running. See the [Laravel Queue Worker documentation](https://laravel.com/docs/queues#running-the-queue-worker) for more details. In particular, heavily-used environments may find value in running a separate worker for each queue, or running multiple download queues in parallel if the additional IO is not an issue.
+
+Make sure to restart your queue workers any time you update the app.
 
 ### Search indexing
 
@@ -115,7 +117,7 @@ php artisan import:filesystem <directory>
 
 This will recursively scan the given directory for files that include YouTube video IDs in their filenames, and will fetch and store metadata from those videos. The videos will only be recognized if they have the YouTube UUID right before the file extension, as is the default in `youtube-dl`.
 
-For best browser support, files should be in MP4 containers, with MPEG4 video and AAC audio. To download videos in this compatible single-file format:
+For best browser support, files should be in MP4 containers, with H.264 video and AAC audio. To download videos in this compatible single-file format:
 
 ```bash
 youtube-dl -f bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best \
