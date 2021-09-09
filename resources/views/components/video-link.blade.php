@@ -1,4 +1,4 @@
-<div class="relative">
+<div class="relative rounded-sm hover:bg-gray-100 hover:ring-6 ring-gray-100 dark:hover:bg-trueGray-850 dark:ring-trueGray-850">
     <div class="relative pb-9/16 mb-2">
         <img class="absolute w-full h-full object-cover rounded-sm" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
     </div>

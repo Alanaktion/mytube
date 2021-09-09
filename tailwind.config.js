@@ -24,14 +24,15 @@ module.exports = {
             blue: colors.blue,
         },
         extend: {
-            colors: {
-            },
             spacing: {
                 '3/4': '75%',
                 '9/16': '56.25%',
             },
             boxShadow: {
                 'inner-white-top': 'inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+            },
+            ringWidth: {
+                6: '6px',
             },
         },
         container: {
