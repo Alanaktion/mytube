@@ -35,7 +35,7 @@
             @if ($video->source_link)
                 <a href="{{ $video->source_link }}"
                     class="p-2 rounded-full text-sm text-red-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-red-500 hover:bg-gray-300 dark:hover:bg-trueGray-700 tooltip-right sm:tooltip-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-red-600"
-                    aria-label="{{ __('Watch on :source', ['source' => $video->source_type == 'youtube' ? 'YouTube' : ucfirst($video->source_type)]) }}"
+                    aria-label="{{ __('Watch on :source', ['source' => $video->source()->getDisplayName()]) }}"
                     data-tooltip>
                     <x-source-icon :type="$video->source_type" class="h-6 w-6" />
                 </a>

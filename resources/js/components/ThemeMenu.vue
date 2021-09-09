@@ -6,7 +6,7 @@
                 :title="label"
             >
                 <span class="sr-only">{{ label }}</span>
-                <MoonIcon class="w-4 h-4" />
+                <MoonIcon class="w-4 h-4" aria-hidden="true" />
             </ListboxButton>
             <transition
                 enter-active-class="transition duration-100 ease-out"
@@ -40,6 +40,7 @@
                             <CheckCircleIcon
                                 v-if="selected"
                                 class="w-4 h-4 ml-auto"
+                                aria-hidden="true"
                             />
                         </li>
                     </ListboxOption>

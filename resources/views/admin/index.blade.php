@@ -9,7 +9,7 @@
         <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                     </svg>
                 </div>
@@ -22,7 +22,7 @@
         <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
                 </div>
@@ -35,7 +35,7 @@
         <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                     </svg>
                 </div>
@@ -100,7 +100,7 @@
                     </div>
                     <div class="ml-3 text-sm">
                         <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">Playlists</label>
-                        <p class="text-gray-500 dark:text-trueGray-400">Import all playlists on the channel with their corresponding videos. (YouTube only)</p>
+                        <p class="text-gray-500 dark:text-trueGray-400">Import all playlists on the channel with their corresponding videos. (Supported sources only)</p>
                     </div>
                 </div>
                 <div class="flex items-start">
@@ -109,7 +109,7 @@
                     </div>
                     <div class="ml-3 text-sm leading-5">
                         <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">Videos</label>
-                        <p class="text-gray-500 dark:text-trueGray-400">Import all videos on the channel. (YouTube only)</p>
+                        <p class="text-gray-500 dark:text-trueGray-400">Import all videos on the channel. (Supported sources only)</p>
                     </div>
                 </div>
                 <x-slot name="footer">

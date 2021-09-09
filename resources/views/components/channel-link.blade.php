@@ -1,5 +1,5 @@
 <div class="flex items-center">
-    <a href="/channels/{{ $channel->uuid }}" class="flex-shrink-0 h-20 w-20">
+    <a href="/channels/{{ $channel->uuid }}" class="flex-shrink-0 h-20 w-20" aria-hidden="true" tabindex="-1">
         <img class="h-20 w-20 rounded-full" src="{{ $channel->image_url ?? '/images/channels/' . $channel->uuid }}" alt="{{ $channel->name }}">
     </a>
     <div class="ml-4">

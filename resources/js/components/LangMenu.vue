@@ -42,6 +42,7 @@
                             <CheckCircleIcon
                                 v-if="selected"
                                 class="w-4 h-4 ml-auto"
+                                aria-hidden="true"
                             />
                         </li>
                     </ListboxOption>

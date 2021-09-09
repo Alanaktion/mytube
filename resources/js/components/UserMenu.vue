@@ -4,9 +4,9 @@
             <MenuButton
                 class="flex px-3 py-2 rounded-md text-sm font-medium focus:text-white focus:bg-gray-700 dark:focus:bg-trueGray-700 text-gray-300 dark:text-trueGray-300 hover:text-white hover:bg-gray-700 dark:hover:bg-trueGray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500 dark:focus:ring-offset-trueGray-800 dark:focus:ring-blue-600"
             >
-                <UserCircleIcon class="hidden md:block lg:hidden w-5 h-5" />
+                <UserCircleIcon class="hidden md:block lg:hidden w-5 h-5" aria-hidden="true" />
                 <span class="md:hidden lg:block">{{ name }}</span>
-                <ChevronDownIcon class="md:hidden lg:block w-5 h-5 ml-2 -mr-1" />
+                <ChevronDownIcon class="md:hidden lg:block w-5 h-5 ml-2 -mr-1" aria-hidden="true" />
             </MenuButton>
         </div>
 

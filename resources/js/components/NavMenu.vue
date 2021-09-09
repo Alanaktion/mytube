@@ -11,7 +11,7 @@
         @click="open = !open"
     >
         <span class="sr-only">{{ label }}</span>
-        <MenuIcon class="w-6 h-6" />
+        <MenuIcon class="w-6 h-6" aria-hidden="true" />
     </button>
 
     <div id="nav-menu" class="md:flex flex-1" v-show="visible">

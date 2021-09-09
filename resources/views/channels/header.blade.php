@@ -5,7 +5,7 @@
         @if ($channel->source_link)
             <a href="{{ $channel->source_link }}"
                 class="p-2 rounded-full text-sm text-red-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-red-500 hover:bg-gray-300 dark:hover:bg-trueGray-700 tooltip-right sm:tooltip-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-red-600"
-                aria-label="{{ __('View on :source', ['source' => $channel->type == 'youtube' ? 'YouTube' : ucfirst($channel->type)]) }}"
+                aria-label="{{ __('View on :source', ['source' => $channel->source()->getDisplayName()]) }}"
                 data-tooltip>
                 <x-source-icon :type="$channel->type" class="h-6 w-6" />
             </a>
@@ -29,7 +29,7 @@
         {{ __('Videos') }}
         <span class="ml-1 px-2 align-middle text-sm bg-gray-200 dark:bg-trueGray-700 text-black dark:text-white rounded-full">{{ $channel->videos()->count() }}</span>
     </a>
-    @if (source($channel->type)->playlist())
+    @if ($channel->source()->playlist())
         <a
             class="px-3 py-2
                 {{ ($tab == 'playlists')

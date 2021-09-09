@@ -11,13 +11,7 @@
                     {{ __('Source') }}
                 </dt>
                 <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                    @if ($channel->type == 'youtube')
-                        YouTube
-                    @elseif ($channel->type)
-                        {{ ucfirst($channel->type) }}
-                    @else
-                        {{ __('Unknown') }}
-                    @endif
+                    {{ $channel->source()->getDisplayName() }}
                     @if ($channel->source_link)
                         &mdash; <a class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300" href="{{ $channel->source_link }}">{{ $channel->source_link }}</a>
                     @endif

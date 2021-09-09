@@ -22,7 +22,7 @@
             <div class="md:flex items-center">
                 <div class="flex py-2">
                     <a href="/" class="flex items-center mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="inline h-8 w-8 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="inline h-8 w-8 text-blue-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <polygon points="5 3 19 12 5 21 5 3"/>
                         </svg>
                         <span class="text-gray-100 dark:text-trueGray-100 font-semibold text-xl tracking-tight">
@@ -58,7 +58,7 @@
         @if (session('message'))
         <div class="container mb-4">
             <div class="flex items-center bg-green-100 dark:bg-green-900 bg-opacity-50 border border-green-100 dark:border-green-600 p-3 rounded">
-                <svg class="w-6 h-6 mr-2 text-green-500 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg class="w-6 h-6 mr-2 text-green-500 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <span class="text-green-900 dark:text-green-100">

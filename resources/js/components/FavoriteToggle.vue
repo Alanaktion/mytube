@@ -5,8 +5,8 @@
         data-tooltip
         :aria-label="isFavorite ? removeLabel : addLabel"
     >
-        <HeartIconSolid class="w-6 h-6" v-if="isFavorite" />
-        <HeartIcon class="w-6 h-6" v-else />
+        <HeartIconSolid class="w-6 h-6" v-if="isFavorite" aria-hidden="true" />
+        <HeartIcon class="w-6 h-6" v-else aria-hidden="true" />
     </Switch>
 </template>
 
