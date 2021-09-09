@@ -1,7 +1,7 @@
 <header class="mb-3 xl:mb-5 sm:flex">
     <div class="flex items-center gap-2">
         <img class="h-10 w-10 rounded-full" src="{{ $channel->image_url ?? '/images/channels/' . $channel->uuid }}" alt="{{ $channel->name }}">
-        <h1 class="text-2xl lg:text-3xl ml-3">{{ $channel->title }}</h1>
+        <h1 class="text-2xl lg:text-3xl mx-3">{{ $channel->title }}</h1>
         @if ($channel->source_link)
             <a href="{{ $channel->source_link }}"
                 class="p-2 rounded-full text-sm text-red-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-red-500 hover:bg-gray-300 dark:hover:bg-trueGray-700 tooltip-right sm:tooltip-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-red-600"
