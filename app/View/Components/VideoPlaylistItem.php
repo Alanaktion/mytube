@@ -6,7 +6,7 @@ use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\View\Component;
 
-class VideoPlayListItem extends Component
+class VideoPlaylistItem extends Component
 {
     /**
      * Create a new component instance.
