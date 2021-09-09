@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="sm:flex justify-between items-center mb-4">
+    <div class="flex flex-col sm:flex-row justify-between gap-2 sm:items-center mb-4">
         <h2 class="text-2xl">{{ __('Playlists') }}</h2>
         <div class="flex gap-2">
             <x-sort-by :value="$sort" />
