@@ -11,12 +11,13 @@ class VideoLink extends Component
     /**
      * Create a new component instance.
      *
+     * @param ?Playlist $playlist
      * @return void
      */
     public function __construct(
         public Video $video,
         public bool $showChannel = false,
-        public ?Playlist $playlist = null,
+        public $playlist = null,
     ) {
     }
 
