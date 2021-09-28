@@ -17,7 +17,7 @@
                 leave-to-class="transform scale-95 opacity-0"
             >
                 <ListboxOptions
-                    class="origin-top-left sm:origin-top-right absolute left-0 sm:left-auto sm:right-0 w-40 py-1 mt-1 z-10 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
+                    class="origin-top-left sm:origin-top-right absolute left-0 sm:left-auto sm:right-0 w-40 py-1 mt-1 z-30 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
                 >
                     <!-- TODO: reduce duplication of code between "all" and list of sources -->
                     <ListboxOption

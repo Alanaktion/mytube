@@ -18,31 +18,31 @@
         padding-top: env(safe-area-inset-top);
     }
 
-    [data-tooltip] {
+    [data-tooltip]:not([data-tooltip="false"]) {
         position: relative;
-    }
-    [data-tooltip]::before {
-        content: attr(aria-label);
-        @apply invisible absolute z-20 max-w-xs text-white py-1 px-2 rounded shadow-sm font-normal text-sm whitespace-nowrap;
-        background-color: rgba(0, 0, 0, 0.9);
-        bottom: calc(100% + 0.3rem);
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    [data-tooltip]::after {
-        content: '';
-        @apply invisible absolute z-20;
-        bottom: calc(100% - 0.3rem);
-        left: 50%;
-        border-width: 0.35rem;
-        border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
-        transform: translateX(-50%);
-    }
-    [data-tooltip]:hover::before,
-    [data-tooltip]:hover::after,
-    [data-tooltip]:focus::before,
-    [data-tooltip]:focus::after {
-        @apply visible ring-0 ring-transparent ring-offset-0 ring-offset-transparent;
+        &::before {
+            content: attr(aria-label);
+            @apply invisible absolute z-20 max-w-xs text-white py-1 px-2 rounded shadow-sm font-normal text-sm whitespace-nowrap;
+            background-color: rgba(0, 0, 0, 0.9);
+            bottom: calc(100% + 0.3rem);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        &::after {
+            content: '';
+            @apply invisible absolute z-20;
+            bottom: calc(100% - 0.3rem);
+            left: 50%;
+            border-width: 0.35rem;
+            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+            transform: translateX(-50%);
+        }
+        &:hover::before,
+        &:hover::after,
+        &:focus::before,
+        &:focus::after {
+            @apply visible ring-0 ring-transparent ring-offset-0 ring-offset-transparent;
+        }
     }
 
     nav-menu[v-cloak] {

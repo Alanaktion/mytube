@@ -1,9 +1,10 @@
 <template>
-    <Listbox v-model="lang">
+    <Listbox v-model="lang" v-slot="{ open }">
         <div class="relative">
             <ListboxButton
                 class="p-2 rounded-full text-sm font-medium text-blue-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-blue-400 hover:bg-gray-200 dark:hover:bg-trueGray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-blue-600 tooltip-left"
-                :title="label"
+                :aria-label="label"
+                :data-tooltip="!open"
             >
                 <span class="sr-only">{{ label }}</span>
                 <svg class="w-4 h-4" viewBox="0 0 52 52" fill="currentColor" aria-hidden="true">
@@ -19,7 +20,7 @@
                 leave-to-class="transform scale-95 opacity-0"
             >
                 <ListboxOptions
-                    class="origin-bottom-right absolute right-0 bottom-7 w-40 py-1 mb-2 z-10 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
+                    class="origin-bottom-right absolute right-0 bottom-7 w-40 py-1 mb-2 z-30 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
                 >
                     <ListboxOption
                         v-for="(name, code) in locales"
