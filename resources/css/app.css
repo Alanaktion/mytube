@@ -57,13 +57,13 @@
 
 @layer utilities {
     @variants responsive {
-        .tooltip-left::before {
+        [data-tooltip].tooltip-left::before {
             transform: translateX(calc(-100% + 1.5rem));
         }
-        .tooltip-right::before {
+        [data-tooltip].tooltip-right::before {
             transform: translateX(-1.5rem);
         }
-        .tooltip-center::before {
+        [data-tooltip].tooltip-center::before {
             transform: translateX(-50%);
         }
     }
