@@ -16,3 +16,25 @@ if (!function_exists('source')) {
         throw new InvalidSourceException('Invalid source type ' . $type);
     }
 }
+
+if (!function_exists('format_description')) {
+    /**
+     * Convert URLs and hashtags to links, escaping HTML
+     */
+    function format_description(string $description): string
+    {
+        $class = 'text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300';
+        $str = htmlspecialchars($description);
+        $str = preg_replace(
+            '/(https?:\/\/[^\s]+)/',
+            '<a href="$1" class="' . $class . '" target="_blank" rel="noopener noreferrer">$1</a>',
+            $str
+        );
+        $str = preg_replace(
+            '/(^|\s)#([0-9a-z_-]+)/i',
+            '$1<a href="/search?q=$2" class="' . $class . '">#$2</a>',
+            $str
+        );
+        return $str;
+    }
+}

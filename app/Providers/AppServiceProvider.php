@@ -9,6 +9,7 @@ use App\Sources\YouTube\YouTubeSource;
 use Google\Client as GoogleClient;
 use Google\Service\YouTube;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -46,5 +47,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Model::preventLazyLoading(!app()->isProduction());
+
+        Blade::directive('description', function ($expression) {
+            return "<?php echo format_description($expression); ?>";
+        });
     }
 }
