@@ -70,6 +70,9 @@ class TwitterVideo implements SourceVideo
         if (preg_match('/-(\d{19})\.(mp4|m4v|avi|mkv|webm)$/i', $filename, $matches)) {
             return $matches[1];
         }
+        if (preg_match('/ \[(\d{19})\]$/i', $filename, $matches)) {
+            return $matches[1];
+        }
         return null;
     }
 

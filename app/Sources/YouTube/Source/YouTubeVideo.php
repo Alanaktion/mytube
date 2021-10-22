@@ -61,6 +61,9 @@ class YouTubeVideo implements SourceVideo
         if (preg_match('/-([A-Za-z0-9_\-]{11})\.(mp4|m4v|avi|mkv|webm)$/', $filename, $matches)) {
             return $matches[1];
         }
+        if (preg_match('/ \[([A-Za-z0-9_\-]{11})\]/', $filename, $matches)) {
+            return $matches[1];
+        }
         return null;
     }
 
