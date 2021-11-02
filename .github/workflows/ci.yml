@@ -4,13 +4,21 @@ on: [push, pull_request]
 
 jobs:
   laravel-tests:
+    strategy:
+      matrix:
+        php: ['8.0', '8.1']
+        experimental: [false]
+        include:
+          - php: '8.2'
+            experimental: true
 
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
 
     steps:
-    - uses: shivammathur/setup-php@b7d1d9c9a92d8d8463ce36d7f60da34d461724f8
+    - uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.0'
+        php-version: ${{ matrix.php }}
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
