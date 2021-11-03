@@ -20,18 +20,18 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "meilisearch/meilisearch-php": "^0.18.0",
-        "norkunas/youtube-dl-php": "^1.6",
+        "norkunas/youtube-dl-php": "^2.0",
         "predis/predis": "^1.1",
-        "rebing/graphql-laravel": "^6.1",
+        "rebing/graphql-laravel": "^7.2",
         "romanzipp/laravel-twitch": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
+        "fakerphp/faker": "^1.16",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "nunomaduro/larastan": "^0.7.12",
-        "phpunit/phpunit": "^9.5.8",
+        "nunomaduro/larastan": "^1.0.0",
+        "phpunit/phpunit": "^9.5.10",
         "rector/rector": "^0.11.40",
         "squizlabs/php_codesniffer": "*"
     },

@@ -29,7 +29,7 @@ https://mytube-app-demo.herokuapp.com/
 - [PHP](https://php.net) 8 or later with [Composer](https://getcomposer.org)
 - [MySQL](https://dev.mysql.com/downloads/) 8 (or any RDBMS supported by Laravel)
 - Web server with support for rewrites and following symbolic links ([nginx](https://nginx.org/en/) recommended)
-- [NodeJS](https://nodejs.org/en/) LTS 14 or later for building front-end assets
+- [NodeJS](https://nodejs.org/en/) LTS 16 or later for building front-end assets
 
 ## Setup
 
