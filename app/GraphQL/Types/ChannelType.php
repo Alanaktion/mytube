@@ -17,6 +17,9 @@ class ChannelType extends GraphQLType
         'model' => Channel::class,
     ];
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public function fields(): array
     {
         return [

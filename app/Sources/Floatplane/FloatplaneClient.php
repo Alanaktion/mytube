@@ -68,7 +68,7 @@ class FloatplaneClient
     }
 
     /**
-     * @return array<string, array>
+     * @return array<string, mixed>
      */
     public static function getChannelPosts(string $uuid, int $limit = 20): array
     {

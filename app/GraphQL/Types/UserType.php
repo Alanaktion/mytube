@@ -17,6 +17,9 @@ class UserType extends GraphQLType
         'model' => User::class,
     ];
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public function fields(): array
     {
         return [

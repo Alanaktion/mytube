@@ -22,6 +22,9 @@ class SetFavoriteChannelMutation extends Mutation
         return Type::nonNull(Type::boolean());
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public function args(): array
     {
         return [

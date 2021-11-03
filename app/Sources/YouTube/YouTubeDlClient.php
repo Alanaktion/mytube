@@ -2,14 +2,17 @@
 
 namespace App\Sources\YouTube;
 
+use YoutubeDl\Process\DefaultProcessBuilder;
 use YoutubeDl\YoutubeDl;
 
 class YouTubeDlClient extends YoutubeDl
 {
     public function getVersion(): ?string
     {
+        // It'd be great if I could use the existing instance but it's private.
+        $pb = new DefaultProcessBuilder();
         try {
-            $process = $this->createProcess([
+            $process = $pb->build(null, null, [
                 '--version',
             ]);
             // @phpstan-ignore-next-line
@@ -41,7 +44,9 @@ class YouTubeDlClient extends YoutubeDl
      */
     protected function getIdsByUrl(string $url): array
     {
-        $process = $this->createProcess([
+        // It'd be great if I could use the existing instance but it's private.
+        $pb = new DefaultProcessBuilder();
+        $process = $pb->build(null, null, [
             $url,
             '--flat-playlist',
             '--get-id',

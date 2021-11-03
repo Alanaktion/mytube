@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
+use YoutubeDl\Options;
+use YoutubeDl\Process\DefaultProcessBuilder;
 use YoutubeDl\YoutubeDl;
 
 /**
@@ -179,13 +181,6 @@ class Video extends Model
             return;
         }
 
-        // Set the base yt-dl configuration
-        $ytdl = new YoutubeDl([
-            'continue' => true,
-            'format' => 'bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best',
-            'merge-output-format' => 'mp4',
-        ]);
-
         // Set download path
         $dir = Str::finish(config('app.ytdl.directory'), DIRECTORY_SEPARATOR);
         if ($downloadDir === null) {
@@ -194,13 +189,25 @@ class Video extends Model
         } else {
             $dir .= $downloadDir;
         }
-        $ytdl->setDownloadPath($dir);
 
         // Download the video file and save the resulting path
-        $result = $ytdl->download($this->source_link);
-        $file = $result->getFile();
-        $this->file_path = $file->getRealPath();
-        $this->save();
+        $yt = new YoutubeDl();
+        $collection = $yt->download(
+            Options::create()
+                ->continue(true)
+                ->format('bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best')
+                ->mergeOutputFormat('mp4')
+                ->downloadPath($dir)
+                ->url($this->source_link)
+        );
+        foreach ($collection->getVideos() as $video) {
+            if ($video->getError() !== null) {
+                throw new Exception($video->getError());
+            }
+            $this->file_path = $video->getFile()->getRealPath();
+            $this->save();
+            return;
+        }
     }
 
     public function favoritedBy()

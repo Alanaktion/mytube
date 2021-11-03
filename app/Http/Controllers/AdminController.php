@@ -58,10 +58,10 @@ class AdminController extends Controller
 
     public function playlistImport(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'playlistIds' => 'required|string',
         ]);
-        $ids = array_map('trim', explode("\n", $request->input('playlistIds')));
+        $ids = array_map('trim', explode("\n", $data['playlistIds']));
         $sources = app()->tagged('sources');
         foreach ($ids as $id) {
             foreach ($sources as $source) {
@@ -86,10 +86,10 @@ class AdminController extends Controller
 
     public function videoImport(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'videoIds' => 'required|string',
         ]);
-        $ids = array_map('trim', explode("\n", $request->input('videoIds')));
+        $ids = array_map('trim', explode("\n", $data['videoIds']));
         $count = count($ids);
         $success = 0;
         $sources = app()->tagged('sources');
@@ -115,7 +115,7 @@ class AdminController extends Controller
 
     public function channelImport(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'channelId' => 'required|string',
         ]);
         $id = $request->input('channelId');

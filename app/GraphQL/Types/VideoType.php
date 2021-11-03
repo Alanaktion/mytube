@@ -18,6 +18,9 @@ class VideoType extends GraphQLType
         'model' => Video::class,
     ];
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public function fields(): array
     {
         return [

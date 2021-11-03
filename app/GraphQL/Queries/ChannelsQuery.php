@@ -29,6 +29,9 @@ class ChannelsQuery extends Query
         return GraphQL::paginate('Channel');
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public function args(): array
     {
         return [

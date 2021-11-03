@@ -13,7 +13,7 @@ class ChannelController extends Controller
     {
         $request->validate([
             'sort' => ['sometimes', 'string', 'in:published_at,created_at'],
-            'type' => ['sometimes', 'string', 'nullable'],
+            'source' => ['sometimes', 'string', 'nullable'],
         ]);
         $sort = $request->input('sort', 'published_at');
         $source = $request->input('source');

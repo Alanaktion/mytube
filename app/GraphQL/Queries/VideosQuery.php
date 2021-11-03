@@ -29,6 +29,9 @@ class VideosQuery extends Query
         return GraphQL::paginate('Video');
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public function args(): array
     {
         return [
