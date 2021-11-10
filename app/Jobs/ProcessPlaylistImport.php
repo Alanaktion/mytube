@@ -27,6 +27,6 @@ class ProcessPlaylistImport implements ShouldQueue
      */
     public function handle(): void
     {
-        $playlist = Playlist::import($this->type, $this->playlistId);
+        Playlist::import($this->type, $this->playlistId);
     }
 }
