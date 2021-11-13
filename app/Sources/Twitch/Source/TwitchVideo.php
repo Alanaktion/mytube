@@ -66,7 +66,7 @@ class TwitchVideo implements SourceVideo
         if (preg_match('/-v(\d{9,10})\.(mp4|m4v|avi|mkv|webm)$/', $filename, $matches)) {
             return $matches[1];
         }
-        if (preg_match('/ \[v(\d{9,10})\]$/', $filename, $matches)) {
+        if (preg_match('/ \[v(\d{9,10})\]\.(mp4|m4v|avi|mkv|webm)$/', $filename, $matches)) {
             return $matches[1];
         }
         return null;
