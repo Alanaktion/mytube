@@ -2,21 +2,21 @@
     <nav role="navigation" aria-label="{{ __('Pagination Navigation') }}" class="flex items-center justify-between">
         <div class="flex justify-between flex-1 sm:hidden">
             @if ($paginator->onFirstPage())
-                <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 dark:text-trueGray-600 dark:bg-trueGray-800 dark:border-trueGray-700 cursor-default leading-5 rounded-md">
+                <span class="btn btn-secondary disabled">
                     {!! __('pagination.previous') !!}
                 </span>
             @else
-                <a href="{{ $paginator->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 dark:text-trueGray-400 dark:bg-trueGray-800 dark:border-trueGray-700 leading-5 rounded-md hover:text-blue-500 dark:hover:text-trueGray-300 focus:outline-none focus:ring ring-gray-300 dark:ring-trueGray-600 focus:border-blue-300 active:text-gray-700 dark:active:bg-trueGray-700 dark:active:text-trueGray-400">
+                <a href="{{ $paginator->previousPageUrl() }}" class="btn btn-secondary">
                     {!! __('pagination.previous') !!}
                 </a>
             @endif
 
             @if ($paginator->hasMorePages())
-                <a href="{{ $paginator->nextPageUrl() }}" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 dark:text-trueGray-400 dark:bg-trueGray-800 dark:border-trueGray-700 leading-5 rounded-md hover:text-blue-500 dark:hover:text-trueGray-300 focus:outline-none focus:ring ring-gray-300 dark:ring-trueGray-600 focus:border-blue-300 active:text-gray-700 dark:active:bg-trueGray-700 dark:active:text-trueGray-400">
+                <a href="{{ $paginator->nextPageUrl() }}" class="btn btn-secondary">
                     {!! __('pagination.next') !!}
                 </a>
             @else
-                <span class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 dark:text-trueGray-600 dark:bg-trueGray-800 dark:border-trueGray-700 cursor-default leading-5 rounded-md">
+                <span class="btn btn-secondary disabled ml-3">
                     {!! __('pagination.next') !!}
                 </span>
             @endif
@@ -66,7 +66,7 @@
                             @foreach ($element as $page => $url)
                                 @if ($page == $paginator->currentPage())
                                     <span aria-current="page">
-                                        <span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-white bg-blue-600 border border-blue-500 cursor-default leading-5">{{ $page }}</span>
+                                        <span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-white bg-gradient-to-b from-blue-500 to-blue-600 border border-blue-500 cursor-default leading-5">{{ $page }}</span>
                                     </span>
                                 @else
                                     <a href="{{ $url }}" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 dark:text-trueGray-400 dark:bg-trueGray-800 dark:border-trueGray-700 leading-5 hover:text-blue-500 dark:hover:text-trueGray-300 focus:z-10 focus:outline-none focus:ring ring-gray-300 dark:ring-trueGray-600 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 dark:active:bg-trueGray-700 dark:active:text-trueGray-400" aria-label="{{ __('Go to page :page', ['page' => $page]) }}">

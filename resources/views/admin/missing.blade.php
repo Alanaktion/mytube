@@ -6,22 +6,22 @@
         {{ __('Videos missing files') }}
     </div>
 
-    <table class="min-w-full divide-y divide-gray-200 dark:divide-trueGray-800 shadow overflow-hidden sm:rounded-lg mb-4">
+    <table class="min-w-full divide-y divide-gray-200 bg-gray-100 dark:divide-trueGray-800 dark:bg-trueGray-800 shadow dark:shadow-inner-white-top overflow-hidden sm:rounded-lg mb-4">
         <thead>
             <tr>
-                <th class="px-6 py-3 bg-gray-100 dark:bg-trueGray-800 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
+                <th class="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
                     {{ __('Title') }}
                 </th>
-                <th class="px-6 py-3 bg-gray-100 dark:bg-trueGray-800 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
+                <th class="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
                     {{ __('Channel') }}
                 </th>
-                <th class="px-6 py-3 bg-gray-100 dark:bg-trueGray-800 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
+                <th class="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
                     {{ __('Playlists') }}
                 </th>
-                <th class="px-6 py-3 bg-gray-100 dark:bg-trueGray-800 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
+                <th class="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 dark:text-trueGray-300 uppercase tracking-wider">
                     {{ __('Published') }}
                 </th>
-                <th class="px-6 py-3 bg-gray-100 dark:bg-trueGray-800"></th>
+                <th class="px-6 py-3"></th>
             </tr>
         </thead>
         <tbody class="bg-white dark:bg-trueGray-850 divide-y divide-gray-200 dark:divide-trueGray-800">

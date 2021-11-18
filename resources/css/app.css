@@ -31,8 +31,9 @@
         }
     }
 
-    .btn:disabled {
-        @apply opacity-75;
+    .btn:disabled,
+    .btn.disabled {
+        @apply opacity-75 pointer-events-none;
     }
 
     .btn-primary {

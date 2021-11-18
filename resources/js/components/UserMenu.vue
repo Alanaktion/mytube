@@ -30,7 +30,7 @@
                     <a
                         href="/user/account"
                         :class="[
-                            active ? 'bg-blue-500 text-white dark:bg-blue-500' : 'text-gray-700 dark:text-trueGray-300',
+                            active ? 'bg-gradient-to-b from-blue-500 to-blue-600 text-white' : 'text-gray-700 dark:text-trueGray-300',
                             'flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer',
                         ]"
                     >
@@ -41,7 +41,7 @@
                     <button
                         @click="logOut"
                         :class="[
-                            active ? 'bg-blue-500 text-white dark:bg-blue-500' : 'text-gray-700 dark:text-trueGray-300',
+                            active ? 'bg-gradient-to-b from-blue-500 to-blue-600 text-white' : 'text-gray-700 dark:text-trueGray-300',
                             'flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer',
                         ]"
                     >

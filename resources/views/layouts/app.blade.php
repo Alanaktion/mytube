@@ -18,39 +18,43 @@
         {{ __('Skip to content') }}
     </a>
     <nav class="bg-gray-800 dark:bg-trueGray-800 px-safe">
-        <div class="container">
-            <div class="md:flex items-center">
-                <div class="flex py-2">
-                    <a href="/" class="flex items-center mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="inline h-8 w-8 text-blue-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <polygon points="5 3 19 12 5 21 5 3"/>
-                        </svg>
-                        <span class="text-gray-100 dark:text-trueGray-100 font-semibold text-xl tracking-tight">
-                            {{ config('app.name') }}
-                        </span>
-                    </a>
-                </div>
-
-                <nav-menu label="{{ __('Toggle Navigation') }}" v-cloak>
-                    <div class="flex flex-col items-stretch my-3 md:my-0 md:flex-row md:items-center md:ml-3 lg:ml-6 gap-1 md:gap-2 lg:gap-3 flex-1">
-                        <x-nav-link href="/videos" text="Videos" />
-                        <x-nav-link href="/playlists" text="Playlists" />
-                        <x-nav-link href="/channels" text="Channels" />
-                        @auth
-                            <x-nav-link href="/favorites" text="Favorites" />
-                            @if (Auth::user()->isAdmin())
-                                <x-nav-link href="/admin" text="Admin" />
-                            @endif
-                        @endauth
-                    </div>
-                    @auth
-                        <user-menu name="{{ Auth::user()->name }}" token="{{ csrf_token() }}" v-cloak></user-menu>
-                    @endauth
-                    <form class="mb-3 md:mb-0 md:block md:ml-2 lg:ml-6 md:py-2" action="/search">
-                        <input type="search" class="dark:bg-trueGray-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-transparent appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="{{ __('Search') }}">
-                    </form>
-                </nav-menu>
+        <div class="container md:flex items-center">
+            <div class="flex py-2">
+                <a href="/" class="flex items-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="inline h-8 w-8 from-blue-400 to-blue-600" viewBox="0 0 24 24" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="logoGradient" gradientTransform="rotate(90)">
+                                <stop offset="0%" stop-color="var(--tw-gradient-from)" />
+                                <stop offset="100%" stop-color="var(--tw-gradient-to)" />
+                            </linearGradient>
+                        </defs>
+                        <polygon points="5 3 19 12 5 21 5 3" fill="url(#logoGradient)"/>
+                    </svg>
+                    <span class="text-gray-100 dark:text-trueGray-100 font-semibold text-xl tracking-tight">
+                        {{ config('app.name') }}
+                    </span>
+                </a>
             </div>
+
+            <nav-menu label="{{ __('Toggle Navigation') }}" v-cloak>
+                <div class="flex flex-col items-stretch my-3 md:my-0 md:flex-row md:items-center md:ml-3 lg:ml-6 gap-1 md:gap-2 lg:gap-3 flex-1">
+                    <x-nav-link href="/videos" text="Videos" />
+                    <x-nav-link href="/playlists" text="Playlists" />
+                    <x-nav-link href="/channels" text="Channels" />
+                    @auth
+                        <x-nav-link href="/favorites" text="Favorites" />
+                        @if (Auth::user()->isAdmin())
+                            <x-nav-link href="/admin" text="Admin" />
+                        @endif
+                    @endauth
+                </div>
+                @auth
+                    <user-menu name="{{ Auth::user()->name }}" token="{{ csrf_token() }}" v-cloak></user-menu>
+                @endauth
+                <form class="mb-3 md:mb-0 md:block md:ml-2 lg:ml-6 md:py-2" action="/search">
+                    <input type="search" class="dark:bg-trueGray-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-transparent appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="{{ __('Search') }}">
+                </form>
+            </nav-menu>
         </div>
     </nav>
 

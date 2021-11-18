@@ -6,7 +6,7 @@
         Overview
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-5 lg:mb-6">
-        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
+        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
+        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow rounded">
+        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

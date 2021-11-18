@@ -33,8 +33,8 @@
                                 'text-gray-700 dark:text-trueGray-300': !selected,
                                 'bg-gray-100 dark:bg-trueGray-700': !selected && active,
                                 'text-white': selected,
-                                'bg-blue-400 dark:bg-blue-600': selected && !active,
-                                'bg-blue-500 dark:bg-blue-500': selected && active,
+                                'bg-gradient-to-b from-blue-400 to-blue-500 dark:from-blue-600 dark:to-blue-700': selected && !active,
+                                'bg-gradient-to-b from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600': selected && active,
                             }"
                         >
                             <span>{{ theme }}</span>
