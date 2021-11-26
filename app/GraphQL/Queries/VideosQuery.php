@@ -70,7 +70,7 @@ class VideosQuery extends Query
     public function resolve($root, $args, $context, SelectFields $fields)
     {
         $videos = Video::with($fields->getRelations())
-            ->select(array_merge($fields->getSelect(), ['uuid', 'file_path']))
+            ->select(array_merge($fields->getSelect(), ['uuid', 'file_path', 'source_type']))
             ->latest('id');
 
         if (isset($args['id'])) {
