@@ -144,7 +144,7 @@ class AdminController extends Controller
     public function missing()
     {
         $videos = Video::with(['channel', 'playlists'])
-            ->whereNull('file_path')
+            ->doesntHave('files')
             ->latest('id');
         return view('admin.missing', [
             'title' => __('Administration'),

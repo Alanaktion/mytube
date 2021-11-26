@@ -109,6 +109,7 @@ class DownloadYouTubeThumbnails extends Command
      */
     protected function generateImage(Video $video): bool
     {
+        // TODO: update to use VideoFile relation
         if (!$video->file_path || !is_file($video->file_path)) {
             return false;
         }

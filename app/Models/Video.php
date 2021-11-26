@@ -78,9 +78,11 @@ class Video extends Model
             $video = $source->video()->import($id);
         }
 
-        if ($filePath !== null && $video->file_path === null) {
-            $video->file_path = $filePath;
-            $video->save();
+        if ($filePath !== null && !VideoFile::where('path', $filePath)->exists()) {
+            $video->files()->create([
+                'path' => $filePath,
+                'mime_type' => mime_content_type($filePath),
+            ]);
         }
         return $video;
     }
@@ -133,32 +135,33 @@ class Video extends Model
         return $this->belongsToMany(Playlist::class, 'playlist_items');
     }
 
+    public function files()
+    {
+        return $this->hasMany(VideoFile::class);
+    }
+
     /**
-     * Get a web-accessible path/URL to the source file.
-     *
-     * This currently creates a symlink to the source file in the public disk.
-     *
-     * @todo support remote file storage, e.g. storing video files on B2/S3.
+     * @deprecated Use files relation instead.
+     */
+    public function getFilePathAttribute(): ?string
+    {
+        $file = $this->files()->first(['id', 'path']);
+        if ($file) {
+            return $file->path;
+        }
+        return null;
+    }
+
+    /**
+     * @deprecated Use files relation instead.
      */
     public function getFileLinkAttribute(): ?string
     {
-        if (!$this->file_path) {
-            return null;
+        $file = $this->files()->first(['id', 'path']);
+        if ($file) {
+            return $file->url;
         }
-
-        $ext = pathinfo($this->file_path, PATHINFO_EXTENSION);
-        $file = "{$this->uuid}.{$ext}";
-
-        // Ensure video directory exists
-        Storage::makeDirectory('public/videos');
-
-        // Create symlink if it doesn't exist
-        $linkPath = storage_path('app/public/videos') . DIRECTORY_SEPARATOR . $file;
-        if (!is_link($linkPath) && is_file($this->file_path)) {
-            symlink($this->file_path, $linkPath);
-        }
-
-        return "/storage/videos/$file";
+        return null;
     }
 
     /**
@@ -177,7 +180,7 @@ class Video extends Model
         }
 
         // Exit if a file already exists
-        if ($this->file_path && file_exists($this->file_path)) {
+        if ($this->files()->count()) {
             return;
         }
 
@@ -204,8 +207,11 @@ class Video extends Model
             if ($video->getError() !== null) {
                 throw new Exception($video->getError());
             }
-            $this->file_path = $video->getFile()->getRealPath();
-            $this->save();
+            $filePath = $video->getFile()->getRealPath();
+            $this->files()->create([
+                'path' => $filePath,
+                'mime_type' => mime_content_type($filePath),
+            ]);
             return;
         }
     }

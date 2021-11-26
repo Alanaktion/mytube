@@ -2,11 +2,13 @@
 
 @section('content')
 <div class="container">
-    @if ($video->file_path)
+    @if ($video->files->count())
         <div class="relative mb-4 lg:mb-6 pb-9/16">
             <video class="absolute w-full h-full" controls poster="{{ $video->poster_url ?? "/images/posters/{$video->uuid}" }}">
-                <source src="{{ $video->file_link }}">
-                <code>{{ $video->file_path }}</code>
+                @foreach ($video->files as $file)
+                    <source src="{{ $file->url }}" type="{{ $file->mime_type }}">
+                    <code>{{ $file->path }}</code>
+                @endforeach
             </video>
         </div>
     @elseif (config('app.embed'))
@@ -40,10 +42,13 @@
                     <x-source-icon :type="$video->source_type" class="h-6 w-6" />
                 </a>
             @endif
-            @if ($video->file_path)
-                <x-button href="{{ $video->file_link }}" rounded download>
-                    {{ __('Download') }}
-                </x-button>
+            @if ($video->files->count())
+                {{-- TODO: Show dropdown of files when multiple are available --}}
+                @foreach ($video->files as $file)
+                    <x-button href="{{ $file->link }}" rounded download>
+                        {{ __('Download') }}
+                    </x-button>
+                @endforeach
             @endif
         </div>
     </header>

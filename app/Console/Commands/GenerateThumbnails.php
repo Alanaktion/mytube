@@ -36,7 +36,7 @@ class GenerateThumbnails extends Command
                     ->whereNull('thumbnail_url')
                     ->orWhereNull('poster_url');
             })
-            ->whereNotNull('file_path');
+            ->whereHas('files');
         if ($this->argument('uuid')) {
             $query->whereIn('uuid', $this->argument('uuid'));
         }
@@ -81,6 +81,7 @@ class GenerateThumbnails extends Command
      */
     protected function generateImages(Video $video): bool
     {
+        // TODO: update to use VideoFile relation
         if (!$video->file_path || !is_file($video->file_path)) {
             return false;
         }

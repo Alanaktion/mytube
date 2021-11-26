@@ -44,6 +44,7 @@ class VideoController extends Controller
                     ->with(['firstItem', 'firstItem.video'])
                     ->withCount('items');
             },
+            'files',
         ]);
         return view('videos.show', [
             'title' => $video->title,
@@ -62,7 +63,7 @@ class VideoController extends Controller
             'items.video:id,uuid,title,channel_id,thumbnail_url',
             'items.video.channel:id,title',
         ]);
-        $video->load('channel');
+        $video->load(['channel', 'files']);
         return view('videos.show', [
             'title' => $video->title,
             'video' => $video,

@@ -30,7 +30,7 @@ class DownloadYouTubeMissing extends Command
      */
     public function handle(): int
     {
-        $videos = Video::whereNull('file_path')->cursor();
+        $videos = Video::doesntHave('files')->cursor();
         if (!$videos->count()) {
             $this->info('No video are missing local files.');
             return 0;
