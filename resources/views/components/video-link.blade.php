@@ -2,7 +2,7 @@
     <div class="relative pb-9/16 mb-2">
         <img class="absolute w-full h-full object-cover rounded-sm" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
     </div>
-    @if (!$video->file_path)
+    @if (!$video->files_count)
         <div class="absolute top-1 left-1 text-white bg-black bg-opacity-60 backdrop-filter backdrop-blur-md rounded-full p-1 z-20" aria-label="No video file available" title="No video file available">
             {{-- solid:x --}}
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

@@ -33,6 +33,7 @@ class ChannelController extends Controller
     public function videos(Channel $channel)
     {
         $videos = $channel->videos()
+            ->withCount('files')
             ->latest('published_at');
         return view('channels.videos', [
             'title' => $channel->title,
@@ -62,12 +63,15 @@ class ChannelController extends Controller
         // TODO: show video and playlists results in single list
         if (config('scout.driver')) {
             $videos = Video::search($request->input('q'))
+                ->query(function ($builder): void {
+                    $builder->withCount('files');
+                })
                 ->where('channel_id', $channel->id);
             $playlists = Playlist::search($request->input('q'))
                 ->where('channel_id', $channel->id);
         } else {
             $q = strtr($request->input('q'), ' ', '%');
-            $videos = $channel->videos()->latest('published_at');
+            $videos = $channel->videos()->withCount('files')->latest('published_at');
             $playlists = $channel->playlists()->latest('published_at');
             if ($q !== '') {
                 $videos

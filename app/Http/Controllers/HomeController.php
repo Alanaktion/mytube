@@ -13,6 +13,7 @@ class HomeController extends Controller
     {
         $videos = Video::latest('id')
             ->with('channel')
+            ->withCount('files')
             ->limit(18)
             ->get();
         $playlists = Playlist::latest('id')
@@ -37,7 +38,9 @@ class HomeController extends Controller
             // TODO: handle explicitly matching exact UUIDs, and prioritizing more recent objects
             $videos = Video::search($request->input('q'))
                 ->query(function ($builder): void {
-                    $builder->with('channel');
+                    $builder
+                        ->with('channel')
+                        ->withCount('files');
                 })
                 ->paginate(24);
             $playlists = Playlist::search($request->input('q'))
@@ -57,6 +60,7 @@ class HomeController extends Controller
 
             $videos = Video::latest('id')
                 ->with('channel')
+                ->withCount('files')
                 ->where('title', 'like', "%$q%")
                 ->orWhere('uuid', $q)
                 ->limit(24)

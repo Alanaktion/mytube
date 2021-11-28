@@ -36,7 +36,12 @@ class PlaylistController extends Controller
     {
         $playlist->load('channel');
         $items = $playlist->items()
-            ->with(['video', 'video.channel'])
+            ->with([
+                'video' => function ($query) {
+                    $query->withCount('files');
+                },
+                'video.channel',
+            ])
             ->orderBy('position', 'asc')
             ->paginate(24);
         return view('playlists.show', [

@@ -16,6 +16,7 @@ class FavoritesController extends Controller
         $user = Auth::user();
         $videos = $user->favoriteVideos()
             ->with('channel:id,uuid,title')
+            ->withCount('files')
             ->withPivot('created_at')
             ->orderBy('user_favorite_videos.created_at', 'desc')
             ->paginate(36);

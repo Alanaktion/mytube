@@ -36,7 +36,7 @@ class AdminController extends Controller
             'videoCount' => $this->fastCount('videos'),
             'channelCount' => $this->fastCount('channels'),
             'playlistCount' => $this->fastCount('playlists'),
-            'missingCount' => Video::whereNull('file_path')->count(),
+            'missingCount' => Video::doesntHave('files')->count(),
         ]);
     }
 

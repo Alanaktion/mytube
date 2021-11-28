@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Video;
+use App\Models\VideoFile;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -36,6 +37,7 @@ class GenerateThumbnails extends Command
                     ->whereNull('thumbnail_url')
                     ->orWhereNull('poster_url');
             })
+            ->with('files:id,video_id,path')
             ->whereHas('files');
         if ($this->argument('uuid')) {
             $query->whereIn('uuid', $this->argument('uuid'));
@@ -50,7 +52,7 @@ class GenerateThumbnails extends Command
         foreach ($videos as $video) {
             $bar->advance();
             try {
-                if ($this->generateImages($video)) {
+                if ($this->generateImages($video, $video->files->first())) {
                     if (!$video->thumbnail_url) {
                         $video->thumbnail_url = Storage::url("public/thumbs/generated/{$video->uuid}@360p.jpg");
                     }
@@ -79,19 +81,18 @@ class GenerateThumbnails extends Command
     /**
      * Generate images from a video's local file using ffmpeg
      */
-    protected function generateImages(Video $video): bool
+    protected function generateImages(Video $video, VideoFile $file): bool
     {
-        // TODO: update to use VideoFile relation
-        if (!$video->file_path || !is_file($video->file_path)) {
-            return false;
-        }
-
         if (is_file(storage_path("app/public/thumbs/generated/{$video->uuid}@360p.jpg"))) {
             return true;
         }
 
+        if (!is_file($file->path)) {
+            return false;
+        }
+
         // Determine video duration
-        $path = escapeshellarg($video->file_path);
+        $path = escapeshellarg($file->path);
         $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path 2>/dev/null");
         if ($duration) {
             $duration = trim($duration);

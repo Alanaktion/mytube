@@ -145,13 +145,18 @@ class ImageController extends Controller
      */
     protected function generateImage(Video $video, int $w, int $h, string $suffix = ''): bool
     {
-        // TODO: update to use VideoFile relation
-        if (!$video->file_path || !is_file($video->file_path)) {
+        $video->load('files:id,video_id,path');
+        if ($video->files->isEmpty()) {
+            return false;
+        }
+        /** @var \App\Models\VideoFile $file */
+        $file = $video->files->first();
+        if (!is_file($file->path)) {
             return false;
         }
 
         // Determine video duration
-        $path = escapeshellarg($video->file_path);
+        $path = escapeshellarg($file->path);
         $duration = trim(shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path"));
 
         // Seek to 30% of video duration, or 10 seconds if duration is unknown.

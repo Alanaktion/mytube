@@ -17,6 +17,7 @@ class VideoController extends Controller
         $sort = $request->input('sort', 'published_at');
         $source = $request->input('source');
         $videos = Video::with('channel')
+            ->withCount('files')
             ->latest($sort);
         if ($source !== null) {
             $videos->where('source_type', $source);
