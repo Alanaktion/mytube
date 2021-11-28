@@ -47,14 +47,15 @@ class AdminTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function testMissingIndex(): void
+    public function testMissingFiles(): void
     {
         $this->actingAs($this->admin);
         $response = $this->get('/admin/missing');
         $response->assertStatus(200);
 
         // Check that the latest missing video is included on the page
-        $video = Video::whereNull('file_path')->latest('id')->first();
+        /** @var Video $video */
+        $video = Video::doesntHave('files')->latest('id')->first();
         /** @var \Illuminate\Database\Eloquent\Collection $videoCollection */
         $videoCollection = $response->viewData('videos');
         $this->assertTrue($videoCollection->contains($video));
