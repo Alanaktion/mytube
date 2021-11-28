@@ -7,11 +7,9 @@ use App\Sources\Source;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use YoutubeDl\Options;
-use YoutubeDl\Process\DefaultProcessBuilder;
 use YoutubeDl\YoutubeDl;
 
 /**
@@ -32,8 +30,9 @@ use YoutubeDl\YoutubeDl;
  * @property-read string $source_link
  * @property-read string $embed_html
  * @property-read string $file_link
- * @property-read \Illuminate\Database\Eloquent\Collection|Channel $channel
+ * @property-read Channel $channel
  * @property-read \Illuminate\Database\Eloquent\Collection|Playlist[] $playlists
+ * @property-read \Illuminate\Database\Eloquent\Collection|VideoFile[] $files
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $favoritedBy
  */
 class Video extends Model

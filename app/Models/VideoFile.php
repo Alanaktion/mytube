@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @property int $id
+ * @property int $video_id
+ * @property string $path
+ * @property string $mime_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Video $video
+ */
 class VideoFile extends Model
 {
     use HasFactory;
@@ -21,6 +30,7 @@ class VideoFile extends Model
      * This currently creates a symlink to the source file in the public disk.
      *
      * @todo support remote file storage, e.g. storing video files on B2/S3.
+     * @todo remove need for accessing Video relation for UUID.
      */
     public function getUrlAttribute(): ?string
     {
@@ -34,7 +44,7 @@ class VideoFile extends Model
         }
 
         $ext = pathinfo($this->path, PATHINFO_EXTENSION);
-        $file = "{$this->uuid}.{$ext}";
+        $file = "{$this->video->uuid}.{$ext}";
 
         // Ensure video directory exists
         Storage::makeDirectory('public/videos');
