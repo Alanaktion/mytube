@@ -16,3 +16,4 @@ parameters:
         - '#Call to static method Illuminate\\Http\\Request::validate\(\) on a separate line has no effect.#'
         # LaraStan has a bug apparently so this is temporary
         - '#Relation .channel. is not found in App\\Models\\[a-zA-Z]+ model.#'
+    reportUnmatchedIgnoredErrors: false
