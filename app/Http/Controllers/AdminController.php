@@ -141,14 +141,25 @@ class AdminController extends Controller
         return redirect('/admin')->with('message', $message);
     }
 
-    public function missing()
+    public function missing(Request $request)
     {
+        $request->validate([
+            'sort' => ['sometimes', 'string', 'in:published_at,created_at'],
+            'source' => ['sometimes', 'string', 'nullable'],
+        ]);
+        $source = $request->input('source');
+        $sort = $request->input('sort', 'created_at');
         $videos = Video::with(['channel', 'playlists'])
             ->doesntHave('files')
-            ->latest('id');
+            ->latest($sort);
+        if ($source !== null) {
+            $videos->where('source_type', $source);
+        }
         return view('admin.missing', [
             'title' => __('Administration'),
-            'videos' => $videos->paginate(),
+            'videos' => $videos->paginate()->withQueryString(),
+            'sort' => $sort,
+            'source' => $source,
         ]);
     }
 

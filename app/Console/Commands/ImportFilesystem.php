@@ -16,7 +16,10 @@ class ImportFilesystem extends Command
     /**
      * @var string
      */
-    protected $signature = 'import:filesystem {--source=} {directory}';
+    protected $signature = 'import:filesystem
+        {--source= : Which source site to import metadata from}
+        {--r|retry : Retry previously failed imports}
+        {directory : The directory to scan for video files}';
 
     /**
      * @var string
@@ -56,6 +59,7 @@ class ImportFilesystem extends Command
         $files = $this->getDirectoryFiles($directory);
         $videos = [];
         foreach ($files as $file) {
+            $this->line($file, null, 'vv');
             $type = $this->option('source');
             $id = null;
             if ($type === null) {
@@ -69,6 +73,7 @@ class ImportFilesystem extends Command
                             'id' => $id,
                             'file' => $file,
                         ];
+                        $this->line("Matched $key ID $id", null, 'vvv');
                     }
                 }
             } else {
@@ -79,6 +84,7 @@ class ImportFilesystem extends Command
                         'id' => $id,
                         'file' => $file,
                     ];
+                    $this->line("Matched $type ID $id", null, 'vvv');
                 }
             }
             if ($id === null && $verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
@@ -93,11 +99,13 @@ class ImportFilesystem extends Command
 
         $this->withProgressBar($videos, function (array $video) use (&$errorCount): void {
             try {
-                $prevError = ImportError::where('uuid', $video['id'])
-                    ->where('type', $video['type'])
-                    ->exists();
-                if ($prevError) {
-                    return;
+                if (!$this->option('retry')) {
+                    $prevError = ImportError::where('uuid', $video['id'])
+                        ->where('type', $video['type'])
+                        ->exists();
+                    if ($prevError) {
+                        return;
+                    }
                 }
                 Video::import($video['type'], $video['id'], $video['file']);
             } catch (Exception $e) {
