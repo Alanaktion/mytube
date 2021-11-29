@@ -56,9 +56,7 @@ class FloatplaneVideo implements SourceVideo
 
     public function matchFilename(string $filename): ?string
     {
-        if (preg_match('/(?<!-)-([0-9A-Za-z_\-]{10})\.(mp4|m4v|avi|mkv|webm)$/i', $filename, $matches)) {
-            return $matches[1];
-        }
+        // Floatplane videos don't include IDs in the filename
         return null;
     }
 
