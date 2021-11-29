@@ -2,8 +2,14 @@
 
 @section('content')
 <div class="container">
-    <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2 lg:mb-3">
-        {{ __('Videos missing files') }}
+    {{-- <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2 lg:mb-3">
+    </div> --}}
+    <div class="flex flex-col sm:flex-row justify-between gap-2 sm:items-center mb-4">
+        <h2 class="text-2xl">{{ __('Videos missing files') }}</h2>
+        <div class="flex gap-2">
+            <x-sort-by :value="$sort" />
+            <x-filter-source :value="$source" />
+        </div>
     </div>
 
     <table class="min-w-full divide-y divide-gray-200 bg-gray-100 dark:divide-trueGray-800 dark:bg-trueGray-800 shadow dark:shadow-inner-white-top overflow-hidden sm:rounded-lg mb-4">
