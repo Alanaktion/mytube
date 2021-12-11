@@ -54,7 +54,7 @@ class AdminTest extends TestCase
         $response->assertStatus(200);
 
         // Check that the latest missing video is included on the page
-        $video = Video::whereNull('file_path')->latest('id')->first();
+        $video = Video::whereNull('file_path')->latest('created_at')->first();
         /** @var \Illuminate\Database\Eloquent\Collection $videoCollection */
         $videoCollection = $response->viewData('videos');
         $this->assertTrue($videoCollection->contains($video));
