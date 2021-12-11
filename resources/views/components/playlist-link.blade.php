@@ -10,7 +10,7 @@
             {{-- No videos in the playlist! --}}
             <div class="absolute inset-0 object-cover rounded-sm bg-gray-700 dark:bg-trueGray-700"></div>
         @endif
-        <div class="absolute w-full bottom-0 px-3 py-2 bg-black bg-opacity-60 text-white backdrop-filter backdrop-blur-xl shadow-inner-white-top rounded-b-sm">
+        <div class="absolute w-full bottom-0 px-3 py-2 bg-black bg-opacity-60 text-white backdrop-blur-xl shadow-inner-white-top rounded-b-sm">
             {{ trans_choice('1 video|:count videos', $playlist->items_count) }}
         </div>
     </div>

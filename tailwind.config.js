@@ -1,22 +1,20 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-    mode: 'jit',
     darkMode: 'class',
-    purge: [
+    content: [
         './resources/**/*.blade.php',
         './resources/**/*.vue',
     ],
     theme: {
         colors: {
-            transparent: defaultTheme.colors.transparent,
-            current: defaultTheme.colors.current,
+            transparent: colors.transparent,
+            current: colors.current,
             black: colors.black,
             white: colors.white,
-            gray: colors.coolGray,
+            gray: colors.gray,
             trueGray: {
-                ... colors.trueGray,
+                ... colors.neutral,
                 850: '#1d1d1d',
             },
             red: colors.red,
@@ -38,11 +36,6 @@ module.exports = {
         container: {
             padding: '1rem',
             center: true,
-        },
-    },
-    variants: {
-        extend: {
-            backgroundOpacity: ['dark'],
         },
     },
     plugins: [

@@ -102,16 +102,14 @@
 }
 
 @layer utilities {
-    @variants responsive {
-        [data-tooltip].tooltip-left::before {
-            transform: translateX(calc(-100% + 1.5rem));
-        }
-        [data-tooltip].tooltip-right::before {
-            transform: translateX(-1.5rem);
-        }
-        [data-tooltip].tooltip-center::before {
-            transform: translateX(-50%);
-        }
+    [data-tooltip].tooltip-left::before {
+        transform: translateX(calc(-100% + 1.5rem));
+    }
+    [data-tooltip].tooltip-right::before {
+        transform: translateX(-1.5rem);
+    }
+    [data-tooltip].tooltip-center::before {
+        transform: translateX(-50%);
     }
 }
 
