@@ -82,6 +82,12 @@ class Video extends Model
             $video->file_path = $filePath;
             $video->save();
         }
+
+        // Remove any previous import errors
+        ImportError::where('uuid', $id)
+            ->where('type', $type)
+            ->delete();
+
         return $video;
     }
 
