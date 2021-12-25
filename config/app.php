@@ -123,6 +123,7 @@ return [
         'en_GB' => 'English (UK)',
         'es' => 'Español',
         'ja' => '日本語',
+        'ru' => 'Русский',
     ],
 
     /*

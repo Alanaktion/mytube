@@ -1,7 +1,7 @@
 @php
 $options = [
-    'published_at' => 'Published',
-    'created_at' => 'Imported',
+    'published_at' => __('Published date'),
+    'created_at' => __('Imported date'),
 ];
 @endphp
 <sort-by

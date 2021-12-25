@@ -118,7 +118,7 @@ class AdminController extends Controller
         $data = $request->validate([
             'channelId' => 'required|string',
         ]);
-        $id = $request->input('channelId');
+        $id = $data['channelId'];
         $sources = app()->tagged('sources');
         foreach ($sources as $source) {
             /** @var \App\Sources\Source $source */
