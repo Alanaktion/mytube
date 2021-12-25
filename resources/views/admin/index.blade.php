@@ -146,7 +146,7 @@
                 <p>View any current background activity</p>
                 <x-slot name="footer">
                     <x-button href="/admin/queue" primary>
-                        {{ __'(View all') }}
+                        {{ __('View all') }}
                     </x-button>
                 </x-slot>
             </x-card>
