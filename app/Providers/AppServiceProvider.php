@@ -37,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
             TwitterSource::class,
             YouTubeSource::class,
         ], 'sources');
+
+        $this->initPlugins();
     }
 
     /**
@@ -51,5 +53,16 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('description', function ($expression) {
             return "<?php echo format_description($expression); ?>";
         });
+    }
+
+    /**
+     * Initialize any installed plugins
+     */
+    private function initPlugins(): void
+    {
+        $items = glob(dirname(dirname(__DIR__)) . '/plugins/*', GLOB_ONLYDIR);
+        foreach ($items as $item) {
+            include "$item/init.php";
+        }
     }
 }
