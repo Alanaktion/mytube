@@ -54,7 +54,7 @@
         <div class="flex-shrink-0 sm:w-72 md:w-80">
             @if ($playlist)
                 <div class="text-xl mb-3 truncate">
-                    {{ $playlist->title }}
+                    <a href="{{ route('playlist', $playlist) }}">{{ $playlist->title }}</a>
                 </div>
                 <div class="shadow overflow-hidden sm:rounded-md">
                     <ul class="bg-white dark:bg-trueGray-800 h-96 overflow-y-scroll">
