@@ -34,7 +34,9 @@ class FloatplaneClient
     public static function getVideoData(string $id): array
     {
         $result = self::request("/api/v3/content/post?id=$id");
-        $images = collect($result['thumbnail']['childImages'])->sortBy('width');
+        /** @var array<int, string[]> */
+        $childImages = $result['thumbnail']['childImages'];
+        $images = collect($childImages)->sortBy('width');
         $thumb = $images->count() !== 0 ? $images->first()['path'] : $result['thumbnail']['path'];
         return [
             'id' => $result['id'],
@@ -55,7 +57,9 @@ class FloatplaneClient
     {
         $result = self::request("/api/v2/creator/named?creatorURL[0]=$creatorUrl");
         $channel = $result[0];
-        $images = collect($channel['icon']['childImages'])->sortBy('width');
+        /** @var array<int, string[]> */
+        $childImages = $channel['icon']['childImages'];
+        $images = collect($childImages)->sortBy('width');
         return [
             'id' => $channel['id'],
             'title' => $channel['title'],

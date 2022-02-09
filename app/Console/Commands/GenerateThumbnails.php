@@ -41,7 +41,7 @@ class GenerateThumbnails extends Command
             $query->whereIn('uuid', $this->argument('uuid'));
         }
 
-        /** @var \Illuminate\Support\LazyCollection<Video> */
+        /** @var \Illuminate\Support\LazyCollection<int, Video> */
         $videos = $query->cursor();
 
         $bar = $this->output->createProgressBar($videos->count());

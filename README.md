@@ -179,7 +179,7 @@ This example gets recent videos with some basic metadata, including the channel.
       uuid
       title
       published_at
-      video {
+      channel {
         id
         uuid
         title
