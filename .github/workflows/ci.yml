@@ -14,12 +14,16 @@ jobs:
 
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
+    name: Test on PHP ${{ matrix.php }}
 
     steps:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
     - uses: actions/checkout@v2
+    - name: Relax version constraints (experimental)
+      run: rm composer.lock
+      if: ${{ matrix.experimental }}
     - name: Install dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Static analysis
