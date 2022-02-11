@@ -22,13 +22,11 @@
         @apply inline-flex items-center px-4 py-2 rounded-md font-medium border text-center text-sm;
         @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-trueGray-900;
     }
-    @responsive {
-        .btn-lg {
-            @apply px-6 py-3 text-base;
-        }
-        .btn-sm {
-            @apply px-2 py-1;
-        }
+    .btn-lg {
+        @apply px-6 py-3 text-base;
+    }
+    .btn-sm {
+        @apply px-2 py-1;
     }
 
     .btn:disabled,
