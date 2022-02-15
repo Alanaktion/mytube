@@ -5,13 +5,13 @@ namespace App\Models;
 use App\Exceptions\InvalidSourceException;
 use App\Sources\Source;
 use Exception;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use YoutubeDl\Options;
-use YoutubeDl\Process\DefaultProcessBuilder;
 use YoutubeDl\YoutubeDl;
 
 /**
@@ -109,24 +109,32 @@ class Video extends Model
         ];
     }
 
-    public function getSourceLinkAttribute(): ?string
+    public function sourceLink(): Attribute
     {
-        try {
-            $source = source($this->source_type);
-            return $source->video()->getSourceUrl($this);
-        } catch (InvalidSourceException) {
-            return null;
-        }
+        return new Attribute(
+            get: function (): ?string {
+                try {
+                    $source = $this->source();
+                    return $source->video()->getSourceUrl($this);
+                } catch (InvalidSourceException) {
+                    return null;
+                }
+            },
+        );
     }
 
-    public function getEmbedHtmlAttribute(): ?string
+    public function embedHtml(): Attribute
     {
-        try {
-            $source = source($this->source_type);
-            return $source->video()->getEmbedHtml($this);
-        } catch (InvalidSourceException) {
-            return null;
-        }
+        return new Attribute(
+            get: function (): ?string {
+                try {
+                    $source = $this->source();
+                    return $source->video()->getEmbedHtml($this);
+                } catch (InvalidSourceException) {
+                    return null;
+                }
+            },
+        );
     }
 
     public function channel()
@@ -139,32 +147,36 @@ class Video extends Model
         return $this->belongsToMany(Playlist::class, 'playlist_items');
     }
 
-    /**
-     * Get a web-accessible path/URL to the source file.
-     *
-     * This currently creates a symlink to the source file in the public disk.
-     *
-     * @todo support remote file storage, e.g. storing video files on B2/S3.
-     */
-    public function getFileLinkAttribute(): ?string
+    public function fileLink(): Attribute
     {
-        if (!$this->file_path) {
-            return null;
-        }
+        return new Attribute(
+            /**
+             * Get a web-accessible path/URL to the source file.
+             *
+             * This currently creates a symlink to the source file in the public disk.
+             *
+             * @todo support remote file storage, e.g. storing video files on B2/S3.
+             */
+            get: function (): ?string {
+                if (!$this->file_path) {
+                    return null;
+                }
 
-        $ext = pathinfo($this->file_path, PATHINFO_EXTENSION);
-        $file = "{$this->uuid}.{$ext}";
+                $ext = pathinfo($this->file_path, PATHINFO_EXTENSION);
+                $file = "{$this->uuid}.{$ext}";
 
-        // Ensure video directory exists
-        Storage::makeDirectory('public/videos');
+                // Ensure video directory exists
+                Storage::makeDirectory('public/videos');
 
-        // Create symlink if it doesn't exist
-        $linkPath = storage_path('app/public/videos') . DIRECTORY_SEPARATOR . $file;
-        if (!is_link($linkPath) && is_file($this->file_path)) {
-            symlink($this->file_path, $linkPath);
-        }
+                // Create symlink if it doesn't exist
+                $linkPath = storage_path('app/public/videos') . DIRECTORY_SEPARATOR . $file;
+                if (!is_link($linkPath) && is_file($this->file_path)) {
+                    symlink($this->file_path, $linkPath);
+                }
 
-        return "/storage/videos/$file";
+                return "/storage/videos/$file";
+            }
+        );
     }
 
     /**

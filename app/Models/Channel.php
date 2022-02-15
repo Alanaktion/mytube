@@ -7,6 +7,7 @@ use App\Sources\Source;
 use Exception;
 use App\Sources\YouTube\YouTubeClient;
 use App\Sources\YouTube\YouTubeDlClient;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -153,14 +154,18 @@ class Channel extends Model
         }
     }
 
-    public function getSourceLinkAttribute(): ?string
+    public function sourceLink(): Attribute
     {
-        try {
-            $source = source($this->type);
-            return $source->channel()->getSourceUrl($this);
-        } catch (InvalidSourceException) {
-            return null;
-        }
+        return new Attribute(
+            get: function (): ?string {
+                try {
+                    $source = source($this->type);
+                    return $source->channel()->getSourceUrl($this);
+                } catch (InvalidSourceException) {
+                    return null;
+                }
+            },
+        );
     }
 
     public function videos()

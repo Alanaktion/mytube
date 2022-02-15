@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Exceptions\InvalidSourceException;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -81,12 +83,18 @@ class Playlist extends Model
         ];
     }
 
-    public function getSourceLinkAttribute(): ?string
+    public function sourceLink(): Attribute
     {
-        if ($this->channel->type == 'youtube') {
-            return 'https://www.youtube.com/playlist?list=' . $this->uuid;
-        }
-        return null;
+        return new Attribute(
+            get: function (): ?string {
+                try {
+                    $source = $this->channel->source();
+                    return $source->playlist()->getSourceUrl($this);
+                } catch (InvalidSourceException) {
+                    return null;
+                }
+            }
+        );
     }
 
     public function channel()
