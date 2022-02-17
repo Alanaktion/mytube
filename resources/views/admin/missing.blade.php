@@ -2,10 +2,8 @@
 
 @section('content')
 <div class="container">
-    {{-- <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2 lg:mb-3">
-    </div> --}}
-    <div class="flex flex-col sm:flex-row justify-between gap-2 sm:items-center mb-4">
-        <h2 class="text-2xl">{{ __('Videos missing files') }}</h2>
+    <div class="flex flex-col sm:flex-row justify-between gap-2 sm:items-center mb-6">
+        <h1 class="text-2xl font-medium text-gray-600 dark:text-trueGray-400">{{ __('Videos missing files') }}</h1>
         <div class="flex gap-2">
             <x-sort-by :value="$sort" />
             <x-filter-source :value="$source" />
@@ -41,14 +39,14 @@
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <a href="/videos/{{ $video->uuid }}" class="leading-5 font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
+                                <a href="/videos/{{ $video->uuid }}" class="leading-5 font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
                                     {{ $video->title }}
                                 </a>
                             </div>
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        <a href="/channels/{{ $video->channel->uuid }}" class="leading-5 text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
+                        <a href="/channels/{{ $video->channel->uuid }}" class="leading-5 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
                             {{ $video->channel->title }}<br>
                             <span class="text-gray-600 dark:text-gray-400">{{ $video->source()->getDisplayName() }}</span>
                         </a>
@@ -56,7 +54,7 @@
                     <td class="px-6 py-4">
                         <div class="flex flex-col gap-1">
                             @forelse($video->playlists as $playlist)
-                                <a href="/playlists/{{ $playlist->uuid }}" class="block text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
+                                <a href="/playlists/{{ $playlist->uuid }}" class="block text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
                                     {{ $playlist->title }}
                                 </a>
                             @empty
@@ -70,7 +68,7 @@
                     <td class="px-6 py-4 text-right leading-5 font-medium">
                         @if ($video->source_link)
                             <a href="{{ $video->source_link }}"
-                                class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+                                class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                                 aria-label="{{ __('View on :source', ['source' => $video->source()->getDisplayName()]) }}"
                                 data-tooltip>
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

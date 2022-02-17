@@ -12,34 +12,34 @@
     @elseif (config('app.embed'))
         {!! $video->embed_html !!}
     @endif
-    <header class="sm:flex items-center mb-3 md:mb-4 lg:mb-6">
-        <div class="mb-3 sm:mb-0">
-            <div class="mb-2">
-                <h2 class="text-2xl lg:text-3xl -mb-1">
+    <header class="sm:flex items-start mb-3 md:mb-4 lg:mb-6">
+        <div class="mb-4 sm:mb-0">
+            <div class="mb-4">
+                <h1 class="text-2xl font-medium text-gray-600 dark:text-trueGray-400">
                     {{ $video->title }}
-                </h2>
+                </h1>
                 <div class="text-sm text-gray-400" title="{{ $video->published_at }}">
                     {{ $video->published_at->translatedFormat('F j, Y @ g:ia') }}
                 </div>
             </div>
             <p class="text-lg">
-                <a class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300" href="/channels/{{ $video->channel->uuid }}">
+                <a class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" href="/channels/{{ $video->channel->uuid }}">
                     {{ $video->channel->title }}
                 </a>
             </p>
         </div>
         <div class="sm:ml-auto flex items-center gap-2">
+            @if ($video->source_link)
+                <a href="{{ $video->source_link }}"
+                    class="btn btn-secondary p-2 rounded-full tooltip-right sm:tooltip-left"
+                    aria-label="{{ __('Watch on :source', ['source' => $video->source()->getDisplayName()]) }}"
+                    data-tooltip>
+                    <x-source-icon :type="$video->source_type" class="h-5 w-5" />
+                </a>
+            @endif
             @auth
                 <x-favorite-toggle :model="$video" />
             @endauth
-            @if ($video->source_link)
-                <a href="{{ $video->source_link }}"
-                    class="p-2 rounded-full text-sm text-red-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-red-500 hover:bg-gray-300 dark:hover:bg-trueGray-700 tooltip-right sm:tooltip-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-red-600"
-                    aria-label="{{ __('Watch on :source', ['source' => $video->source()->getDisplayName()]) }}"
-                    data-tooltip>
-                    <x-source-icon :type="$video->source_type" class="h-6 w-6" />
-                </a>
-            @endif
             @if ($video->file_path)
                 <x-button href="{{ $video->file_link }}" rounded download>
                     {{ __('Download') }}
@@ -53,7 +53,7 @@
         </div>
         <div class="flex-shrink-0 sm:w-72 md:w-80">
             @if ($playlist)
-                <div class="text-xl mb-3 truncate">
+                <div class="text-lg mb-3 truncate text-gray-600 dark:text-trueGray-400">
                     <a href="{{ route('playlist', $playlist) }}">{{ $playlist->title }}</a>
                 </div>
                 <div class="shadow overflow-hidden sm:rounded-md">

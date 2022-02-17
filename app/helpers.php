@@ -23,7 +23,7 @@ if (!function_exists('format_description')) {
      */
     function format_description(string $description): string
     {
-        $class = 'text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300';
+        $class = 'text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300';
         $str = htmlspecialchars($description);
         $str = preg_replace(
             '/(https?:\/\/[^\s]+)/',

@@ -14,7 +14,7 @@ class NavLink extends Component
      *
      * @return void
      */
-    public function __construct(public string $href, public string $text)
+    public function __construct(public string $href)
     {
         $this->active = Route::current()->uri === ltrim($href, '/');
     }

@@ -5,7 +5,7 @@
     <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
         Overview
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-5 lg:mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 pb-5 lg:mb-6">
         <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6 pb-5 lg:mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 lg:gap-x-6 gap-y-6 pb-5 lg:mb-6">
         <form class="shadow overflow-hidden sm:rounded-md" action="/admin/playlists" method="post">
             @csrf
             <x-card>

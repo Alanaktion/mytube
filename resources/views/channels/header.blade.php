@@ -4,10 +4,10 @@
         <h1 class="text-2xl lg:text-3xl ml-3 mr-auto sm:mr-3">{{ $channel->title }}</h1>
         @if ($channel->source_link)
             <a href="{{ $channel->source_link }}"
-                class="p-2 rounded-full text-sm text-red-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-red-500 hover:bg-gray-300 dark:hover:bg-trueGray-700 tooltip-left sm:tooltip-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-red-600"
+                class="btn btn-secondary p-2 rounded-full tooltip-left sm:tooltip-center"
                 aria-label="{{ __('View on :source', ['source' => $channel->source()->getDisplayName()]) }}"
                 data-tooltip>
-                <x-source-icon :type="$channel->type" class="h-6 w-6" />
+                <x-source-icon :type="$channel->type" class="h-5 w-5" />
             </a>
         @endif
         @auth
@@ -18,7 +18,7 @@
         <input type="search" class="dark:bg-trueGray-850 focus:outline-none focus:ring-blue-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-trueGray-400 dark:text-trueGray-100 border-gray-400 dark:border-trueGray-700 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="{{ __('Search channel') }}">
     </form>
 </header>
-<nav class="flex border-b border-gray-300 dark:border-trueGray-700 mb-3 md:mb-4 lg:mb-6">
+<nav class="flex">
     <a
         class="px-3 py-2
             {{ ($tab == 'videos')

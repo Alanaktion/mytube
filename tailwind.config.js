@@ -12,14 +12,15 @@ module.exports = {
             current: colors.current,
             black: colors.black,
             white: colors.white,
-            gray: colors.gray,
+            gray: colors.slate,
             trueGray: {
                 ... colors.neutral,
                 850: '#1d1d1d',
             },
             red: colors.red,
+            pink: colors.pink,
             green: colors.emerald,
-            blue: colors.blue,
+            blue: colors.sky,
         },
         extend: {
             spacing: {
@@ -31,12 +32,12 @@ module.exports = {
             },
             ringWidth: {
                 6: '6px',
+                12: '12px',
             },
         },
-        container: {
-            padding: '1rem',
-            center: true,
-        },
+    },
+    corePlugins: {
+        container: false,
     },
     plugins: [
         require('@tailwindcss/forms'),

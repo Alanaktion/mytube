@@ -4,7 +4,7 @@
 <div class="container">
     @include('channels.header', ['tab' => 'playlists'])
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mb-5 lg:mb-8 xl:mb-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-4 lg:gap-6 mb-5 lg:mb-8 xl:mb-12">
         @forelse ($playlists as $playlist)
             <x-playlist-link :playlist="$playlist" />
         @empty

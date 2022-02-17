@@ -1,12 +1,15 @@
 <template>
     <Switch
         v-model="isFavorite"
-        class="p-2 rounded-full text-sm font-medium text-red-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-red-500 hover:bg-gray-300 dark:hover:bg-trueGray-700 tooltip-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-red-600"
+        class="btn btn-secondary p-2 rounded-full tooltip-center"
+        :class="{
+            'text-pink-600 dark:text-pink-500': isFavorite,
+        }"
         data-tooltip
-        :aria-label="isFavorite ? removeLabel : addLabel"
+        :aria-label="isFavorite ? $t('Remove from Favorites') : $t('Add to Favorites')"
     >
-        <HeartIconSolid class="w-6 h-6" v-if="isFavorite" aria-hidden="true" />
-        <HeartIcon class="w-6 h-6" v-else aria-hidden="true" />
+        <HeartIconSolid class="w-5 h-5" v-if="isFavorite" aria-hidden="true" />
+        <HeartIcon class="w-5 h-5" v-else aria-hidden="true" />
     </Switch>
 </template>
 
@@ -36,22 +39,14 @@ export default {
             type: Boolean,
             default: false,
         },
-        addLabel: {
-            type: String,
-            default: 'Add to Favorites',
-        },
-        removeLabel: {
-            type: String,
-            default: 'Remove from Favorites',
-        },
     },
     setup(props) {
-        const { uuid, addLabel, removeLabel, type } = props;
+        const { uuid, type } = props;
         const isFavorite = ref(props.isFavorite);
 
         watch(isFavorite, val => setFavorite(uuid, val, type));
 
-        return { isFavorite, addLabel, removeLabel };
+        return { isFavorite };
     },
 };
 </script>

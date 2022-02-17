@@ -1,9 +1,9 @@
 <template>
-    <Listbox v-model="value">
+    <Listbox v-model="value" v-slot="{ open }">
         <div class="relative">
-            <ListboxButton class="btn btn-secondary">
+            <ListboxButton class="btn btn-secondary" :class="{ 'btn-secondary-active': open }">
                 <FilterIcon class="w-4 h-4 mr-1" aria-hidden="true" />
-                {{ label }}
+                {{ $t('Source') }}
                 <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
             </ListboxButton>
             <transition
@@ -15,7 +15,7 @@
                 leave-to-class="transform scale-95 opacity-0"
             >
                 <ListboxOptions
-                    class="origin-top-left sm:origin-top-right absolute left-0 sm:left-auto sm:right-0 w-40 py-1 mt-1 z-30 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
+                    class="origin-top-right sm:origin-top-right absolute left-0 sm:left-auto sm:right-0 w-44 p-2 mt-1 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
                 >
                     <!-- TODO: reduce duplication of code between "all" and list of sources -->
                     <ListboxOption
@@ -24,7 +24,7 @@
                         as="template"
                     >
                         <li
-                            class="flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer"
+                            class="flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer rounded-md"
                             :class="{
                                 'text-gray-700 dark:text-trueGray-300': !selected,
                                 'bg-gray-100 dark:bg-trueGray-700': !selected && active,
@@ -33,7 +33,7 @@
                                 'bg-gradient-to-b from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600': selected && active,
                             }"
                         >
-                            {{ allSourcesLabel }}
+                            {{ $t('All Sources') }}
                             <CheckCircleIcon
                                 v-if="selected"
                                 class="w-4 h-4 ml-auto"
@@ -44,7 +44,7 @@
 
                     <li
                         role="separator"
-                        class="border-t border-gray-200 dark:border-trueGray-850 my-1"
+                        class="border-t border-gray-200 dark:border-trueGray-850 my-1 md:my-2"
                     />
 
                     <ListboxOption
@@ -55,7 +55,7 @@
                         as="template"
                     >
                         <li
-                            class="flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer"
+                            class="flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer rounded-md"
                             :class="{
                                 'text-gray-700 dark:text-trueGray-300': !selected,
                                 'bg-gray-100 dark:bg-trueGray-700': !selected && active,
@@ -106,22 +106,14 @@ export default {
             required: true,
         },
         value: String,
-        label: {
-            type: String,
-            default: 'Source',
-        },
-        allSourcesLabel: {
-            type: String,
-            default: 'All Sources',
-        },
     },
     setup(props) {
-        const { sources, label, allSourcesLabel } = props;
+        const { sources } = props;
         const value = ref(props.value || null);
 
         watch(value, setSource);
 
-        return { value, sources, label, allSourcesLabel };
+        return { value, sources };
     },
 };
 </script>

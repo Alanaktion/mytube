@@ -29,8 +29,8 @@ class ChannelFactory extends Factory
             'custom_url' => $this->faker->userName,
             'country' => $this->faker->countryCode,
             'type' => 'youtube',
-            'image_url' => $this->faker->imageUrl(160, 160),
-            'image_url_lg' => $this->faker->imageUrl(512, 512),
+            'image_url' => fn (array $attributes) => "https://picsum.photos/seed/{$attributes['uuid']}/160",
+            'image_url_lg' => fn (array $attributes) => "https://picsum.photos/seed/{$attributes['uuid']}/512",
             'published_at' => now(),
         ];
     }

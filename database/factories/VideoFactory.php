@@ -31,8 +31,8 @@ class VideoFactory extends Factory
             },
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'thumbnail_url' => $this->faker->imageUrl(),
-            'poster_url' => $this->faker->imageUrl(1280, 720),
+            'thumbnail_url' => fn (array $attributes) => "https://picsum.photos/seed/{$attributes['uuid']}/640/480",
+            'poster_url' => fn (array $attributes) => "https://picsum.photos/seed/{$attributes['uuid']}/1280/720",
             'published_at' => now(),
         ];
     }

@@ -1,6 +1,7 @@
 import './keybindings.js'
 
 import { createApp } from 'vue'
+import { i18nVue } from 'laravel-vue-i18n'
 import NavMenu from './components/NavMenu.vue'
 import FavoriteToggle from './components/FavoriteToggle.vue'
 import LangMenu from './components/LangMenu.vue'
@@ -19,4 +20,6 @@ createApp({
         SourceFilter,
         UserMenu,
     },
+}).use(i18nVue, {
+    resolve: lang => import(`../../lang/${lang}.json`),
 }).mount('#app')

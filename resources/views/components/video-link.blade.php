@@ -1,9 +1,9 @@
-<div class="relative rounded-sm hover:bg-gray-100 hover:ring-6 ring-gray-100 dark:hover:bg-trueGray-850 dark:ring-trueGray-850">
-    <div class="relative pb-9/16 mb-2">
-        <img class="absolute w-full h-full object-cover rounded-sm" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
+<div class="relative">
+    <div class="relative pb-9/16 mb-2 lg:mb-4">
+        <img class="absolute w-full h-full object-cover rounded lg:shadow-lg" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
     </div>
     @if (!$video->file_path)
-        <div class="absolute top-1 left-1 text-white bg-black bg-opacity-60 backdrop-blur-md rounded-full p-1 z-20" aria-label="No video file available" title="No video file available">
+        <div class="absolute top-1 left-1 lg:top-2 lg:left-2 text-white bg-black bg-opacity-60 backdrop-blur-md rounded-full p-1 z-20" aria-label="No video file available" title="No video file available">
             {{-- solid:x --}}
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -11,7 +11,7 @@
         </div>
     @endif
     @if ($video->source_visibility != 'public')
-        <div class="absolute top-1 right-1 text-white bg-black bg-opacity-60 backdrop-blur-md rounded-full p-1 z-20" aria-label="Visibility: {{ ucfirst($video->source_visibility) }}" title="{{ ucfirst($video->source_visibility) }}">
+        <div class="absolute top-1 right-1 lg:top-2 lg:right-2 text-white bg-black bg-opacity-60 backdrop-blur-md rounded-full p-1 z-20" aria-label="Visibility: {{ ucfirst($video->source_visibility) }}" title="{{ ucfirst($video->source_visibility) }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 @if ($video->source_visibility == 'unlisted')
                     {{-- solid:eye-off --}}
@@ -32,7 +32,7 @@
             </a>
         @endif
         <div>
-            <a href="/videos/{{ $video->uuid }}{{ $playlist ? '?playlist=' . $playlist->uuid : '' }}" class="block line-clamp-2 leading-snug mb-1 text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300" title="{{ $video->title }}">
+            <a href="/videos/{{ $video->uuid }}{{ $playlist ? '?playlist=' . $playlist->uuid : '' }}" class="block line-clamp-2 leading-snug mb-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" title="{{ $video->title }}">
                 {{ $video->title }}
                 <div class="absolute inset-0"></div>
             </a>
