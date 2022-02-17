@@ -7,7 +7,7 @@
     <title>{{ !empty($title) ? $title . ' - ' : null }}{{ config('app.name') }}</title>
     <script src="{{ mix('js/app.js') }}" defer></script>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <meta name="theme-color" content="rgb(30, 41, 59)">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb(30, 41, 59)">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="rgb(38, 38, 38)">
     <link rel="shortcut icon" href="{{ url('/favicon.svg') }}" type="image/svg+xml">
     <link rel="search" type="application/opensearchdescription+xml" title="{{ config('app.name') }}" href="{{ url('/opensearch.xml') }}">
