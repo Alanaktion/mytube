@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+@include('channels.header', ['tab' => 'about'])
 <div class="container">
-    @include('channels.header', ['tab' => 'about'])
-
     <div class="max-w-4xl">
         <dl>
             <div class="bg-gray-100 dark:bg-trueGray-850 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
