@@ -6,14 +6,14 @@
         </div>
     </a>
     <div>
-        <a href="/channels/{{ $channel->uuid }}" class="block mb-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+        <a href="/channels/{{ $channel->uuid }}" class="block line-clamp-2 break-words mb-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
             {{ $channel->title }}
             <div class="absolute inset-0"></div>
         </a>
         <div class="text-sm mb-1">
             {{ $channel->published_at->translatedFormat('F j, Y') }}
         </div>
-        <div class="text-sm text-gray-700 dark:text-trueGray-400 line-clamp-2">
+        <div class="text-sm text-gray-700 dark:text-trueGray-400">
             {{ trans_choice('1 video|:count videos', $channel->videos_count) }}
         </div>
     </div>

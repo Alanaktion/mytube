@@ -36,7 +36,7 @@
                 <dt class="text-sm font-medium text-gray-500 dark:text-trueGray-400">
                     {{ __('Description') }}
                 </dt>
-                <pre class="mt-1 text-sm sm:mt-0 sm:col-span-2 whitespace-pre-wrap font-sans">@description($channel->description)</pre>
+                <pre class="mt-1 text-sm sm:mt-0 sm:col-span-2 whitespace-pre-wrap break-words font-sans">@description($channel->description)</pre>
             </div>
         </dl>
     </div>

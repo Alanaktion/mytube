@@ -1,5 +1,5 @@
 <div class="flex flex-col relative group">
-    <a href="/playlists/{{ $playlist->uuid }}" class="block line-clamp-2 leading-snug mb-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+    <a href="/playlists/{{ $playlist->uuid }}" class="block line-clamp-2 break-words leading-snug mb-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
         {{ $playlist->title }}
         <div class="absolute inset-0 z-10"></div>
     </a>
@@ -18,8 +18,8 @@
         {{ $playlist->published_at->translatedFormat('F j, Y') }}
     </div>
     @if ($playlist->description)
-        <div class="text-xs text-gray-500 dark:text-trueGray-500 overflow-hidden">
-            {{ Str::limit($playlist->description, 60) }}
+        <div class="text-xs line-clamp-3 break-words mt-1 text-gray-500 dark:text-trueGray-500">
+            {{ Str::limit($playlist->description, 120) }}
         </div>
     @endif
 </div>

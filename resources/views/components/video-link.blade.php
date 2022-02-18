@@ -32,7 +32,7 @@
             </a>
         @endif
         <div>
-            <a href="/videos/{{ $video->uuid }}{{ $playlist ? '?playlist=' . $playlist->uuid : '' }}" class="block line-clamp-2 leading-snug mb-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" title="{{ $video->title }}">
+            <a href="/videos/{{ $video->uuid }}{{ $playlist ? '?playlist=' . $playlist->uuid : '' }}" class="block line-clamp-2 break-words leading-snug mb-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" title="{{ $video->title }}">
                 {{ $video->title }}
                 <div class="absolute inset-0"></div>
             </a>
@@ -44,7 +44,7 @@
                     {{ $video->channel->title }}
                 </a>
             @else
-                <div class="text-xs line-clamp-3 mt-1 text-gray-500 dark:text-trueGray-500">
+                <div class="text-xs line-clamp-3 break-words mt-1 text-gray-500 dark:text-trueGray-500">
                     {{ Str::limit($video->description, 120) }}
                 </div>
             @endif

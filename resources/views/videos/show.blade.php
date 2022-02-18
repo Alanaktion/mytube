@@ -49,7 +49,7 @@
     </header>
     <div class="sm:flex justify-between gap-4">
         <div class="mb-4">
-            <pre class="text-gray-600 dark:text-trueGray-400 whitespace-pre-wrap font-sans">@description($video->description)</pre>
+            <pre class="text-gray-600 dark:text-trueGray-400 whitespace-pre-wrap break-words font-sans">@description($video->description)</pre>
         </div>
         <div class="flex-shrink-0 sm:w-72 md:w-80">
             @if ($playlist)
