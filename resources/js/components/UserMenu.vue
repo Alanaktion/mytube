@@ -2,12 +2,12 @@
     <Menu as="div" class="relative self-center mb-4 sm:mb-0" v-slot="{ open }">
         <div>
             <MenuButton
-                class="flex px-3 py-2 rounded-md text-sm font-medium focus:text-white focus:bg-gray-700 dark:focus:bg-trueGray-700 text-gray-300 dark:text-trueGray-300 hover:text-white hover:bg-gray-700 dark:hover:bg-trueGray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500 dark:focus:ring-offset-trueGray-800 dark:focus:ring-blue-600"
-                :class="{ 'bg-gray-700 dark:bg-trueGray-700' :open }"
+                class="flex px-3 py-2 w-full sm:w-auto rounded-md text-sm font-medium focus:text-white focus:bg-gray-700 dark:focus:bg-trueGray-700 text-gray-300 dark:text-trueGray-300 hover:text-white hover:bg-gray-700 dark:hover:bg-trueGray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500 dark:focus:ring-offset-trueGray-800 dark:focus:ring-blue-600"
+                :class="{ 'bg-gray-700 dark:bg-trueGray-700': open }"
             >
                 <UserCircleIcon class="hidden md:block lg:hidden w-5 h-5" aria-hidden="true" />
-                <span class="md:hidden lg:block">{{ name }}</span>
-                <ChevronDownIcon class="md:hidden lg:block w-5 h-5 ml-2 -mr-1" aria-hidden="true" />
+                <span class="md:sr-only lg:not-sr-only">{{ name }}</span>
+                <ChevronDownIcon class="md:hidden lg:block w-5 h-5 ml-auto sm:ml-2 -mr-1" aria-hidden="true" />
             </MenuButton>
         </div>
 
@@ -25,7 +25,7 @@
             leave-to-class="transform scale-95 opacity-0"
         >
             <MenuItems
-                class="origin-top-right absolute left-0 sm:left-auto sm:right-0 w-40 p-2 mt-2 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
+                class="origin-top-right absolute -left-2 sm:left-auto sm:-right-2 w-40 p-2 mt-2 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
             >
                 <MenuItem v-slot="{ active }">
                     <a

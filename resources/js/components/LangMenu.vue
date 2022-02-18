@@ -21,7 +21,7 @@
                 leave-to-class="transform scale-95 opacity-0"
             >
                 <ListboxOptions
-                    class="origin-bottom-right absolute right-0 bottom-7 w-40 p-2 mb-2 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
+                    class="origin-bottom-right absolute -right-2 bottom-7 w-40 p-2 mb-2 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
                 >
                     <ListboxOption
                         v-for="(name, code) in locales"

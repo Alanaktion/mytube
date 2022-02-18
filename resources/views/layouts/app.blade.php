@@ -44,10 +44,10 @@
                     <x-nav-link href="/channels">{{ __('Channels') }}</x-nav-link>
                     @auth
                         <x-nav-link href="/favorites">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 xl:hidden" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden sm:block lg:hidden" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
                             </svg>
-                            <span class="sr-only xl:not-sr-only">
+                            <span class="sm:sr-only lg:not-sr-only">
                                 {{ __('Favorites') }}
                             </span>
                         </x-nav-link>

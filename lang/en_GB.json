@@ -1,6 +1,11 @@
 {
-    "Favorites": "Favourites",
-    "My Favorites": "My Favourites",
     "Add to Favorites": "Add to Favourites",
-    "Remove from Favorites": "Remove from Favourites"
+    "Favorites": "Favourites",
+    "Imported date": "Imported",
+    "My Favorites": "My Favourites",
+    "Published date": "Published",
+    "Remove from Favorites": "Remove from Favourites",
+    "theme.auto": "Automatic",
+    "theme.dark": "Dark",
+    "theme.light": "Light"
 }

@@ -15,7 +15,7 @@
                 leave-to-class="transform scale-95 opacity-0"
             >
                 <ListboxOptions
-                    class="origin-top-right sm:origin-top-right absolute left-0 sm:left-auto sm:right-0 w-40 p-2 mt-1 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
+                    class="origin-top-right sm:origin-top-right absolute -left-2 sm:left-auto sm:-right-2 w-48 p-2 mt-1 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
                 >
                     <ListboxOption
                         v-for="(name, key) in options"

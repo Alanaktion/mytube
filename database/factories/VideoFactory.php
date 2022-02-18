@@ -29,6 +29,12 @@ class VideoFactory extends Factory
             'source_type' => function (array $attributes) {
                 return Channel::find($attributes['channel_id'])->type;
             },
+            'source_visibility' => fn () => [
+                Video::VISIBILITY_PUBLIC,
+                Video::VISIBILITY_PUBLIC,
+                Video::VISIBILITY_UNLISTED,
+                Video::VISIBILITY_PRIVATE,
+            ][random_int(0, 3)],
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'thumbnail_url' => fn (array $attributes) => "https://picsum.photos/seed/{$attributes['uuid']}/640/480",

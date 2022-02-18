@@ -19,11 +19,11 @@ class ServiceProvider extends TranslationServiceProvider
     {
         $this->app->singleton('translation.loader', function ($app): \App\Translation\FileLoader {
             $paths = [
-                base_path('vendor/laravel-lang/lang/src/'),
+                base_path('vendor/laravel-lang/lang/locales'),
             ];
 
             $loader = new FileLoader($app['files'], $app['path.lang'], $paths);
-            $loader->addJsonPath(base_path('vendor/laravel-lang/lang/json/'));
+            $loader->addJsonPath(base_path('vendor/laravel-lang/lang/locales'));
 
             return $loader;
         });

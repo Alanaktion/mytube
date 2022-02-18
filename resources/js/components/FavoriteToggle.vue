@@ -1,7 +1,7 @@
 <template>
     <Switch
         v-model="isFavorite"
-        class="btn btn-secondary p-2 rounded-full tooltip-center"
+        class="btn btn-secondary p-2 rounded-full tooltip-left"
         :class="{
             'text-pink-600 dark:text-pink-500': isFavorite,
         }"

@@ -126,6 +126,7 @@ return [
         'es' => 'Español',
         'ja' => '日本語',
         'ru' => 'Русский',
+        'tok' => 'toki pona',
     ],
 
     /*

@@ -5,6 +5,7 @@ namespace App\Translation;
 use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader as LaravelTranslationFileLoader;
+use RuntimeException;
 
 /**
  * Adapted from original in the overtrue/laravel-lang package
@@ -34,6 +35,10 @@ class FileLoader extends LaravelTranslationFileLoader
      */
     public function load($locale, $group, $namespace = null): array
     {
+        if ($group === '*' && $namespace === '*') {
+            return $this->loadJsonPaths($locale);
+        }
+
         $defaults = [];
 
         foreach ($this->paths as $path) {
@@ -60,5 +65,29 @@ class FileLoader extends LaravelTranslationFileLoader
         }
 
         return $result;
+    }
+
+    /**
+     * Load JSON files from locale-specific subdirectories.
+     *
+     * @param string $locale
+     */
+    protected function loadJsonPaths($locale): array
+    {
+        $output = parent::loadJsonPaths($locale);
+
+        foreach ($this->jsonPaths as $path) {
+            if ($this->files->exists($full = "$path/$locale/$locale.json")) {
+                $decoded = json_decode($this->files->get($full), true);
+
+                if ($decoded === null || json_last_error() !== JSON_ERROR_NONE) {
+                    throw new RuntimeException("Translation file [{$full}] contains an invalid JSON structure.");
+                }
+
+                $output = array_merge($output, $decoded);
+            }
+        }
+
+        return $output;
     }
 }
