@@ -3,7 +3,7 @@
         <header class="mb-3 xl:mb-5 sm:flex">
             <div class="flex items-center gap-2">
                 <img class="h-10 w-10 rounded-full" src="{{ $channel->image_url ?? '/images/channels/' . $channel->uuid }}" alt="{{ $channel->name }}">
-                <h1 class="text-2xl lg:text-3xl ml-3 mr-auto sm:mr-3">{{ $channel->title }}</h1>
+                <h1 class="text-2xl lg:text-3xl text-gray-600 dark:text-trueGray-400 ml-3 mr-auto sm:mr-3">{{ $channel->title }}</h1>
                 @if ($channel->source_link)
                     <a href="{{ $channel->source_link }}"
                         class="btn btn-secondary p-2 rounded-full tooltip-left sm:tooltip-center"

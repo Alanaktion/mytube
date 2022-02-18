@@ -15,7 +15,8 @@
 
 @layer components {
     .container {
-        @apply max-w-screen-2xl mx-auto px-4;
+        @apply mx-auto px-4 md:px-6;
+        max-width: calc(theme('screens.2xl') + theme('spacing.6'));
     }
     nav .container {
         padding-top: env(safe-area-inset-top);
