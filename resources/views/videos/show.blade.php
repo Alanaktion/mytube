@@ -19,7 +19,7 @@
                     {{ $video->title }}
                 </h1>
                 <div class="text-sm text-gray-400" title="{{ $video->published_at }}">
-                    {{ $video->published_at->translatedFormat('F j, Y @ g:ia') }}
+                    {{ $video->published_at->isoFormat('LLLL') }}
                 </div>
             </div>
             <p class="text-lg">

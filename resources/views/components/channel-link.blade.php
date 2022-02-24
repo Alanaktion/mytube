@@ -11,7 +11,7 @@
             <div class="absolute inset-0"></div>
         </a>
         <div class="text-sm mb-1">
-            {{ $channel->published_at->translatedFormat('F j, Y') }}
+            {{ $channel->published_at->isoFormat('LL') }}
         </div>
         <div class="text-sm text-gray-700 dark:text-trueGray-400">
             {{ trans_choice('1 video|:count videos', $channel->videos_count) }}

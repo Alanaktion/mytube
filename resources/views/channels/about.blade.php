@@ -21,7 +21,7 @@
                     {{ __('Published date') }}
                 </dt>
                 <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                    {{ $channel->published_at ? $channel->published_at->translatedFormat('F j, Y') : __('Unknown') }}
+                    {{ $channel->published_at ? $channel->published_at->isoFormat('LL') : __('Unknown') }}
                 </dd>
             </div>
             <div class="bg-gray-100 dark:bg-trueGray-850 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -29,7 +29,7 @@
                     {{ __('Imported date') }}
                 </dt>
                 <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                    {{ $channel->created_at->translatedFormat('F j, Y') }}
+                    {{ $channel->created_at->isoFormat('LL') }}
                 </dd>
             </div>
             <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

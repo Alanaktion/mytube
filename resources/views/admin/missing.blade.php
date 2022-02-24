@@ -63,7 +63,7 @@
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-700 dark:text-trueGray-300">
-                        {{ $video->published_at->translatedFormat('F j, Y') }}
+                        {{ $video->published_at->isoFormat('LL') }}
                     </td>
                     <td class="px-6 py-4 text-right leading-5 font-medium">
                         @if ($video->source_link)

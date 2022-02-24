@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="text-sm text-gray-800 dark:text-trueGray-400">
-        {{ $playlist->published_at->translatedFormat('F j, Y') }}
+        {{ $playlist->published_at->isoFormat('LL') }}
     </div>
     @if ($playlist->description)
         <div class="text-xs line-clamp-3 break-words mt-1 text-gray-500 dark:text-trueGray-500">
