@@ -71,6 +71,7 @@ class FileLoader extends LaravelTranslationFileLoader
      * Load JSON files from locale-specific subdirectories.
      *
      * @param string $locale
+     * @return string[]
      */
     protected function loadJsonPaths($locale): array
     {
