@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Exceptions\InvalidSourceException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ use Laravel\Scout\Searchable;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string $source_link
- * @property-read Channel $channel
+ * @property-read ?Channel $channel
  * @property-read \Illuminate\Database\Eloquent\Collection|PlaylistItem[] $items
  * @property-read PlaylistItem $firstItem
  */
@@ -71,16 +72,32 @@ class Playlist extends Model
     public function toSearchableArray(): array
     {
         $this->loadMissing('channel');
-        return [
+        $data = [
             'id' => $this->id,
             'uuid' => $this->uuid,
             'title' => $this->title,
-            'channel_title' => $this->channel->title,
+            'channel_title' => $this->channel?->title,
             'description' => $this->description,
-            'source_type' => $this->channel->type,
+            'source_type' => $this->channel?->type,
             'channel_id' => $this->channel_id,
             'published_at' => $this->published_at,
         ];
+        if ($this->channel === null) {
+            unset($data['channel_title']);
+            unset($data['source_type']);
+        }
+        return $data;
+    }
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param Builder<Channel> $query
+     * @return Builder<Channel>
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with('channel');
     }
 
     public function sourceLink(): Attribute

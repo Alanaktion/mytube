@@ -72,7 +72,7 @@ class Channel extends Model
             'uuid' => $this->uuid,
             'title' => $this->title,
             'description' => $this->description,
-            'source_type' => $this->type,
+            'type' => $this->type,
             'published_at' => $this->published_at,
         ];
     }

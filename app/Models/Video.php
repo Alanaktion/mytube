@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Exceptions\InvalidSourceException;
 use App\Sources\Source;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,7 +33,7 @@ use YoutubeDl\YoutubeDl;
  * @property-read string $source_link
  * @property-read string $embed_html
  * @property-read string $file_link
- * @property-read \Illuminate\Database\Eloquent\Collection|Channel $channel
+ * @property-read ?Channel $channel
  * @property-read \Illuminate\Database\Eloquent\Collection|Playlist[] $playlists
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $favoritedBy
  */
@@ -97,16 +98,31 @@ class Video extends Model
     public function toSearchableArray(): array
     {
         $this->loadMissing('channel');
-        return [
+        $data = [
             'id' => $this->id,
             'uuid' => $this->uuid,
             'title' => $this->title,
-            'channel_title' => $this->channel->title,
+            'channel_title' => $this->channel?->title,
             'description' => $this->description,
             'source_type' => $this->source_type,
             'channel_id' => $this->channel_id,
             'published_at' => $this->published_at,
         ];
+        if ($this->channel === null) {
+            unset($data['channel_title']);
+        }
+        return $data;
+    }
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param Builder<Video> $query
+     * @return Builder<Video>
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with('channel');
     }
 
     public function sourceLink(): Attribute
