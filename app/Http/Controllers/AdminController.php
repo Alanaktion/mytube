@@ -86,6 +86,7 @@ class AdminController extends Controller
 
     public function videoImport(Request $request)
     {
+        // TODO: queue video imports when queue is not sync
         $data = $request->validate([
             'videoIds' => 'required|string',
         ]);

@@ -6,6 +6,7 @@ use App\Models\Channel;
 use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use MeiliSearch\Endpoints\Indexes;
 
 class HomeController extends Controller
 {
@@ -33,20 +34,29 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        // TODO: handle explicitly matching exact UUIDs, and prioritizing more recent objects
-        $videos = Video::search($request->input('q'))
+        // TODO: handle explicitly matching exact UUIDs
+        $callback = null;
+        if (config('scout.driver') === 'meilisearch') {
+            $callback = function (Indexes $index, ?string $query, array $searchParams) {
+                $searchParams['sort'] = [
+                    'published_at:desc',
+                ];
+                return $index->rawSearch($query, $searchParams);
+            };
+        }
+        $videos = Video::search($request->input('q'), $callback)
             ->query(function ($builder): void {
                 $builder->with('channel');
             })
             ->paginate(24);
-        $playlists = Playlist::search($request->input('q'))
+        $playlists = Playlist::search($request->input('q'), $callback)
             ->query(function ($builder): void {
                 $builder
                     ->with('firstItem', 'firstItem.video')
                     ->withCount('items');
             })
             ->paginate(18);
-        $channels = Channel::search($request->input('q'))
+        $channels = Channel::search($request->input('q'), $callback)
             ->query(function ($builder): void {
                 $builder->withCount('videos');
             })

@@ -47,6 +47,11 @@ class IndexSearch extends Command
             }
         }
 
+        foreach (self::MODELS as $class) {
+            $model = new $class();
+            $model->prepareIndex();
+        }
+
         foreach (self::MODELS as $model) {
             $this->call('scout:import', ['model' => $model]);
         }

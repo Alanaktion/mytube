@@ -77,6 +77,21 @@ class Channel extends Model
         ];
     }
 
+    public function prepareIndex(): void
+    {
+        if (config('scout.driver') === 'meilisearch') {
+            $index = $this->searchableUsing()->index($this->searchableAs());
+            $index->updateFilterableAttributes(['type']);
+            $index->updateSortableAttributes(['published_at']);
+        }
+    }
+
+    public function searchable()
+    {
+        parent::searchable();
+        $this->prepareIndex();
+    }
+
     /**
      * Import any missing videos for this channel
      *

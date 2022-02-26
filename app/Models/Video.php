@@ -125,6 +125,21 @@ class Video extends Model
         return $query->with('channel');
     }
 
+    public function prepareIndex(): void
+    {
+        if (config('scout.driver') === 'meilisearch') {
+            $index = $this->searchableUsing()->index($this->searchableAs());
+            $index->updateFilterableAttributes(['channel_id', 'source_type']);
+            $index->updateSortableAttributes(['published_at']);
+        }
+    }
+
+    public function searchable()
+    {
+        parent::searchable();
+        $this->prepareIndex();
+    }
+
     public function sourceLink(): Attribute
     {
         return new Attribute(
