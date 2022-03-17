@@ -26,7 +26,9 @@ use Laravel\Scout\Searchable;
 class Playlist extends Model
 {
     use HasFactory;
-    use Searchable;
+    use Searchable {
+        searchable as scoutSearchable;
+    }
 
     /**
      * @var string[]
@@ -111,10 +113,13 @@ class Playlist extends Model
 
     public function searchable()
     {
-        parent::searchable();
+        $this->scoutSearchable();
         $this->prepareIndex();
     }
 
+    /**
+     * @return Attribute<?string,void>
+     */
     public function sourceLink(): Attribute
     {
         return new Attribute(

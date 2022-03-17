@@ -151,7 +151,10 @@ class ImageController extends Controller
 
         // Determine video duration
         $path = escapeshellarg($video->file_path);
-        $duration = trim(shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path"));
+        $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path 2>/dev/null");
+        if ($duration) {
+            $duration = (float)trim($duration);
+        }
 
         // Seek to 30% of video duration, or 10 seconds if duration is unknown.
         $seconds = $duration ? floor($duration * 0.30) : 10;

@@ -40,7 +40,9 @@ use YoutubeDl\YoutubeDl;
 class Video extends Model
 {
     use HasFactory;
-    use Searchable;
+    use Searchable {
+        searchable as scoutSearchable;
+    }
 
     public const VISIBILITY_PUBLIC = 'public';
     public const VISIBILITY_UNLISTED = 'unlisted';
@@ -136,10 +138,13 @@ class Video extends Model
 
     public function searchable()
     {
-        parent::searchable();
+        $this->scoutSearchable();
         $this->prepareIndex();
     }
 
+    /**
+     * @return Attribute<?string,void>
+     */
     public function sourceLink(): Attribute
     {
         return new Attribute(
@@ -154,6 +159,9 @@ class Video extends Model
         );
     }
 
+    /**
+     * @return Attribute<?string,void>
+     */
     public function embedHtml(): Attribute
     {
         return new Attribute(
@@ -178,6 +186,10 @@ class Video extends Model
         return $this->belongsToMany(Playlist::class, 'playlist_items');
     }
 
+
+    /**
+     * @return Attribute<?string,void>
+     */
     public function fileLink(): Attribute
     {
         return new Attribute(

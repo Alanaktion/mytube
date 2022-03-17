@@ -32,7 +32,9 @@ use Laravel\Scout\Searchable;
 class Channel extends Model
 {
     use HasFactory;
-    use Searchable;
+    use Searchable {
+        searchable as scoutSearchable;
+    }
 
     /**
      * @var string[]
@@ -88,7 +90,7 @@ class Channel extends Model
 
     public function searchable()
     {
-        parent::searchable();
+        $this->scoutSearchable();
         $this->prepareIndex();
     }
 
@@ -169,6 +171,9 @@ class Channel extends Model
         }
     }
 
+    /**
+     * @return Attribute<?string,void>
+     */
     public function sourceLink(): Attribute
     {
         return new Attribute(
