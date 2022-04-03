@@ -3,12 +3,11 @@
 @section('content')
 <div class="container">
     @if ($video->file_path)
-        <div class="relative mb-4 lg:mb-6 pb-9/16">
-            <video class="absolute w-full h-full" controls poster="{{ $video->poster_url ?? "/images/posters/{$video->uuid}" }}">
-                <source src="{{ $video->file_link }}">
-                <code>{{ $video->file_path }}</code>
-            </video>
-        </div>
+        <video-player
+            src="{{ $video->file_link }}"
+            poster="{{ $video->poster_url ?? "/images/posters/{$video->uuid}" }}"
+            class="mb-4 lg:mb-6"
+        ></video-player>
     @elseif (config('app.embed'))
         {!! $video->embed_html !!}
     @endif
