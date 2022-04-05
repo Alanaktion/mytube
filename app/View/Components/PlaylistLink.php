@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 
 class PlaylistLink extends Component
 {
-    public ?Video $firstVideo;
+    public ?Video $firstVideo = null;
 
     /**
      * Create a new component instance.
