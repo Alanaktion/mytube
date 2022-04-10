@@ -34,7 +34,7 @@ class YouTubePlaylist implements SourcePlaylist
             if ($dbItem = $playlist->items->firstWhere('uuid', $item->id)) {
                 // Skip existing item, updating positions where necessary
                 if ($dbItem->position != $item->getSnippet()->position) {
-                    $dbItem->position = $item->getSnippet()->position;
+                    $dbItem->position = (int)$item->getSnippet()->position;
                     $dbItem->save();
                 }
                 continue;
@@ -46,7 +46,7 @@ class YouTubePlaylist implements SourcePlaylist
                 $playlist->items()->create([
                     'video_id' => $video->id,
                     'uuid' => $item->id,
-                    'position' => $item->getSnippet()->position,
+                    'position' => (int)$item->getSnippet()->position,
                 ]);
             } catch (\Exception $e) {
                 ImportError::updateOrCreate([
