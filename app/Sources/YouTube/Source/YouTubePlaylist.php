@@ -31,8 +31,12 @@ class YouTubePlaylist implements SourcePlaylist
         $items = YouTubeClient::getPlaylistItemData($playlist->uuid);
         foreach ($items as $item) {
             /** @var \Google_Service_YouTube_PlaylistItem $item */
-            if ($playlist->items->firstWhere('uuid', $item->id)) {
-                // Skip existing item
+            if ($dbItem = $playlist->items->firstWhere('uuid', $item->id)) {
+                // Skip existing item, updating positions where necessary
+                if ($dbItem->position != $item->getSnippet()->position) {
+                    $dbItem->position = $item->getSnippet()->position;
+                    $dbItem->save();
+                }
                 continue;
             }
 
