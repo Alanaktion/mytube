@@ -63,6 +63,11 @@ class ChannelController extends Controller
         $videos = Video::search($request->input('q'))
             ->where('channel_id', $channel->id);
         $playlists = Playlist::search($request->input('q'))
+            ->query(function ($builder): void {
+                $builder
+                    ->with('firstItem', 'firstItem.video')
+                    ->withCount('items');
+            })
             ->where('channel_id', $channel->id);
         return view('channels.search', [
             'title' => $channel->title,
