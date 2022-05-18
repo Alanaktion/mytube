@@ -186,6 +186,10 @@ class Video extends Model
         return $this->belongsToMany(Playlist::class, 'playlist_items');
     }
 
+    public function jobDetails()
+    {
+        return $this->morphMany(JobDetail::class, 'model');
+    }
 
     /**
      * @return Attribute<?string,void>

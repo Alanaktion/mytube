@@ -145,10 +145,7 @@ class Channel extends Model
         if ($ytdl->getVersion()) {
             $ids = $ytdl->getChannelPlaylistIds($this->uuid);
             foreach ($ids as $id) {
-                $playlist = Playlist::import('youtube', $id);
-                if ($importItems) {
-                    $playlist->importItems();
-                }
+                $playlist = Playlist::import('youtube', $id, $importItems);
             }
             return;
         }
@@ -166,7 +163,7 @@ class Channel extends Model
             ]);
 
             if ($importItems) {
-                $playlist->importYouTubeItems();
+                $playlist->importItems();
             }
         }
     }
@@ -196,6 +193,11 @@ class Channel extends Model
     public function playlists()
     {
         return $this->hasMany(Playlist::class);
+    }
+
+    public function jobDetails()
+    {
+        return $this->morphMany(JobDetail::class, 'model');
     }
 
     public function source(): Source

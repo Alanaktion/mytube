@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+    @auth
+        <job-details type="playlist" id="{{ $playlist->id }}"></job-details>
+    @endauth
     <header class="mb-3 md:mb-4 lg:mb-6">
         <div class="sm:flex items-center mb-2">
             <h1 class="flex items-center gap-2 text-2xl font-medium text-gray-600 dark:text-trueGray-400 mb-2 sm:mb-0">

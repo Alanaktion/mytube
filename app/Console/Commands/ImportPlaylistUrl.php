@@ -12,7 +12,7 @@ class ImportPlaylistUrl extends Command
      */
     protected $signature = 'import:playlist-url
         {--source=}
-        {--items : Import the items with they playlist}
+        {--no-items : Don\'t import the items with the playlist}
         {url*}';
 
     /**
@@ -67,11 +67,7 @@ class ImportPlaylistUrl extends Command
                 $this->warn('Unable to match URL: ' . $url);
             }
             if ($type !== null && $id !== null) {
-                $playlist = Playlist::import($type, $id);
-
-                if ($this->option('items')) {
-                    $typeSource->playlist()->importItems($playlist);
-                }
+                Playlist::import($type, $id, !$this->option('no-items'));
             }
         }
 

@@ -151,4 +151,9 @@ class Playlist extends Model
     {
         return $this->hasOne(PlaylistItem::class)->ofMany('position', 'min');
     }
+
+    public function jobDetails()
+    {
+        return $this->morphMany(JobDetail::class, 'model');
+    }
 }

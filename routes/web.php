@@ -5,9 +5,11 @@ use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\JobDetailsController;
 use App\Http\Controllers\MetaController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserTokensController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -50,16 +52,17 @@ Route::middleware('auth')->group(function () {
     Route::redirect('/user', '/user/account');
     Route::get('/user/account', [UserController::class, 'account']);
     Route::post('/user/account', [UserController::class, 'updateAccount']);
-    Route::post('/user/tokens', [UserController::class, 'createToken']);
-    Route::delete('/user/tokens/{token}', [UserController::class, 'revokeToken']);
+    Route::resource('/user/tokens', UserTokensController::class)->only(['store', 'destroy']);
 
     Route::get('/favorites', [FavoritesController::class, 'index']);
     Route::post('/favorites/toggleVideo', [FavoritesController::class, 'toggleVideo']);
     Route::post('/favorites/togglePlaylist', [FavoritesController::class, 'togglePlaylist']);
     Route::post('/favorites/toggleChannel', [FavoritesController::class, 'toggleChannel']);
+
+    Route::resource('job-details', JobDetailsController::class)->only(['index']);
 });
 
-Route::middleware('can:access-admin')->prefix('admin')->group(function () {
+Route::middleware(['auth', 'can:access-admin'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index']);
     Route::post('/playlists', [AdminController::class, 'playlistImport']);
     Route::post('/videos', [AdminController::class, 'videoImport']);

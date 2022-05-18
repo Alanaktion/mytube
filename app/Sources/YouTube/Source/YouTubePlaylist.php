@@ -27,8 +27,17 @@ class YouTubePlaylist implements SourcePlaylist
     public function importItems(Playlist $playlist): void
     {
         $playlist->load('items:id,playlist_id,uuid');
+        $detail = $playlist->jobDetails()->create([
+            'type' => 'import_items',
+        ]);
 
         $items = YouTubeClient::getPlaylistItemData($playlist->uuid);
+        $detail->data = [
+            'count' => count($items),
+            'imported' => 0,
+        ];
+        $detail->save();
+
         foreach ($items as $item) {
             /** @var \Google_Service_YouTube_PlaylistItem $item */
             if ($dbItem = $playlist->items->firstWhere('uuid', $item->id)) {
@@ -37,6 +46,9 @@ class YouTubePlaylist implements SourcePlaylist
                     $dbItem->position = (int)$item->getSnippet()->position;
                     $dbItem->save();
                 }
+                $detail->update([
+                    'data->imported' => $detail->data['imported'] + 1,
+                ]);
                 continue;
             }
 
@@ -57,7 +69,12 @@ class YouTubePlaylist implements SourcePlaylist
                 ]);
                 Log::warning('Failed importing playlist item: ' . $videoId);
             }
+            $detail->update([
+                'data->imported' => $detail->data['imported'] + 1,
+            ]);
         }
+
+        $detail->delete();
     }
 
     public function matchUrl(string $url): ?string
