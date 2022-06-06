@@ -30,10 +30,11 @@ class AddUser extends Command
         $name = $this->ask("User's name");
         $email = $this->ask("User's email");
         $password = $this->secret("Choose a password");
-        $user = User::create([
+        $user = User::forceCreate([
             'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
+            'role' => User::ROLE_ADMIN,
         ]);
         $this->info('Created user with ID ' . $user->id);
         return 0;

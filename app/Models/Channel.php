@@ -7,6 +7,7 @@ use App\Sources\Source;
 use Exception;
 use App\Sources\YouTube\YouTubeClient;
 use App\Sources\YouTube\YouTubeDlClient;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -31,7 +32,9 @@ use Laravel\Scout\Searchable;
 class Channel extends Model
 {
     use HasFactory;
-    use Searchable;
+    use Searchable {
+        searchable as scoutSearchable;
+    }
 
     /**
      * @var string[]
@@ -71,9 +74,24 @@ class Channel extends Model
             'uuid' => $this->uuid,
             'title' => $this->title,
             'description' => $this->description,
-            'source_type' => $this->type,
+            'type' => $this->type,
             'published_at' => $this->published_at,
         ];
+    }
+
+    public function prepareIndex(): void
+    {
+        if (config('scout.driver') === 'meilisearch') {
+            $index = $this->searchableUsing()->index($this->searchableAs());
+            $index->updateFilterableAttributes(['type']);
+            $index->updateSortableAttributes(['published_at']);
+        }
+    }
+
+    public function searchable()
+    {
+        $this->scoutSearchable();
+        $this->prepareIndex();
     }
 
     /**
@@ -127,10 +145,7 @@ class Channel extends Model
         if ($ytdl->getVersion()) {
             $ids = $ytdl->getChannelPlaylistIds($this->uuid);
             foreach ($ids as $id) {
-                $playlist = Playlist::import('youtube', $id);
-                if ($importItems) {
-                    $playlist->importItems();
-                }
+                $playlist = Playlist::import('youtube', $id, $importItems);
             }
             return;
         }
@@ -148,19 +163,26 @@ class Channel extends Model
             ]);
 
             if ($importItems) {
-                $playlist->importYouTubeItems();
+                $playlist->importItems();
             }
         }
     }
 
-    public function getSourceLinkAttribute(): ?string
+    /**
+     * @return Attribute<?string,void>
+     */
+    public function sourceLink(): Attribute
     {
-        try {
-            $source = source($this->type);
-            return $source->channel()->getSourceUrl($this);
-        } catch (InvalidSourceException) {
-            return null;
-        }
+        return new Attribute(
+            get: function (): ?string {
+                try {
+                    $source = source($this->type);
+                    return $source->channel()->getSourceUrl($this);
+                } catch (InvalidSourceException) {
+                    return null;
+                }
+            },
+        );
     }
 
     public function videos()
@@ -171,6 +193,11 @@ class Channel extends Model
     public function playlists()
     {
         return $this->hasMany(Playlist::class);
+    }
+
+    public function jobDetails()
+    {
+        return $this->morphMany(JobDetail::class, 'model');
     }
 
     public function source(): Source

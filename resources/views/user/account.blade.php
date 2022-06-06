@@ -19,21 +19,21 @@
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="name" class="block text-sm font-medium text-gray-700 dark:text-trueGray-300 mb-2">
-                                    Name
+                                    {{ __('Name') }}
                                 </label>
                                 <x-input type="text" name="name" id="name" autocomplete="name" value="{{ $user->name }}" required />
                             </div>
 
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-trueGray-300 mb-2">
-                                    Email address
+                                    {{ __('Email') }}
                                 </label>
                                 <x-input type="email" name="email" id="email" autocomplete="email" value="{{ $user->email }}" required />
                             </div>
                         </div>
                         <x-slot name="footer">
                             <x-button type="submit" primary>
-                                Save
+                                {{ __('Save') }}
                             </x-button>
                         </x-slot>
                     </x-card>

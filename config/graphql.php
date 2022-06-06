@@ -71,7 +71,7 @@ return [
             'middleware' => [
                 'throttle:120,1',
             ],
-            'method' => ['get', 'post'],
+            'method' => ['GET', 'POST'],
         ],
         'user' => [
             'query' => [
@@ -85,7 +85,7 @@ return [
                 'throttle:60,1',
                 'auth:sanctum',
             ],
-            'method' => ['get', 'post'],
+            'method' => ['GET', 'POST'],
         ]
     ],
 

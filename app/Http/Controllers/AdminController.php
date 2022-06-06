@@ -86,6 +86,7 @@ class AdminController extends Controller
 
     public function videoImport(Request $request)
     {
+        // TODO: queue video imports when queue is not sync
         $data = $request->validate([
             'videoIds' => 'required|string',
         ]);
@@ -118,7 +119,7 @@ class AdminController extends Controller
         $data = $request->validate([
             'channelId' => 'required|string',
         ]);
-        $id = $request->input('channelId');
+        $id = $data['channelId'];
         $sources = app()->tagged('sources');
         foreach ($sources as $source) {
             /** @var \App\Sources\Source $source */

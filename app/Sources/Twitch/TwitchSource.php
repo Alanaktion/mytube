@@ -7,6 +7,7 @@ use App\Sources\SourceChannel;
 use App\Sources\SourcePlaylist;
 use App\Sources\SourceVideo;
 use App\Sources\Twitch\Source\TwitchChannel;
+use App\Sources\Twitch\Source\TwitchCollection;
 use App\Sources\Twitch\Source\TwitchVideo;
 use Illuminate\View\View;
 
@@ -39,6 +40,6 @@ class TwitchSource implements Source
 
     public function playlist(): ?SourcePlaylist
     {
-        return null;
+        return new TwitchCollection();
     }
 }

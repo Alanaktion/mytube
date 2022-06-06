@@ -26,7 +26,7 @@ class FavoriteToggle extends Component
     {
         /** @var \App\Models\User */
         $user = Auth::user();
-        /** @var \Illuminate\Database\Eloquent\Relations\BelongsToMany $relation */
+        /** @var \Illuminate\Database\Eloquent\Relations\BelongsToMany<Channel|Playlist|Video> $relation */
         $relation = match ($this->type) {
             'video' => $user->favoriteVideos(),
             'playlist' => $user->favoritePlaylists(),

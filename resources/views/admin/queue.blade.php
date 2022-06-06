@@ -6,6 +6,8 @@
         {{ __('Queued Actions') }}
     </div>
 
+    <job-details></job-details>
+
     <table class="min-w-full divide-y divide-gray-200 dark:divide-trueGray-800 shadow overflow-hidden sm:rounded-lg mb-4">
         <thead>
             <tr>

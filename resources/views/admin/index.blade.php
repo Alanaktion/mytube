@@ -5,7 +5,7 @@
     <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
         Overview
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-5 lg:mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 pb-5 lg:mb-6">
         <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
             <div class="flex items-center">
                 <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
@@ -47,20 +47,20 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6 pb-5 lg:mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 lg:gap-x-6 gap-y-6 pb-5 lg:mb-6">
         <form class="shadow overflow-hidden sm:rounded-md" action="/admin/playlists" method="post">
             @csrf
             <x-card>
                 <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                    Playlist Import
+                    {{ __('Import playlist') }}
                 </div>
 
-                <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Playlist URLs/IDs</label>
+                <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">{{ __('Playlist URLs/IDs') }}</label>
                 <x-textarea name="playlistIds" id="playlistIds" rows="5" required></x-textarea>
 
                 <x-slot name="footer">
                     <x-button type="submit" primary>
-                        Import Playlists
+                        {{ __('Start import') }}
                     </x-button>
                 </x-slot>
             </x-card>
@@ -70,15 +70,15 @@
             @csrf
             <x-card>
                 <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                    Video Import
+                    {{ __('Import video') }}
                 </div>
 
-                <label for="videoIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Video IDs/URLs</label>
+                <label for="videoIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">{{ __('Video IDs/URLs') }}</label>
                 <x-textarea name="videoIds" id="videoIds" rows="5" required></x-textarea>
 
                 <x-slot name="footer">
                     <x-button type="submit" primary>
-                        Import Videos
+                        {{ __('Start import') }}
                     </x-button>
                 </x-slot>
             </x-card>
@@ -88,10 +88,10 @@
             @csrf
             <x-card>
                 <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                    Channel Import
+                    {{ __('Import channel') }}
                 </div>
 
-                <label for="channelId" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">Channel URL</label>
+                <label for="channelId" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">{{ __('Channel URL') }}</label>
                 <x-input class="mb-4 lg:mb-6" type="text" name="channelId" id="channelId" required />
 
                 <div class="flex items-start mb-3">
@@ -99,7 +99,7 @@
                         <x-checkbox id="playlists" name="playlists" />
                     </div>
                     <div class="ml-3 text-sm">
-                        <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">Playlists</label>
+                        <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">{{ __('Playlists') }}</label>
                         <p class="text-gray-500 dark:text-trueGray-400">Import all playlists on the channel with their corresponding videos. (Supported sources only)</p>
                     </div>
                 </div>
@@ -108,13 +108,13 @@
                         <x-checkbox id="videos" name="videos" />
                     </div>
                     <div class="ml-3 text-sm leading-5">
-                        <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">Videos</label>
+                        <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">{{ __('Videos') }}</label>
                         <p class="text-gray-500 dark:text-trueGray-400">Import all videos on the channel. (Supported sources only)</p>
                     </div>
                 </div>
                 <x-slot name="footer">
                     <x-button type="submit" primary>
-                        Import Channel
+                        {{ __('Start import') }}
                     </x-button>
                 </x-slot>
             </x-card>
@@ -125,10 +125,14 @@
                 <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
                     Missing Files
                 </div>
-                <p>{{ $missingCount }} videos are missing local files</p>
+                @if ($missingCount)
+                    <p>{{ $missingCount }} videos are missing local files</p>
+                @else
+                    <p>{{ __('No videos are missing local files.') }}</p>
+                @endif
                 <x-slot name="footer">
                     <x-button href="/admin/missing" primary>
-                        View all →
+                        {{ __('View all') }}
                     </x-button>
                 </x-slot>
             </x-card>
@@ -142,7 +146,7 @@
                 <p>View any current background activity</p>
                 <x-slot name="footer">
                     <x-button href="/admin/queue" primary>
-                        View all →
+                        {{ __('View all') }}
                     </x-button>
                 </x-slot>
             </x-card>

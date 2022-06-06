@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Exceptions\InvalidSourceException;
 use App\Sources\Source;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -30,7 +32,7 @@ use YoutubeDl\YoutubeDl;
  * @property-read string $source_link
  * @property-read string $embed_html
  * @property-read string $file_link
- * @property-read Channel $channel
+ * @property-read ?Channel $channel
  * @property-read \Illuminate\Database\Eloquent\Collection|Playlist[] $playlists
  * @property-read \Illuminate\Database\Eloquent\Collection|VideoFile[] $files
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $favoritedBy
@@ -38,7 +40,9 @@ use YoutubeDl\YoutubeDl;
 class Video extends Model
 {
     use HasFactory;
-    use Searchable;
+    use Searchable {
+        searchable as scoutSearchable;
+    }
 
     public const VISIBILITY_PUBLIC = 'public';
     public const VISIBILITY_UNLISTED = 'unlisted';
@@ -83,6 +87,12 @@ class Video extends Model
                 'mime_type' => mime_content_type($filePath),
             ]);
         }
+
+        // Remove any previous import errors
+        ImportError::where('uuid', $id)
+            ->where('type', $type)
+            ->delete();
+
         return $video;
     }
 
@@ -92,36 +102,80 @@ class Video extends Model
     public function toSearchableArray(): array
     {
         $this->loadMissing('channel');
-        return [
+        $data = [
             'id' => $this->id,
             'uuid' => $this->uuid,
             'title' => $this->title,
-            'channel_title' => $this->channel->title,
+            'channel_title' => $this->channel?->title,
             'description' => $this->description,
             'source_type' => $this->source_type,
             'channel_id' => $this->channel_id,
             'published_at' => $this->published_at,
         ];
+        if ($this->channel === null) {
+            unset($data['channel_title']);
+        }
+        return $data;
     }
 
-    public function getSourceLinkAttribute(): ?string
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     *
+     * @param Builder<Video> $query
+     * @return Builder<Video>
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        try {
-            $source = source($this->source_type);
-            return $source->video()->getSourceUrl($this);
-        } catch (InvalidSourceException) {
-            return null;
+        return $query->with('channel');
+    }
+
+    public function prepareIndex(): void
+    {
+        if (config('scout.driver') === 'meilisearch') {
+            $index = $this->searchableUsing()->index($this->searchableAs());
+            $index->updateFilterableAttributes(['channel_id', 'source_type']);
+            $index->updateSortableAttributes(['published_at']);
         }
     }
 
-    public function getEmbedHtmlAttribute(): ?string
+    public function searchable()
     {
-        try {
-            $source = source($this->source_type);
-            return $source->video()->getEmbedHtml($this);
-        } catch (InvalidSourceException) {
-            return null;
-        }
+        $this->scoutSearchable();
+        $this->prepareIndex();
+    }
+
+    /**
+     * @return Attribute<?string,void>
+     */
+    public function sourceLink(): Attribute
+    {
+        return new Attribute(
+            get: function (): ?string {
+                try {
+                    $source = $this->source();
+                    return $source->video()->getSourceUrl($this);
+                } catch (InvalidSourceException) {
+                    return null;
+                }
+            },
+        );
+    }
+
+    /**
+     * @return Attribute<?string,void>
+     */
+    public function embedHtml(): Attribute
+    {
+        return new Attribute(
+            get: function (): ?string {
+                try {
+                    $source = $this->source();
+                    return $source->video()->getEmbedHtml($this);
+                } catch (InvalidSourceException) {
+                    return null;
+                }
+            },
+        );
     }
 
     public function channel()
@@ -139,28 +193,68 @@ class Video extends Model
         return $this->hasMany(VideoFile::class);
     }
 
-    /**
-     * @deprecated Use files relation instead.
-     */
-    public function getFilePathAttribute(): ?string
+    public function jobDetails()
     {
-        $file = $this->files()->first(['id', 'path']);
-        if ($file) {
-            return $file->path;
-        }
-        return null;
+        return $this->morphMany(JobDetail::class, 'model');
     }
 
     /**
+     * @return Attribute<?string,void>
      * @deprecated Use files relation instead.
      */
-    public function getFileLinkAttribute(): ?string
+    public function filePath(): Attribute
     {
-        $file = $this->files()->first(['id', 'path']);
-        if ($file) {
-            return $file->url;
-        }
-        return null;
+        return new Attribute(
+            get: function (): ?string {
+                $file = $this->files()->first(['id', 'path']);
+                if ($file) {
+                    return $file->path;
+                }
+                return null;
+            }
+        );
+    }
+
+    /**
+     * @return Attribute<?string,void>
+     * @deprecated Use files relation instead.
+     */
+    public function fileLink(): Attribute
+    {
+        return new Attribute(
+            /**
+             * Get a web-accessible path/URL to the source file.
+             *
+             * This currently creates a symlink to the source file in the public disk.
+             *
+             * @todo support remote file storage, e.g. storing video files on B2/S3.
+             */
+            get: function (): ?string {
+                $file = $this->files()->first(['id', 'path']);
+                if ($file) {
+                    return $file->url;
+                }
+                return null;
+
+                // if (!$this->file_path) {
+                //     return null;
+                // }
+
+                // $ext = pathinfo($this->file_path, PATHINFO_EXTENSION);
+                // $file = "{$this->uuid}.{$ext}";
+
+                // // Ensure video directory exists
+                // Storage::makeDirectory('public/videos');
+
+                // // Create symlink if it doesn't exist
+                // $linkPath = storage_path('app/public/videos') . DIRECTORY_SEPARATOR . $file;
+                // if (!is_link($linkPath) && is_file($this->file_path)) {
+                //     symlink($this->file_path, $linkPath);
+                // }
+
+                // return "/storage/videos/$file";
+            }
+        );
     }
 
     /**

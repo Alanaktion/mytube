@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -31,30 +32,36 @@ class VideoFile extends Model
      *
      * @todo support remote file storage, e.g. storing video files on B2/S3.
      * @todo remove need for accessing Video relation for UUID.
+     *
+     * @return Attribute<?string,void>
      */
-    public function getUrlAttribute(): ?string
+    public function getUrl(): Attribute
     {
-        if (!$this->path) {
-            return null;
-        }
+        return new Attribute(
+            get: function (): ?string {
+                if (!$this->path) {
+                    return null;
+                }
 
-        // Symlinks on Windows are just a pain and I don't care.
-        if (DIRECTORY_SEPARATOR === '\\') {
-            return null;
-        }
+                // Symlinks on Windows are just a pain and I don't care.
+                if (DIRECTORY_SEPARATOR === '\\') {
+                    return null;
+                }
 
-        $ext = pathinfo($this->path, PATHINFO_EXTENSION);
-        $file = "{$this->video->uuid}.{$ext}";
+                $ext = pathinfo($this->path, PATHINFO_EXTENSION);
+                $file = "{$this->video->uuid}.{$ext}";
 
-        // Ensure video directory exists
-        Storage::makeDirectory('public/videos');
+                // Ensure video directory exists
+                Storage::makeDirectory('public/videos');
 
-        // Create symlink if it doesn't exist
-        $linkPath = storage_path("app/public/videos") . DIRECTORY_SEPARATOR . $file;
-        if (!is_link($linkPath) && is_file($this->path)) {
-            symlink($this->path, $linkPath);
-        }
+                // Create symlink if it doesn't exist
+                $linkPath = storage_path("app/public/videos") . DIRECTORY_SEPARATOR . $file;
+                if (!is_link($linkPath) && is_file($this->path)) {
+                    symlink($this->path, $linkPath);
+                }
 
-        return url("/storage/videos/$file");
+                return url("/storage/videos/$file");
+            }
+        );
     }
 }

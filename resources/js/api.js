@@ -35,6 +35,7 @@ export const setFavorite = async (uuid, value, type='video') => {
 
 export const setTheme = value => {
     const docCL = document.documentElement.classList;
+    const themeColor = document.querySelector('meta[name="theme-color"]');
     let theme;
     if (value === 'auto') {
         localStorage.removeItem('theme');
@@ -43,8 +44,13 @@ export const setTheme = value => {
         localStorage.theme = value;
         theme = value;
     }
-    docCL.add(theme);
-    docCL.remove(theme === 'light' ? 'dark' : 'light');
+    if (theme === 'dark') {
+        docCL.add('dark');
+        themeColor.setAttribute('content', 'rgb(38, 38, 38)');
+    } else {
+        docCL.remove('dark');
+        themeColor.setAttribute('content', 'rgb(30, 41, 59)');
+    }
 };
 
 export const setLanguage = value => {

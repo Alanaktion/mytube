@@ -1,9 +1,9 @@
-<div class="relative rounded-sm hover:bg-gray-100 hover:ring-6 ring-gray-100 dark:hover:bg-trueGray-850 dark:ring-trueGray-850">
-    <div class="relative pb-9/16 mb-2">
-        <img class="absolute w-full h-full object-cover rounded-sm" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
+<div class="relative group">
+    <div class="relative pb-9/16 mb-2 lg:mb-4 group-hover:scale-105 transition motion-reduce:transition-none motion-reduce:transform-none">
+        <img class="absolute w-full h-full object-cover rounded lg:shadow-lg" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
     </div>
     @if (!$video->files_count)
-        <div class="absolute top-1 left-1 text-white bg-black bg-opacity-60 backdrop-filter backdrop-blur-md rounded-full p-1 z-20" aria-label="No video file available" title="No video file available">
+        <div class="absolute top-1 left-1 lg:top-2 lg:left-2 text-white bg-black bg-opacity-60 backdrop-blur-md rounded-full p-1 z-20" aria-label="No video file available" title="No video file available">
             {{-- solid:x --}}
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -11,7 +11,7 @@
         </div>
     @endif
     @if ($video->source_visibility != 'public')
-        <div class="absolute top-1 right-1 text-white bg-black bg-opacity-60 backdrop-filter backdrop-blur-md rounded-full p-1 z-20" aria-label="Visibility: {{ ucfirst($video->source_visibility) }}" title="{{ ucfirst($video->source_visibility) }}">
+        <div class="absolute top-1 right-1 lg:top-2 lg:right-2 text-white bg-black bg-opacity-60 backdrop-blur-md rounded-full p-1 z-20" aria-label="Visibility: {{ ucfirst($video->source_visibility) }}" title="{{ ucfirst($video->source_visibility) }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 @if ($video->source_visibility == 'unlisted')
                     {{-- solid:eye-off --}}
@@ -28,23 +28,23 @@
     <div class="flex items-start">
         @if ($showChannel)
             <a href="/channels/{{ $video->channel->uuid }}" class="relative z-10 flex-shrink-0 mr-2" aria-hidden="true" tabindex="-1">
-                <img class="w-8 h-8 rounded-full" src="{{ $video->channel->image_url ?? '/images/channels/' . $video->channel->uuid }}" alt="{{ $video->channel->name }}">
+                <img class="w-8 xl:w-10 aspect-square rounded-full" src="{{ $video->channel->image_url ?? '/images/channels/' . $video->channel->uuid }}" alt="{{ $video->channel->name }}">
             </a>
         @endif
         <div>
-            <a href="/videos/{{ $video->uuid }}{{ $playlist ? '?playlist=' . $playlist->uuid : '' }}" class="block line-clamp-2 leading-snug mb-1 text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300" title="{{ $video->title }}">
+            <a href="/videos/{{ $video->uuid }}{{ $playlist ? '?playlist=' . $playlist->uuid : '' }}" class="block line-clamp-2 break-words leading-snug mb-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" title="{{ $video->title }}">
                 {{ $video->title }}
                 <div class="absolute inset-0"></div>
             </a>
             <div class="text-sm text-gray-800 dark:text-trueGray-400">
-                {{ $video->published_at->translatedFormat('F j, Y') }}
+                {{ $video->published_at->isoFormat('LL') }}
             </div>
             @if ($showChannel)
                 <a href="/channels/{{ $video->channel->uuid }}" class="text-gray-600 hover:text-gray-700 dark:text-trueGray-500 dark:hover:text-trueGray-400 relative z-10">
                     {{ $video->channel->title }}
                 </a>
             @else
-                <div class="text-xs line-clamp-3 mt-1 text-gray-500 dark:text-trueGray-500">
+                <div class="text-xs line-clamp-3 break-words mt-1 text-gray-500 dark:text-trueGray-500">
                     {{ Str::limit($video->description, 120) }}
                 </div>
             @endif

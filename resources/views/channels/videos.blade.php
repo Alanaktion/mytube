@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@include('channels.header', ['tab' => 'videos'])
 <div class="container">
-    @include('channels.header', ['tab' => 'videos'])
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 pb-5 lg:mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-4 lg:gap-6 pb-5 lg:mb-6">
         @forelse ($videos as $video)
             <x-video-link :video="$video" />
         @empty

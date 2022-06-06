@@ -13,7 +13,7 @@ A self-hostable video archive web app
     - Floatplane
 - Import metadata from web URLs, local filesystem, and video IDs
 - Browse imported data from an intuitive web UI
-- Download videos automatically with youtube-dl
+- Download videos automatically with yt-dlp
 - Light/dark mode toggle
 - Multiple languages
 - Administrator interface for importing content
@@ -76,10 +76,12 @@ Make sure to restart your queue workers any time you update the app.
 
 ### Search indexing
 
-MyTube can use MeiliSearch with Laravel Scout to index content and provide fast, robust searches. It is optional, but makes the search _much_ better and it's highly recommended that you use it.
+By default, MyTube uses SQL "like" queries to match content when searching. This works fine particularly for smaller databases with diverse content, but is limited in performance and flexibility.
+
+Alteratively, MyTube can use MeiliSearch with Laravel Scout to index content and provide fast, robust searches. It is optional, but makes the search _much_ better and it's highly recommended that you use it.
 
 1. Install and start [MeiliSearch](https://docs.meilisearch.com/learn/getting_started/installation.html)
-2. In your `.env` file, add `SCOUT_DRIVER=meilisearch`
+2. In your `.env` file, set `SCOUT_DRIVER=meilisearch`
 3. If you are running multiple instances of MyTube, set a unique index prefix with the `SCOUT_PREFIX` value in your `.env` file
 4. Initialize your search indexes: `php artisan search:index`
     - Subsequent changes to content will be updated automatically, but you can use this command to force a re-index with `--force`.
@@ -115,12 +117,12 @@ You can import existing video files from your local filesystem:
 php artisan import:filesystem <directory>
 ```
 
-This will recursively scan the given directory for files that include YouTube video IDs in their filenames, and will fetch and store metadata from those videos. The videos will only be recognized if they have the YouTube UUID right before the file extension, as is the default in `youtube-dl`.
+This will recursively scan the given directory for files that include YouTube video IDs in their filenames, and will fetch and store metadata from those videos. The videos will only be recognized if they have the YouTube UUID right before the file extension, as is the default in `yt-dlp`.
 
 For best browser support, files should be in MP4 containers, with H.264 video and AAC audio. To download videos in this compatible single-file format:
 
 ```bash
-youtube-dl -f bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best \
+yt-dlp -f bv+ba[ext=m4a]/b[ext=mp4]/bv+ba/b \
     --merge-output-format mp4 \
     <URL>
 ```
@@ -139,7 +141,7 @@ php artisan import:playlist-url <playlist URL/IDs>
 
 ### Downloading videos
 
-Any YouTube videos that have metadata imported, but no local files (_e.g._ from the playlist import), can have videos downloaded automatically. This requires [youtube-dl](https://youtube-dl.org) to be installed. You should also have `ffmpeg` installed for the best format compatibility.
+Any YouTube videos that have metadata imported, but no local files (_e.g._ from the playlist import), can have videos downloaded automatically. This requires [yt-dlp](https://github.com/yt-dlp/yt-dlp) to be installed. You should also have `ffmpeg` installed for the best format compatibility.
 
 Starting the download of any videos missing local files can be started from the command-line:
 
@@ -153,13 +155,13 @@ To configure where the videos are downloaded to, add a new line to `.env`:
 YTDL_DOWNLOAD_DIR=/var/media/videos
 ```
 
-You can also specify the path to your youtube-dl app if it is not included on your $PATH:
+You can also specify the path to your yt-dlp executable if it is not included on your $PATH:
 
 ```ini
-YTDL_PATH=/usr/local/bin/youtube-dl
+YTDL_PATH=/usr/local/bin/yt-dlp
 ```
 
-Keep in mind that this involves downloading the video files from the source, and potentially re-encoding some incompatible audio streams. This can require significant network bandwidth, disk IO, and CPU in some cases. You should also be familiar with the service's terms of use, including usage of the API and website, to ensure your usage is not contradictory to those terms. The [youtube-dl](https://youtube-dl.org) project may have additional information on these topics.
+Keep in mind that this involves downloading the video files from the source, and potentially re-encoding some incompatible audio streams. This can require significant network bandwidth, disk IO, and CPU in some cases. You should also be familiar with the service's terms of use, including usage of the API and website, to ensure your usage is not contradictory to those terms. The [yt-dlp](https://github.com/yt-dlp/yt-dlp) project may have additional information on these topics.
 
 ## GraphQL API
 
@@ -179,7 +181,7 @@ This example gets recent videos with some basic metadata, including the channel.
       uuid
       title
       published_at
-      video {
+      channel {
         id
         uuid
         title

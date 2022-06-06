@@ -2,11 +2,12 @@
     <Listbox v-model="currentTheme" v-slot="{ open }">
         <div class="relative">
             <ListboxButton
-                class="p-2 rounded-full text-sm font-medium text-blue-600 focus:bg-gray-200 dark:focus:bg-trueGray-800 dark:text-blue-400 hover:bg-gray-200 dark:hover:bg-trueGray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-trueGray-900 dark:focus:ring-blue-600 tooltip-left"
-                :aria-label="label"
+                class="btn-icon tooltip-left"
+                :class="{ 'bg-gray-200 dark:bg-trueGray-800': open }"
+                :aria-label="$t('Toggle Dark Theme')"
                 :data-tooltip="!open"
             >
-                <span class="sr-only">{{ label }}</span>
+                <span class="sr-only">{{ $t('Toggle Dark Theme') }}</span>
                 <MoonIcon class="w-4 h-4" aria-hidden="true" />
             </ListboxButton>
             <transition
@@ -18,7 +19,7 @@
                 leave-to-class="transform scale-95 opacity-0"
             >
                 <ListboxOptions
-                    class="origin-bottom-right absolute right-0 bottom-7 w-40 py-1 mb-2 z-30 rounded-md shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
+                    class="origin-bottom-right absolute -right-2 bottom-7 w-40 p-2 mb-2 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
                 >
                     <ListboxOption
                         v-for="theme in themes"
@@ -28,7 +29,7 @@
                         as="template"
                     >
                         <li
-                            class="flex items-center appearance-none w-full px-4 py-2 text-sm capitalize cursor-pointer"
+                            class="flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer rounded-md"
                             :class="{
                                 'text-gray-700 dark:text-trueGray-300': !selected,
                                 'bg-gray-100 dark:bg-trueGray-700': !selected && active,
@@ -37,7 +38,7 @@
                                 'bg-gradient-to-b from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600': selected && active,
                             }"
                         >
-                            <span>{{ theme }}</span>
+                            <span>{{ $t(`theme.${theme}`) }}</span>
                             <CheckCircleIcon
                                 v-if="selected"
                                 class="w-4 h-4 ml-auto"
@@ -72,20 +73,13 @@ export default {
         MoonIcon,
         CheckCircleIcon,
     },
-    props: {
-        label: {
-            type: String,
-            default: 'Language',
-        },
-    },
-    setup(props) {
-        const { label } = props;
+    setup() {
         const themes = ['auto', 'light', 'dark'];
         const currentTheme = ref(localStorage.theme || 'auto');
 
         watch(currentTheme, setTheme);
 
-        return { currentTheme, themes, label };
+        return { currentTheme, themes };
     },
 };
 </script>

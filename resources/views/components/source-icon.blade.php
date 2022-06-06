@@ -5,7 +5,7 @@
 @endphp
 <svg xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
-    {{ $attributes->merge(['class' => 'inline-block']) }}
+    {{ $attributes }}
     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
     aria-hidden="true">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" fill="none" stroke="currentColor"/>

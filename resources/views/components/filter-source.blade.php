@@ -1,8 +1,6 @@
 <source-filter
     :sources='@json($sources)'
     value="{{ $value }}"
-    label="{{ __('Source') }}"
-    all-sources-label="{{ __('All Sources') }}"
 >
     @foreach (array_keys($sources) as $key)
         <template v-slot:icon-{{ $key }}>

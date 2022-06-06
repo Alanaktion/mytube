@@ -12,8 +12,6 @@ parameters:
         - '#Method App\\Models\\[a-zA-Z0-9\\]+::[a-zA-Z0-9]+\(\) has no return type(hint)? specified.#'
         # Let me do 1e3 plz
         - '/Parameter #1 \$microseconds of function usleep expects int, float given\./'
-        # PHPStan doesn't recognize validate() side effects
-        - '#Call to static method Illuminate\\Http\\Request::validate\(\) on a separate line has no effect.#'
         # LaraStan has a bug apparently so this is temporary
-        - '#Relation .(channel|files). is not found in App\\Models\\[a-zA-Z]+ model.#'
+        - '#Relation .(channel|files|video). is not found in App\\Models\\[a-zA-Z]+ model.#'
     reportUnmatchedIgnoredErrors: false

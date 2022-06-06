@@ -1,27 +1,26 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-    mode: 'jit',
     darkMode: 'class',
-    purge: [
+    content: [
         './resources/**/*.blade.php',
         './resources/**/*.vue',
     ],
     theme: {
         colors: {
-            transparent: defaultTheme.colors.transparent,
-            current: defaultTheme.colors.current,
+            transparent: colors.transparent,
+            current: colors.current,
             black: colors.black,
             white: colors.white,
-            gray: colors.coolGray,
+            gray: colors.slate,
             trueGray: {
-                ... colors.trueGray,
+                ... colors.neutral,
                 850: '#1d1d1d',
             },
             red: colors.red,
+            pink: colors.pink,
             green: colors.emerald,
-            blue: colors.blue,
+            blue: colors.sky,
         },
         extend: {
             spacing: {
@@ -33,17 +32,12 @@ module.exports = {
             },
             ringWidth: {
                 6: '6px',
+                12: '12px',
             },
         },
-        container: {
-            padding: '1rem',
-            center: true,
-        },
     },
-    variants: {
-        extend: {
-            backgroundOpacity: ['dark'],
-        },
+    corePlugins: {
+        container: false,
     },
     plugins: [
         require('@tailwindcss/forms'),
