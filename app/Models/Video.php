@@ -81,7 +81,7 @@ class Video extends Model
             $video = $source->video()->import($id);
         }
 
-        if ($filePath !== null && $video->files()->where('path', $filePath)->exists()) {
+        if ($filePath !== null && !$video->files()->where('path', $filePath)->exists()) {
             $video->files()->create([
                 'path' => $filePath,
                 'mime_type' => mime_content_type($filePath),

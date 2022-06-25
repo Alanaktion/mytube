@@ -21,6 +21,11 @@ class VideoFile extends Model
 {
     use HasFactory;
 
+    /**
+     * @var string[]
+     */
+    protected $guarded = [];
+
     public function video()
     {
         return $this->belongsTo(Video::class);
