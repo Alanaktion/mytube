@@ -7,13 +7,8 @@ jobs:
     strategy:
       matrix:
         php: ['8.0', '8.1']
-        experimental: [false]
-        include:
-          - php: '8.2'
-            experimental: true
 
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
     name: Test on PHP ${{ matrix.php }}
 
     steps:
@@ -21,9 +16,6 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
     - uses: actions/checkout@v2
-    - name: Relax version constraints (experimental)
-      run: rm composer.lock
-      if: ${{ matrix.experimental }}
     - name: Install dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Static analysis
