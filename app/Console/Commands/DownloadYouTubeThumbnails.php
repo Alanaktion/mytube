@@ -109,17 +109,22 @@ class DownloadYouTubeThumbnails extends Command
      */
     protected function generateImage(Video $video): bool
     {
-        // TODO: update to use VideoFile relation
-        if (!$video->file_path || !is_file($video->file_path)) {
-            return false;
-        }
-
         if (is_file(storage_path("app/public/thumbs/generated/{$video->uuid}@360p.jpg"))) {
             return true;
         }
 
+        $video->load('files:id,video_id,path');
+        if ($video->files->isEmpty()) {
+            return false;
+        }
+        /** @var \App\Models\VideoFile $file */
+        $file = $video->files->first();
+        if (!is_file($file->path)) {
+            return false;
+        }
+
         // Determine video duration
-        $path = escapeshellarg($video->file_path);
+        $path = escapeshellarg($file->path);
         $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path 2>/dev/null");
         if ($duration) {
             $duration = (float)trim($duration);
