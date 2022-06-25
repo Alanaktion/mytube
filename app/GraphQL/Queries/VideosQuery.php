@@ -69,8 +69,7 @@ class VideosQuery extends Query
      */
     public function resolve($root, $args, $context, SelectFields $fields)
     {
-        // TODO: support video file types
-        $videos = Video::with(array_merge($fields->getRelations(), ['files']))
+        $videos = Video::with($fields->getRelations())
             ->select(array_merge($fields->getSelect(), ['uuid', 'source_type']))
             ->latest('id');
 

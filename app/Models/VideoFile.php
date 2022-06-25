@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Storage;
  * @property string $mime_type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Video $video
+ * @property-read string|null $url
+ * @property-read Video|null $video
  */
 class VideoFile extends Model
 {
@@ -35,11 +36,11 @@ class VideoFile extends Model
      *
      * @return Attribute<?string,void>
      */
-    public function getUrl(): Attribute
+    public function url(): Attribute
     {
         return new Attribute(
             get: function (): ?string {
-                if (!$this->path) {
+                if (!$this->path || !$this->video) {
                     return null;
                 }
 

@@ -235,24 +235,6 @@ class Video extends Model
                     return $file->url;
                 }
                 return null;
-
-                // if (!$this->file_path) {
-                //     return null;
-                // }
-
-                // $ext = pathinfo($this->file_path, PATHINFO_EXTENSION);
-                // $file = "{$this->uuid}.{$ext}";
-
-                // // Ensure video directory exists
-                // Storage::makeDirectory('public/videos');
-
-                // // Create symlink if it doesn't exist
-                // $linkPath = storage_path('app/public/videos') . DIRECTORY_SEPARATOR . $file;
-                // if (!is_link($linkPath) && is_file($this->file_path)) {
-                //     symlink($this->file_path, $linkPath);
-                // }
-
-                // return "/storage/videos/$file";
             }
         );
     }

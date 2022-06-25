@@ -93,6 +93,7 @@ return [
     // facade like this: GraphQL::type('user')
     'types' => [
         'Video' => \App\GraphQL\Types\VideoType::class,
+        'VideoFile' => \App\GraphQL\Types\VideoFileType::class,
         'Channel' => \App\GraphQL\Types\ChannelType::class,
         'User' => \App\GraphQL\Types\UserType::class,
     ],

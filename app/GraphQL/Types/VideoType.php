@@ -53,11 +53,6 @@ class VideoType extends GraphQLType
                 'description' => 'The URL to the original source video.',
                 'selectable' => false,
             ],
-            'file_link' => [
-                'type' => Type::string(),
-                'description' => 'A relative URL for the video\'s media file.',
-                'selectable' => false,
-            ],
             'published_at' => [
                 'type' => Type::string(),
                 'description' => 'An ISO 8601 date of when the video was initially published.',
@@ -69,6 +64,14 @@ class VideoType extends GraphQLType
             'channel' => [
                 'type' => GraphQL::type('Channel'),
                 'description' => 'The channel where the video was published.',
+            ],
+            'files' => [
+                'type' => Type::nonNull(Type::listOf(GraphQL::type('VideoFile'))),
+                'description' => 'The video files available.',
+                'query' => function (array $args, $query, $ctx): void {
+                    // TODO: remove this when video UUID is no longer required for file symlink
+                    $query->with('video:id,uuid');
+                },
             ],
         ];
     }
