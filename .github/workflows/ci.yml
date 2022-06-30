@@ -28,7 +28,7 @@ jobs:
     - name: Install Node dependencies
       run: npm install
     - name: Build frontend code
-      run: npm run development
+      run: npm run build
     - name: Directory permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Create database

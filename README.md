@@ -53,7 +53,7 @@ vim .env # Add database credentials
 Compile the assets and set up the database:
 
 ```bash
-npm run production
+npm run build
 php artisan migrate
 ```
 

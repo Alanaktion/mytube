@@ -11,7 +11,7 @@
         "google/apiclient": "^2.7",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.5",
-        "laravel-lang/lang": "^10.0",
+        "laravel-lang/lang": "^11.0",
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
         "laravel/scout": "^9.0",
