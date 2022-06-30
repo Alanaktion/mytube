@@ -47,9 +47,16 @@ class VideoController extends Controller
             },
             'files',
         ]);
+        // File collection with specific info required for download component
+        $files = $video->files->map(fn($v) => [
+            'id' => $v->id,
+            'url' => $v->url,
+            'mime_type' => $v->mime_type,
+        ]);
         return view('videos.show', [
             'title' => $video->title,
             'video' => $video,
+            'files' => $files,
             'playlist' => null,
         ]);
     }
