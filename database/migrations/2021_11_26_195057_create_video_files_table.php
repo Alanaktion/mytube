@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVideoFilesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -17,7 +17,7 @@ class CreateVideoFilesTable extends Migration
         Schema::create('video_files', function (Blueprint $table) {
             $table->id();
             $table->foreignId('video_id')->constrained();
-            $table->string('path')->unique();
+            $table->string('path')->unique()->collation('utf8mb4_bin');
             $table->string('mime_type');
             $table->timestamps();
         });
@@ -59,4 +59,4 @@ class CreateVideoFilesTable extends Migration
     {
         throw new Exception('This migration cannot be reversed.');
     }
-}
+};

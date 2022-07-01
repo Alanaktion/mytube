@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Playlist;
 use App\Models\Video;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
@@ -32,42 +33,50 @@ class VideoController extends Controller
 
     public function show(Video $video, Request $request)
     {
+        $playlist = null;
         if ($request->has('playlist')) {
-            $playlist = Playlist::where('uuid', $request->input('playlist'))->first();
-            if ($playlist) {
-                return $this->showWithPlaylist($video, $playlist);
-            }
+            $playlist = Playlist::where('uuid', $request->input('playlist'))
+                ->whereHas('items', function (Builder $query) use ($video) {
+                    $query->where('video_id', $video->id);
+                })
+                ->with([
+                    'items' => function ($query): void {
+                        $query->select(['id', 'playlist_id', 'video_id'])
+                            ->orderBy('position', 'asc');
+                    },
+                    'items.video:id,uuid,title,channel_id,thumbnail_url',
+                    'items.video.channel:id,title',
+                ])
+                ->first();
         }
+
         $video->load([
             'channel',
-            'playlists' => function ($query): void {
-                $query
-                    ->with(['firstItem', 'firstItem.video'])
-                    ->withCount('items');
-            },
             'files',
+            'files.video:id,uuid',
         ]);
-        return view('videos.show', [
-            'title' => $video->title,
-            'video' => $video,
-            'playlist' => null,
-        ]);
-    }
+        if ($playlist === null) {
+            $video->load([
+                'playlists' => function ($query): void {
+                    $query
+                        ->with(['firstItem', 'firstItem.video'])
+                        ->withCount('items');
+                },
+            ]);
+        }
 
-    public function showWithPlaylist(Video $video, Playlist $playlist)
-    {
-        $playlist->load([
-            'items' => function ($query): void {
-                $query->select(['id', 'playlist_id', 'video_id'])
-                    ->orderBy('position', 'asc');
-            },
-            'items.video:id,uuid,title,channel_id,thumbnail_url',
-            'items.video.channel:id,title',
+        // File collection with specific info required for download component
+        $files = $video->files->map(fn($v) => [
+            'id' => $v->id,
+            'url' => $v->url,
+            'size' => $v->size,
+            'height' => $v->height,
+            'mime_type' => $v->mime_type,
         ]);
-        $video->load(['channel', 'files']);
         return view('videos.show', [
             'title' => $video->title,
             'video' => $video,
+            'files' => $files,
             'playlist' => $playlist,
         ]);
     }

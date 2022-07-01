@@ -13,5 +13,5 @@ parameters:
         # Let me do 1e3 plz
         - '/Parameter #1 \$microseconds of function usleep expects int, float given\./'
         # LaraStan has a bug apparently so this is temporary
-        - '#Relation .(channel|files|video). is not found in App\\Models\\[a-zA-Z]+ model.#'
+        - '#Relation .(channel|files|video|items). is not found in App\\Models\\[a-zA-Z]+ model.#'
     reportUnmatchedIgnoredErrors: false

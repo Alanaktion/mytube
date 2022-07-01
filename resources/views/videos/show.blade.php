@@ -43,12 +43,7 @@
                 <x-favorite-toggle :model="$video" />
             @endauth
             @if ($video->files->count())
-                {{-- TODO: Show dropdown of files when multiple are available --}}
-                @foreach ($video->files as $file)
-                    <x-button href="{{ $file->link }}" rounded download>
-                        {{ __('Download') }}
-                    </x-button>
-                @endforeach
+                <download-menu :files='@json($files)'></download-menu>
             @endif
         </div>
     </header>

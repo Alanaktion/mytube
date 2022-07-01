@@ -8,11 +8,11 @@
             </ListboxButton>
             <transition
                 enter-active-class="transition duration-100 ease-out"
-                enter-from-class="transform scale-95 opacity-0"
-                enter-to-class="transform scale-100 opacity-100"
+                enter-from-class="scale-95 opacity-0"
+                enter-to-class="scale-100 opacity-100"
                 leave-active-class="transition duration-75 ease-in"
-                leave-from-class="transform scale-100 opacity-100"
-                leave-to-class="transform scale-95 opacity-0"
+                leave-from-class="scale-100 opacity-100"
+                leave-to-class="scale-95 opacity-0"
             >
                 <ListboxOptions
                     class="origin-top-right sm:origin-top-right absolute -left-2 sm:left-auto sm:-right-2 w-48 p-2 mt-1 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"

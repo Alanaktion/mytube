@@ -18,14 +18,14 @@
                     <x-card>
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-trueGray-300 mb-2">
+                                <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-trueGray-300 mb-2">
                                     {{ __('Name') }}
                                 </label>
                                 <x-input type="text" name="name" id="name" autocomplete="name" value="{{ $user->name }}" required />
                             </div>
 
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-trueGray-300 mb-2">
+                                <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-trueGray-300 mb-2">
                                     {{ __('Email') }}
                                 </label>
                                 <x-input type="email" name="email" id="email" autocomplete="email" value="{{ $user->email }}" required />
@@ -82,7 +82,7 @@
                         <x-slot name="footer">
                             <form class="flex mt-1" action="/user/tokens" method="POST">
                                 @csrf
-                                <label for="token-name" class="sr-only"></label>
+                                <label for="token-name" class="sr-only">Token name</label>
                                 <x-input class="max-w-md mr-3" name="name" id="token-name" placeholder="Token name" required />
                                 <x-button class="flex-shrink-0 ml-auto" type="submit" primary>Create token</x-button>
                             </form>
@@ -95,7 +95,7 @@
                             </div>
                             <form class="flex gap-3 mt-1" action="/user/tokens" method="POST">
                                 @csrf
-                                <label for="token-name" class="sr-only"></label>
+                                <label for="token-name" class="sr-only">Token name</label>
                                 <x-input name="name" id="token-name" placeholder="Token name" required />
                                 <x-button class="flex-shrink-0" type="submit" primary>Create token</x-button>
                             </form>
