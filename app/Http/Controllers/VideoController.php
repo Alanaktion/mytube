@@ -74,10 +74,19 @@ class VideoController extends Controller
             'items.video:id,uuid,title,channel_id,thumbnail_url',
             'items.video.channel:id,title',
         ]);
-        $video->load(['channel', 'files']);
+        $video->load(['channel', 'files', 'files.video:id,uuid']);
+        // File collection with specific info required for download component
+        $files = $video->files->map(fn($v) => [
+            'id' => $v->id,
+            'url' => $v->url,
+            'size' => $v->size,
+            'height' => $v->height,
+            'mime_type' => $v->mime_type,
+        ]);
         return view('videos.show', [
             'title' => $video->title,
             'video' => $video,
+            'files' => $files,
             'playlist' => $playlist,
         ]);
     }
