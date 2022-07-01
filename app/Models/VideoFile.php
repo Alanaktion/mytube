@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Storage;
  * @property int $video_id
  * @property string $path
  * @property string $mime_type
+ * @property int|null $size
+ * @property int|null $width
+ * @property int|null $height
+ * @property string|null $duration
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string|null $url
@@ -69,5 +73,41 @@ class VideoFile extends Model
                 return url("/storage/videos/$file");
             }
         );
+    }
+
+    /**
+     * Get metadata for the specified video file, if ffprobe is available.
+     * @return array<string,int|string>
+     */
+    public static function getMetadataForFile(string $filePath): ?array
+    {
+        $raw = shell_exec('ffprobe ' . implode(' ', [
+            '-v error',
+            '-select_streams v',
+            '-show_entries stream=width,height',
+            '-show_entries format=duration',
+            '-of json',
+            escapeshellarg($filePath),
+        ]));
+        if (!$raw) {
+            return null;
+        }
+        $output = json_decode($raw);
+        if (!$output) {
+            return null;
+        }
+
+        $time = (int)$output->format->duration;
+        $seconds = $time % 60;
+        $time = ($time - $seconds) / 60;
+        $minutes = $time % 60;
+        $hours = ($time - $minutes) / 60;
+        $duration = sprintf('%d:%02d:%02d', $hours, $minutes, $seconds);
+
+        return [
+            'width' => $output->streams[0]->width,
+            'height' => $output->streams[0]->height,
+            'duration' => $duration,
+        ];
     }
 }

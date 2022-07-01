@@ -82,10 +82,13 @@ class Video extends Model
         }
 
         if ($filePath !== null && !$video->files()->where('path', $filePath)->exists()) {
-            $video->files()->create([
+            $data = [
                 'path' => $filePath,
                 'mime_type' => mime_content_type($filePath),
-            ]);
+                'size' => filesize($filePath),
+            ];
+            $meta = VideoFile::getMetadataForFile($filePath) ?? [];
+            $video->files()->create(array_merge($data, $meta));
         }
 
         // Remove any previous import errors

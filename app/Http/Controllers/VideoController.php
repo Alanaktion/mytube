@@ -51,6 +51,8 @@ class VideoController extends Controller
         $files = $video->files->map(fn($v) => [
             'id' => $v->id,
             'url' => $v->url,
+            'size' => $v->size,
+            'height' => $v->height,
             'mime_type' => $v->mime_type,
         ]);
         return view('videos.show', [
