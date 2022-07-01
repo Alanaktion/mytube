@@ -46,6 +46,7 @@ class VideoController extends Controller
                     ->withCount('items');
             },
             'files',
+            'files.video:id,uuid',
         ]);
         // File collection with specific info required for download component
         $files = $video->files->map(fn($v) => [
