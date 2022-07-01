@@ -53,7 +53,7 @@ class ImportMetadata extends Command
                 }
             }
 
-            if ($file->isDirty()) {
+            if ($file->isDirty() && $file->exists) {
                 $file->save();
             }
         });
