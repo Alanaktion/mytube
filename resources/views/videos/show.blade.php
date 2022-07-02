@@ -20,7 +20,7 @@
                 <h1 class="text-2xl font-medium text-gray-600 dark:text-trueGray-400">
                     {{ $video->title }}
                 </h1>
-                <div class="text-sm text-gray-400" title="{{ $video->published_at }}">
+                <div class="text-sm text-gray-400 dark:text-trueGray-500" title="{{ $video->published_at }}">
                     {{ $video->published_at->isoFormat('LLLL') }}
                 </div>
             </div>
