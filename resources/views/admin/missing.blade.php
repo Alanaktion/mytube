@@ -48,7 +48,7 @@
                     <td class="px-6 py-4">
                         <a href="/channels/{{ $video->channel->uuid }}" class="leading-5 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
                             {{ $video->channel->title }}<br>
-                            <span class="text-gray-600 dark:text-gray-400">{{ $video->source()->getDisplayName() }}</span>
+                            <span class="text-gray-600 dark:text-trueGray-400">{{ $video->source()->getDisplayName() }}</span>
                         </a>
                     </td>
                     <td class="px-6 py-4">

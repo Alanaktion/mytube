@@ -48,55 +48,23 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 lg:gap-x-6 gap-y-6 pb-5 lg:mb-6">
-        <form class="shadow overflow-hidden sm:rounded-md" action="/admin/playlists" method="post">
+        <import-form>
             @csrf
-            <x-card>
-                <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                    {{ __('Import playlist') }}
-                </div>
-
-                <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">{{ __('Playlist URLs/IDs') }}</label>
-                <x-textarea name="playlistIds" id="playlistIds" rows="5" required></x-textarea>
-
-                <x-slot name="footer">
-                    <x-button type="submit" primary>
-                        {{ __('Start import') }}
-                    </x-button>
-                </x-slot>
-            </x-card>
-        </form>
-
-        <form class="shadow overflow-hidden sm:rounded-md" action="/admin/videos" method="post">
-            @csrf
-            <x-card>
-                <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                    {{ __('Import video') }}
-                </div>
-
+            <template v-slot:video>
                 <label for="videoIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">{{ __('Video IDs/URLs') }}</label>
-                <x-textarea name="videoIds" id="videoIds" rows="5" required></x-textarea>
-
-                <x-slot name="footer">
-                    <x-button type="submit" primary>
-                        {{ __('Start import') }}
-                    </x-button>
-                </x-slot>
-            </x-card>
-        </form>
-
-        <form action="/admin/channels" method="post">
-            @csrf
-            <x-card>
-                <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
-                    {{ __('Import channel') }}
-                </div>
-
+                <x-textarea name="videoIds" id="videoIds" v-model="videoIds" rows="5" required></x-textarea>
+            </template>
+            <template v-slot:playlist>
+                <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">{{ __('Playlist URLs/IDs') }}</label>
+                <x-textarea name="playlistIds" id="playlistIds" v-model="playlistIds" rows="5" required></x-textarea>
+            </template>
+            <template v-slot:channel>
                 <label for="channelId" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">{{ __('Channel URL') }}</label>
-                <x-input class="mb-4 lg:mb-6" type="text" name="channelId" id="channelId" required />
+                <x-input class="mb-4 lg:mb-6" type="text" name="channelId" id="channelId" v-model="channelId" required />
 
                 <div class="flex items-start mb-3">
                     <div class="flex items-center h-5">
-                        <x-checkbox id="playlists" name="playlists" />
+                        <x-checkbox id="playlists" name="playlists" v-model="playlists" />
                     </div>
                     <div class="ml-3 text-sm">
                         <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">{{ __('Playlists') }}</label>
@@ -105,20 +73,15 @@
                 </div>
                 <div class="flex items-start">
                     <div class="flex items-center h-5">
-                        <x-checkbox id="videos" name="videos" />
+                        <x-checkbox id="videos" name="videos" v-model="videos" />
                     </div>
                     <div class="ml-3 text-sm leading-5">
                         <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">{{ __('Videos') }}</label>
                         <p class="text-gray-500 dark:text-trueGray-400">Import all videos on the channel. (Supported sources only)</p>
                     </div>
                 </div>
-                <x-slot name="footer">
-                    <x-button type="submit" primary>
-                        {{ __('Start import') }}
-                    </x-button>
-                </x-slot>
-            </x-card>
-        </form>
+            </template>
+        </import-form>
 
         <div>
             <x-card>
