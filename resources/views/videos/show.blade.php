@@ -43,7 +43,9 @@
                 <x-favorite-toggle :model="$video" />
             @endauth
             @if ($video->files->count())
-                <download-menu :files='@json($files)'></download-menu>
+                <div id="app-download">
+                    <download-menu :files='@json($files)'></download-menu>
+                </div>
             @endif
         </div>
     </header>

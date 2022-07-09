@@ -3,29 +3,85 @@ import './keybindings.js'
 import { createApp } from 'vue'
 import { i18nVue } from 'laravel-vue-i18n'
 import NavMenu from './components/NavMenu.vue'
-import FavoriteToggle from './components/FavoriteToggle.vue'
+import UserMenu from './components/UserMenu.vue'
 import LangMenu from './components/LangMenu.vue'
 import ThemeMenu from './components/ThemeMenu.vue'
+import FavoriteToggle from './components/FavoriteToggle.vue'
 import SortBy from './components/SortBy.vue'
 import SourceFilter from './components/SourceFilter.vue'
-import UserMenu from './components/UserMenu.vue'
 import DownloadMenu from './components/DownloadMenu.vue'
 import JobDetails from './components/JobDetails.vue'
 import ImportForm from './components/ImportForm.vue'
 
-createApp({
-    components: {
-        NavMenu,
-        FavoriteToggle,
-        LangMenu,
-        ThemeMenu,
-        SortBy,
-        SourceFilter,
-        UserMenu,
-        DownloadMenu,
-        JobDetails,
-        ImportForm,
-    },
-}).use(i18nVue, {
-    resolve: lang => import(`../../lang/${lang}.json`),
-}).mount('#app')
+if (document.querySelector('#app-nav')) {
+    createApp({
+        components: {
+            NavMenu,
+            UserMenu,
+        }
+    }).use(i18nVue, {
+        resolve: lang => import(`../../lang/${lang}.json`),
+    }).mount('#app-nav')
+}
+
+if (document.querySelector('#app-footer')) {
+    createApp({
+        components: {
+            LangMenu,
+            ThemeMenu,
+        },
+    }).use(i18nVue, {
+        resolve: lang => import(`../../lang/${lang}.json`),
+    }).mount('#app-footer')
+}
+
+if (document.querySelector('#app-favorite-toggle')) {
+    createApp({
+        components: {
+            FavoriteToggle,
+        },
+    }).use(i18nVue, {
+        resolve: lang => import(`../../lang/${lang}.json`),
+    }).mount('#app-favorite-toggle')
+}
+
+if (document.querySelector('#app-sort-filter')) {
+    createApp({
+        components: {
+            SortBy,
+            SourceFilter,
+        },
+    }).use(i18nVue, {
+        resolve: lang => import(`../../lang/${lang}.json`),
+    }).mount('#app-sort-filter')
+}
+
+if (document.querySelector('#app-download')) {
+    createApp({
+        components: {
+            DownloadMenu,
+        },
+    }).use(i18nVue, {
+        resolve: lang => import(`../../lang/${lang}.json`),
+    }).mount('#app-download')
+}
+
+if (document.querySelector('#app-job-details')) {
+    createApp({
+        components: {
+            JobDetails,
+        },
+    }).use(i18nVue, {
+        resolve: lang => import(`../../lang/${lang}.json`),
+    }).mount('#app-job-details')
+}
+
+if (document.querySelector('#app-admin-import')) {
+    createApp({
+        components: {
+            ImportForm,
+        },
+    }).use(i18nVue, {
+        resolve: lang => import(`../../lang/${lang}.json`),
+    }).mount('#app-admin-import')
+}

@@ -3,7 +3,9 @@
 @section('content')
 <div class="container">
     @auth
-        <job-details type="playlist" id="{{ $playlist->id }}"></job-details>
+        <div id="app-job-details">
+            <job-details type="playlist" :id="{{ $playlist->id }}"></job-details>
+        </div>
     @endauth
     <header class="mb-3 md:mb-4 lg:mb-6">
         <div class="sm:flex items-center mb-2">
