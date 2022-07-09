@@ -18,14 +18,14 @@
                     <x-card>
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-trueGray-300 mb-2">
+                                <label for="name" class="form-label mb-2">
                                     {{ __('Name') }}
                                 </label>
                                 <x-input type="text" name="name" id="name" autocomplete="name" value="{{ $user->name }}" required />
                             </div>
 
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-trueGray-300 mb-2">
+                                <label for="email" class="form-label mb-2">
                                     {{ __('Email') }}
                                 </label>
                                 <x-input type="email" name="email" id="email" autocomplete="email" value="{{ $user->email }}" required />

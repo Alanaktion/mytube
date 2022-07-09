@@ -1,7 +1,7 @@
 <template>
     <TabGroup @change="changeTab">
         <form :action="action" method="post" class="shadow dark:shadow-inner-white-top overflow-hidden sm:rounded-md bg-white dark:bg-trueGray-800">
-            <slot></slot>
+            <input type="hidden" name="_token" :value="csrfToken">
             <div class="flex justify-between items-center px-4 sm:px-6 py-3">
                 <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400">
                     {{ $t('Import') }}
@@ -39,13 +39,49 @@
             <div class="px-4 pb-5 sm:px-6 sm:pb-6">
                 <TabPanels>
                     <TabPanel>
-                        <slot name="video" :video-ids="videoIds"></slot>
+                        <label for="videoIds" class="form-label mb-1">
+                            {{ $t('Video IDs/URLs') }}
+                        </label>
+                        <textarea name="videoIds" id="videoIds" v-model="videoIds" class="input-text" rows="5" required />
                     </TabPanel>
                     <TabPanel>
-                        <slot name="playlist" :playlist-ids="playlistIds"></slot>
+                        <label for="playlistIds" class="form-label mb-1">
+                            {{ $t('Playlist URLs/IDs') }}
+                        </label>
+                        <textarea name="playlistIds" id="playlistIds" v-model="playlistIds" class="input-text" rows="5" required />
                     </TabPanel>
                     <TabPanel>
-                        <slot name="channel" :channel-id="channelId" :playlists="playlists" :videos="videos"></slot>
+                        <label for="channelId" class="form-label mb-1">
+                            {{ $t('Channel URL') }}
+                        </label>
+                        <input class="input-text mb-4 lg:mb-6" type="text" name="channelId" id="channelId" v-model="channelId" required>
+
+                        <div class="flex items-start mb-3">
+                            <div class="flex items-center h-5">
+                                <input type="checkbox" class="input-checkbox" id="playlists" name="playlists" v-model="playlists">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">
+                                    {{ $t('Playlists') }}
+                                </label>
+                                <p class="text-gray-500 dark:text-trueGray-400">
+                                    Import all playlists on the channel with their corresponding videos. (Supported sources only)
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input type="checkbox" class="input-checkbox" id="videos" name="videos" v-model="videos">
+                            </div>
+                            <div class="ml-3 text-sm leading-5">
+                                <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">
+                                    {{ $t('Videos') }}
+                                </label>
+                                <p class="text-gray-500 dark:text-trueGray-400">
+                                    Import all videos on the channel. (Supported sources only)
+                                </p>
+                            </div>
+                        </div>
                     </TabPanel>
                 </TabPanels>
             </div>
@@ -62,13 +98,19 @@
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue';
 import { ref } from 'vue';
 
+defineProps({
+    csrfToken: {
+        type: String,
+        required: true,
+    },
+});
+
 const actions = [
     '/admin/videos',
     '/admin/playlists',
     '/admin/channels',
 ];
 
-// These values are used in the slot templates
 const videoIds = ref('');
 const playlistIds = ref('');
 const channelId = ref('');

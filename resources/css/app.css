@@ -76,6 +76,16 @@
         @apply dark:text-blue-500 dark:hover:bg-trueGray-800 dark:focus:bg-trueGray-800 dark:focus:ring-blue-600;
     }
 
+    .input-text {
+        @apply focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:bg-trueGray-850 dark:bg-opacity-50 dark:border-trueGray-700 dark:focus:border-blue-500 shadow-sm rounded-md placeholder-gray-500 dark:placeholder-trueGray-500;
+    }
+    .input-checkbox {
+        @apply focus:ring-blue-500 dark:ring-offset-trueGray-900 h-4 w-4 text-blue-600 border-gray-300 rounded;
+    }
+    .form-label {
+        @apply block text-sm font-semibold text-gray-700 dark:text-trueGray-300;
+    }
+
     [data-tooltip]:not([data-tooltip="false"]) {
         position: relative;
         &::before {

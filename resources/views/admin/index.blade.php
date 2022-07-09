@@ -49,40 +49,7 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 lg:gap-x-6 gap-y-6 pb-5 lg:mb-6">
         <div id="app-admin-import">
-            <import-form>
-                @csrf
-                <template v-slot:video="slotProps">
-                    <label for="videoIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">{{ __('Video IDs/URLs') }}</label>
-                    <x-textarea name="videoIds" id="videoIds" v-model="slotProps.videoIds" rows="5" required></x-textarea>
-                </template>
-                <template v-slot:playlist="slotProps">
-                    <label for="playlistIds" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">{{ __('Playlist URLs/IDs') }}</label>
-                    <x-textarea name="playlistIds" id="playlistIds" v-model="slotProps.playlistIds" rows="5" required></x-textarea>
-                </template>
-                <template v-slot:channel="slotProps">
-                    <label for="channelId" class="block font-semibold text-gray-700 dark:text-trueGray-300 mb-1">{{ __('Channel URL') }}</label>
-                    <x-input class="mb-4 lg:mb-6" type="text" name="channelId" id="channelId" v-model="slotProps.channelId" required />
-
-                    <div class="flex items-start mb-3">
-                        <div class="flex items-center h-5">
-                            <x-checkbox id="playlists" name="playlists" v-model="slotProps.playlists" />
-                        </div>
-                        <div class="ml-3 text-sm">
-                            <label for="playlists" class="font-semibold text-gray-700 dark:text-trueGray-300">{{ __('Playlists') }}</label>
-                            <p class="text-gray-500 dark:text-trueGray-400">Import all playlists on the channel with their corresponding videos. (Supported sources only)</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <div class="flex items-center h-5">
-                            <x-checkbox id="videos" name="videos" v-model="slotProps.videos" />
-                        </div>
-                        <div class="ml-3 text-sm leading-5">
-                            <label for="videos" class="font-semibold text-gray-700 dark:text-trueGray-300">{{ __('Videos') }}</label>
-                            <p class="text-gray-500 dark:text-trueGray-400">Import all videos on the channel. (Supported sources only)</p>
-                        </div>
-                    </div>
-                </template>
-            </import-form>
+            <import-form csrf-token="{{ csrf_token() }}"></import-form>
         </div>
 
         <div>

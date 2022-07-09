@@ -13,6 +13,11 @@ import DownloadMenu from './components/DownloadMenu.vue'
 import JobDetails from './components/JobDetails.vue'
 import ImportForm from './components/ImportForm.vue'
 
+const langResolve = async lang => {
+    const langs = import.meta.glob('../../lang/*.json');
+    return await langs[`../../lang/${lang}.json`]();
+}
+
 if (document.querySelector('#app-nav')) {
     createApp({
         components: {
@@ -20,7 +25,7 @@ if (document.querySelector('#app-nav')) {
             UserMenu,
         }
     }).use(i18nVue, {
-        resolve: lang => import(`../../lang/${lang}.json`),
+        resolve: langResolve,
     }).mount('#app-nav')
 }
 
@@ -31,7 +36,7 @@ if (document.querySelector('#app-footer')) {
             ThemeMenu,
         },
     }).use(i18nVue, {
-        resolve: lang => import(`../../lang/${lang}.json`),
+        resolve: langResolve,
     }).mount('#app-footer')
 }
 
@@ -41,7 +46,7 @@ if (document.querySelector('#app-favorite-toggle')) {
             FavoriteToggle,
         },
     }).use(i18nVue, {
-        resolve: lang => import(`../../lang/${lang}.json`),
+        resolve: langResolve,
     }).mount('#app-favorite-toggle')
 }
 
@@ -52,7 +57,7 @@ if (document.querySelector('#app-sort-filter')) {
             SourceFilter,
         },
     }).use(i18nVue, {
-        resolve: lang => import(`../../lang/${lang}.json`),
+        resolve: langResolve,
     }).mount('#app-sort-filter')
 }
 
@@ -62,7 +67,7 @@ if (document.querySelector('#app-download')) {
             DownloadMenu,
         },
     }).use(i18nVue, {
-        resolve: lang => import(`../../lang/${lang}.json`),
+        resolve: langResolve,
     }).mount('#app-download')
 }
 
@@ -72,7 +77,7 @@ if (document.querySelector('#app-job-details')) {
             JobDetails,
         },
     }).use(i18nVue, {
-        resolve: lang => import(`../../lang/${lang}.json`),
+        resolve: langResolve,
     }).mount('#app-job-details')
 }
 
@@ -82,6 +87,6 @@ if (document.querySelector('#app-admin-import')) {
             ImportForm,
         },
     }).use(i18nVue, {
-        resolve: lang => import(`../../lang/${lang}.json`),
+        resolve: langResolve,
     }).mount('#app-admin-import')
 }
