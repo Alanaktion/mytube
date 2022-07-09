@@ -39,13 +39,13 @@
             <div class="px-4 pb-5 sm:px-6 sm:pb-6">
                 <TabPanels>
                     <TabPanel>
-                        <slot name="video"></slot>
+                        <slot name="video" :video-ids="videoIds"></slot>
                     </TabPanel>
                     <TabPanel>
-                        <slot name="playlist"></slot>
+                        <slot name="playlist" :playlist-ids="playlistIds"></slot>
                     </TabPanel>
                     <TabPanel>
-                        <slot name="channel"></slot>
+                        <slot name="channel" :channel-id="channelId" :playlists="playlists" :videos="videos"></slot>
                     </TabPanel>
                 </TabPanels>
             </div>
@@ -59,23 +59,23 @@
 </template>
 
 <script setup>
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue';
 import { ref } from 'vue';
 
 const actions = [
     '/admin/videos',
     '/admin/playlists',
     '/admin/channels',
-]
+];
 
 // These values are used in the slot templates
-const videoIds = ref('')
-const playlistIds = ref('')
-const channelId = ref('')
-const playlists = ref(false)
-const videos = ref(false)
+const videoIds = ref('');
+const playlistIds = ref('');
+const channelId = ref('');
+const playlists = ref(false);
+const videos = ref(false);
 
-const action = ref(actions[0])
+const action = ref(actions[0]);
 function changeTab(index) {
     action.value = actions[index]
 }

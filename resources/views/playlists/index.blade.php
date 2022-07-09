@@ -4,7 +4,7 @@
 <div class="container">
     <div class="flex flex-col sm:flex-row justify-between gap-2 sm:items-center mb-6">
         <h1 class="text-2xl font-medium text-gray-600 dark:text-trueGray-400">{{ __('Playlists') }}</h1>
-        <div class="flex gap-2">
+        <div id="app-sort-filter" class="flex gap-2">
             <x-sort-by :value="$sort" />
             <x-filter-source :value="$source" />
         </div>
