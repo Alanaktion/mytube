@@ -3,7 +3,7 @@
         <div class="relative">
             <ListboxButton
                 class="btn-icon tooltip-left"
-                :class="{ 'bg-gray-200 dark:bg-trueGray-800': open }"
+                :class="{ 'bg-slate-200 dark:bg-neutral-800': open }"
                 :aria-label="$t('Change language')"
                 :data-tooltip="!open"
             >
@@ -21,7 +21,7 @@
                 leave-to-class="scale-95 opacity-0"
             >
                 <ListboxOptions
-                    class="origin-bottom-right absolute -right-2 bottom-7 w-40 p-2 mb-2 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
+                    class="origin-bottom-right absolute -right-2 bottom-7 w-40 p-2 mb-2 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-neutral-800 border dark:border-neutral-850 focus:outline-none"
                 >
                     <ListboxOption
                         v-for="(name, code) in locales"
@@ -33,11 +33,11 @@
                         <li
                             class="flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer rounded-md"
                             :class="{
-                                'text-gray-700 dark:text-trueGray-300': !selected,
-                                'bg-gray-100 dark:bg-trueGray-700': !selected && active,
+                                'text-slate-700 dark:text-neutral-300': !selected,
+                                'bg-slate-100 dark:bg-neutral-700': !selected && active,
                                 'text-white': selected,
-                                'bg-gradient-to-b from-blue-400 to-blue-500 dark:from-blue-600 dark:to-blue-700': selected && !active,
-                                'bg-gradient-to-b from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600': selected && active,
+                                'bg-gradient-to-b from-primary-400 to-primary-500 dark:from-primary-600 dark:to-primary-700': selected && !active,
+                                'bg-gradient-to-b from-primary-500 to-primary-600 dark:from-primary-500 dark:to-primary-600': selected && active,
                             }"
                         >
                             <span>{{ name }}</span>

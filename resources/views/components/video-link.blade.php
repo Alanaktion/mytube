@@ -1,6 +1,6 @@
 <div class="relative group">
-    <div class="relative pb-9/16 mb-2 lg:mb-4 group-hover:scale-105 transition motion-reduce:transition-none motion-reduce:transform-none">
-        <img class="absolute w-full h-full object-cover rounded lg:shadow-lg" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
+    <div class="mb-2 lg:mb-4 group-hover:scale-105 transition motion-reduce:transition-none motion-reduce:transform-none">
+        <img class="w-full aspect-video object-cover rounded lg:shadow-lg" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
     </div>
     @if (!$video->files_count)
         <div class="absolute top-1 left-1 lg:top-2 lg:left-2 text-white bg-black bg-opacity-60 backdrop-blur-md rounded-full p-1 z-20" aria-label="No video file available" title="No video file available">
@@ -32,19 +32,19 @@
             </a>
         @endif
         <div>
-            <a href="/videos/{{ $video->uuid }}{{ $playlist ? '?playlist=' . $playlist->uuid : '' }}" class="block line-clamp-2 break-words leading-snug mb-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" title="{{ $video->title }}">
+            <a href="/videos/{{ $video->uuid }}{{ $playlist ? '?playlist=' . $playlist->uuid : '' }}" class="block line-clamp-2 break-words leading-snug mb-1 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" title="{{ $video->title }}">
                 {{ $video->title }}
                 <div class="absolute inset-0"></div>
             </a>
-            <div class="text-sm text-gray-800 dark:text-trueGray-400">
+            <div class="text-sm text-slate-800 dark:text-neutral-400">
                 {{ $video->published_at->isoFormat('LL') }}
             </div>
             @if ($showChannel)
-                <a href="/channels/{{ $video->channel->uuid }}" class="text-gray-600 hover:text-gray-700 dark:text-trueGray-500 dark:hover:text-trueGray-400 relative z-10">
+                <a href="/channels/{{ $video->channel->uuid }}" class="text-slate-600 hover:text-slate-700 dark:text-neutral-500 dark:hover:text-neutral-400 relative z-10">
                     {{ $video->channel->title }}
                 </a>
             @else
-                <div class="text-xs line-clamp-3 break-words mt-1 text-gray-500 dark:text-trueGray-500">
+                <div class="text-xs line-clamp-3 break-words mt-1 text-slate-500 dark:text-neutral-500">
                     {{ Str::limit($video->description, 120) }}
                 </div>
             @endif

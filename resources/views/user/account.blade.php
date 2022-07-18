@@ -6,8 +6,8 @@
         <div class="md:grid md:grid-cols-3 md:gap-6">
             <div class="md:col-span-1">
                 <div class="px-4 sm:px-0">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-trueGray-100">Personal Information</h3>
-                    <p class="mt-1 text-sm text-gray-600 dark:text-trueGray-400">
+                    <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-neutral-100">Personal Information</h3>
+                    <p class="mt-1 text-sm text-slate-600 dark:text-neutral-400">
                         This information is used to identify you and send you important information.
                     </p>
                 </div>
@@ -43,15 +43,15 @@
 
         <div class="hidden sm:block" aria-hidden="true">
             <div class="py-5">
-                <div class="border-t dark:border-trueGray-700"></div>
+                <div class="border-t dark:border-neutral-700"></div>
             </div>
         </div>
 
         <div class="md:grid md:grid-cols-3 md:gap-6 mt-8 sm:mt-0">
             <div class="md:col-span-1">
                 <div class="px-4 sm:px-0">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-trueGray-100">Access Tokens</h3>
-                    <p class="mt-1 text-sm text-gray-600 dark:text-trueGray-400">
+                    <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-neutral-100">Access Tokens</h3>
+                    <p class="mt-1 text-sm text-slate-600 dark:text-neutral-400">
                         These tokens are used to access your account from other applications.
                     </p>
                 </div>
@@ -61,10 +61,10 @@
                     @if ($tokens->count() > 0)
                         <div class="-my-2 lg:-my-4">
                             @foreach($tokens as $token)
-                                <div class="flex items-center py-2 lg:py-4 border-b dark:border-trueGray-700 last:border-0">
+                                <div class="flex items-center py-2 lg:py-4 border-b dark:border-neutral-700 last:border-0">
                                     <div class="mr-auto">
                                         <div class="font-medium">{{ $token->name }}</div>
-                                        <div class="text-sm text-gray-600 dark:text-trueGray-400">Created {{ $token->created_at->format('Y-m-d') }}</div>
+                                        <div class="text-sm text-slate-600 dark:text-neutral-400">Created {{ $token->created_at->format('Y-m-d') }}</div>
                                     </div>
                                     @if ($token->last_used_at)
                                         <div>Last used {{ $token->last_used_at->format('Y-m-d') }}</div>
@@ -91,7 +91,7 @@
                         <div class="py-8 lg:py-12 flex flex-col items-center">
                             <div class="mb-4 flex flex-col items-center">
                                 <div class="font-medium">No tokens</div>
-                                <div class="text-gray-600 dark:text-trueGray-400">You have not created any access tokens yet.</div>
+                                <div class="text-slate-600 dark:text-neutral-400">You have not created any access tokens yet.</div>
                             </div>
                             <form class="flex gap-3 mt-1" action="/user/tokens" method="POST">
                                 @csrf

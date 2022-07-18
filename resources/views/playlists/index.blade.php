@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="flex flex-col sm:flex-row justify-between gap-2 sm:items-center mb-6">
-        <h1 class="text-2xl font-medium text-gray-600 dark:text-trueGray-400">{{ __('Playlists') }}</h1>
+        <h1 class="text-2xl font-medium text-slate-600 dark:text-neutral-400">{{ __('Playlists') }}</h1>
         <div id="app-sort-filter" class="flex gap-2">
             <x-sort-by :value="$sort" />
             <x-filter-source :value="$source" />
@@ -13,7 +13,7 @@
         @forelse ($playlists as $playlist)
             <x-playlist-link :playlist="$playlist" />
         @empty
-            <div class="text-gray-400 dark:text-trueGray-600 py-6 col-span-full">
+            <div class="text-slate-400 dark:text-neutral-600 py-6 col-span-full">
                 {{ 'No available playlists' }}
             </div>
         @endforelse

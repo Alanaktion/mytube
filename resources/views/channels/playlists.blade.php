@@ -7,7 +7,7 @@
         @forelse ($playlists as $playlist)
             <x-playlist-link :playlist="$playlist" />
         @empty
-            <div class="text-gray-400 dark:text-trueGray-600 py-6 col-span-full">
+            <div class="text-slate-400 dark:text-neutral-600 py-6 col-span-full">
                 {{ __('No available playlists') }}
             </div>
         @endforelse

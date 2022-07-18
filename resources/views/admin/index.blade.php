@@ -1,46 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
+@if (config('queue.default') == 'sync')
+<div class="container mb-4 lg:mb-6">
+    <div class="flex items-center bg-red-100 dark:bg-red-900 bg-opacity-50 border border-red-100 dark:border-red-600 p-3 rounded">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2 text-red-500 dark:text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        <span class="text-red-900 dark:text-red-100">
+            {{ __('No asynchronous queue driver is configured. Some administrative functionality will not work until this is configured.') }}
+        </span>
+    </div>
+</div>
+@endif
+
 <div class="container">
-    <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
+    <div class="text-sm uppercase font-semibold text-slate-500 dark:text-neutral-400 mb-2">
         Overview
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 pb-5 lg:mb-6">
-        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
+        <div class="bg-white dark:bg-neutral-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
             <div class="flex items-center">
-                <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
+                <div class="bg-primary-100 text-primary-600 dark:bg-primary-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                     </svg>
                 </div>
                 <div>
-                    <div class="text-gray-600 dark:text-trueGray-400">{{ __('Videos') }}</div>
+                    <div class="text-slate-600 dark:text-neutral-400">{{ __('Videos') }}</div>
                     <div class="text-2xl">{{ $videoCount }}</div>
                 </div>
             </div>
         </div>
-        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
+        <div class="bg-white dark:bg-neutral-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
             <div class="flex items-center">
-                <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
+                <div class="bg-primary-100 text-primary-600 dark:bg-primary-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
                 </div>
                 <div>
-                    <div class="text-gray-600 dark:text-trueGray-400">{{ __('Channels') }}</div>
+                    <div class="text-slate-600 dark:text-neutral-400">{{ __('Channels') }}</div>
                     <div class="text-2xl">{{ $channelCount }}</div>
                 </div>
             </div>
         </div>
-        <div class="bg-white dark:bg-trueGray-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
+        <div class="bg-white dark:bg-neutral-800 p-3 lg:p-4 shadow dark:shadow-inner-white-top rounded">
             <div class="flex items-center">
-                <div class="bg-blue-100 text-blue-600 dark:bg-blue-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
+                <div class="bg-primary-100 text-primary-600 dark:bg-primary-700 dark:text-white p-2 lg:p-4 rounded-full mr-3 md:mr-4 lg:mr-6">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                     </svg>
                 </div>
                 <div>
-                    <div class="text-gray-600 dark:text-trueGray-400">{{ __('Playlists') }}</div>
+                    <div class="text-slate-600 dark:text-neutral-400">{{ __('Playlists') }}</div>
                     <div class="text-2xl">{{ $playlistCount }}</div>
                 </div>
             </div>
@@ -54,7 +67,7 @@
 
         <div>
             <x-card>
-                <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
+                <div class="text-sm uppercase font-semibold text-slate-500 dark:text-neutral-400 mb-2">
                     Missing Files
                 </div>
                 @if ($missingCount)
@@ -72,7 +85,7 @@
 
         <div>
             <x-card>
-                <div class="text-sm uppercase font-semibold text-gray-500 dark:text-trueGray-400 mb-2">
+                <div class="text-sm uppercase font-semibold text-slate-500 dark:text-neutral-400 mb-2">
                     Queued Actions
                 </div>
                 <p>View any current background activity</p>

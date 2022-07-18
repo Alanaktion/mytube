@@ -3,29 +3,27 @@
 @section('content')
 <div class="container">
     @if ($video->files->count())
-        <div class="relative mb-4 lg:mb-6 pb-9/16">
-            <video class="absolute w-full h-full" controls poster="{{ $video->poster_url ?? "/images/posters/{$video->uuid}" }}">
-                @foreach ($video->files as $file)
-                    <source src="{{ $file->url }}" type="{{ $file->mime_type }}">
-                    <code>{{ $file->path }}</code>
-                @endforeach
-            </video>
-        </div>
+        <video class="w-full aspect-video mb-4 lg:mb-6" controls poster="{{ $video->poster_url ?? "/images/posters/{$video->uuid}" }}">
+            @foreach ($video->files as $file)
+                <source src="{{ $file->url }}" type="{{ $file->mime_type }}">
+                <code>{{ $file->path }}</code>
+            @endforeach
+        </video>
     @elseif (config('app.embed'))
         {!! $video->embed_html !!}
     @endif
     <header class="sm:flex items-start mb-3 md:mb-4 lg:mb-6">
         <div class="mb-4 sm:mb-0">
             <div class="mb-4">
-                <h1 class="text-2xl font-medium text-gray-600 dark:text-trueGray-400">
+                <h1 class="text-2xl font-medium text-slate-600 dark:text-neutral-400">
                     {{ $video->title }}
                 </h1>
-                <div class="text-sm text-gray-400 dark:text-trueGray-500" title="{{ $video->published_at }}">
+                <div class="text-sm text-slate-400 dark:text-neutral-500" title="{{ $video->published_at }}">
                     {{ $video->published_at->isoFormat('LLLL') }}
                 </div>
             </div>
             <p class="text-lg">
-                <a class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" href="/channels/{{ $video->channel->uuid }}">
+                <a class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" href="/channels/{{ $video->channel->uuid }}">
                     {{ $video->channel->title }}
                 </a>
             </p>
@@ -51,15 +49,15 @@
     </header>
     <div class="sm:flex justify-between gap-4">
         <div class="mb-4">
-            <pre class="text-gray-600 dark:text-trueGray-400 whitespace-pre-wrap break-words font-sans">@description($video->description)</pre>
+            <pre class="text-slate-600 dark:text-neutral-400 whitespace-pre-wrap break-words font-sans">@description($video->description)</pre>
         </div>
         <div class="flex-shrink-0 sm:w-72 md:w-80">
             @if ($playlist)
-                <div class="text-lg mb-3 truncate text-gray-600 dark:text-trueGray-400">
+                <div class="text-lg mb-3 truncate text-slate-600 dark:text-neutral-400">
                     <a href="{{ route('playlist', $playlist) }}">{{ $playlist->title }}</a>
                 </div>
                 <div class="shadow overflow-hidden sm:rounded-md">
-                    <ul class="bg-white dark:bg-trueGray-800 h-96 overflow-y-scroll">
+                    <ul class="bg-white dark:bg-neutral-800 h-96 overflow-y-scroll">
                         @foreach ($playlist->items as $item)
                             <li>
                                 <x-video-playlist-item :video="$item->video" :playlist="$playlist" :current="$item->video_id == $video->id" />

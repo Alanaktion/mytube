@@ -2,8 +2,8 @@
     <Menu as="div" class="relative self-center mb-4 sm:mb-0" v-slot="{ open }">
         <div>
             <MenuButton
-                class="flex px-3 py-2 w-full sm:w-auto rounded-md text-sm font-medium focus:text-white focus:bg-gray-700 dark:focus:bg-trueGray-700 text-gray-300 dark:text-trueGray-300 hover:text-white hover:bg-gray-700 dark:hover:bg-trueGray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500 dark:focus:ring-offset-trueGray-800 dark:focus:ring-blue-600"
-                :class="{ 'bg-gray-700 dark:bg-trueGray-700': open }"
+                class="flex px-3 py-2 w-full sm:w-auto rounded-md text-sm font-medium focus:text-white focus:bg-slate-700 dark:focus:bg-neutral-700 text-slate-300 dark:text-neutral-300 hover:text-white hover:bg-slate-700 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-primary-500 dark:focus:ring-offset-neutral-800 dark:focus:ring-primary-600"
+                :class="{ 'bg-slate-700 dark:bg-neutral-700': open }"
             >
                 <UserCircleIcon class="hidden md:block lg:hidden w-5 h-5" aria-hidden="true" />
                 <span class="md:sr-only lg:not-sr-only">{{ name }}</span>
@@ -25,13 +25,13 @@
             leave-to-class="scale-95 opacity-0"
         >
             <MenuItems
-                class="origin-top-right absolute -left-2 sm:left-auto sm:-right-2 w-40 p-2 mt-2 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-trueGray-800 border dark:border-trueGray-850 focus:outline-none"
+                class="origin-top-right absolute -left-2 sm:left-auto sm:-right-2 w-40 p-2 mt-2 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-neutral-800 border dark:border-neutral-850 focus:outline-none"
             >
                 <MenuItem v-slot="{ active }">
                     <a
                         href="/user/account"
                         :class="[
-                            active ? 'bg-gradient-to-b from-blue-500 to-blue-600 text-white' : 'text-gray-700 dark:text-trueGray-300',
+                            active ? 'bg-gradient-to-b from-primary-500 to-primary-600 text-white' : 'text-slate-700 dark:text-neutral-300',
                             'flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer rounded-md',
                         ]"
                     >
@@ -42,7 +42,7 @@
                     <a
                         href="/admin"
                         :class="[
-                            active ? 'bg-gradient-to-b from-blue-500 to-blue-600 text-white' : 'text-gray-700 dark:text-trueGray-300',
+                            active ? 'bg-gradient-to-b from-primary-500 to-primary-600 text-white' : 'text-slate-700 dark:text-neutral-300',
                             'flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer rounded-md',
                         ]"
                     >
@@ -53,7 +53,7 @@
                     <button
                         @click="logOut"
                         :class="[
-                            active ? 'bg-gradient-to-b from-blue-500 to-blue-600 text-white' : 'text-gray-700 dark:text-trueGray-300',
+                            active ? 'bg-gradient-to-b from-primary-500 to-primary-600 text-white' : 'text-slate-700 dark:text-neutral-300',
                             'flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer rounded-md',
                         ]"
                     >

@@ -9,7 +9,7 @@
     @endauth
     <header class="mb-3 md:mb-4 lg:mb-6">
         <div class="sm:flex items-center mb-2">
-            <h1 class="flex items-center gap-2 text-2xl font-medium text-gray-600 dark:text-trueGray-400 mb-2 sm:mb-0">
+            <h1 class="flex items-center gap-2 text-2xl font-medium text-slate-600 dark:text-neutral-400 mb-2 sm:mb-0">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
                 </svg>
@@ -38,7 +38,7 @@
         <p class="text-lg">
             {{ trans_choice('1 video|:count videos', $items->total()) }}
             <span class="mx-2">&middot;</span>
-            <a class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" href="/channels/{{ $playlist->channel->uuid }}">
+            <a class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" href="/channels/{{ $playlist->channel->uuid }}">
                 {{ $playlist->channel->title }}
             </a>
         </p>
@@ -47,7 +47,7 @@
         @forelse ($items as $item)
             <x-video-link :video="$item->video" :playlist="$playlist" :showChannel="true" />
         @empty
-            <div class="text-gray-400 dark:text-trueGray-600 py-6">
+            <div class="text-slate-400 dark:text-neutral-600 py-6">
                 {{ __('No available videos') }}
             </div>
         @endforelse
