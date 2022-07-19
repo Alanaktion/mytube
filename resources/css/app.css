@@ -39,10 +39,9 @@
     }
 
     .btn-primary {
-        @apply text-white bg-gradient-to-b from-primary-400 to-primary-500 border-primary-600;
+        @apply text-white bg-gradient-to-b from-primary-400 to-primary-500 border-primary-600 text-shadow-px-primary;
         @apply dark:from-primary-500 dark:to-primary-600 dark:border-primary-700;
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 0 rgba(255, 255, 255, 0.1) inset;
-        text-shadow: 0 1px 0 theme('colors.blue.600');
     }
     .btn-primary:hover {
         @apply from-primary-500 to-primary-600 border-primary-700;
@@ -144,6 +143,9 @@
     }
     [data-tooltip].tooltip-center::before {
         @apply -translate-x-1/2 origin-bottom;
+    }
+    .text-shadow-px-primary {
+        text-shadow: 0 1px 0 theme('colors.primary.600');
     }
 }
 

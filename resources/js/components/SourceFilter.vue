@@ -28,7 +28,7 @@
                             :class="{
                                 'text-slate-700 dark:text-neutral-300': !selected,
                                 'bg-slate-100 dark:bg-neutral-700': !selected && active,
-                                'text-white': selected,
+                                'text-white text-shadow-px-primary': selected,
                                 'bg-gradient-to-b from-primary-400 to-primary-500 dark:from-primary-600 dark:to-primary-700': selected && !active,
                                 'bg-gradient-to-b from-primary-500 to-primary-600 dark:from-primary-500 dark:to-primary-600': selected && active,
                             }"
@@ -59,7 +59,7 @@
                             :class="{
                                 'text-slate-700 dark:text-neutral-300': !selected,
                                 'bg-slate-100 dark:bg-neutral-700': !selected && active,
-                                'text-white': selected,
+                                'text-white text-shadow-px-primary': selected,
                                 'bg-gradient-to-b from-primary-400 to-primary-500 dark:from-primary-600 dark:to-primary-700': selected && !active,
                                 'bg-gradient-to-b from-primary-500 to-primary-600 dark:from-primary-500 dark:to-primary-600': selected && active,
                             }"

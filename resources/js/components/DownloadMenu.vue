@@ -22,7 +22,7 @@
                     <a
                         :href="file.url"
                         :class="[
-                            active ? 'bg-gradient-to-b from-primary-500 to-primary-600 text-white' : 'text-slate-700 dark:text-neutral-300',
+                            active ? 'bg-gradient-to-b from-primary-500 to-primary-600 text-white text-shadow-px-primary' : 'text-slate-700 dark:text-neutral-300',
                             'flex justify-between gap-4 items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer rounded-md whitespace-nowrap',
                         ]"
                         download
