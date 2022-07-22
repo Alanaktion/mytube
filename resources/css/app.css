@@ -32,6 +32,10 @@
     .btn-sm {
         @apply px-2 py-1;
     }
+    /* Used to apply a .btn-like focus state to an element */
+    .btn-focus {
+        @apply rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900;
+    }
 
     .btn:disabled,
     .btn.disabled {

@@ -7,6 +7,7 @@ import UserMenu from './components/UserMenu.vue'
 import LangMenu from './components/LangMenu.vue'
 import ThemeMenu from './components/ThemeMenu.vue'
 import FavoriteToggle from './components/FavoriteToggle.vue'
+import FilterDialog from './components/FilterDialog.vue'
 import SortBy from './components/SortBy.vue'
 import SourceFilter from './components/SourceFilter.vue'
 import DownloadMenu from './components/DownloadMenu.vue'
@@ -53,6 +54,7 @@ if (document.querySelector('#app-favorite-toggle')) {
 if (document.querySelector('#app-sort-filter')) {
     createApp({
         components: {
+            FilterDialog,
             SortBy,
             SourceFilter,
         },
