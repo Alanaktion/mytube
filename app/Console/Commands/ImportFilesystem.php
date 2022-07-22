@@ -141,7 +141,7 @@ class ImportFilesystem extends Command
         string $filePath
     ): Video {
         $id = $this->sources[$type]->video()->canonicalizeId($id);
-        if (ImportError::where('uuid', $id)->first()) {
+        if (ImportError::where('uuid', $id)->where('type', $type)->first()) {
             throw new Exception('Video previously failed to import');
         }
 
