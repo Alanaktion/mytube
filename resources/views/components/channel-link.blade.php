@@ -6,7 +6,7 @@
         </div>
     </a>
     <div>
-        <a href="/channels/{{ $channel->uuid }}" class="block line-clamp-2 break-words mb-1 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
+        <a href="/channels/{{ $channel->uuid }}" class="block line-clamp-2 actually-break-words mb-1 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
             {{ $channel->title }}
             <div class="absolute inset-0"></div>
         </a>

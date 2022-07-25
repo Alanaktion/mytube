@@ -147,6 +147,11 @@
     .text-shadow-px-primary {
         text-shadow: 0 1px 0 theme('colors.primary.600');
     }
+    /* For some reason overflow-wrap on its own isn't breaking some long words in video links and I am tired of trying to figure out how to fix it correctly. Non-standard word-break value works perfectly. */
+    .actually-break-words {
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
 }
 
 .px-safe {
