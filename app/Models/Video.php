@@ -31,7 +31,7 @@ use YoutubeDl\YoutubeDl;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string $source_link
  * @property-read string $embed_html
- * @property-read string $file_link
+ * @property-read string|null $file_link
  * @property-read ?Channel $channel
  * @property-read \Illuminate\Database\Eloquent\Collection|Playlist[] $playlists
  * @property-read \Illuminate\Database\Eloquent\Collection|VideoFile[] $files
