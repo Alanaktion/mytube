@@ -1816,16 +1816,16 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "11.0.6",
+            "version": "11.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "631e16e999af8750504e8ed8774d20f3366fe182"
+                "reference": "7b9c41d06615a0a35e568979cbbd44d9431ecc55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/631e16e999af8750504e8ed8774d20f3366fe182",
-                "reference": "631e16e999af8750504e8ed8774d20f3366fe182",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/7b9c41d06615a0a35e568979cbbd44d9431ecc55",
+                "reference": "7b9c41d06615a0a35e568979cbbd44d9431ecc55",
                 "shasum": ""
             },
             "require": {
@@ -1888,20 +1888,20 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-07-20T11:10:35+00:00"
+            "time": "2022-07-21T19:16:09+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v9.21.5",
+            "version": "v9.21.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "a1944cd0d160a2cc423ef5a451d002711c5f014f"
+                "reference": "569d7a2e361895f90e66bb4e02db89c27691a0e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/a1944cd0d160a2cc423ef5a451d002711c5f014f",
-                "reference": "a1944cd0d160a2cc423ef5a451d002711c5f014f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/569d7a2e361895f90e66bb4e02db89c27691a0e7",
+                "reference": "569d7a2e361895f90e66bb4e02db89c27691a0e7",
                 "shasum": ""
             },
             "require": {
@@ -2068,7 +2068,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-07-21T19:38:16+00:00"
+            "time": "2022-07-22T14:16:44+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -2798,16 +2798,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.7.0",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "5579edf28aee1190a798bfa5be8bc16c563bd524"
+                "reference": "720488632c590286b88b80e62aa3d3d551ad4a50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5579edf28aee1190a798bfa5be8bc16c563bd524",
-                "reference": "5579edf28aee1190a798bfa5be8bc16c563bd524",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/720488632c590286b88b80e62aa3d3d551ad4a50",
+                "reference": "720488632c590286b88b80e62aa3d3d551ad4a50",
                 "shasum": ""
             },
             "require": {
@@ -2827,11 +2827,10 @@
                 "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
-                "php-console/php-console": "^3.1.3",
                 "phpspec/prophecy": "^1.15",
                 "phpstan/phpstan": "^0.12.91",
                 "phpunit/phpunit": "^8.5.14",
-                "predis/predis": "^1.1",
+                "predis/predis": "^1.1 || ^2.0",
                 "rollbar/rollbar": "^1.3 || ^2 || ^3",
                 "ruflin/elastica": "^7",
                 "swiftmailer/swiftmailer": "^5.3|^6.0",
@@ -2851,7 +2850,6 @@
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
-                "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
                 "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
@@ -2886,7 +2884,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.7.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.8.0"
             },
             "funding": [
                 {
@@ -2898,7 +2896,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-09T08:59:12+00:00"
+            "time": "2022-07-24T11:55:47+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -9407,21 +9405,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.13.8",
+            "version": "0.13.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "6e01478f8239bfe28e003fad98d402589fa6861e"
+                "reference": "d6319ec783876579b608840cdfe1d8b566c72f74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/6e01478f8239bfe28e003fad98d402589fa6861e",
-                "reference": "6e01478f8239bfe28e003fad98d402589fa6861e",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d6319ec783876579b608840cdfe1d8b566c72f74",
+                "reference": "d6319ec783876579b608840cdfe1d8b566c72f74",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.8"
+                "phpstan/phpstan": "^1.8.2"
             },
             "conflict": {
                 "phpstan/phpdoc-parser": "<1.6.2",
@@ -9455,7 +9453,7 @@
             "description": "Instant Upgrade and Automated Refactoring of any PHP code",
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.13.8"
+                "source": "https://github.com/rectorphp/rector/tree/0.13.9"
             },
             "funding": [
                 {
@@ -9463,7 +9461,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-07-07T09:46:05+00:00"
+            "time": "2022-07-23T10:55:44+00:00"
         },
         {
             "name": "sebastian/cli-parser",

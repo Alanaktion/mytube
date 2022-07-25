@@ -7,6 +7,7 @@ use App\Models\Video;
 use App\Sources\SourceVideo;
 use App\Sources\Twitter\TwitterClient;
 use App\Traits\DownloadsImages;
+use Exception;
 use Illuminate\Support\Str;
 
 class TwitterVideo implements SourceVideo
@@ -22,6 +23,10 @@ class TwitterVideo implements SourceVideo
     {
         $twitter = new TwitterClient();
         $data = $twitter->getStatus($id);
+
+        if (!empty($data->errors)) {
+            throw new Exception($data->errors[0]->message);
+        }
 
         // Download images
         if (!empty($data->entities) && !empty($data->entities->media)) {

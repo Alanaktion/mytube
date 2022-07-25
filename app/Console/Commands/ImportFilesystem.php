@@ -107,18 +107,17 @@ class ImportFilesystem extends Command
                         return;
                     }
                 }
-                Video::import($video['type'], $video['id'], $video['file']);
+                $id = $this->sources[$video['type']]->video()->canonicalizeId($video['id']);
+                Video::import($video['type'], $id, $video['file']);
             } catch (Exception $e) {
                 $errorCount++;
-                if ($e->getMessage() != 'Video previously failed to import') {
-                    ImportError::updateOrCreate([
-                        'uuid' => $video['id'],
-                        'type' => $video['type'],
-                    ], [
-                        'file_path' => $video['file'],
-                        'reason' => $e->getMessage(),
-                    ]);
-                }
+                ImportError::updateOrCreate([
+                    'uuid' => $video['id'],
+                    'type' => $video['type'],
+                ], [
+                    'file_path' => $video['file'],
+                    'reason' => $e->getMessage(),
+                ]);
                 Log::warning("Error importing file {$video['file']}: {$e->getMessage()}");
             }
         });
@@ -130,22 +129,6 @@ class ImportFilesystem extends Command
         }
 
         return 0;
-    }
-
-    /**
-     * Retrieve and store video metadata if it doesn't already exist
-     */
-    protected function importVideo(
-        string $type,
-        string $id,
-        string $filePath
-    ): Video {
-        $id = $this->sources[$type]->video()->canonicalizeId($id);
-        if (ImportError::where('uuid', $id)->where('type', $type)->first()) {
-            throw new Exception('Video previously failed to import');
-        }
-
-        return Video::import($type, $id, $filePath);
     }
 
     /**
