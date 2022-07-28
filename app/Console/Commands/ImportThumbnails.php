@@ -3,11 +3,13 @@
 namespace App\Console\Commands;
 
 use App\Models\Video;
+use App\Traits\FilesystemHelpers;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 
 class ImportThumbnails extends Command
 {
+    use FilesystemHelpers;
+
     /**
      * The name and signature of the console command.
      *
@@ -51,7 +53,7 @@ class ImportThumbnails extends Command
                 foreach ($imageFiles as $path) {
                     $imageExt = pathinfo($path, PATHINFO_EXTENSION);
                     if (in_array($imageExt, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
-                        $url = $this->copyImage($path);
+                        $url = $this->copyThumbnailImage($path);
                         $video->update([
                             'thumbnail_url' => $url,
                             'poster_url' => $url,
@@ -64,17 +66,5 @@ class ImportThumbnails extends Command
         $this->line('');
 
         return 0;
-    }
-
-    /**
-     * Copy a thumbnail image file to the storage directory.
-     */
-    protected function copyImage(string $imagePath): string
-    {
-        $disk = Storage::disk('public');
-        $destPath = 'thumbs/local/' . basename($imagePath);
-        $data = file_get_contents($imagePath);
-        $disk->put($destPath, $data, 'public');
-        return Storage::url("public/$destPath");
     }
 }

@@ -4,15 +4,16 @@ namespace App\Console\Commands;
 
 use App\Models\ImportError;
 use App\Models\Video;
+use App\Traits\FilesystemHelpers;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportFilesystem extends Command
 {
+    use FilesystemHelpers;
+
     /**
      * @var string
      */
@@ -129,35 +130,5 @@ class ImportFilesystem extends Command
         }
 
         return 0;
-    }
-
-    /**
-     * Get all of the files in a directory recursively.
-     *
-     * This returns an array of all files in a directory, with complete paths.
-     * @return string[]
-     */
-    protected function getDirectoryFiles(string $directory): array
-    {
-        $files = [];
-        $rii = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator(
-                $directory,
-                RecursiveDirectoryIterator::FOLLOW_SYMLINKS
-            ),
-            RecursiveIteratorIterator::SELF_FIRST,
-            RecursiveIteratorIterator::CATCH_GET_CHILD
-        );
-        foreach ($rii as $file) {
-            /** @var \SplFileInfo $file */
-            if ($file->isDir()) {
-                continue;
-            }
-            $path = $file->getRealPath();
-            if ($path !== false) {
-                $files[] = $path;
-            }
-        }
-        return $files;
     }
 }
