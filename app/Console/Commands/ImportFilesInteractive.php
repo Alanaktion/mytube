@@ -130,7 +130,7 @@ class ImportFilesInteractive extends Command
                 }
             } else {
                 $this->warn('Creating new channel with title: ' . $channel_title);
-                $channel = new Channel([
+                $channel = Channel::create([
                     'type' => $source,
                     'title' => $channel_title,
                     'uuid' => $this->ask('Channel UUID:'),
