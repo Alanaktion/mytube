@@ -67,14 +67,9 @@
     <main class="py-4 lg:py-6 xl:py-8 px-safe" id="content">
         @if (session('message'))
         <div class="container mb-4">
-            <div class="flex items-center bg-emerald-100 dark:bg-emerald-900 bg-opacity-50 border border-emerald-100 dark:border-emerald-600 p-3 rounded">
-                <svg class="w-6 h-6 mr-2 text-emerald-500 dark:text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span class="text-emerald-900 dark:text-emerald-100">
-                    {{ session('message') }}
-                </span>
-            </div>
+            <x-alert :type="session('messageType', 'success')">
+                {{ session('message') }}
+            </x-alert>
         </div>
         @endif
 

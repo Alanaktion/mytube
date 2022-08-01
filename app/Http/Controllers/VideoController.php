@@ -16,9 +16,13 @@ class VideoController extends Controller
             'sort' => ['sometimes', 'string', 'in:published_at,created_at'],
             'source' => ['sometimes', 'string', 'nullable'],
             'files' => ['sometimes', 'boolean', 'nullable'],
+            'resolution' => ['sometimes', 'integer', 'nullable'],
         ]);
         if ($validator->fails()) {
-            dd($validator->errors());
+            return redirect('/videos')->with([
+                'message' => implode("\n", $validator->errors()->all()),
+                'messageType' => 'error',
+            ]);
         }
         $sort = $request->input('sort', 'published_at');
         $source = $request->input('source');
@@ -28,7 +32,11 @@ class VideoController extends Controller
         if ($source !== null) {
             $videos->where('source_type', $source);
         }
-        if ($request->has('files')) {
+        if ($request->input('resolution')) {
+            $videos->whereHas('files', function (Builder $query) use ($request) {
+                $query->where('height', $request->input('resolution'));
+            });
+        } elseif ($request->has('files')) {
             if ($request->boolean('files')) {
                 $videos->whereHas('files');
             } else {

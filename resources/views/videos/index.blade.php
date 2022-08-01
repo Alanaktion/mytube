@@ -6,7 +6,7 @@
         <h1 class="text-2xl font-medium text-slate-600 dark:text-neutral-400">{{ __('Videos') }}</h1>
         <div id="app-sort-filter" class="flex gap-2">
             <x-sort-by :value="$sort" />
-            <x-filter-source :value="$source" />
+            <x-filter-dialog />
         </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-4 lg:gap-6 pb-5 lg:mb-6">
