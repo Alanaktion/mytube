@@ -6,17 +6,14 @@ use App\Jobs\DownloadVideo;
 use App\Models\Video;
 use Illuminate\Console\Command;
 
-/**
- * @todo Make a generalized version of this command for all sources.
- */
-class DownloadYouTubeMissing extends Command
+class DownloadMissing extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'youtube:download-videos {--queue : Whether to queue the downloads}';
+    protected $signature = 'download:missing {--queue : Whether to queue the downloads}';
 
     /**
      * The console command description.

@@ -31,11 +31,11 @@
                             {{ file.height }}p {{ file.mime_type.substring(6).toUpperCase() }}
                         </span>
                         <span v-else>
-                            {{ file.mime_type.substring(6).toUpperCase() }}
+                            {{ formatType(file.mime_type) }}
                         </span>
                         <span :class="[
                             active ? 'text-slate-100' : 'text-slate-500 dark:text-neutral-500',
-                        ]">
+                        ]" v-if="file.size">
                             {{ formatSize(file.size) }}
                         </span>
                     </a>
@@ -64,5 +64,12 @@ const formatSize = (size) => {
         return `${(size / 1e6).toFixed(2)} MB`;
     }
     return `${(size / 1e3).toFixed(2)} KB`;
+}
+
+const formatType = mime_type => {
+    const type = mime_type.split('/')[1];
+    return {
+        'x-matroska': 'MKV'
+    }[type] || type.toUpperCase();
 }
 </script>

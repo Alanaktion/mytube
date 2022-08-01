@@ -45,18 +45,18 @@ class DownloadVideo implements ShouldQueue
     public function handle(): void
     {
         try {
-            // Import and download the video
-            $video = Video::import('youtube', $this->videoId);
+            // Download the video
+            $video = Video::where('uuid', $this->videoId)->first();
             $video->downloadVideo($this->downloadDir);
 
             // Delete any previous import errors on success
             ImportError::where('uuid', $this->videoId)
-                ->where('type', 'youtube')
+                ->where('type', $video->source_type)
                 ->delete();
         } catch (Exception $e) {
             ImportError::updateOrCreate([
                 'uuid' => $this->videoId,
-                'type' => 'youtube',
+                'type' => $video->source_type ?? '',
             ], [
                 'reason' => $e->getMessage(),
             ]);

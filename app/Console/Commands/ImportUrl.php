@@ -48,7 +48,7 @@ class ImportUrl extends Command
                     }
                 }
             }
-            if ($type === null) {
+            if ($typeSource === null) {
                 $this->error('Unable to find source for URL: ' . $url);
             } else {
                 $id = $typeSource->video()->matchUrl($url);

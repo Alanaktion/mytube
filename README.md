@@ -30,6 +30,7 @@ https://mytube-app-demo.herokuapp.com/
 - [MySQL](https://dev.mysql.com/downloads/) 8 (or any RDBMS supported by Laravel)
 - Web server with support for rewrites and following symbolic links ([nginx](https://nginx.org/en/) recommended)
 - [NodeJS](https://nodejs.org/en/) LTS 16 or later for building front-end assets
+- [ffmpeg](https://ffmpeg.org) for converting files and reading metadata
 
 ## Setup
 
@@ -119,6 +120,8 @@ php artisan import:filesystem <directory>
 
 This will recursively scan the given directory for files that include YouTube video IDs in their filenames, and will fetch and store metadata from those videos. The videos will only be recognized if they have the YouTube UUID right before the file extension, as is the default in `yt-dlp`.
 
+Some videos have ambiguous video IDs, so separating your files by source and specifying the --source option when importing is recommended. For example, Twitch videos may have an 11-character ID that is most likely a Twitch ID, but also matches the YouTube ID format. Separating the files before importing allows you to specify the correct source, improving import accuracy and performance.
+
 For best browser support, files should be in MP4 containers, with H.264 video and AAC audio. To download videos in this compatible single-file format:
 
 ```bash
@@ -127,7 +130,7 @@ yt-dlp -f bv+ba[ext=m4a]/b[ext=mp4]/bv+ba/b \
     <URL>
 ```
 
-This will avoid video transcoding where possible, but may occasionally require re-encoding the audio stream (which requires `ffmpeg` or `avconv` to be available). Using only the `merge-output-format` option will usually work, but may not download the ideal source formats, requiring more transcoding and potentially a lower quality result.
+This will avoid video transcoding where possible, but may occasionally require re-encoding the audio stream (which requires `ffmpeg` to be available). Using only the `merge-output-format` option will usually work, but may not download the ideal source formats, requiring more transcoding and potentially a lower quality result.
 
 ### Playlists
 

@@ -7,6 +7,7 @@ use App\Models\Video;
 use App\Sources\SourceVideo;
 use App\Sources\Twitter\TwitterClient;
 use App\Traits\DownloadsImages;
+use Exception;
 use Illuminate\Support\Str;
 
 class TwitterVideo implements SourceVideo
@@ -22,6 +23,10 @@ class TwitterVideo implements SourceVideo
     {
         $twitter = new TwitterClient();
         $data = $twitter->getStatus($id);
+
+        if (!empty($data->errors)) {
+            throw new Exception($data->errors[0]->message);
+        }
 
         // Download images
         if (!empty($data->entities) && !empty($data->entities->media)) {
@@ -54,7 +59,7 @@ class TwitterVideo implements SourceVideo
 
     public function matchUrl(string $url): ?string
     {
-        if (preg_match('/^(https?:\/\/)?(www\.)?twitter\.com\/([^\/]+)\/status\/(\d{19})/i', $url, $matches)) {
+        if (preg_match('/^(https?:\/\/)?(www\.)?twitter\.com\/([^\/]+)\/status\/(\d{18,19})/i', $url, $matches)) {
             return $matches[4];
         }
         return null;
@@ -62,15 +67,15 @@ class TwitterVideo implements SourceVideo
 
     public function matchId(string $id): bool
     {
-        return (bool)preg_match('/^\d{19}$/i', $id);
+        return (bool)preg_match('/^\d{18,19}$/i', $id);
     }
 
     public function matchFilename(string $filename): ?string
     {
-        if (preg_match('/-(\d{19})\.(mp4|m4v|avi|mkv|webm)$/i', $filename, $matches)) {
+        if (preg_match('/-(\d{18,19})\.(mp4|m4v|avi|mkv|webm)$/i', $filename, $matches)) {
             return $matches[1];
         }
-        if (preg_match('/ \[(\d{19})\]\.(mp4|m4v|avi|mkv|webm)$/i', $filename, $matches)) {
+        if (preg_match('/ \[(\d{18,19})\]\.(mp4|m4v|avi|mkv|webm)$/i', $filename, $matches)) {
             return $matches[1];
         }
         return null;

@@ -31,7 +31,7 @@ use YoutubeDl\YoutubeDl;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string $source_link
  * @property-read string $embed_html
- * @property-read string $file_link
+ * @property-read string|null $file_link
  * @property-read ?Channel $channel
  * @property-read \Illuminate\Database\Eloquent\Collection|Playlist[] $playlists
  * @property-read \Illuminate\Database\Eloquent\Collection|VideoFile[] $files
@@ -81,14 +81,8 @@ class Video extends Model
             $video = $source->video()->import($id);
         }
 
-        if ($filePath !== null && !$video->files()->where('path', $filePath)->exists()) {
-            $data = [
-                'path' => $filePath,
-                'mime_type' => mime_content_type($filePath),
-                'size' => filesize($filePath),
-            ];
-            $meta = VideoFile::getMetadataForFile($filePath) ?? [];
-            $video->files()->create(array_merge($data, $meta));
+        if ($filePath !== null) {
+            $video->addFile($filePath);
         }
 
         // Remove any previous import errors
@@ -97,6 +91,26 @@ class Video extends Model
             ->delete();
 
         return $video;
+    }
+
+    /**
+     * Add a file to the video, importing metadata when available.
+     *
+     * Previously added files will return the existing model.
+     */
+    public function addFile(string $filePath): VideoFile
+    {
+        $file = $this->files()->where('path', $filePath)->first();
+        if ($file) {
+            return $file;
+        }
+        $data = [
+            'path' => $filePath,
+            'mime_type' => mime_content_type($filePath),
+            'size' => filesize($filePath),
+        ];
+        $meta = VideoFile::getMetadataForFile($filePath) ?? [];
+        return $this->files()->create(array_merge($data, $meta));
     }
 
     /**
