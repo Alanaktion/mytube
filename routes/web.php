@@ -36,6 +36,7 @@ Route::get('/channels/{channel:uuid}', [ChannelController::class, 'videos'])->na
 Route::get('/channels/{channel:uuid}/playlists', [ChannelController::class, 'playlists']);
 Route::get('/channels/{channel:uuid}/search', [ChannelController::class, 'search']);
 Route::get('/channels/{channel:uuid}/about', [ChannelController::class, 'about']);
+Route::post('/channels/{channel:uuid}/refresh', [ChannelController::class, 'refresh']);
 
 Route::get('/playlists', [PlaylistController::class, 'index']);
 Route::get('/playlists/{playlist:uuid}', [PlaylistController::class, 'show'])->name('playlist');

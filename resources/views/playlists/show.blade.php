@@ -24,15 +24,17 @@
                         <x-source-icon :type="$playlist->channel->type" class="h-5 w-5" />
                     </a>
                 @endif
-                @if (Auth::check() && Auth::user()->isAdmin())
+                @auth
                     <x-favorite-toggle :model="$playlist" />
-                    <form action="/playlists/{{ $playlist->uuid }}/refresh" method="post">
-                        @csrf
-                        <x-button type="submit" title="{{ __('Refresh the playlist from the source.') }}" rounded>
-                            {{ __('Refresh') }}
-                        </x-button>
-                    </form>
-                @endif
+                    @if (Auth::user()->isAdmin())
+                        <form action="/playlists/{{ $playlist->uuid }}/refresh" method="post">
+                            @csrf
+                            <x-button type="submit" title="{{ __('Refresh the playlist from the source.') }}" rounded>
+                                {{ __('Refresh') }}
+                            </x-button>
+                        </form>
+                    @endif
+                @endauth
             </div>
         </div>
         <p class="text-lg">

@@ -14,6 +14,11 @@
                 @endif
                 @auth
                     <x-favorite-toggle :model="$channel" />
+                    @if (Auth::user()->isAdmin() && $channel->type == 'youtube')
+                        <div id="app-channel-refresh">
+                            <channel-refresh uuid="{{ $channel->uuid }}"></channel-refresh>
+                        </div>
+                    @endif
                 @endauth
             </div>
             <form class="sm:ml-auto mt-3 sm:mt-0" action="/channels/{{ $channel->uuid }}/search">

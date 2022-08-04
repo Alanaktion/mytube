@@ -25,7 +25,7 @@
                         <DialogPanel class="w-60 h-full overflow-y-auto transform bg-white dark:bg-neutral-800 shadow-xl transition-all origin-right">
                             <form class="flex flex-col h-full" action="" method="get">
                                 <div class="flex items-center gap-2 border-b border-slate-200 dark:border-neutral-700 py-2 px-4">
-                                    <button class="appearance-none p-2 -ml-2" type="reset" @click="close">
+                                    <button class="appearance-none p-2 -ml-2 opacity-50 hover:opacity-100 btn-focus" type="reset" @click="close">
                                         <span class="sr-only">{{ $t('Close') }}</span>
                                         <XIcon class="w-4 h-4" />
                                     </button>

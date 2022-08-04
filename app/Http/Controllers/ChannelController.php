@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessChannelImport;
 use App\Models\Channel;
 use App\Models\Playlist;
 use App\Models\Video;
@@ -88,5 +89,26 @@ class ChannelController extends Controller
             'title' => $channel->title,
             'channel' => $channel,
         ]);
+    }
+
+    public function refresh(Channel $channel, Request $request)
+    {
+        $request->validate([
+            'playlists' => ['sometimes', 'boolean'],
+            'videos' => ['sometimes', 'boolean'],
+        ]);
+
+        ProcessChannelImport::dispatch(
+            $channel->type,
+            $channel->id,
+            $request->boolean('videos'),
+            $request->boolean('playlists'),
+        );
+
+        $message = 'Channel import started.';
+        if (config('queue.default') == 'sync') {
+            $message = 'Channel imported.';
+        }
+        return redirect()->back()->with('message', $message);
     }
 }

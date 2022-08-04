@@ -58,7 +58,7 @@
 
                         <div class="flex items-start mb-3">
                             <div class="flex items-center h-5">
-                                <input type="checkbox" class="input-checkbox" id="playlists" name="playlists" v-model="playlists">
+                                <input type="checkbox" class="input-checkbox" id="playlists" name="playlists" v-model="playlists" value="1">
                             </div>
                             <div class="ml-3 text-sm">
                                 <label for="playlists" class="font-semibold text-slate-700 dark:text-neutral-300">
@@ -71,7 +71,7 @@
                         </div>
                         <div class="flex items-start">
                             <div class="flex items-center h-5">
-                                <input type="checkbox" class="input-checkbox" id="videos" name="videos" v-model="videos">
+                                <input type="checkbox" class="input-checkbox" id="videos" name="videos" v-model="videos" value="1">
                             </div>
                             <div class="ml-3 text-sm leading-5">
                                 <label for="videos" class="font-semibold text-slate-700 dark:text-neutral-300">
@@ -98,12 +98,7 @@
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue';
 import { ref } from 'vue';
 
-defineProps({
-    csrfToken: {
-        type: String,
-        required: true,
-    },
-});
+const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
 const actions = [
     '/admin/videos',

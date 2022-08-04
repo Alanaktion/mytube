@@ -12,6 +12,7 @@ import SortBy from './components/SortBy.vue'
 import SourceFilter from './components/SourceFilter.vue'
 import DownloadMenu from './components/DownloadMenu.vue'
 import JobDetails from './components/JobDetails.vue'
+import ChannelRefresh from './components/ChannelRefresh.vue'
 import ImportForm from './components/ImportForm.vue'
 
 const langResolve = async lang => {
@@ -81,6 +82,16 @@ if (document.querySelector('#app-job-details')) {
     }).use(i18nVue, {
         resolve: langResolve,
     }).mount('#app-job-details')
+}
+
+if (document.querySelector('#app-channel-refresh')) {
+    createApp({
+        components: {
+            ChannelRefresh,
+        },
+    }).use(i18nVue, {
+        resolve: langResolve,
+    }).mount('#app-channel-refresh')
 }
 
 if (document.querySelector('#app-admin-import')) {

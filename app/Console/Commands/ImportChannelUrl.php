@@ -2,28 +2,36 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Playlist;
+use App\Models\Channel;
+use Exception;
 use Illuminate\Console\Command;
 
-class ImportPlaylistUrl extends Command
+class ImportChannelUrl extends Command
 {
     /**
+     * The name and signature of the console command.
+     *
      * @var string
      */
     protected $signature = 'import:playlist-url
         {--source=}
-        {--no-items : Don\'t import the items with the playlist}
+        {--playlists}
+        {--channels}
         {url*}';
 
     /**
+     * The console command description.
+     *
      * @var string
      */
-    protected $description = 'Import playlists by URL.';
+    protected $description = 'Import channels by URL.';
 
     /**
      * Execute the console command.
+     *
+     * @return int
      */
-    public function handle(): int
+    public function handle()
     {
         $urls = $this->argument('url');
 
@@ -36,10 +44,7 @@ class ImportPlaylistUrl extends Command
             if ($type === null) {
                 foreach ($sources as $source) {
                     /** @var \App\Sources\Source $source */
-                    if (!$source->playlist()) {
-                        continue;
-                    }
-                    if ($id = $source->playlist()->matchUrl($url)) {
+                    if ($id = $source->channel()->matchUrl($url)) {
                         $type = $source->getSourceType();
                         $typeSource = $source;
                         break;
@@ -57,9 +62,6 @@ class ImportPlaylistUrl extends Command
             if ($type === null || $typeSource === null) {
                 $this->error('Unable to find source for URL: ' . $url);
                 continue;
-            } elseif ($typeSource->playlist() === null) {
-                $this->error('Source does not support playlists: ' . $type);
-                return 1;
             } else {
                 $id = $typeSource->playlist()->matchUrl($url);
             }
@@ -68,7 +70,21 @@ class ImportPlaylistUrl extends Command
                 continue;
             }
 
-            Playlist::import($type, $id, !$this->option('no-items'));
+            $channel = Channel::import($type, $id);
+            try {
+                if ($this->option('playlists')) {
+                    $channel->importPlaylists();
+                }
+            } catch (Exception $e) {
+                $this->error($e->getMessage());
+            }
+            try {
+                if ($this->option('videos')) {
+                    $channel->importVideos();
+                }
+            } catch (Exception $e) {
+                $this->error($e->getMessage());
+            }
         }
 
         return 0;

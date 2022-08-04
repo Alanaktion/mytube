@@ -6,7 +6,6 @@
         <video class="w-full aspect-video mb-4 lg:mb-6" controls poster="{{ $video->poster_url ?? "/images/posters/{$video->uuid}" }}">
             @foreach ($video->files as $file)
                 <source src="{{ $file->url }}" type="{{ $file->mime_type }}">
-                <code>{{ $file->path }}</code>
             @endforeach
         </video>
     @elseif (config('app.embed'))
