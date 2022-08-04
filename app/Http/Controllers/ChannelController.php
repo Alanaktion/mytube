@@ -100,7 +100,7 @@ class ChannelController extends Controller
 
         ProcessChannelImport::dispatch(
             $channel->type,
-            $channel->id,
+            $channel->uuid,
             $request->boolean('videos'),
             $request->boolean('playlists'),
         );
