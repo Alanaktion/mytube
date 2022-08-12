@@ -127,7 +127,33 @@
                                                     'bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-800 dark:text-primary-50': checked,
                                                 }"
                                             >
-                                                {{ option.label }}
+                                                {{ $t(option.label) }}
+                                                <CheckCircleIcon
+                                                    v-if="checked"
+                                                    class="w-4 h-4 ml-auto"
+                                                    aria-hidden="true"
+                                                />
+                                            </div>
+                                        </RadioGroupOption>
+                                    </RadioGroup>
+                                    <RadioGroup v-model="mimeType" name="mime_type" class="flex flex-col gap-1">
+                                        <RadioGroupLabel class="form-label px-4 py-3 -mx-2 mb-1 bg-gray-100 dark:bg-neutral-700">
+                                            {{ $t('Format') }}
+                                        </RadioGroupLabel>
+                                        <RadioGroupOption
+                                            class="btn-focus"
+                                            v-for="option in mimeTypeOptions"
+                                            v-slot="{ checked }"
+                                            :value="option.key"
+                                        >
+                                            <div
+                                                class="flex items-center w-full cursor-pointer btn border-transparent"
+                                                :class="{
+                                                    'hover:bg-slate-100 hover:dark:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
+                                                    'bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-800 dark:text-primary-50': checked,
+                                                }"
+                                            >
+                                                {{ $t(option.label) }}
                                                 <CheckCircleIcon
                                                     v-if="checked"
                                                     class="w-4 h-4 ml-auto"
@@ -183,18 +209,31 @@ const resolutionOptions = [
     {key: '1080', label: '1080p'},
     {key: '2160', label: '2160p'},
 ];
+const mimeTypeOptions = [
+    {key: '', label: 'Any'},
+    {key: 'video/mp4', label: 'MP4'},
+    {key: 'video/webm', label: 'WebM'},
+    {key: 'video/x-matroska', label: 'MKV'},
+];
 
 const source = ref(props.params.source || '');
 const files = ref(props.params.files || '');
 const resolution = ref(props.params.resolution || '');
+const mimeType = ref(props.params.mime_type || '');
 
 watch(files, () => {
     if (files.value !== '1') {
         resolution.value = '';
+        mimeType.value = '';
     }
 }, { immediate: true });
 watch(resolution, () => {
     if (resolution.value !== '') {
+        files.value = '1';
+    }
+}, { immediate: true });
+watch(mimeType, () => {
+    if (mimeType.value !== '') {
         files.value = '1';
     }
 }, { immediate: true });

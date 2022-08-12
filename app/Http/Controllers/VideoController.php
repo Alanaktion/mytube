@@ -36,7 +36,13 @@ class VideoController extends Controller
             $videos->whereHas('files', function (Builder $query) use ($request) {
                 $query->where('height', $request->input('resolution'));
             });
-        } elseif ($request->has('files')) {
+        }
+        if ($request->input('mime_type')) {
+            $videos->whereHas('files', function (Builder $query) use ($request) {
+                $query->where('mime_type', $request->input('mime_type'));
+            });
+        }
+        if ($request->has('files') && !$request->input('resolution') && !$request->input('mime_type')) {
             if ($request->boolean('files')) {
                 $videos->whereHas('files');
             } else {

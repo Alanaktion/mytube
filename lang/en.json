@@ -8,12 +8,14 @@
     "All playlists": "All playlists",
     "All Sources": "All Sources",
     "All videos": "All videos",
+    "Any": "Any",
     "Change language": "Change language",
     "Channel URL": "Channel URL",
     "Channels": "Channels",
     "Description": "Description",
     "Download": "Download",
     "Favorites": "Favorites",
+    "Filter": "Filter",
     "Go Home": "Go Home",
     "Imported date": "Imported",
     "Import channel": "Import channel",
@@ -21,6 +23,7 @@
     "Import video": "Import video",
     "Log out": "Sign out",
     "Login": "Sign in",
+    "Missing local files": "Missing local files",
     "My Favorites": "My Favorites",
     "No available channels": "No available channels",
     "No available playlists": "No available playlists",
@@ -60,5 +63,6 @@
     "Videos": "Videos",
     "View all": "View all →",
     "View on :source": "View on :source",
-    "Watch on :source": "Watch on :source"
+    "Watch on :source": "Watch on :source",
+    "With local files": "With local files"
 }

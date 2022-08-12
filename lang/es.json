@@ -8,12 +8,14 @@
     "All playlists": "Todas las listas de reproducción",
     "All Sources": "Todas las fuentes",
     "All videos": "Todos los videos",
+    "Any": "Todo",
     "Change language": "Cambiar idioma",
     "Channel URL": "URL de canale",
     "Channels": "Canales",
     "Description": "Descripción",
     "Download": "Descargar",
     "Favorites": "Favoritas",
+    "Filter": "Filtro",
     "Go Home": "Vete a casa",
     "Imported date": "Importada",
     "Import channel": "Importar canale",
@@ -21,6 +23,7 @@
     "Import video": "Importar video",
     "Log out": "Cerrar sesión",
     "Login": "Iniciar sesión",
+    "Missing local files": "Faltan archivos locales",
     "My Favorites": "Mis favoritas",
     "No available channels": "No hay canales disponibles",
     "No available playlists": "No hay listas de reproducción disponibles",
@@ -55,5 +58,6 @@
     "Videos": "Videos",
     "View all": "Ver todo →",
     "View on :source": "Ver en :source",
-    "Watch on :source": "Ver en :source"
+    "Watch on :source": "Ver en :source",
+    "With local files": "Con archivos locales"
 }
