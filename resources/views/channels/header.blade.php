@@ -21,7 +21,7 @@
                     @endif
                 @endauth
             </div>
-            <form class="sm:ml-auto mt-3 sm:mt-0" action="/channels/{{ $channel->uuid }}/search">
+            <form class="sm:ml-auto mt-3 sm:mt-0" action="{{ route('channels.search.index', $channel) }}">
                 <input type="search" class="dark:bg-neutral-850 focus:outline-none focus:ring-primary-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-neutral-400 dark:text-neutral-100 border-slate-400 dark:border-neutral-700 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="{{ __('Search channel') }}">
             </form>
         </header>
@@ -32,7 +32,7 @@
                         ? '-mb-px border-b-2 text-primary-600 border-primary-600 hover:text-primary-500 dark:text-primary-400 dark:border-primary-400 dark:hover:text-primary-300'
                         : 'text-slate-700 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white'
                     }}"
-                href="/channels/{{ $channel->uuid }}">
+                href="{{ route('channels.videos.index', $channel) }}">
                 {{ __('Videos') }}
                 <span class="ml-1 px-2 align-middle text-sm bg-slate-200 dark:bg-neutral-700 text-black dark:text-white rounded-full">{{ $channel->videos()->count() }}</span>
             </a>
@@ -43,7 +43,7 @@
                             ? '-mb-px border-b-2 text-primary-600 border-primary-600 hover:text-primary-500 dark:text-primary-400 dark:border-primary-400 dark:hover:text-primary-300'
                             : 'text-slate-700 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white'
                         }}"
-                    href="/channels/{{ $channel->uuid }}/playlists">
+                    href="{{ route('channels.playlists.index', $channel) }}">
                     {{ __('Playlists') }}
                     <span class="ml-1 px-2 align-middle text-sm bg-slate-200 dark:bg-neutral-700 text-black dark:text-white rounded-full">{{ $channel->playlists()->count() }}</span>
                 </a>
@@ -54,13 +54,13 @@
                         ? '-mb-px border-b-2 text-primary-600 border-primary-600 hover:text-primary-500 dark:text-primary-400 dark:border-primary-400 dark:hover:text-primary-300'
                         : 'text-slate-700 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white'
                     }}"
-                href="/channels/{{ $channel->uuid }}/about">
+                href="{{ route('channels.show', $channel) }}">
                 {{ __('About') }}
             </a>
             @if($tab == 'search')
                 <a
                     class="px-3 py-2 -mb-px border-b-2 text-primary-600 border-primary-600 hover:text-primary-500 dark:text-primary-400 dark:border-primary-400 dark:hover:text-primary-300"
-                    href="/channels/{{ $channel->uuid }}/playlists">
+                    href="{{ route('channels.search.index', $channel) }}">
                     {{ __('Search Results') }}
                 </a>
             @endif

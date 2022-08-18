@@ -21,7 +21,7 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'can:access-admin']);
     }
 
     /**
@@ -81,7 +81,7 @@ class AdminController extends Controller
         if (config('queue.default') == 'sync') {
             $message = 'Playlists imported.';
         }
-        return redirect('/admin')->with('message', $message);
+        return redirect()->route('admin.index')->with('message', $message);
     }
 
     public function videoImport(Request $request)
@@ -111,7 +111,7 @@ class AdminController extends Controller
         }
 
         $message = "{$success} of {$count} videos imported.";
-        return redirect('/admin')->with('message', $message);
+        return redirect()->route('admin.index')->with('message', $message);
     }
 
     public function channelImport(Request $request)
@@ -139,7 +139,7 @@ class AdminController extends Controller
         if (config('queue.default') == 'sync') {
             $message = 'Channel imported.';
         }
-        return redirect('/admin')->with('message', $message);
+        return redirect()->route('admin.index')->with('message', $message);
     }
 
     public function missing(Request $request)

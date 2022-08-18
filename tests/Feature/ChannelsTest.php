@@ -13,10 +13,10 @@ class ChannelsTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testShow(): void
+    public function testShowVideos(): void
     {
         $channel = Channel::first();
-        $response = $this->get("/channels/{$channel->uuid}");
+        $response = $this->get("/channels/{$channel->uuid}/videos");
         $response->assertStatus(200);
     }
 
@@ -30,7 +30,7 @@ class ChannelsTest extends TestCase
     public function testShowAbout(): void
     {
         $channel = Channel::first();
-        $response = $this->get("/channels/{$channel->uuid}/about");
+        $response = $this->get("/channels/{$channel->uuid}");
         $response->assertStatus(200);
     }
 

@@ -22,7 +22,7 @@
                 </div>
             </div>
             <p class="text-lg">
-                <a class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" href="/channels/{{ $video->channel->uuid }}">
+                <a class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" href="{{ route('channels.videos.index', $video->channel) }}">
                     {{ $video->channel->title }}
                 </a>
             </p>
@@ -53,7 +53,7 @@
         <div class="flex-shrink-0 sm:w-72 md:w-80">
             @if ($playlist)
                 <div class="text-lg mb-3 truncate text-slate-600 dark:text-neutral-400">
-                    <a href="{{ route('playlist', $playlist) }}">{{ $playlist->title }}</a>
+                    <a href="{{ route('playlists.show', $playlist) }}">{{ $playlist->title }}</a>
                 </div>
                 <div class="shadow overflow-hidden sm:rounded-md">
                     <ul class="bg-white dark:bg-neutral-800 h-96 overflow-y-scroll">

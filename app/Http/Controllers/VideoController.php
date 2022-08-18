@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Validator;
 
 class VideoController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Video::class);
+    }
+
     public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -19,7 +24,7 @@ class VideoController extends Controller
             'resolution' => ['sometimes', 'integer', 'nullable'],
         ]);
         if ($validator->fails()) {
-            return redirect('/videos')->with([
+            return redirect()->route('videos.index')->with([
                 'message' => implode("\n", $validator->errors()->all()),
                 'messageType' => 'error',
             ]);

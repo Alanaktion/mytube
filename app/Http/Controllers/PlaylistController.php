@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Playlist::class);
+    }
+
     public function index(Request $request)
     {
         $request->validate([
@@ -51,7 +56,7 @@ class PlaylistController extends Controller
         ]);
     }
 
-    public function refresh(Playlist $playlist)
+    public function update(Playlist $playlist)
     {
         $playlist->load('channel:id,type');
         ProcessPlaylistImport::dispatch($playlist->channel->type, $playlist->uuid);
@@ -60,7 +65,7 @@ class PlaylistController extends Controller
             $message = 'Playlist refreshed.';
         }
         return redirect()
-            ->route('playlist', ['playlist' => $playlist])
+            ->route('playlists.show', ['playlist' => $playlist])
             ->with('message', $message);
     }
 }

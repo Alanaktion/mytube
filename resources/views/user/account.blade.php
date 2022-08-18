@@ -13,8 +13,9 @@
                 </div>
             </div>
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <form action="/user/account" method="POST">
+                <form action="{{ route('users.update', auth()->id()) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <x-card>
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 sm:col-span-4">
@@ -71,7 +72,7 @@
                                     @else
                                         <div>Never used</div>
                                     @endif
-                                    <form class="ml-4" action="/user/tokens/{{ $token->id }}" method="POST">
+                                    <form class="ml-4" action="{{ route('users.tokens.destroy', [auth()->id(), $token->id]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <x-button type="submit">Revoke</x-button>
@@ -80,7 +81,7 @@
                             @endforeach
                         </div>
                         <x-slot name="footer">
-                            <form class="flex mt-1" action="/user/tokens" method="POST">
+                            <form class="flex mt-1" action="{{ route('users.tokens.store', auth()->id()) }}" method="POST">
                                 @csrf
                                 <label for="token-name" class="sr-only">Token name</label>
                                 <x-input class="max-w-md mr-3" name="name" id="token-name" placeholder="Token name" required />
@@ -93,7 +94,7 @@
                                 <div class="font-medium">No tokens</div>
                                 <div class="text-slate-600 dark:text-neutral-400">You have not created any access tokens yet.</div>
                             </div>
-                            <form class="flex gap-3 mt-1" action="/user/tokens" method="POST">
+                            <form class="flex gap-3 mt-1" action="{{ route('users.tokens.store', auth()->id()) }}" method="POST">
                                 @csrf
                                 <label for="token-name" class="sr-only">Token name</label>
                                 <x-input name="name" id="token-name" placeholder="Token name" required />

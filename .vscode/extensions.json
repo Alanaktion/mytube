@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "bradlc.vscode-tailwindcss",
+        "mikestead.dotenv",
+        "onecentlin.laravel-blade",
+        "Vue.volar"
+    ]
+}

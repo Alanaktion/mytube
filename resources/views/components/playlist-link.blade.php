@@ -1,5 +1,5 @@
 <div class="flex flex-col relative group">
-    <a href="/playlists/{{ $playlist->uuid }}" class="block line-clamp-2 actually-break-words leading-snug mb-1 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
+    <a href="{{ route('playlists.show', $playlist) }}" class="block line-clamp-2 actually-break-words leading-snug mb-1 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
         {{ $playlist->title }}
         <div class="absolute inset-0 z-10"></div>
     </a>

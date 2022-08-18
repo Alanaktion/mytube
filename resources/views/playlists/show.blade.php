@@ -27,8 +27,9 @@
                 @auth
                     <x-favorite-toggle :model="$playlist" />
                     @if (Auth::user()->isAdmin())
-                        <form action="/playlists/{{ $playlist->uuid }}/refresh" method="post">
+                        <form action="{{ route('playlists.show', $playlist) }}" method="post">
                             @csrf
+                            @method('PUT')
                             <x-button type="submit" title="{{ __('Refresh the playlist from the source.') }}" rounded>
                                 {{ __('Refresh') }}
                             </x-button>
@@ -40,7 +41,7 @@
         <p class="text-lg">
             {{ trans_choice('1 video|:count videos', $items->total()) }}
             <span class="mx-2">&middot;</span>
-            <a class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" href="/channels/{{ $playlist->channel->uuid }}">
+            <a class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" href="{{ route('channels.videos.index', $playlist->channel) }}">
                 {{ $playlist->channel->title }}
             </a>
         </p>

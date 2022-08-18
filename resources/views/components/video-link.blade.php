@@ -27,12 +27,12 @@
 
     <div class="flex items-start">
         @if ($showChannel)
-            <a href="/channels/{{ $video->channel->uuid }}" class="relative z-10 flex-shrink-0 mr-2" aria-hidden="true" tabindex="-1">
+            <a href="{{ route('channels.videos.index', $video->channel) }}" class="relative z-10 flex-shrink-0 mr-2" aria-hidden="true" tabindex="-1">
                 <img class="w-8 xl:w-10 aspect-square rounded-full" src="{{ $video->channel->image_url ?? '/images/channels/' . $video->channel->uuid }}" alt="{{ $video->channel->name }}">
             </a>
         @endif
         <div>
-            <a href="/videos/{{ $video->uuid }}{{ $playlist ? '?playlist=' . $playlist->uuid : '' }}" class="block line-clamp-2 actually-break-words leading-snug mb-1 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" title="{{ $video->title }}">
+            <a href="{{ $playlist ? route('videos.show', ['video' => $video, 'playlist' => $playlist]) : route('videos.show', $video) }}" class="block line-clamp-2 actually-break-words leading-snug mb-1 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" title="{{ $video->title }}">
                 {{ $video->title }}
                 <div class="absolute inset-0"></div>
             </a>
@@ -40,7 +40,7 @@
                 {{ $video->published_at->isoFormat('LL') }}
             </div>
             @if ($showChannel)
-                <a href="/channels/{{ $video->channel->uuid }}" class="text-slate-600 hover:text-slate-700 dark:text-neutral-500 dark:hover:text-neutral-400 relative z-10">
+                <a href="{{ route('channels.videos.index', $video->channel) }}" class="text-slate-600 hover:text-slate-700 dark:text-neutral-500 dark:hover:text-neutral-400 relative z-10">
                     {{ $video->channel->title }}
                 </a>
             @else

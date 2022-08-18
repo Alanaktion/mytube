@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class JobDetailsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
         $request->validate([

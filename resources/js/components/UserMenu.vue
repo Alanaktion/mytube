@@ -29,7 +29,7 @@
             >
                 <MenuItem v-slot="{ active }">
                     <a
-                        href="/user/account"
+                        href="/users"
                         :class="[
                             active ? 'bg-gradient-to-b from-primary-500 to-primary-600 text-white text-shadow-px-primary' : 'text-slate-700 dark:text-neutral-300',
                             'flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer rounded-md',

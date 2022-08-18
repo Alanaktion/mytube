@@ -1,4 +1,4 @@
-<a href="/videos/{{ $video->uuid }}?playlist={{ $playlist->uuid }}" class="flex items-center px-3 py-2 group {{ $current ? 'bg-primary-500 current-playlist-item' : '' }}">
+<a href="{{ route('videos.show', ['video' => $video, 'playlist' => $playlist->uuid]) }}" class="flex items-center px-3 py-2 group {{ $current ? 'bg-primary-500 current-playlist-item' : '' }}">
     <div class="relative w-16 h-9 mr-2 flex-shrink-0 shadow-sm">
         <img class="absolute w-full h-full object-cover rounded-sm" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt loading="lazy">
     </div>

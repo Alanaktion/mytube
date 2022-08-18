@@ -58,6 +58,11 @@ class Video extends Model
      */
     protected $dates = ['published_at'];
 
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
     /**
      * @api
      */

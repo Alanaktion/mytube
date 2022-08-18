@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChannelController;
+use App\Http\Controllers\ChannelPlaylistController;
+use App\Http\Controllers\ChannelSearchController;
+use App\Http\Controllers\ChannelVideoController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
@@ -28,43 +31,31 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/search', [HomeController::class, 'search']);
 
-Route::get('/videos', [VideoController::class, 'index']);
-Route::get('/videos/{video:uuid}', [VideoController::class, 'show'])->name('video');
+Route::resource('videos', VideoController::class)->only(['index', 'show']);
+Route::resource('channels', ChannelController::class)->only(['index', 'show', 'update']);
+Route::resource('channels.videos', ChannelVideoController::class)->only(['index']);
+Route::resource('channels.playlists', ChannelPlaylistController::class)->only(['index']);
+Route::resource('channels.search', ChannelSearchController::class)->only(['index']);
+Route::resource('playlists', PlaylistController::class)->only(['index', 'show', 'update']);
 
-Route::get('/channels', [ChannelController::class, 'index']);
-Route::get('/channels/{channel:uuid}', [ChannelController::class, 'videos'])->name('channel');
-Route::get('/channels/{channel:uuid}/playlists', [ChannelController::class, 'playlists']);
-Route::get('/channels/{channel:uuid}/search', [ChannelController::class, 'search']);
-Route::get('/channels/{channel:uuid}/about', [ChannelController::class, 'about']);
-Route::post('/channels/{channel:uuid}/refresh', [ChannelController::class, 'refresh']);
-
-Route::get('/playlists', [PlaylistController::class, 'index']);
-Route::get('/playlists/{playlist:uuid}', [PlaylistController::class, 'show'])->name('playlist');
-Route::post('/playlists/{playlist:uuid}/refresh', [PlaylistController::class, 'refresh'])
-    ->middleware('can:access-admin');
-
-Route::get('/images/thumbs/{video:uuid}', [ImageController::class, 'showVideoThumb']);
-Route::get('/images/posters/{video:uuid}', [ImageController::class, 'showVideoPoster']);
-Route::get('/images/channels/{channel:uuid}', [ImageController::class, 'showChannel']);
+Route::get('/images/thumbs/{video}', [ImageController::class, 'showVideoThumb']);
+Route::get('/images/posters/{video}', [ImageController::class, 'showVideoPoster']);
+Route::get('/images/channels/{channel}', [ImageController::class, 'showChannel']);
 
 Auth::routes();
 
-Route::middleware('auth')->group(function () {
-    Route::redirect('/user', '/user/account');
-    Route::get('/user/account', [UserController::class, 'account']);
-    Route::post('/user/account', [UserController::class, 'updateAccount']);
-    Route::resource('/user/tokens', UserTokensController::class)->only(['store', 'destroy']);
+Route::resource('users', UserController::class)->only(['index', 'show', 'update']);
+Route::resource('users.tokens', UserTokensController::class)->only(['store', 'destroy']);
 
-    Route::get('/favorites', [FavoritesController::class, 'index']);
-    Route::post('/favorites/toggleVideo', [FavoritesController::class, 'toggleVideo']);
-    Route::post('/favorites/togglePlaylist', [FavoritesController::class, 'togglePlaylist']);
-    Route::post('/favorites/toggleChannel', [FavoritesController::class, 'toggleChannel']);
+Route::resource('favorites', FavoritesController::class)->only(['index']);
+Route::post('/favorites/toggleVideo', [FavoritesController::class, 'toggleVideo']);
+Route::post('/favorites/togglePlaylist', [FavoritesController::class, 'togglePlaylist']);
+Route::post('/favorites/toggleChannel', [FavoritesController::class, 'toggleChannel']);
 
-    Route::resource('job-details', JobDetailsController::class)->only(['index']);
-});
+Route::resource('job-details', JobDetailsController::class)->only(['index']);
 
-Route::middleware(['auth', 'can:access-admin'])->prefix('admin')->group(function () {
-    Route::get('/', [AdminController::class, 'index']);
+Route::prefix('admin')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::post('/playlists', [AdminController::class, 'playlistImport']);
     Route::post('/videos', [AdminController::class, 'videoImport']);
     Route::post('/channels', [AdminController::class, 'channelImport']);

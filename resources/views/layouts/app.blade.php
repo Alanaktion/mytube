@@ -39,11 +39,11 @@
             <div id="app-nav" class="flex-1">
                 <nav-menu label="{{ __('Toggle Navigation') }}" v-cloak>
                     <div class="flex flex-col items-stretch my-3 md:my-0 md:flex-row md:items-center md:ml-3 lg:ml-6 gap-1 md:gap-2 lg:gap-3 flex-1">
-                        <x-nav-link href="/videos">{{ __('Videos') }}</x-nav-link>
-                        <x-nav-link href="/playlists">{{ __('Playlists') }}</x-nav-link>
-                        <x-nav-link href="/channels">{{ __('Channels') }}</x-nav-link>
+                        <x-nav-link :href="route('videos.index')">{{ __('Videos') }}</x-nav-link>
+                        <x-nav-link :href="route('playlists.index')">{{ __('Playlists') }}</x-nav-link>
+                        <x-nav-link :href="route('channels.index')">{{ __('Channels') }}</x-nav-link>
                         @auth
-                            <x-nav-link href="/favorites">
+                            <x-nav-link :href="route('favorites.index')">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden sm:block lg:hidden" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
                                 </svg>

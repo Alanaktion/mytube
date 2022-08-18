@@ -40,10 +40,16 @@ class Channel extends Model
      * @var string[]
      */
     protected $guarded = [];
+
     /**
      * @var string[]
      */
     protected $dates = ['published_at'];
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 
     /**
      * @api

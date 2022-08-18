@@ -4,8 +4,9 @@
     </button>
 
     <AppDialog :title="$t('Refresh channel')" :open="open" @close="open = false">
-        <form :action="`/channels/${uuid}/refresh`" method="post">
+        <form :action="`/channels/${uuid}`" method="post">
             <input type="hidden" name="_token" :value="csrfToken">
+            <input type="hidden" name="_method" value="PUT">
 
             <p class="text-sm text-slate-500 dark:text-neutral-400 mb-6">
                 This will import any new content from the source.

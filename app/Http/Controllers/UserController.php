@@ -2,29 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function account(Request $request)
+    public function __construct()
     {
-        /** @var \App\Models\User */
-        $user = $request->user();
+        $this->middleware('auth');
+        $this->authorizeResource(User::class);
+    }
+
+    public function index()
+    {
+        return redirect()->route('users.show', auth()->user());
+    }
+
+    public function show(User $user)
+    {
         return view('user.account', [
             'user' => $user,
             'tokens' => $user->tokens()->get(),
         ]);
     }
 
-    public function updateAccount(Request $request)
+    public function update(User $user, Request $request)
     {
-        $user = $request->user();
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
         ]);
         $user->update($request->all());
-        return redirect('/user/account')->with('message', 'Account information updated.');
+        return redirect()->route('users.show', $user)->with('message', 'Account information updated.');
     }
 }

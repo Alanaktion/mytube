@@ -37,14 +37,14 @@
                                 <img class="w-full aspect-video object-cover" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" aria-hidden="true">
                             </div>
                             <div class="ml-4">
-                                <a href="/videos/{{ $video->uuid }}" class="leading-5 font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
+                                <a href="{{ route('videos.show', $video) }}" class="leading-5 font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
                                     {{ $video->title }}
                                 </a>
                             </div>
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        <a href="/channels/{{ $video->channel->uuid }}" class="leading-5 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
+                        <a href="{{ route('channels.videos.index', $video->channel) }}" class="leading-5 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
                             {{ $video->channel->title }}<br>
                             <span class="text-slate-600 dark:text-neutral-400">{{ $video->source()->getDisplayName() }}</span>
                         </a>
@@ -52,7 +52,7 @@
                     <td class="px-6 py-4">
                         <div class="flex flex-col gap-1">
                             @forelse($video->playlists as $playlist)
-                                <a href="/playlists/{{ $playlist->uuid }}" class="block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
+                                <a href="{{ route('playlists.show', $playlist) }}" class="block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
                                     {{ $playlist->title }}
                                 </a>
                             @empty
