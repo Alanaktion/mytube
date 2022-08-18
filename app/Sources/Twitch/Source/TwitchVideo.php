@@ -85,18 +85,18 @@ class TwitchVideo implements SourceVideo
     }
 
     /**
-     * Convert Twitch duration format to SQL time format.
+     * Convert Twitch duration format to seconds.
      */
-    protected function formatDuration(?string $duration): ?string
+    protected function formatDuration(?string $duration): ?int
     {
         if (!$duration) {
             return null;
         }
         preg_match('/^((\d+)d)?((\d+)h)?((\d+)m)?((\d+)s)?$/', $duration, $matches);
-        $days = (int)$matches[2] ?? 0;
-        $hours = (int)$matches[4] ?? 0;
-        $minutes = (int)$matches[6] ?? 0;
-        $seconds = (int)$matches[8] ?? 0;
-        return sprintf('%02d:%02d:%02d', $days * 24 + $hours, $minutes, $seconds);
+        $days = $matches[2] ?? 0;
+        $hours = $matches[4] ?? 0;
+        $minutes = $matches[6] ?? 0;
+        $seconds = $matches[8] ?? 0;
+        return $days * 86400 + $hours * 3600 + $minutes * 60 + $seconds;
     }
 }

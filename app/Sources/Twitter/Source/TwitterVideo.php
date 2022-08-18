@@ -44,6 +44,8 @@ class TwitterVideo implements SourceVideo
             $posterUrl = $this->downloadImage($url . '?' . http_build_query($params), $file);
         }
 
+        $durationMs = $data->extended_entities->media[0]->video_info->duration_millis ?? null;
+
         // Create video
         $channel = Channel::import('twitter', $data->user->screen_name);
         return $channel->videos()->create([
@@ -51,7 +53,7 @@ class TwitterVideo implements SourceVideo
             'title' => Str::limit($data->full_text, 80, '…'),
             'description' => $data->full_text,
             'source_type' => 'twitter',
-            'duration' => $this->formatDuration($data->extended_entities->media[0]->video_info->duration_millis ?? null),
+            'duration' => $durationMs ? floor($durationMs / 1000) : null,
             'published_at' => $data->created_at,
             'thumbnail_url' => $thumbnailUrl ?? null,
             'poster_url' => $posterUrl ?? null,
@@ -90,20 +92,5 @@ class TwitterVideo implements SourceVideo
     public function getEmbedHtml(Video $video): ?string
     {
         return view('sources.embed-twitter', ['video' => $video])->render();
-    }
-
-    /**
-     * Convert milliseconds to SQL time format.
-     */
-    protected function formatDuration(?int $duration): ?string
-    {
-        if (!$duration) {
-            return null;
-        }
-        $seconds = $duration / 1000;
-        $hours = floor($seconds / 3600);
-        $mins = floor($seconds / 60 % 60);
-        $secs = floor($seconds % 60);
-        return sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
     }
 }

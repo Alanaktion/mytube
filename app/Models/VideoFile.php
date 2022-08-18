@@ -98,17 +98,10 @@ class VideoFile extends Model
                 return null;
             }
 
-            $time = (int)$output->format->duration;
-            $seconds = $time % 60;
-            $time = ($time - $seconds) / 60;
-            $minutes = $time % 60;
-            $hours = ($time - $minutes) / 60;
-            $duration = sprintf('%d:%02d:%02d', $hours, $minutes, $seconds);
-
             return [
                 'width' => $output->streams[0]->width,
                 'height' => $output->streams[0]->height,
-                'duration' => $duration,
+                'duration' => (int)$output->format->duration,
             ];
         } catch (\Exception) {
             return null;

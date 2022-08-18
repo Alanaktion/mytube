@@ -35,7 +35,7 @@ class FloatplaneVideo implements SourceVideo
             'title' => $data['title'],
             'description' => $data['description'],
             'source_type' => 'floatplane',
-            'duration' => $this->formatDuration($data['duration']),
+            'duration' => $data['duration'],
             'published_at' => $data['published_at'],
             'thumbnail_url' => $thumbnailUrl,
             'poster_url' => $posterUrl,
@@ -69,19 +69,5 @@ class FloatplaneVideo implements SourceVideo
     public function getEmbedHtml(Video $video): ?string
     {
         return null;
-    }
-
-    /**
-     * Convert seconds to SQL time format.
-     */
-    protected function formatDuration(?int $seconds): ?string
-    {
-        if (!$seconds) {
-            return null;
-        }
-        $hours = floor($seconds / 3600);
-        $mins = floor($seconds / 60 % 60);
-        $secs = floor($seconds % 60);
-        return sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
     }
 }

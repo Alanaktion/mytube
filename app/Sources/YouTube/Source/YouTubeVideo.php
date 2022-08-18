@@ -80,21 +80,14 @@ class YouTubeVideo implements SourceVideo
     }
 
     /**
-     * Convert ISO 8601 duration to SQL time format.
+     * Convert ISO 8601 duration to seconds.
      */
-    protected function formatDuration(?string $duration): ?string
+    protected function formatDuration(?string $duration): ?int
     {
         if (!$duration) {
             return null;
         }
         $interval = new DateInterval($duration);
-
-        // If interval is >1 day, convert to hours
-        if ($interval->d > 0) {
-            $interval->h += 24 * $interval->d;
-            $interval->d = 0;
-        }
-
-        return $interval->format('%H:%I:%S');
+        return $interval->d * 86400 + $interval->h * 3600 + $interval->i * 60 + $interval->s;
     }
 }
