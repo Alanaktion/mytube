@@ -166,6 +166,8 @@ class Playlist extends Model
 
     /**
      * Load aggregate playlist duration from item videos.
+     * @param Builder<Playlist> $query
+     * @return Builder<Playlist>
      */
     public function scopeWithDuration(Builder $query): Builder
     {

@@ -13,7 +13,7 @@ class ChannelPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(?User $user)
+    public function viewAny(?User $user): bool
     {
         return true;
     }
@@ -21,7 +21,7 @@ class ChannelPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(?User $user, Channel $channel)
+    public function view(?User $user, Channel $channel): bool
     {
         return true;
     }
@@ -29,7 +29,7 @@ class ChannelPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->isAdmin();
     }
@@ -37,7 +37,7 @@ class ChannelPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Channel $channel)
+    public function update(User $user, Channel $channel): bool
     {
         return $user->isAdmin();
     }
@@ -45,7 +45,7 @@ class ChannelPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Channel $channel)
+    public function delete(User $user, Channel $channel): bool
     {
         return $user->isAdmin();
     }
@@ -53,7 +53,7 @@ class ChannelPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Channel $channel)
+    public function restore(User $user, Channel $channel): bool
     {
         return $user->isAdmin();
     }
@@ -61,7 +61,7 @@ class ChannelPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Channel $channel)
+    public function forceDelete(User $user, Channel $channel): bool
     {
         return $user->isAdmin();
     }
