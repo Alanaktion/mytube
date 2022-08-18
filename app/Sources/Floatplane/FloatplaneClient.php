@@ -44,6 +44,7 @@ class FloatplaneClient
             'channel_id' => $result['creator']['id'],
             'channel_url' => $result['creator']['urlname'],
             'description' => $result['videoAttachments'][0]['description'],
+            'duration' => $result['metadata']['videoDuration'] ?? $result['metadata']['audioDuration'] ?? null,
             'published_at' => new Carbon($result['releaseDate']),
             'poster' => $result['thumbnail']['path'],
             'thumbnail' => $thumb,

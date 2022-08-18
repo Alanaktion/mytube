@@ -22,7 +22,7 @@ class YouTubeClient
     {
         /** @var YouTube $youtube */
         $youtube = App::make(YouTube::class);
-        $response = $youtube->videos->listVideos(['snippet', 'status', 'liveStreamingDetails'], [
+        $response = $youtube->videos->listVideos(['snippet', 'status', 'contentDetails', 'liveStreamingDetails'], [
             'id' => $id,
         ]);
         usleep(1e5);
@@ -34,6 +34,7 @@ class YouTubeClient
                 'title' => $video->getSnippet()->title,
                 'description' => $video->getSnippet()->description,
                 'visibility' => $video->getStatus()->privacyStatus,
+                'duration' => $video->getContentDetails()->duration,
                 'published_at' => $video->getSnippet()->publishedAt,
                 'is_livestream' => (bool)$video->getLiveStreamingDetails(),
             ];

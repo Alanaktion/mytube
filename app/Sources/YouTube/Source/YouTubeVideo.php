@@ -7,6 +7,7 @@ use App\Models\Video;
 use App\Sources\SourceVideo;
 use App\Sources\YouTube\YouTubeClient;
 use App\Traits\DownloadsImages;
+use DateInterval;
 
 class YouTubeVideo implements SourceVideo
 {
@@ -24,6 +25,7 @@ class YouTubeVideo implements SourceVideo
             'description' => $data['description'],
             'source_type' => 'youtube',
             'source_visibility' => $data['visibility'],
+            'duration' => $this->formatDuration($data['duration']),
             'is_livestream' => $data['is_livestream'],
             'published_at' => $data['published_at'],
             'thumbnail_url' => $this->downloadImage(
@@ -75,5 +77,24 @@ class YouTubeVideo implements SourceVideo
     public function getEmbedHtml(Video $video): ?string
     {
         return view('sources.embed-youtube', ['video' => $video])->render();
+    }
+
+    /**
+     * Convert ISO 8601 duration to SQL time format.
+     */
+    protected function formatDuration(?string $duration): ?string
+    {
+        if (!$duration) {
+            return null;
+        }
+        $interval = new DateInterval($duration);
+
+        // If interval is >1 day, convert to hours
+        if ($interval->d > 0) {
+            $interval->h += 24 * $interval->d;
+            $interval->d = 0;
+        }
+
+        return $interval->format('%H:%I:%S');
     }
 }

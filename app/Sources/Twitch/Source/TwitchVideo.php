@@ -42,6 +42,8 @@ class TwitchVideo implements SourceVideo
             'title' => $data['title'],
             'description' => $data['description'],
             'source_type' => 'twitch',
+            'duration' => $this->formatDuration($data['duration']),
+            'is_livestream' => true,
             'published_at' => $data['published_at'],
             'thumbnail_url' => $thumbnailUrl,
             'poster_url' => $posterUrl,
@@ -80,5 +82,21 @@ class TwitchVideo implements SourceVideo
     public function getEmbedHtml(Video $video): ?string
     {
         return view('sources.embed-twitch', ['video' => $video])->render();
+    }
+
+    /**
+     * Convert Twitch duration format to SQL time format.
+     */
+    protected function formatDuration(?string $duration): ?string
+    {
+        if (!$duration) {
+            return null;
+        }
+        preg_match('/^((\d+)d)?((\d+)h)?((\d+)m)?((\d+)s)?$/', $duration, $matches);
+        $days = (int)$matches[2] ?? 0;
+        $hours = (int)$matches[4] ?? 0;
+        $minutes = (int)$matches[6] ?? 0;
+        $seconds = (int)$matches[8] ?? 0;
+        return sprintf('%02d:%02d:%02d', $days * 24 + $hours, $minutes, $seconds);
     }
 }
