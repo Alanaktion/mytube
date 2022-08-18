@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 
 /**
@@ -161,5 +162,18 @@ class Playlist extends Model
     public function jobDetails()
     {
         return $this->morphMany(JobDetail::class, 'model');
+    }
+
+    /**
+     * Load aggregate playlist duration from item videos.
+     */
+    public function scopeWithDuration(Builder $query): Builder
+    {
+        return $query->addSelect([
+            'duration' => DB::table('videos')
+                ->join('playlist_items', 'videos.id', '=', 'playlist_items.video_id')
+                ->where('playlist_items.playlist_id', DB::raw('playlists.id'))
+                ->selectRaw('sum(duration)')
+        ]);
     }
 }

@@ -38,3 +38,22 @@ if (!function_exists('format_description')) {
         return $str;
     }
 }
+
+if (!function_exists('format_time')) {
+    /**
+     * Convert integer seconds to human-readable time
+     */
+    function format_time(int $seconds): string
+    {
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds - $hours * 3600) / 60);
+        $seconds = $seconds - $hours * 3600 - $minutes * 60;
+        if ($hours > 0) {
+            return sprintf('%d:%02d:%02d', $hours, $minutes, $seconds);
+        }
+        if ($minutes > 0) {
+            return sprintf('%d:%02d', $minutes, $seconds);
+        }
+        return sprintf('%ds', $seconds);
+    }
+}

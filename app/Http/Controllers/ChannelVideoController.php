@@ -10,7 +10,9 @@ class ChannelVideoController extends Controller
     {
         $videos = $channel->videos()
             ->withCount('files')
-            ->latest('published_at');
+            ->withMax('files', 'height')
+            ->latest('published_at')
+            ->latest('id');
         return view('channels.videos', [
             'title' => $channel->title,
             'channel' => $channel,

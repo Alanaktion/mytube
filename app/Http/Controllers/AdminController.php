@@ -152,7 +152,8 @@ class AdminController extends Controller
         $sort = $request->input('sort', 'created_at');
         $videos = Video::with(['channel', 'playlists'])
             ->doesntHave('files')
-            ->latest($sort);
+            ->latest($sort)
+            ->latest('id');
         if ($source !== null) {
             $videos->where('source_type', $source);
         }

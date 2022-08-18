@@ -33,7 +33,9 @@ class VideoController extends Controller
         $source = $request->input('source');
         $videos = Video::with('channel')
             ->withCount('files')
-            ->latest($sort);
+            ->withMax('files', 'height')
+            ->latest($sort)
+            ->latest('id');
         if ($source !== null) {
             $videos->where('source_type', $source);
         }

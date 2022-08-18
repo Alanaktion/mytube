@@ -22,6 +22,7 @@ class ChannelController extends Controller
         $sort = $request->input('sort', 'published_at');
         $source = $request->input('source');
         $channels = Channel::latest($sort)
+            ->latest('id')
             ->withCount('videos');
         if ($source !== null) {
             $channels->where('type', $source);

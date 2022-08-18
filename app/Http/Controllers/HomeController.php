@@ -15,6 +15,7 @@ class HomeController extends Controller
         $videos = Video::latest('id')
             ->with('channel')
             ->withCount('files')
+            ->withMax('files', 'height')
             ->limit(18)
             ->get();
         $playlists = Playlist::latest('id')

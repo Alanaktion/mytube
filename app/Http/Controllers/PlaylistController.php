@@ -22,8 +22,10 @@ class PlaylistController extends Controller
         $sort = $request->input('sort', 'published_at');
         $source = $request->input('source');
         $playlists = Playlist::latest($sort)
+            ->latest('id')
             ->with(['firstItem', 'firstItem.video'])
-            ->withCount('items');
+            ->withCount('items')
+            ->withDuration();
         if ($source !== null) {
             $playlists->whereHas('channel', function ($query) use ($source): void {
                 $query->where('type', $source);

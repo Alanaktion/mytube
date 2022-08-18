@@ -1,4 +1,5 @@
 <div class="relative group">
+    <div class="relative">
     <div class="mb-2 lg:mb-4 group-hover:scale-105 transition motion-reduce:transition-none motion-reduce:transform-none">
         <img class="w-full aspect-video object-cover rounded lg:shadow-lg" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
     </div>
@@ -24,6 +25,38 @@
             </svg>
         </div>
     @endif
+    @if ($video->files_max_height)
+        <div class="absolute bottom-1 left-1 lg:bottom-2 lg:left-2 text-white bg-red-600 bg-opacity-80 backdrop-blur-md font-semibold rounded-sm text-xs px-1 py-px">
+            @if ($video->files_max_height < 720)
+                SD
+            @elseif ($video->files_max_height == 720)
+                HD
+            @elseif ($video->files_max_height == 1080)
+                FHD
+            @elseif ($video->files_max_height == 2160)
+                4K
+            @elseif ($video->files_max_height == 4320)
+                8K
+            @else
+                {{ $video->files_max_height }}p
+            @endif
+            @if ($video->is_livestream)
+                &middot;
+                {{ __('Stream') }}
+            @endif
+        </div>
+    @elseif ($video->is_livestream)
+        <div class="absolute bottom-1 left-1 lg:bottom-2 lg:left-2 text-white bg-red-600 bg-opacity-80 backdrop-blur-md font-semibold rounded-sm text-xs px-1 py-px">
+            {{ __('Stream') }}
+        </div>
+    @endif
+    @if ($video->duration)
+        <div class="absolute bottom-1 right-1 lg:bottom-2 lg:right-2 text-white bg-black bg-opacity-60 backdrop-blur-md font-semibold rounded-sm text-xs px-1 py-px">
+            <span class="sr-only">{{ __('Duration') }}</span>
+            {{ format_time($video->duration) }}
+        </div>
+    @endif
+    </div>
 
     <div class="flex items-start">
         @if ($showChannel)
