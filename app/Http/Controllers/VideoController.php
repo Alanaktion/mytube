@@ -21,7 +21,7 @@ class VideoController extends Controller
             'sort' => ['sometimes', 'string', 'in:published_at,created_at'],
             'source' => ['sometimes', 'string', 'nullable'],
             'files' => ['sometimes', 'boolean', 'nullable'],
-            'resolution' => ['sometimes', 'integer', 'nullable'],
+            'resolution' => ['sometimes', 'string', 'nullable'],
         ]);
         if ($validator->fails()) {
             return redirect()->route('videos.index')->with([
@@ -41,7 +41,11 @@ class VideoController extends Controller
         }
         if ($request->input('resolution')) {
             $videos->whereHas('files', function (Builder $query) use ($request) {
-                $query->where('height', $request->input('resolution'));
+                if ($request->input('resolution') == 'portrait') {
+                    $query->where('height', '<', 'width');
+                } else {
+                    $query->where('height', $request->input('resolution'));
+                }
             });
         }
         if ($request->input('mime_type')) {

@@ -207,7 +207,10 @@ const resolutionOptions = [
     {key: '480', label: '480p'},
     {key: '720', label: '720p'},
     {key: '1080', label: '1080p'},
+    {key: '1440', label: '1440p'},
     {key: '2160', label: '2160p'},
+    {key: '4320', label: '4320p'},
+    {key: 'portrait', label: 'Portrait'},
 ];
 const mimeTypeOptions = [
     {key: '', label: 'Any'},

@@ -29,10 +29,6 @@
         <div class="absolute bottom-1 left-1 lg:bottom-2 lg:left-2 text-white bg-red-600 bg-opacity-80 backdrop-blur-md font-semibold rounded-sm text-xs px-1 py-px">
             @if ($video->files_max_height < 720)
                 SD
-            @elseif ($video->files_max_height == 720)
-                HD
-            @elseif ($video->files_max_height == 1080)
-                FHD
             @elseif ($video->files_max_height == 2160)
                 4K
             @elseif ($video->files_max_height == 4320)
