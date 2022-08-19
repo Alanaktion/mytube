@@ -17,7 +17,10 @@ return new class extends Migration
         Schema::create('video_files', function (Blueprint $table) {
             $table->id();
             $table->foreignId('video_id')->constrained();
-            $table->string('path')->unique()->collation('utf8mb4_bin');
+            $path = $table->string('path')->unique();
+            if (config('database.default') == 'mysql') {
+                $path->collation('utf8mb4_bin');
+            }
             $table->string('mime_type');
             $table->timestamps();
         });
