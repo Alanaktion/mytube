@@ -49,14 +49,16 @@ class HomeController extends Controller
         $videos = Video::search($request->input('q'), $callback)
             ->query(function ($builder): void {
                 $builder->with('channel')
-                    ->withCount('files');
+                    ->withCount('files')
+                    ->withMax('files', 'height');
             })
             ->paginate(24);
         $playlists = Playlist::search($request->input('q'), $callback)
             ->query(function ($builder): void {
                 $builder
                     ->with('firstItem', 'firstItem.video')
-                    ->withCount('items');
+                    ->withCount('items')
+                    ->withDuration();
             })
             ->paginate(18);
         $channels = Channel::search($request->input('q'), $callback)
