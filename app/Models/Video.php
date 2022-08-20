@@ -323,4 +323,14 @@ class Video extends Model
     {
         return source($this->source_type);
     }
+
+    public function delete(bool $files = false)
+    {
+        if ($files) {
+            $this->files()->get()->each(function (VideoFile $file) {
+                $file->delete();
+            });
+        }
+        parent::delete();
+    }
 }

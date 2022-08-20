@@ -14,9 +14,12 @@
                 @endif
                 @auth
                     <x-favorite-toggle :model="$channel" />
-                    @if (Auth::user()->isAdmin() && $channel->type == 'youtube')
-                        <div id="app-channel-refresh">
-                            <channel-refresh uuid="{{ $channel->uuid }}"></channel-refresh>
+                    @if (Auth::user()->isAdmin())
+                        <div class="flex items-center gap-2" id="app-channel-refresh">
+                            <delete-channel uuid="{{ $channel->uuid }}"></delete-channel>
+                            @if ($channel->type == 'youtube')
+                                <channel-refresh uuid="{{ $channel->uuid }}"></channel-refresh>
+                            @endif
                         </div>
                     @endif
                 @endauth

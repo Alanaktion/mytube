@@ -38,6 +38,11 @@
             @endif
             @auth
                 <x-favorite-toggle :model="$video" />
+                @if (Auth::user()->isAdmin())
+                    <div id="app-channel-refresh">
+                        <delete-video uuid="{{ $video->uuid }}"></delete-video>
+                    </div>
+                @endif
             @endauth
             @if ($video->files->count())
                 <div id="app-download">

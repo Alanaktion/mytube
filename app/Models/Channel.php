@@ -210,4 +210,22 @@ class Channel extends Model
     {
         return source($this->type);
     }
+
+    public function delete(bool $videos = false, bool $files = false)
+    {
+        if ($videos && $files) {
+            $this->videos()->get()->each(function (Video $video) {
+                $video->delete(true);
+            });
+        } elseif ($videos) {
+            $this->videos()->delete();
+        } elseif ($files) {
+            $this->videos()->get()->each(function (Video $video) {
+                $video->files()->get()->each(function (VideoFile $file) {
+                    $file->delete();
+                });
+            });
+        }
+        parent::delete();
+    }
 }

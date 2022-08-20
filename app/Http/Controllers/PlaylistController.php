@@ -71,4 +71,16 @@ class PlaylistController extends Controller
             ->route('playlists.show', ['playlist' => $playlist])
             ->with('message', $message);
     }
+
+    public function destroy(Playlist $playlist, Request $request)
+    {
+        $request->validate([
+            'videos' => ['sometimes', 'boolean'],
+            'files' => ['sometimes', 'boolean'],
+        ]);
+        $playlist->delete($request->boolean('videos'), $request->boolean('files'));
+        return redirect()
+            ->route('playlists.index')
+            ->with('message', 'Playlist deleted.');
+    }
 }

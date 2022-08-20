@@ -31,12 +31,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/search', [HomeController::class, 'search']);
 
-Route::resource('videos', VideoController::class)->only(['index', 'show']);
-Route::resource('channels', ChannelController::class)->only(['index', 'show', 'update']);
+Route::resource('videos', VideoController::class)->only(['index', 'show', 'destroy']);
+Route::resource('channels', ChannelController::class)->except(['create', 'store']);
 Route::resource('channels.videos', ChannelVideoController::class)->only(['index']);
 Route::resource('channels.playlists', ChannelPlaylistController::class)->only(['index']);
 Route::resource('channels.search', ChannelSearchController::class)->only(['index']);
-Route::resource('playlists', PlaylistController::class)->only(['index', 'show', 'update']);
+Route::resource('playlists', PlaylistController::class)->except(['create', 'store']);
 
 Route::get('/images/thumbs/{video}', [ImageController::class, 'showVideoThumb']);
 Route::get('/images/posters/{video}', [ImageController::class, 'showVideoPoster']);

@@ -7,6 +7,9 @@ import UserMenu from './components/UserMenu.vue'
 import LangMenu from './components/LangMenu.vue'
 import ThemeMenu from './components/ThemeMenu.vue'
 import FavoriteToggle from './components/FavoriteToggle.vue'
+import DeleteChannel from './components/DeleteChannel.vue'
+import DeletePlaylist from './components/DeletePlaylist.vue'
+import DeleteVideo from './components/DeleteVideo.vue'
 import FilterDialog from './components/FilterDialog.vue'
 import SortBy from './components/SortBy.vue'
 import SourceFilter from './components/SourceFilter.vue'
@@ -88,6 +91,9 @@ if (document.querySelector('#app-channel-refresh')) {
     createApp({
         components: {
             ChannelRefresh,
+            DeleteChannel,
+            DeletePlaylist,
+            DeleteVideo,
         },
     }).use(i18nVue, {
         resolve: langResolve,

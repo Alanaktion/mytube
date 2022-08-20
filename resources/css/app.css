@@ -73,6 +73,21 @@
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 0 rgba(0, 0, 0, 0.1) inset;
     }
 
+    .btn-destructive {
+        @apply text-white bg-gradient-to-b from-red-400 to-red-500 border-red-600 focus:ring-red-500 text-shadow-px-red;
+        @apply dark:from-red-500 dark:to-red-600 dark:border-red-700;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 0 rgba(255, 255, 255, 0.1) inset;
+    }
+    .btn-destructive:hover {
+        @apply from-red-500 to-red-600 border-red-700;
+        @apply dark:from-red-400 dark:to-red-600 dark:border-red-600;
+    }
+    .btn-destructive:active,
+    .btn-destructive-active {
+        @apply bg-none bg-red-600 border-red-700;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 0 0 rgba(0, 0, 0, 0.1) inset;
+    }
+
     .btn-icon {
         @apply p-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
         @apply text-primary-600 hover:bg-slate-200 focus:bg-slate-200 focus:ring-primary-500;
@@ -151,6 +166,9 @@
     }
     .text-shadow-px-primary {
         text-shadow: 0 1px 0 theme('colors.primary.600');
+    }
+    .text-shadow-px-red {
+        text-shadow: 0 1px 0 theme('colors.red.600');
     }
     /* For some reason overflow-wrap on its own isn't breaking some long words in video links and I am tired of trying to figure out how to fix it correctly. Non-standard word-break value works perfectly. */
     .actually-break-words {

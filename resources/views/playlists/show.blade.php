@@ -27,6 +27,9 @@
                 @auth
                     <x-favorite-toggle :model="$playlist" />
                     @if (Auth::user()->isAdmin())
+                        <div id="app-channel-refresh">
+                            <delete-playlist uuid="{{ $playlist->uuid }}"></delete-playlist>
+                        </div>
                         <form action="{{ route('playlists.show', $playlist) }}" method="post">
                             @csrf
                             @method('PUT')

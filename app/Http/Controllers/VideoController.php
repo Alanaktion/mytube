@@ -118,4 +118,15 @@ class VideoController extends Controller
             'playlist' => $playlist,
         ]);
     }
+
+    public function destroy(Video $video, Request $request)
+    {
+        $request->validate([
+            'files' => ['sometimes', 'boolean'],
+        ]);
+        $video->delete($request->boolean('files'));
+        return redirect()
+            ->route('videos.index')
+            ->with('message', 'Video deleted.');
+    }
 }

@@ -178,4 +178,23 @@ class Playlist extends Model
                 ->selectRaw('sum(duration)')
         ]);
     }
+
+    public function delete(bool $videos = false, bool $files = false)
+    {
+        if ($videos || $files) {
+            $this->items()->with('video')->get()->each(function (PlaylistItem $item) use ($videos, $files): void {
+                if ($videos) {
+                    $video = $item->video;
+                    $item->delete();
+                    $video->delete($files);
+                } else {
+                    $item->delete();
+                }
+            });
+        } else {
+            $this->items()->delete();
+        }
+        $this->jobDetails()->delete();
+        parent::delete();
+    }
 }

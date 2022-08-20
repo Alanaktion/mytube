@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use LogicException;
 
 /**
  * @property int $id
@@ -106,5 +107,18 @@ class VideoFile extends Model
         } catch (\Exception) {
             return null;
         }
+    }
+
+    /**
+     * Delete the model from the database.
+     *
+     * @param bool $filesystem Delete the file from the filesystem.
+     */
+    public function delete(bool $filesystem = true)
+    {
+        if ($filesystem) {
+            @unlink($this->path);
+        }
+        parent::delete();
     }
 }
