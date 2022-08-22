@@ -67,10 +67,10 @@ class ChannelController extends Controller
     public function destroy(Channel $channel, Request $request)
     {
         $request->validate([
-            'videos' => ['sometimes', 'boolean'],
+            'playlist_videos' => ['sometimes', 'boolean'],
             'files' => ['sometimes', 'boolean'],
         ]);
-        $channel->delete($request->boolean('videos'), $request->boolean('files'));
+        $channel->delete($request->boolean('playlist_videos'), $request->boolean('files'));
         return redirect()
             ->route('channels.index')
             ->with('message', 'Channel deleted.');

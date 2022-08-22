@@ -331,6 +331,12 @@ class Video extends Model
                 $file->delete();
             });
         }
+        if ($this->thumbnail_url) {
+            @unlink($this->thumbnail_url);
+        }
+        if ($this->poster_url) {
+            @unlink($this->poster_url);
+        }
         parent::delete();
     }
 }

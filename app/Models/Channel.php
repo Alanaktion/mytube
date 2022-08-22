@@ -211,20 +211,25 @@ class Channel extends Model
         return source($this->type);
     }
 
-    public function delete(bool $videos = false, bool $files = false)
+    public function delete(bool $playlistVideos = false, bool $files = false)
     {
-        if ($videos && $files) {
-            $this->videos()->get()->each(function (Video $video) {
+        if ($playlistVideos) {
+            $this->playlists()->each(function (Playlist $playlist) use ($files) {
+                $playlist->delete(true, $files);
+            });
+        }
+        if ($files) {
+            $this->videos()->each(function (Video $video) {
                 $video->delete(true);
             });
-        } elseif ($videos) {
-            $this->videos()->delete();
-        } elseif ($files) {
-            $this->videos()->get()->each(function (Video $video) {
-                $video->files()->get()->each(function (VideoFile $file) {
-                    $file->delete();
-                });
-            });
+        }
+        $this->playlists()->delete();
+        $this->videos()->delete();
+        if ($this->image_url) {
+            @unlink($this->image_url);
+        }
+        if ($this->image_url_lg) {
+            @unlink($this->image_url_lg);
         }
         parent::delete();
     }

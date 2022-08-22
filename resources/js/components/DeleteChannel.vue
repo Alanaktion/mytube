@@ -9,19 +9,19 @@
             <input type="hidden" name="_method" value="DELETE">
 
             <p class="text-sm text-slate-500 dark:text-neutral-400 mb-6">
-                This will delete the channel and related metadata.
+                This will delete the channel, playlists, videos, and related metadata.
             </p>
 
             <div class="flex items-start mb-3">
                 <div class="flex items-center h-5">
-                    <input type="checkbox" class="input-checkbox" id="videos" name="videos" v-model="videos" value="1">
+                    <input type="checkbox" class="input-checkbox" id="playlistVideos" name="playlist_videos" v-model="videos" value="1">
                 </div>
                 <div class="ml-3 text-sm leading-5">
-                    <label for="videos" class="font-semibold text-slate-700 dark:text-neutral-300">
-                        {{ $t('Videos') }}
+                    <label for="playlistVideos" class="font-semibold text-slate-700 dark:text-neutral-300">
+                        {{ $t('Playlist videos') }}
                     </label>
                     <p class="text-slate-500 dark:text-neutral-400">
-                        Delete all videos in the channel.
+                        Delete all videos included in playlists from the channel. By default the playlists will be removed but any videos owned by another channel will be preserved.
                     </p>
                 </div>
             </div>
