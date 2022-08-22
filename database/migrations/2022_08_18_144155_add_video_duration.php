@@ -19,12 +19,14 @@ return new class extends Migration
         });
 
         // Populate video duration from local files where available.
-        DB::table('videos')
-            ->join('video_files', 'video_files.video_id', '=', 'videos.id')
-            ->whereNotNull('video_files.duration')
-            ->update([
-                'videos.duration' => DB::raw('video_files.duration'),
-            ]);
+        if (config('database.default') == 'mysql') {
+            DB::table('videos')
+                ->join('video_files', 'video_files.video_id', '=', 'videos.id')
+                ->whereNotNull('video_files.duration')
+                ->update([
+                    'videos.duration' => DB::raw('video_files.duration'),
+                ]);
+        }
     }
 
     /**

@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('playlist_items', function (Blueprint $table) {
-            $table->dropForeign(['playlist_id']);
-            $table->foreign('playlist_id')
-                ->references('id')->on('playlists')->onDelete('cascade');
-        });
+        if (config('database.default') != 'sqlite') {
+            Schema::table('playlist_items', function (Blueprint $table) {
+                $table->dropForeign(['playlist_id']);
+                $table->foreign('playlist_id')
+                    ->references('id')->on('playlists')->onDelete('cascade');
+            });
+        }
     }
 
     /**
@@ -27,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('playlist_items', function (Blueprint $table) {
-            //
-        });
+        //
     }
 };
