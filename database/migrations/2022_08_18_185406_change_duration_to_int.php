@@ -23,12 +23,14 @@ return new class extends Migration
 
         // Convert existing durations to seconds
         // MySQL converts 1:23:00 to 12300 for existing time values, which TIME() can read.
-        DB::table('videos')
-            ->whereNotNull('duration')
-            ->update(['duration' => DB::raw('TIME_TO_SEC(TIME(duration))')]);
-        DB::table('video_files')
-            ->whereNotNull('duration')
-            ->update(['duration' => DB::raw('TIME_TO_SEC(TIME(duration))')]);
+        if (config('database.default') == 'mysql') {
+            DB::table('videos')
+                ->whereNotNull('duration')
+                ->update(['duration' => DB::raw('TIME_TO_SEC(TIME(duration))')]);
+            DB::table('video_files')
+                ->whereNotNull('duration')
+                ->update(['duration' => DB::raw('TIME_TO_SEC(TIME(duration))')]);
+        }
     }
 
     /**
@@ -39,12 +41,14 @@ return new class extends Migration
     public function down()
     {
         // Convert seconds back to time format (int)
-        DB::table('videos')
-            ->whereNotNull('duration')
-            ->update(['duration' => DB::raw('CONVERT(SEC_TO_TIME(duration),UNSIGNED INT)')]);
-        DB::table('video_files')
-            ->whereNotNull('duration')
-            ->update(['duration' => DB::raw('CONVERT(SEC_TO_TIME(duration),UNSIGNED INT)')]);
+        if (config('database.default') == 'mysql') {
+            DB::table('videos')
+                ->whereNotNull('duration')
+                ->update(['duration' => DB::raw('CONVERT(SEC_TO_TIME(duration),UNSIGNED INT)')]);
+            DB::table('video_files')
+                ->whereNotNull('duration')
+                ->update(['duration' => DB::raw('CONVERT(SEC_TO_TIME(duration),UNSIGNED INT)')]);
+        }
 
         Schema::table('videos', function (Blueprint $table) {
             $table->time('duration')->nullable()->change();
