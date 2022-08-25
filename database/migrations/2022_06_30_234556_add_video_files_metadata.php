@@ -18,7 +18,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('size')->nullable();
                 $table->unsignedInteger('width')->nullable();
                 $table->unsignedInteger('height')->nullable();
-                $table->time('duration')->nullable();
+                $table->unsignedInteger('duration')->nullable();
             });
         });
     }

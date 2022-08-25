@@ -19,6 +19,7 @@ class ImportFilesystem extends Command
      */
     protected $signature = 'import:filesystem
         {--source= : Which source site to import metadata from}
+        {--exclude=* : Exclude paths matching the given pattern}
         {--r|retry : Retry previously failed imports}
         {directory : The directory to scan for video files}';
 
@@ -61,6 +62,17 @@ class ImportFilesystem extends Command
         $videos = [];
         foreach ($files as $file) {
             $this->line($file, null, 'vv');
+            if ($this->option('exclude')) {
+                foreach ($this->option('exclude') as $pattern) {
+                    if (!str_contains($pattern, '*')) {
+                        $pattern = "*{$pattern}*";
+                    }
+                    if (fnmatch($pattern, $file)) {
+                        $this->line('Excluded by pattern: ' . $pattern, null, 'vv');
+                        continue 2;
+                    }
+                }
+            }
             $type = $this->option('source');
             $id = null;
             if ($type === null) {

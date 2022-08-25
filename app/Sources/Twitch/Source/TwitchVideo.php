@@ -93,10 +93,10 @@ class TwitchVideo implements SourceVideo
             return null;
         }
         preg_match('/^((\d+)d)?((\d+)h)?((\d+)m)?((\d+)s)?$/', $duration, $matches);
-        $days = $matches[2] ?? 0;
-        $hours = $matches[4] ?? 0;
-        $minutes = $matches[6] ?? 0;
-        $seconds = $matches[8] ?? 0;
+        $days = $matches[2] ?: 0;
+        $hours = $matches[4] ?: 0;
+        $minutes = $matches[6] ?: 0;
+        $seconds = $matches[8] ?: 0;
         return $days * 86400 + $hours * 3600 + $minutes * 60 + $seconds;
     }
 }

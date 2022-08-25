@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('videos', function (Blueprint $table) {
-            $table->time('duration')->nullable()->after('source_visibility');
+            $table->unsignedInteger('duration')->nullable()->after('source_visibility');
         });
 
         // Populate video duration from local files where available.
