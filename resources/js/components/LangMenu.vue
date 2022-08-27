@@ -43,7 +43,7 @@
                             <span>{{ name }}</span>
                             <CheckCircleIcon
                                 v-if="selected"
-                                class="w-4 h-4 ml-auto"
+                                class="w-5 h-5 ml-auto"
                                 aria-hidden="true"
                             />
                         </li>
@@ -54,7 +54,7 @@
     </Listbox>
 </template>
 
-<script>
+<script setup>
 import { ref, watch } from 'vue';
 import {
     Listbox,
@@ -63,33 +63,21 @@ import {
     ListboxOption,
 } from "@headlessui/vue";
 import { setLanguage } from '../api';
-import { CheckCircleIcon } from '@heroicons/vue/outline';
+import { CheckCircleIcon } from '@heroicons/vue/20/solid';
 
-export default {
-    components: {
-        Listbox,
-        ListboxButton,
-        ListboxOptions,
-        ListboxOption,
-        CheckCircleIcon,
+const props = defineProps({
+    locales: {
+        type: Object,
+        required: true,
     },
-    props: {
-        locales: {
-            type: Object,
-            required: true,
-        },
-    },
-    setup(props) {
-        const { locales } = props;
-        const lang = ref(
-            document.documentElement
-                .getAttribute('lang')
-                .replace('-', '_')
-        );
+});
 
-        watch(lang, setLanguage);
+const { locales } = props;
+const lang = ref(
+    document.documentElement
+        .getAttribute('lang')
+        .replace('-', '_')
+);
 
-        return { lang, locales };
-    },
-};
+watch(lang, setLanguage);
 </script>

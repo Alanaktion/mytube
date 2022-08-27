@@ -3,7 +3,7 @@
         <div>
             <MenuButton class="btn btn-secondary rounded-full" :class="{ 'btn-secondary-active': open }">
                 <span class="md:sr-only lg:not-sr-only">{{ $t('Download') }}</span>
-                <DownloadIcon class="md:hidden lg:block w-5 h-5 ml-auto sm:ml-2 -mr-1" aria-hidden="true" />
+                <ArrowDownTrayIcon class="md:hidden lg:block w-5 h-5 ml-auto sm:ml-2 -mr-1" aria-hidden="true" />
             </MenuButton>
         </div>
 
@@ -47,7 +47,7 @@
 
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
-import { DownloadIcon } from '@heroicons/vue/outline';
+import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 
 defineProps({
     files: {

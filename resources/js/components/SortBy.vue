@@ -2,7 +2,7 @@
     <Listbox v-model="value" v-slot="{ open }">
         <div class="relative">
             <ListboxButton class="btn btn-secondary" :class="{ 'btn-secondary-active': open }">
-                <SortDescendingIcon class="w-4 h-4 mr-1" aria-hidden="true" />
+                <BarsArrowDownIcon class="w-4 h-4 mr-1" aria-hidden="true" />
                 {{ $t('Sort') }}
                 <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
             </ListboxButton>
@@ -38,7 +38,7 @@
                             <span>{{ $t(name) }}</span>
                             <CheckCircleIcon
                                 v-if="selected"
-                                class="w-4 h-4 ml-auto"
+                                class="w-5 h-5 ml-auto"
                                 aria-hidden="true"
                             />
                         </li>
@@ -49,7 +49,7 @@
     </Listbox>
 </template>
 
-<script>
+<script setup>
 import { ref, watch } from 'vue';
 import {
     Listbox,
@@ -58,31 +58,18 @@ import {
     ListboxOption,
 } from "@headlessui/vue";
 import { setSort } from '../api';
-import { CheckCircleIcon, ChevronDownIcon, SortDescendingIcon } from '@heroicons/vue/outline';
+import { CheckCircleIcon, ChevronDownIcon } from '@heroicons/vue/20/solid';
+import { BarsArrowDownIcon } from '@heroicons/vue/24/outline';
 
-export default {
-    components: {
-        Listbox,
-        ListboxButton,
-        ListboxOptions,
-        ListboxOption,
-        CheckCircleIcon,
-        SortDescendingIcon,
-        ChevronDownIcon,
-    },
-    props: {
-        value: String,
-    },
-    setup(props) {
-        const options = {
-            published_at: 'Published date',
-            created_at: 'Imported date',
-        };
-        const value = ref(props.value || null);
+const props = defineProps({
+    value: String,
+});
 
-        watch(value, setSort);
-
-        return { value, options };
-    },
+const options = {
+    published_at: 'Published date',
+    created_at: 'Imported date',
 };
+const value = ref(props.value || null);
+
+watch(value, setSort);
 </script>

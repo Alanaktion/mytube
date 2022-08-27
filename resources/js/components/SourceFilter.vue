@@ -2,7 +2,7 @@
     <Listbox v-model="value" v-slot="{ open }">
         <div class="relative">
             <ListboxButton class="btn btn-secondary" :class="{ 'btn-secondary-active': open }">
-                <FilterIcon class="w-4 h-4 mr-1" aria-hidden="true" />
+                <FunnelIcon class="w-4 h-4 mr-1" aria-hidden="true" />
                 {{ $t('Source') }}
                 <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
             </ListboxButton>
@@ -36,7 +36,7 @@
                             {{ $t('All Sources') }}
                             <CheckCircleIcon
                                 v-if="selected"
-                                class="w-4 h-4 ml-auto"
+                                class="w-5 h-5 ml-auto"
                                 aria-hidden="true"
                             />
                         </li>
@@ -68,7 +68,7 @@
                             <span>{{ name }}</span>
                             <CheckCircleIcon
                                 v-if="selected"
-                                class="w-4 h-4 ml-auto"
+                                class="w-5 h-5 ml-auto"
                                 aria-hidden="true"
                             />
                         </li>
@@ -79,7 +79,7 @@
     </Listbox>
 </template>
 
-<script>
+<script setup>
 import { ref, watch } from 'vue';
 import {
     Listbox,
@@ -88,32 +88,19 @@ import {
     ListboxOption,
 } from "@headlessui/vue";
 import { setSource } from '../api';
-import { CheckCircleIcon, ChevronDownIcon, FilterIcon } from '@heroicons/vue/outline';
+import { CheckCircleIcon, ChevronDownIcon } from '@heroicons/vue/20/solid';
+import { FunnelIcon } from '@heroicons/vue/24/outline';
 
-export default {
-    components: {
-        Listbox,
-        ListboxButton,
-        ListboxOptions,
-        ListboxOption,
-        CheckCircleIcon,
-        ChevronDownIcon,
-        FilterIcon,
+const props = defineProps({
+    sources: {
+        type: Object,
+        required: true,
     },
-    props: {
-        sources: {
-            type: Object,
-            required: true,
-        },
-        value: String,
-    },
-    setup(props) {
-        const { sources } = props;
-        const value = ref(props.value || null);
+    value: String,
+});
 
-        watch(value, setSource);
+const { sources } = props;
+const value = ref(props.value || null);
 
-        return { value, sources };
-    },
-};
+watch(value, setSource);
 </script>

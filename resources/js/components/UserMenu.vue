@@ -65,45 +65,28 @@
     </Menu>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
-import { ChevronDownIcon } from '@heroicons/vue/outline';
-import { UserCircleIcon } from '@heroicons/vue/solid';
+import { ChevronDownIcon, UserCircleIcon } from '@heroicons/vue/20/solid';
 
-export default {
-    components: {
-        Menu,
-        MenuButton,
-        MenuItems,
-        MenuItem,
-        ChevronDownIcon,
-        UserCircleIcon,
+defineProps({
+    name: {
+        type: String,
+        required: true,
     },
-    props: {
-        name: {
-            type: String,
-            required: true,
-        },
-        token: {
-            type: String,
-            required: true,
-        },
-        admin: {
-            type: Boolean,
-            default: false,
-        },
+    token: {
+        type: String,
+        required: true,
     },
-    setup() {
-        const form = ref(null);
-        const logOut = () => {
-            form.value && form.value.submit();
-        };
+    admin: {
+        type: Boolean,
+        default: false,
+    },
+});
 
-        return {
-            form,
-            logOut,
-        };
-    },
-}
+const form = ref(null);
+const logOut = () => {
+    form.value && form.value.submit();
+};
 </script>

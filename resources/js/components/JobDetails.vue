@@ -33,71 +33,60 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 
-export default {
-    props: {
-        type: {
-            type: String,
-            required: false,
-        },
-        id: {
-            type: Number,
-            required: false,
-        },
+const props = defineProps({
+    type: {
+        type: String,
+        required: false,
     },
-    setup(props) {
-        const type = ref(props.type);
-        const id = ref(props.id);
-
-        const details = ref([]);
-        const loadDetails = () => {
-            const params = [];
-            if (type.value) {
-                params.push(`type=${encodeURIComponent(type.value)}`);
-            }
-            if (id.value) {
-                params.push(`id=${encodeURIComponent(id.value)}`);
-            }
-            fetch(`/job-details?${params.join('&')}`)
-                .then(response => response.json())
-                .then(data => {
-                    details.value = data;
-                });
-        };
-        loadDetails();
-
-        const typeDisplay = (item => {
-            switch (item.type) {
-                case 'import_items':
-                    return 'Importing playlist items';
-                case 'download_video':
-                    return 'Downloading video';
-                default:
-                    return type.value;
-            }
-        });
-        const modelHref = (item => {
-            switch (item.model_type) {
-                case 'App\\Models\\Playlist':
-                    return `/playlists/${item.model.uuid}`;
-                case 'App\\Models\\Video':
-                    return `/videos/${item.model.uuid}`;
-                case 'App\\Models\\Channel':
-                    return `/channels/${item.model.uuid}`;
-            }
-        });
-
-        setInterval(loadDetails, 2500);
-
-        return {
-            type,
-            id,
-            details,
-            typeDisplay,
-            modelHref,
-        };
+    id: {
+        type: Number,
+        required: false,
     },
+});
+
+const type = ref(props.type);
+const id = ref(props.id);
+
+const details = ref([]);
+const loadDetails = () => {
+    const params = [];
+    if (type.value) {
+        params.push(`type=${encodeURIComponent(type.value)}`);
+    }
+    if (id.value) {
+        params.push(`id=${encodeURIComponent(id.value)}`);
+    }
+    fetch(`/job-details?${params.join('&')}`)
+        .then(response => response.json())
+        .then(data => {
+            details.value = data;
+        });
 };
+loadDetails();
+
+const typeDisplay = (item => {
+    switch (item.type) {
+        case 'import_items':
+            return 'Importing playlist items';
+        case 'download_video':
+            return 'Downloading video';
+        default:
+            return type.value;
+    }
+});
+const modelHref = (item => {
+    switch (item.model_type) {
+        case 'App\\Models\\Playlist':
+            return `/playlists/${item.model.uuid}`;
+        case 'App\\Models\\Video':
+            return `/videos/${item.model.uuid}`;
+        case 'App\\Models\\Channel':
+            return `/channels/${item.model.uuid}`;
+    }
+});
+
+setInterval(loadDetails, 2500);
 </script>

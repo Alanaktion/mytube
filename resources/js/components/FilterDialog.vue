@@ -1,6 +1,6 @@
 <template>
     <button class="btn btn-secondary" @click="open">
-        <FilterIcon class="w-4 h-4 mr-1" aria-hidden="true" />
+        <FunnelIcon class="w-4 h-4 mr-1" aria-hidden="true" />
         {{ $t('Filter') }}
     </button>
 
@@ -27,7 +27,7 @@
                                 <div class="flex items-center gap-2 border-b border-slate-200 dark:border-neutral-700 py-2 px-4">
                                     <button class="appearance-none p-2 -ml-2 opacity-50 hover:opacity-100 btn-focus" type="reset" @click="close">
                                         <span class="sr-only">{{ $t('Close') }}</span>
-                                        <XIcon class="w-4 h-4" />
+                                        <XMarkIcon class="w-4 h-4" />
                                     </button>
                                     <DialogTitle class="flex-1 text-lg font-medium leading-6 text-slate-700 dark:text-neutral-300">
                                         {{ $t('Filter') }}
@@ -56,7 +56,7 @@
                                                 {{ $t('All Sources') }}
                                                 <CheckCircleIcon
                                                     v-if="checked"
-                                                    class="w-4 h-4 ml-auto"
+                                                    class="w-5 h-5 ml-auto"
                                                     aria-hidden="true"
                                                 />
                                             </div>
@@ -78,7 +78,7 @@
                                                 {{ name }}
                                                 <CheckCircleIcon
                                                     v-if="checked"
-                                                    class="w-4 h-4 ml-auto"
+                                                    class="w-5 h-5 ml-auto"
                                                     aria-hidden="true"
                                                 />
                                             </div>
@@ -104,7 +104,7 @@
                                                 {{ $t(option.label) }}
                                                 <CheckCircleIcon
                                                     v-if="checked"
-                                                    class="w-4 h-4 ml-auto"
+                                                    class="w-5 h-5 ml-auto"
                                                     aria-hidden="true"
                                                 />
                                             </div>
@@ -130,7 +130,7 @@
                                                 {{ $t(option.label) }}
                                                 <CheckCircleIcon
                                                     v-if="checked"
-                                                    class="w-4 h-4 ml-auto"
+                                                    class="w-5 h-5 ml-auto"
                                                     aria-hidden="true"
                                                 />
                                             </div>
@@ -156,7 +156,7 @@
                                                 {{ $t(option.label) }}
                                                 <CheckCircleIcon
                                                     v-if="checked"
-                                                    class="w-4 h-4 ml-auto"
+                                                    class="w-5 h-5 ml-auto"
                                                     aria-hidden="true"
                                                 />
                                             </div>
@@ -184,7 +184,8 @@ import {
     RadioGroupLabel,
     RadioGroupOption,
 } from '@headlessui/vue';
-import { FilterIcon, CheckCircleIcon, XIcon } from '@heroicons/vue/outline';
+import { CheckCircleIcon } from '@heroicons/vue/20/solid';
+import { FunnelIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
     sources: {

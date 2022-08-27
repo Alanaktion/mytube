@@ -11,7 +11,7 @@
         @click="open = !open"
     >
         <span class="sr-only">{{ label }}</span>
-        <MenuIcon class="w-6 h-6" aria-hidden="true" />
+        <Bars3Icon class="w-6 h-6" aria-hidden="true" />
     </button>
 
     <div id="nav-menu" class="md:flex flex-1" v-show="visible">
@@ -19,37 +19,28 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onBeforeUnmount, computed } from 'vue';
-import { MenuIcon } from '@heroicons/vue/outline';
+import { Bars3Icon } from '@heroicons/vue/24/outline';
 
-export default {
-    components: {
-        MenuIcon,
+defineProps({
+    label: {
+        type: String,
+        default: 'Menu',
     },
-    props: {
-        label: {
-            type: String,
-            default: 'Menu',
-        },
-    },
-    setup(props) {
-        const { label } = props;
-        const open = ref(false);
-        const alwaysShow = ref(false);
+});
 
-        // Handle viewport sizing
-        const onResize = () => {
-            alwaysShow.value = window.innerWidth >= 768;
-        };
-        onResize();
-        window.addEventListener('resize', onResize);
-        onBeforeUnmount(() => window.removeEventListener('resize', onResize));
+const open = ref(false);
+const alwaysShow = ref(false);
 
-        // Determine final visibility
-        const visible = computed(() => open.value || alwaysShow.value);
-
-        return { label, open, visible };
-    }
+// Handle viewport sizing
+const onResize = () => {
+    alwaysShow.value = window.innerWidth >= 768;
 };
+onResize();
+window.addEventListener('resize', onResize);
+onBeforeUnmount(() => window.removeEventListener('resize', onResize));
+
+// Determine final visibility
+const visible = computed(() => open.value || alwaysShow.value);
 </script>

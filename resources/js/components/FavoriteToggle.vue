@@ -13,40 +13,29 @@
     </Switch>
 </template>
 
-<script>
+<script setup>
 import { ref, watch } from "vue";
 import { Switch } from "@headlessui/vue";
 import { setFavorite } from "../api";
-import { HeartIcon } from '@heroicons/vue/outline';
-import { HeartIcon as HeartIconSolid } from '@heroicons/vue/solid';
+import { HeartIcon } from '@heroicons/vue/24/outline';
+import { HeartIcon as HeartIconSolid } from '@heroicons/vue/24/solid';
 
-export default {
-    components: {
-        Switch,
-        HeartIcon,
-        HeartIconSolid,
+const props = defineProps({
+    uuid: {
+        type: String,
+        required: true,
     },
-    props: {
-        uuid: {
-            type: String,
-            required: true,
-        },
-        type: {
-            type: String,
-            default: 'video',
-        },
-        isFavorite: {
-            type: Boolean,
-            default: false,
-        },
+    type: {
+        type: String,
+        default: 'video',
     },
-    setup(props) {
-        const { uuid, type } = props;
-        const isFavorite = ref(props.isFavorite);
+    isFavorite: {
+        type: Boolean,
+        default: false,
+    },
+});
 
-        watch(isFavorite, val => setFavorite(uuid, val, type));
+const isFavorite = ref(props.isFavorite);
 
-        return { isFavorite };
-    },
-};
+watch(isFavorite, val => setFavorite(props.uuid, val, props.type));
 </script>

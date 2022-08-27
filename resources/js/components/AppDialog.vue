@@ -31,7 +31,7 @@
                                 </DialogTitle>
                                 <button class="appearance-none p-2 -ml-2 opacity-50 hover:opacity-100 btn-focus" type="reset" @click="$emit('close')">
                                     <span class="sr-only">{{ $t('Close') }}</span>
-                                    <XIcon class="w-4 h-4" />
+                                    <XMarkIcon class="w-4 h-4" />
                                 </button>
                             </div>
                             <slot />
@@ -51,7 +51,7 @@ import {
     DialogPanel,
     DialogTitle,
 } from '@headlessui/vue';
-import { XIcon } from '@heroicons/vue/outline';
+import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 defineProps({
     open: {

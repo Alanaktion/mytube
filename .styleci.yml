@@ -9,5 +9,7 @@ php:
 js:
   finder:
     not-name:
-      - webpack.mix.js
+      - postcss.config.js
+      - tailwind.config.js
+      - vite.config.js
 css: true

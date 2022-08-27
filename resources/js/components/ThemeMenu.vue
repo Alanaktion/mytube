@@ -41,7 +41,7 @@
                             <span>{{ $t(`theme.${theme}`) }}</span>
                             <CheckCircleIcon
                                 v-if="selected"
-                                class="w-4 h-4 ml-auto"
+                                class="w-5 h-5 ml-auto"
                                 aria-hidden="true"
                             />
                         </li>
@@ -52,7 +52,7 @@
     </Listbox>
 </template>
 
-<script>
+<script setup>
 import { ref, watch } from 'vue';
 import {
     Listbox,
@@ -61,25 +61,10 @@ import {
     ListboxOption,
 } from "@headlessui/vue";
 import { setTheme } from '../api';
-import { MoonIcon } from '@heroicons/vue/solid';
-import { CheckCircleIcon } from '@heroicons/vue/outline';
+import { CheckCircleIcon, MoonIcon } from '@heroicons/vue/20/solid';
 
-export default {
-    components: {
-        Listbox,
-        ListboxButton,
-        ListboxOptions,
-        ListboxOption,
-        MoonIcon,
-        CheckCircleIcon,
-    },
-    setup() {
-        const themes = ['auto', 'light', 'dark'];
-        const currentTheme = ref(localStorage.theme || 'auto');
+const themes = ['auto', 'light', 'dark'];
+const currentTheme = ref(localStorage.theme || 'auto');
 
-        watch(currentTheme, setTheme);
-
-        return { currentTheme, themes };
-    },
-};
+watch(currentTheme, setTheme);
 </script>
