@@ -55,12 +55,12 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 lg:gap-x-6 gap-y-6 pb-5 lg:mb-6">
-        <div id="app-admin-import">
-            <import-form csrf-token="{{ csrf_token() }}"></import-form>
-        </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 lg:gap-x-6 gap-y-6 pb-5 lg:mb-6">
+        <div class="flex flex-col gap-y-6">
+            <div id="app-admin-import">
+                <import-form csrf-token="{{ csrf_token() }}"></import-form>
+            </div>
 
-        <div>
             <x-card>
                 <div class="text-sm uppercase font-semibold text-slate-500 dark:text-neutral-400 mb-2">
                     Missing Files
@@ -78,7 +78,7 @@
             </x-card>
         </div>
 
-        <div>
+        <div class="flex flex-col gap-y-6">
             <x-card>
                 <div class="text-sm uppercase font-semibold text-slate-500 dark:text-neutral-400 mb-2">
                     Queued Actions
@@ -86,6 +86,18 @@
                 <p>View any current background activity</p>
                 <x-slot name="footer">
                     <x-button href="/admin/queue" primary>
+                        {{ __('View all') }}
+                    </x-button>
+                </x-slot>
+            </x-card>
+
+            <x-card>
+                <div class="text-sm uppercase font-semibold text-slate-500 dark:text-neutral-400 mb-2">
+                    System Log
+                </div>
+                <p>View logged events</p>
+                <x-slot name="footer">
+                    <x-button href="/admin/logs" primary>
                         {{ __('View all') }}
                     </x-button>
                 </x-slot>

@@ -19,6 +19,7 @@
         "laravel/ui": "^3.0",
         "meilisearch/meilisearch-php": "^0.24",
         "norkunas/youtube-dl-php": "^2.0",
+        "opcodesio/log-viewer": "^1.2",
         "predis/predis": "^2.0",
         "rebing/graphql-laravel": "^8.2",
         "romanzipp/laravel-twitch": "^4.0"
