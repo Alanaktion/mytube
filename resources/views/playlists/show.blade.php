@@ -41,7 +41,7 @@
                 @endauth
             </div>
         </div>
-        <p class="text-lg">
+        <p class="flex text-lg">
             {{ trans_choice('1 video|:count videos', $items->total()) }}
             <span class="mx-2">&middot;</span>
             <a class="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" href="{{ route('channels.videos.index', $playlist->channel) }}">
