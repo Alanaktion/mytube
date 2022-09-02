@@ -22,7 +22,8 @@
                 </div>
             </div>
             <p class="text-lg">
-                <a class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" href="{{ route('channels.videos.index', $video->channel) }}">
+                <a class="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" href="{{ route('channels.videos.index', $video->channel) }}">
+                    <img class="h-6 w-6 rounded-full" src="{{ $video->channel->image_url ?? '/images/channels/' . $video->channel->uuid }}" alt="{{ $video->channel->name }}">
                     {{ $video->channel->title }}
                 </a>
             </p>

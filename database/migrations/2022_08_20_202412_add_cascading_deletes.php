@@ -21,7 +21,8 @@ return new class extends Migration
             });
             Schema::table('video_files', function (Blueprint $table) {
                 $table->dropForeign(['video_id']);
-                $table->foreignId('video_id')->constrained()->onDelete('cascade');
+                $table->foreign('video_id')
+                    ->references('id')->on('videos')->onDelete('cascade');
             });
         }
     }
