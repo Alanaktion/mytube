@@ -1,6 +1,6 @@
 <filter-dialog
-    :sources='@json($sources)'
-    :params='@json($_GET)'
+    sources='@json($sources)'
+    params='@json($_GET)'
 >
     @foreach (array_keys($sources) as $key)
         <template v-slot:icon-{{ $key }}>

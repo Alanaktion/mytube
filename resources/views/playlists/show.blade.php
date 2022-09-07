@@ -4,7 +4,7 @@
 <div class="container">
     @auth
         <div id="app-job-details">
-            <job-details type="playlist" :id="{{ $playlist->id }}"></job-details>
+            <job-details type="playlist" id="{{ $playlist->id }}"></job-details>
         </div>
     @endauth
     <header class="mb-3 md:mb-4 lg:mb-6">

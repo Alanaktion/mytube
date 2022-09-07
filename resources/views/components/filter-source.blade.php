@@ -1,6 +1,6 @@
 <source-filter
-    :sources='@json($sources)'
-    :value='@json($value)'
+    sources='@json($sources)'
+    value='@json($value)'
 >
     @foreach (array_keys($sources) as $key)
         <template v-slot:icon-{{ $key }}>

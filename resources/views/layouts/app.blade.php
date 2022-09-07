@@ -54,7 +54,7 @@
                         @endauth
                     </div>
                     @auth
-                        <user-menu name="{{ Auth::user()->name }}" token="{{ csrf_token() }}" :admin="@json(Auth::user()->isAdmin())" v-cloak></user-menu>
+                        <user-menu name="{{ Auth::user()->name }}" token="{{ csrf_token() }}" {{ Auth::user()->isAdmin() ? 'admin' : '' }} class="relative self-center mb-4 sm:mb-0"></user-menu>
                     @endauth
                     <form class="mb-3 md:mb-0 md:block md:ml-2 lg:ml-6 md:py-2" action="/search">
                         <input type="search" class="dark:bg-neutral-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-primary-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-neutral-400 dark:text-neutral-100 border-slate-900 dark:border-neutral-700 appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="{{ __('Search') }}">
@@ -79,7 +79,7 @@
     <footer class="mt-auto">
         <div id="app-footer" class="container flex justify-end my-4">
             <lang-menu
-                :locales='@json(config('app.locale_list'))'
+                locales='@json(config('app.locale_list'))'
             ></lang-menu>
             <theme-menu
                 class="ml-2"

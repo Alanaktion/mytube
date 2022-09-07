@@ -2,6 +2,6 @@
     <favorite-toggle
         uuid="{{ $model->uuid }}"
         type="{{ $type }}"
-        :is-favorite="@json($isFavorite())"
+        {{ $isFavorite() ? 'is-favorite' : '' }}
     ></favorite-toggle>
 </div>

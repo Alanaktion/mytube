@@ -5,7 +5,7 @@ module.exports = {
     darkMode: 'class',
     content: [
         './resources/**/*.blade.php',
-        './resources/**/*.vue',
+        './resources/**/*.svelte',
     ],
     theme: {
         extend: {

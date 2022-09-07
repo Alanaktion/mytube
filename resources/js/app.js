@@ -1,111 +1,158 @@
 import './keybindings.js'
+import './i18n.js'
 
-import { createApp } from 'vue'
-import { i18nVue } from 'laravel-vue-i18n'
-import NavMenu from './components/NavMenu.vue'
-import UserMenu from './components/UserMenu.vue'
-import LangMenu from './components/LangMenu.vue'
-import ThemeMenu from './components/ThemeMenu.vue'
-import FavoriteToggle from './components/FavoriteToggle.vue'
-import DeleteChannel from './components/DeleteChannel.vue'
-import DeletePlaylist from './components/DeletePlaylist.vue'
-import DeleteVideo from './components/DeleteVideo.vue'
-import FilterDialog from './components/FilterDialog.vue'
-import SortBy from './components/SortBy.vue'
-import SourceFilter from './components/SourceFilter.vue'
-import DownloadMenu from './components/DownloadMenu.vue'
-import JobDetails from './components/JobDetails.vue'
-import ChannelRefresh from './components/ChannelRefresh.vue'
-import ImportForm from './components/ImportForm.vue'
+import NavMenu from './components/NavMenu.svelte'
+import UserMenu from './components/UserMenu.svelte'
+import LangMenu from './components/LangMenu.svelte'
+import ThemeMenu from './components/ThemeMenu.svelte'
+import FavoriteToggle from './components/FavoriteToggle.svelte'
+import DeleteChannel from './components/DeleteChannel.svelte'
+import DeletePlaylist from './components/DeletePlaylist.svelte'
+import DeleteVideo from './components/DeleteVideo.svelte'
+import FilterDialog from './components/FilterDialog.svelte'
+import SortBy from './components/SortBy.svelte'
+import SourceFilter from './components/SourceFilter.svelte'
+import DownloadMenu from './components/DownloadMenu.svelte'
+import JobDetails from './components/JobDetails.svelte'
+import ChannelRefresh from './components/ChannelRefresh.svelte'
+import ImportForm from './components/ImportForm.svelte'
 
-const langResolve = async lang => {
-    const langs = import.meta.glob('../../lang/*.json');
-    return await langs[`../../lang/${lang}.json`]();
-}
+new NavMenu({
+    target: document.querySelector('#app-nav'),
+    props: {
+        label: document.querySelector('#app-nav > nav-menu').getAttribute('label'),
+    },
+})
 
-if (document.querySelector('#app-nav')) {
-    createApp({
-        components: {
-            NavMenu,
-            UserMenu,
-        }
-    }).use(i18nVue, {
-        resolve: langResolve,
-    }).mount('#app-nav')
-}
+const menuElement = document.querySelector('user-menu')
+new UserMenu({
+    target: menuElement,
+    props: {
+        name: menuElement.getAttribute('name'),
+        token: menuElement.getAttribute('token'),
+        admin: menuElement.hasAttribute('admin'),
+    },
+})
 
-if (document.querySelector('#app-footer')) {
-    createApp({
-        components: {
-            LangMenu,
-            ThemeMenu,
+const langMenuElement = document.querySelector('#app-footer lang-menu')
+new LangMenu({
+    target: langMenuElement,
+    props: {
+        locales: JSON.parse(langMenuElement.getAttribute('locales')),
+    },
+})
+new ThemeMenu({
+    target: document.querySelector('#app-footer theme-menu'),
+})
+
+const favoriteToggleElement = document.querySelector('#app-favorite-toggle favorite-toggle')
+if (favoriteToggleElement) {
+    new FavoriteToggle({
+        target: favoriteToggleElement,
+        props: {
+            type: favoriteToggleElement.getAttribute('type'),
+            uuid: favoriteToggleElement.getAttribute('uuid'),
+            isFavorite: favoriteToggleElement.hasAttribute('is-favorite'),
         },
-    }).use(i18nVue, {
-        resolve: langResolve,
-    }).mount('#app-footer')
+    })
 }
 
-if (document.querySelector('#app-favorite-toggle')) {
-    createApp({
-        components: {
-            FavoriteToggle,
+const filterDialogElement = document.querySelector('#app-sort-filter filter-dialog')
+if (filterDialogElement) {
+    new FilterDialog({
+        target: filterDialogElement,
+        props: {
+            sources: JSON.parse(filterDialogElement.getAttribute('sources')),
+            params: JSON.parse(filterDialogElement.getAttribute('params')),
         },
-    }).use(i18nVue, {
-        resolve: langResolve,
-    }).mount('#app-favorite-toggle')
+    })
 }
 
-if (document.querySelector('#app-sort-filter')) {
-    createApp({
-        components: {
-            FilterDialog,
-            SortBy,
-            SourceFilter,
+const sortByElement = document.querySelector('#app-sort-filter sort-by')
+if (sortByElement) {
+    new SortBy({
+        target: sortByElement,
+        props: {
+            value: sortByElement.getAttribute('value'),
         },
-    }).use(i18nVue, {
-        resolve: langResolve,
-    }).mount('#app-sort-filter')
+    })
 }
 
-if (document.querySelector('#app-download')) {
-    createApp({
-        components: {
-            DownloadMenu,
+const sourceFilterElement = document.querySelector('#app-sort-filter source-filter')
+if (sourceFilterElement) {
+    new SourceFilter({
+        target: sourceFilterElement,
+        props: {
+            sources: JSON.parse(filterDialogElement.getAttribute('sources')),
+            value: sourceFilterElement.getAttribute('value'),
         },
-    }).use(i18nVue, {
-        resolve: langResolve,
-    }).mount('#app-download')
+    })
 }
 
-if (document.querySelector('#app-job-details')) {
-    createApp({
-        components: {
-            JobDetails,
+const downloadMenuElement = document.querySelector('#app-download download-menu')
+if (downloadMenuElement) {
+    new DownloadMenu({
+        target: downloadMenuElement,
+        props: {
+            files: JSON.parse(downloadMenuElement.getAttribute('files')),
         },
-    }).use(i18nVue, {
-        resolve: langResolve,
-    }).mount('#app-job-details')
+    })
 }
 
-if (document.querySelector('#app-channel-refresh')) {
-    createApp({
-        components: {
-            ChannelRefresh,
-            DeleteChannel,
-            DeletePlaylist,
-            DeleteVideo,
+const jobDetailsElement = document.querySelector('#app-job-details job-details')
+if (jobDetailsElement) {
+    new JobDetails({
+        target: jobDetailsElement,
+        props: {
+            type: jobDetailsElement.getAttribute('type'),
+            id: jobDetailsElement.getAttribute('id'),
         },
-    }).use(i18nVue, {
-        resolve: langResolve,
-    }).mount('#app-channel-refresh')
+    })
 }
 
-if (document.querySelector('#app-admin-import')) {
-    createApp({
-        components: {
-            ImportForm,
+const channelRefreshElement = document.querySelector('#app-channel-refresh channel-refresh')
+if (channelRefreshElement) {
+    new ChannelRefresh({
+        target: channelRefreshElement,
+        props: {
+            uuid: channelRefreshElement.getAttribute('uuid'),
         },
-    }).use(i18nVue, {
-        resolve: langResolve,
-    }).mount('#app-admin-import')
+    })
+}
+
+const deleteChannelElement = document.querySelector('#app-channel-refresh delete-channel')
+if (deleteChannelElement) {
+    new DeleteChannel({
+        target: deleteChannelElement,
+        props: {
+            uuid: deleteChannelElement.getAttribute('uuid'),
+        },
+    })
+}
+
+const deletePlaylistElement = document.querySelector('#app-channel-refresh delete-playlist')
+if (deletePlaylistElement) {
+    new DeletePlaylist({
+        target: deletePlaylistElement,
+        props: {
+            uuid: deletePlaylistElement.getAttribute('uuid'),
+        },
+    })
+}
+
+const deleteVideoElement = document.querySelector('#app-channel-refresh delete-video')
+if (deleteVideoElement) {
+    new DeleteVideo({
+        target: deleteVideoElement,
+        props: {
+            uuid: deleteVideoElement.getAttribute('uuid'),
+        },
+    })
+}
+
+const importFormElement = document.querySelector('#app-admin-import import-form')
+if (importFormElement) {
+    new ImportForm({
+        target: importFormElement,
+    })
 }

@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue';
-import i18n from 'laravel-vue-i18n/vite';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig({
     plugins: [
@@ -9,15 +8,7 @@ export default defineConfig({
             'resources/css/app.css',
             'resources/js/app.js',
         ]),
-        vue({
-            template: {
-                transformAssetUrls: {
-                    base: null,
-                    includeAbsolute: false,
-                },
-            },
-        }),
-        i18n(),
+        svelte(),
     ],
     resolve: {
         alias: {

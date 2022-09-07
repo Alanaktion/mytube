@@ -47,7 +47,7 @@
             @endauth
             @if ($video->files->count())
                 <div id="app-download">
-                    <download-menu :files='@json($files)'></download-menu>
+                    <download-menu files='@json($files)'></download-menu>
                 </div>
             @endif
         </div>
