@@ -38,3 +38,10 @@ jobs:
         php artisan migrate --seed --env=testing
     - name: Execute tests
       run: php artisan test --without-tty --env=testing
+    - uses: actions/upload-artifact@v3
+      if: "!cancelled()"
+      with:
+        name: ${{ matrix.php }}-logs
+        path: storage/logs/*.log
+        if-no-files-found: ignore
+        retention-days: 30
