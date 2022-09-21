@@ -4,6 +4,7 @@ const colors = require('tailwindcss/colors');
 module.exports = {
     darkMode: 'class',
     content: [
+        './app/helpers.php',
         './resources/**/*.blade.php',
         './resources/**/*.vue',
     ],
