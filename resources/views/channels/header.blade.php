@@ -13,13 +13,10 @@
                     </a>
                 @endif
                 @auth
-                    <x-favorite-toggle :model="$channel" />
+                    <x-favorite-toggle :model="$channel" class="sm:tooltip-center" />
                     @if (Auth::user()->isAdmin())
                         <div class="flex items-center gap-2" id="app-channel-refresh">
-                            <delete-channel uuid="{{ $channel->uuid }}"></delete-channel>
-                            @if ($channel->type == 'youtube')
-                                <channel-refresh uuid="{{ $channel->uuid }}"></channel-refresh>
-                            @endif
+                            <channel-menu uuid="{{ $channel->uuid }}" type="{{ $channel->type }}"></channel-menu>
                         </div>
                     @endif
                 @endauth

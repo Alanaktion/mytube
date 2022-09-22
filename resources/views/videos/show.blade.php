@@ -41,7 +41,7 @@
                 <x-favorite-toggle :model="$video" />
                 @if (Auth::user()->isAdmin())
                     <div id="app-channel-refresh">
-                        <delete-video uuid="{{ $video->uuid }}"></delete-video>
+                        <video-menu uuid="{{ $video->uuid }}"></video-menu>
                     </div>
                 @endif
             @endauth

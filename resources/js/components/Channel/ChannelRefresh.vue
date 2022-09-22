@@ -1,9 +1,5 @@
 <template>
-    <button class="btn btn-secondary rounded-full" @click="open = true">
-        {{ $t('Refresh') }}
-    </button>
-
-    <AppDialog :title="$t('Refresh channel')" :open="open" @close="open = false">
+    <AppDialog :title="$t('Refresh channel')" :open="open" @close="$emit('update:open', false)">
         <form :action="`/channels/${uuid}`" method="post">
             <input type="hidden" name="_token" :value="csrfToken">
             <input type="hidden" name="_method" value="PUT">
@@ -50,18 +46,22 @@
 
 <script setup>
 import { ref } from 'vue';
-import AppDialog from './AppDialog.vue';
+import AppDialog from '../AppDialog.vue';
 
 defineProps({
     uuid: {
         type: String,
         required: true,
     },
+    open: {
+        type: Boolean,
+        required: true,
+    },
 });
+defineEmits(['update:open']);
 
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-const open = ref(false);
 const playlists = ref(true);
 const videos = ref(true);
 </script>

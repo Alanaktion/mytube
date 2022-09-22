@@ -1,9 +1,5 @@
 <template>
-    <button class="btn btn-secondary rounded-full hover:text-red-500 dark:hover:text-red-300" @click="open = true">
-        {{ $t('Delete') }}
-    </button>
-
-    <AppDialog :title="$t('Delete video')" :open="open" @close="open = false">
+    <AppDialog :title="$t('Delete video')" :open="open" @close="$emit('update:open', false)">
         <form :action="`/videos/${uuid}`" method="post">
             <input type="hidden" name="_token" :value="csrfToken">
             <input type="hidden" name="_method" value="DELETE">
@@ -37,17 +33,21 @@
 
 <script setup>
 import { ref } from 'vue';
-import AppDialog from './AppDialog.vue';
+import AppDialog from '../AppDialog.vue';
 
-const props = defineProps({
+defineProps({
     uuid: {
         type: String,
         required: true,
     },
+    open: {
+        type: Boolean,
+        required: true,
+    },
 });
+defineEmits(['update:open']);
 
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-const open = ref(false);
 const files = ref(false);
 </script>
