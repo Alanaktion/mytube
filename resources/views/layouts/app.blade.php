@@ -8,6 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <meta name="theme-color" content="rgb(30, 41, 59)">
     <link rel="shortcut icon" href="{{ url('/favicon.svg') }}" type="image/svg+xml">
+    <link rel="mask-icon" href="{{ url('/favicon.svg') }}" color="#0ea5e9" />
     <link rel="search" type="application/opensearchdescription+xml" title="{{ config('app.name') }}" href="{{ url('/opensearch.xml') }}">
     <link rel="manifest" href="{{ url('/manifest.json') }}" />
     <x-theme-script />

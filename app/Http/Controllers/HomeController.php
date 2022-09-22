@@ -102,7 +102,6 @@ class HomeController extends Controller
                     'purpose' => 'monochrome',
                 ],
             ],
-            'theme_color' => 'rgb(30, 41, 59)',
         ])->header('Content-Type', 'application/manifest+json');
     }
 }
