@@ -74,4 +74,35 @@ class HomeController extends Controller
             'q' => $request->input('q'),
         ]);
     }
+
+    public function manifest()
+    {
+        return response([
+            '$schema' => 'https://json.schemastore.org/web-manifest-combined.json',
+            'name' => config('app.name'),
+            'start_url' => url('/'),
+            'display' => 'minimal-ui',
+            'icons' => [
+                [
+                    'src' => asset('/icon.svg'),
+                    'sizes' => 'any',
+                    'type' => 'image/svg+xml',
+                    'purpose' => 'any maskable',
+                ],
+                [
+                    'src' => asset('/icon.png'),
+                    'sizes' => '512x512',
+                    'type' => 'image/png',
+                    'purpose' => 'any maskable',
+                ],
+                [
+                    'src' => asset('/favicon.svg'),
+                    'sizes' => 'any',
+                    'type' => 'image/svg+xml',
+                    'purpose' => 'monochrome',
+                ],
+            ],
+            'theme_color' => 'rgb(30, 41, 59)',
+        ])->header('Content-Type', 'application/manifest+json');
+    }
 }

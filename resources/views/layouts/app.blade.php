@@ -9,6 +9,7 @@
     <meta name="theme-color" content="rgb(30, 41, 59)">
     <link rel="shortcut icon" href="{{ url('/favicon.svg') }}" type="image/svg+xml">
     <link rel="search" type="application/opensearchdescription+xml" title="{{ config('app.name') }}" href="{{ url('/opensearch.xml') }}">
+    <link rel="manifest" href="{{ url('/manifest.json') }}" />
     <x-theme-script />
     @yield('head')
 </head>

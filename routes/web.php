@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/search', [HomeController::class, 'search']);
+Route::get('/manifest.json', [HomeController::class, 'manifest']);
 
 Route::resource('videos', VideoController::class)->only(['index', 'show', 'destroy']);
 Route::resource('channels', ChannelController::class)->except(['create', 'store']);
