@@ -7,7 +7,7 @@ use App\Models\VideoFile;
 use App\Traits\FilesystemHelpers;
 use Illuminate\Console\Command;
 
-class ImportFilesInteractive extends Command
+class ImportAttachInteractive extends Command
 {
     use FilesystemHelpers;
 
