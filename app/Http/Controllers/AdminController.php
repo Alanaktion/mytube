@@ -189,7 +189,11 @@ class AdminController extends Controller
                     continue;
                 }
                 $queue = substr($queue, strpos($queue, ':') + 1);
-                $jobs = Redis::lrange('queues:' . $queue, 0, -1);
+                if (Redis::type('queues:' . $queue) == 'set') {
+                    $jobs = Redis::zrange('queues:' . $queue, 0, -1);
+                } else {
+                    $jobs = Redis::lrange('queues:' . $queue, 0, -1);
+                }
                 foreach ($jobs as $job) {
                     $row = json_decode($job);
                     $queuedJobs[] = (object)[

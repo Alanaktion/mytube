@@ -20,6 +20,7 @@ class VideoController extends Controller
         $validator = Validator::make($request->all(), [
             'sort' => ['sometimes', 'string', 'in:published_at,created_at'],
             'source' => ['sometimes', 'string', 'nullable'],
+            'visibility' => ['sometimes', 'string', 'nullable', 'in:public,unlisted,private'],
             'files' => ['sometimes', 'boolean', 'nullable'],
             'resolution' => ['sometimes', 'string', 'nullable'],
         ]);
@@ -39,6 +40,9 @@ class VideoController extends Controller
         if ($source !== null) {
             $videos->where('source_type', $source);
         }
+        if ($request->input('visibility')) {
+            $videos->where('source_visibility', $request->input('visibility'));
+        }
         if ($request->input('resolution')) {
             $videos->whereHas('files', function (Builder $query) use ($request) {
                 if ($request->input('resolution') == 'portrait') {
@@ -53,7 +57,7 @@ class VideoController extends Controller
                 $query->where('mime_type', $request->input('mime_type'));
             });
         }
-        if ($request->has('files') && !$request->input('resolution') && !$request->input('mime_type')) {
+        if ($request->filled('files') && !$request->input('resolution') && !$request->input('mime_type')) {
             if ($request->boolean('files')) {
                 $videos->whereHas('files');
             } else {

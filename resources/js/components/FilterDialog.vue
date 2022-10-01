@@ -84,6 +84,32 @@
                                             </div>
                                         </RadioGroupOption>
                                     </RadioGroup>
+                                    <RadioGroup v-model="visibility" name="visibility" class="flex flex-col gap-1">
+                                        <RadioGroupLabel class="form-label px-4 py-3 -mx-2 mb-1 bg-gray-100 dark:bg-neutral-700">
+                                            {{ $t('Visibility') }}
+                                        </RadioGroupLabel>
+                                        <RadioGroupOption
+                                            class="btn-focus"
+                                            v-for="option in visibilityOptions"
+                                            v-slot="{ checked }"
+                                            :value="option.key"
+                                        >
+                                            <div
+                                                class="flex items-center w-full cursor-pointer btn border-transparent"
+                                                :class="{
+                                                    'hover:bg-slate-100 hover:dark:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
+                                                    'bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-800 dark:text-primary-50': checked,
+                                                }"
+                                            >
+                                                {{ $t(option.label) }}
+                                                <CheckCircleIcon
+                                                    v-if="checked"
+                                                    class="w-5 h-5 ml-auto"
+                                                    aria-hidden="true"
+                                                />
+                                            </div>
+                                        </RadioGroupOption>
+                                    </RadioGroup>
                                     <RadioGroup v-model="files" name="files" class="flex flex-col gap-1">
                                         <RadioGroupLabel class="form-label px-4 py-3 -mx-2 mb-1 bg-gray-100 dark:bg-neutral-700">
                                             {{ $t('Files') }}
@@ -198,6 +224,12 @@ const props = defineProps({
     },
 });
 
+const visibilityOptions = [
+    {key: '', label: 'Any'},
+    {key: 'public', label: 'Public'},
+    {key: 'unlisted', label: 'Unlisted'},
+    {key: 'private', label: 'Private'},
+];
 const fileOptions = [
     {key: '', label: 'Any'},
     {key: '1', label: 'With local files'},
@@ -221,6 +253,7 @@ const mimeTypeOptions = [
 ];
 
 const source = ref(props.params.source || '');
+const visibility = ref(props.params.visibility || '');
 const files = ref(props.params.files || '');
 const resolution = ref(props.params.resolution || '');
 const mimeType = ref(props.params.mime_type || '');
