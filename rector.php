@@ -2,26 +2,27 @@
 
 declare(strict_types=1);
 
-use Rector\Core\Configuration\Option;
-use Rector\Php74\Rector\Property\TypedPropertyRector;
+use Rector\Config\RectorConfig;
+// use Rector\Laravel\Set\LaravelSetList;
+use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    // get parameters
-    $parameters = $containerConfigurator->parameters();
-
-    $parameters->set(Option::PATHS, [__DIR__ . '/app', __DIR__ . '/tests']);
-
-    // Define what rule sets will be applied
-    $containerConfigurator->import(SetList::PHP_80);
-    $containerConfigurator->import(SetList::DEAD_CODE);
-    $containerConfigurator->import(SetList::CODE_QUALITY);
-    $containerConfigurator->import(SetList::TYPE_DECLARATION);
-
-    // get services (needed for register a single rule)
-    // $services = $containerConfigurator->services();
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->paths([
+        __DIR__ . '/app',
+        __DIR__ . '/tests',
+    ]);
 
     // register a single rule
-    // $services->set(TypedPropertyRector::class);
+    // $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
+
+    // define sets of rules
+    $rectorConfig->sets([
+        // LaravelSetList::LARAVEL_90,
+        // LevelSetList::UP_TO_PHP_80,
+        SetList::PHP_80,
+        SetList::DEAD_CODE,
+        SetList::CODE_QUALITY,
+        SetList::TYPE_DECLARATION,
+    ]);
 };
