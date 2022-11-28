@@ -12,7 +12,7 @@
         </div>
 
         <form class="hidden" method="POST" action="/logout" aria-hidden="true" ref="form">
-            <input type="hidden" name="_token" v-model="token">
+            <input type="hidden" name="_token" :value="token">
             <button type="submit"></button>
         </form>
 
