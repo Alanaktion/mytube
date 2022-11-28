@@ -42,7 +42,6 @@ class VideoFile extends Model
      * This currently creates a symlink to the source file in the public disk.
      *
      * @todo support remote file storage, e.g. storing video files on B2/S3.
-     * @todo remove need for accessing Video relation for UUID.
      *
      * @return Attribute<?string,void>
      */
@@ -50,7 +49,7 @@ class VideoFile extends Model
     {
         return new Attribute(
             get: function (): ?string {
-                if (!$this->path || !$this->video) {
+                if (!$this->path) {
                     return null;
                 }
 
@@ -60,10 +59,11 @@ class VideoFile extends Model
                 }
 
                 $ext = pathinfo($this->path, PATHINFO_EXTENSION);
-                $file = "{$this->video->uuid}.{$ext}";
+                $file = sha1($this->path) . '.' . $ext;
+                $file = "{$file[0]}/{$file[1]}/$file";
 
-                // Ensure video directory exists
-                Storage::makeDirectory('public/videos');
+                // Ensure video directory and hash prefixes exist.
+                Storage::makeDirectory('public/videos/' . dirname($file));
 
                 // Create symlink if it doesn't exist
                 $linkPath = storage_path("app/public/videos") . DIRECTORY_SEPARATOR . $file;

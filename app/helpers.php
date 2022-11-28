@@ -26,7 +26,7 @@ if (!function_exists('format_description')) {
         $class = 'text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300';
         $str = htmlspecialchars($description);
         $str = preg_replace(
-            '/(https?:\/\/[^\s]+)/',
+            '/(https?:\/\/[^\s\]\)]+)/',
             '<a href="$1" class="' . $class . '" target="_blank" rel="noopener noreferrer">$1</a>',
             $str
         );
