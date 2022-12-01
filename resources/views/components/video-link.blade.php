@@ -1,7 +1,7 @@
 <div class="relative group">
     <div class="relative">
     <div class="mb-2 lg:mb-4 group-hover:scale-105 transition motion-reduce:transition-none motion-reduce:transform-none">
-        <img class="w-full aspect-video object-cover rounded lg:shadow-lg" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" alt>
+        <img class="w-full aspect-video object-cover rounded lg:shadow-lg" src="{{ $video->thumbnail_url ?? "/placeholder-video.svg" }}" alt>
     </div>
     @if (!$video->files_count)
         <div class="absolute top-1 left-1 lg:top-2 lg:left-2 text-white bg-black bg-opacity-60 backdrop-blur-md rounded-full p-1 z-20" aria-label="No video file available" title="No video file available">
@@ -57,7 +57,7 @@
     <div class="flex items-start">
         @if ($showChannel)
             <a href="{{ route('channels.videos.index', $video->channel) }}" class="relative z-10 flex-shrink-0 mr-2" aria-hidden="true" tabindex="-1">
-                <img class="w-8 xl:w-10 aspect-square rounded-full" src="{{ $video->channel->image_url ?? '/images/channels/' . $video->channel->uuid }}" alt="{{ $video->channel->name }}">
+                <img class="w-8 xl:w-10 aspect-square rounded-full" src="{{ $video->channel->image_url ?? '/placeholder-channel.svg' }}" alt="{{ $video->channel->name }}">
             </a>
         @endif
         <div>

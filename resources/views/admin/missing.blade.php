@@ -34,7 +34,7 @@
                     <td class="px-6 py-2">
                         <div class="flex items-center">
                             <div class="flex-shrink-0 w-20">
-                                <img class="w-full aspect-video object-cover" src="{{ $video->thumbnail_url ?? "/images/thumbs/{$video->uuid}" }}" aria-hidden="true">
+                                <img class="w-full aspect-video object-cover" src="{{ $video->thumbnail_url ?? "/placeholder-video.svg" }}" aria-hidden="true">
                             </div>
                             <div class="ml-4">
                                 <a href="{{ route('videos.show', $video) }}" class="leading-5 font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">

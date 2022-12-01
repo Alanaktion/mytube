@@ -5,7 +5,7 @@
     </a>
     <div class="relative mb-2 lg:mb-4 order-first group-hover:scale-105 transition motion-reduce:transition-none motion-reduce:transform-none">
         @if ($firstVideo)
-            <img class="w-full aspect-video object-cover rounded lg:shadow-lg" src="{{ $firstVideo->thumbnail_url ?? "/images/thumbs/{$firstVideo->uuid}" }}" alt aria-hidden="true">
+            <img class="w-full aspect-video object-cover rounded lg:shadow-lg" src="{{ $firstVideo->thumbnail_url ?? "/placeholder-video.svg" }}" alt aria-hidden="true">
         @else
             {{-- No videos in the playlist! --}}
             <div class="absolute inset-0 object-cover rounded bg-slate-700 dark:bg-neutral-700 lg:shadow-lg"></div>

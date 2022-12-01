@@ -2,7 +2,7 @@
     <div class="container">
         <header class="mb-3 xl:mb-5 sm:flex">
             <div class="flex items-center gap-2">
-                <img class="h-10 w-10 rounded-full" src="{{ $channel->image_url ?? '/images/channels/' . $channel->uuid }}" alt="{{ $channel->name }}">
+                <img class="h-10 w-10 rounded-full" src="{{ $channel->image_url ?? '/placeholder-channel.svg' }}" alt="{{ $channel->name }}">
                 <h1 class="text-2xl lg:text-3xl text-slate-600 dark:text-neutral-400 ml-2 mr-auto sm:mr-3">{{ $channel->title }}</h1>
                 @if ($channel->source_link)
                     <a href="{{ $channel->source_link }}"

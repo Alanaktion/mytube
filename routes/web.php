@@ -7,12 +7,11 @@ use App\Http\Controllers\ChannelSearchController;
 use App\Http\Controllers\ChannelVideoController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\JobDetailsController;
 use App\Http\Controllers\MetaController;
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\TokensController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserTokensController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,14 +38,10 @@ Route::resource('channels.playlists', ChannelPlaylistController::class)->only(['
 Route::resource('channels.search', ChannelSearchController::class)->only(['index']);
 Route::resource('playlists', PlaylistController::class)->except(['create', 'store']);
 
-Route::get('/images/thumbs/{video}', [ImageController::class, 'showVideoThumb']);
-Route::get('/images/posters/{video}', [ImageController::class, 'showVideoPoster']);
-Route::get('/images/channels/{channel}', [ImageController::class, 'showChannel']);
-
 Auth::routes();
 
-Route::resource('users', UserController::class)->only(['index', 'show', 'update']);
-Route::resource('users.tokens', UserTokensController::class)->only(['store', 'destroy']);
+Route::singleton('user', UserController::class);
+Route::resource('tokens', TokensController::class)->only(['store', 'destroy']);
 
 Route::resource('favorites', FavoritesController::class)->only(['index']);
 Route::post('/favorites/toggleVideo', [FavoritesController::class, 'toggleVideo']);

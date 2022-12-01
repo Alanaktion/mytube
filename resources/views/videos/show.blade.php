@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     @if ($video->files->count())
-        <video class="w-full aspect-video mb-4 lg:mb-6" controls poster="{{ $video->poster_url ?? "/images/posters/{$video->uuid}" }}">
+        <video class="w-full aspect-video mb-4 lg:mb-6" controls poster="{{ $video->poster_url ?? '/placeholder-video.svg' }}">
             @foreach ($video->files as $file)
                 <source src="{{ $file->url }}" type="{{ $file->mime_type }}">
             @endforeach
@@ -23,7 +23,7 @@
             </div>
             <p class="text-lg">
                 <a class="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300" href="{{ route('channels.videos.index', $video->channel) }}">
-                    <img class="h-6 w-6 rounded-full" src="{{ $video->channel->image_url ?? '/images/channels/' . $video->channel->uuid }}" alt="{{ $video->channel->name }}">
+                    <img class="h-6 w-6 rounded-full" src="{{ $video->channel->image_url ?? '/placeholder-channel.svg' }}" alt="{{ $video->channel->name }}">
                     {{ $video->channel->title }}
                 </a>
             </p>

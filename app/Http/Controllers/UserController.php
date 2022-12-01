@@ -14,11 +14,6 @@ class UserController extends Controller
         $this->authorizeResource(User::class);
     }
 
-    public function index()
-    {
-        return redirect()->route('users.show', auth()->user());
-    }
-
     public function show(User $user)
     {
         return view('user.account', [

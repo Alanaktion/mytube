@@ -1,6 +1,6 @@
 <div class="flex sm:flex-col gap-x-6 gap-y-4 relative group">
     <a href="{{ route('channels.videos.index', $channel) }}" class="block relative sm:w-40 flex-shrink-0" aria-hidden="true" tabindex="-1">
-        <img class="w-20 sm:w-40 aspect-square rounded-full lg:shadow-lg group-hover:scale-105 transition motion-reduce:transition-none motion-reduce:transform-none" src="{{ $channel->image_url ?? '/images/channels/' . $channel->uuid }}" alt="{{ $channel->name }}">
+        <img class="w-20 sm:w-40 aspect-square rounded-full lg:shadow-lg group-hover:scale-105 transition motion-reduce:transition-none motion-reduce:transform-none" src="{{ $channel->image_url ?? '/placeholder-channel.svg' }}" alt="{{ $channel->name }}">
         <div class="absolute bottom-0 right-0 lg:bottom-1 lg:right-1 rounded-full p-2 leading-none bg-slate-600 dark:bg-neutral-700 text-white shadow-sm">
             <x-source-icon class="w-4 h-4" :type="$channel->type" />
         </div>

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserTokensController extends Controller
+class TokensController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    public function store(User $user, Request $request)
+    public function store(Request $request)
     {
+        $user = $request->user();
         $this->authorize('update', $user);
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -23,8 +23,9 @@ class UserTokensController extends Controller
             ->with('message', 'Created access token: ' . $token->plainTextToken);
     }
 
-    public function destroy(User $user, string $tokenId)
+    public function destroy(string $tokenId, Request $request)
     {
+        $user = $request->user();
         $this->authorize('update', $user);
         $user->tokens()->where('id', $tokenId)->delete();
         return redirect()->route('users.show', $user)
