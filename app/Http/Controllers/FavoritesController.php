@@ -15,7 +15,7 @@ class FavoritesController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $videos = $user->favoriteVideos()
-            ->with('channel:id,uuid,title')
+            ->with('channel:id,uuid,title,image_url')
             ->withCount('files')
             ->withPivot('created_at')
             ->orderBy('user_favorite_videos.created_at', 'desc')

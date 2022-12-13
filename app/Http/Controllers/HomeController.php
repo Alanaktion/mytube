@@ -13,7 +13,7 @@ class HomeController extends Controller
     public function index()
     {
         $videos = Video::latest('id')
-            ->with('channel')
+            ->with('channel:id,uuid,title,image_url')
             ->withCount('files')
             ->withMax('files', 'height')
             ->limit(18)
@@ -48,7 +48,7 @@ class HomeController extends Controller
         }
         $videos = Video::search($request->input('q'), $callback)
             ->query(function ($builder): void {
-                $builder->with('channel')
+                $builder->with('channel:id,uuid,title,image_url')
                     ->withCount('files')
                     ->withMax('files', 'height');
             })

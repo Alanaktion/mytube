@@ -32,7 +32,7 @@ class VideoController extends Controller
         }
         $sort = $request->input('sort', 'published_at');
         $source = $request->input('source');
-        $videos = Video::with('channel')
+        $videos = Video::with('channel:id,uuid,title,image_url')
             ->withCount('files')
             ->withMax('files', 'height')
             ->latest($sort)
