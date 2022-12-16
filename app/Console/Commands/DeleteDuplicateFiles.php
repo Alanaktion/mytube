@@ -41,12 +41,13 @@ class DeleteDuplicateFiles extends Command
         foreach ($videos as $video) {
             $choices = [];
             $default = null;
-            $i = 0;
+            $i = -1;
             foreach ($video->files as $file) {
                 $type = strtoupper(pathinfo($file->path, PATHINFO_EXTENSION));
                 $size = number_format($file->size / 1024 / 1024, 1) . ' MiB';
                 $name = basename(dirname($file->path)) . '/' . basename($file->path);
                 $choices[$i] = "$type $size - $name {$file->id}";
+                $i++;
                 if ($this->option('mime-type') && $file->mime_type != $this->option('mime-type')) {
                     continue;
                 }
@@ -56,7 +57,6 @@ class DeleteDuplicateFiles extends Command
                 if ($this->option('mime-type') || $this->option('resolution')) {
                     $default = $i;
                 }
-                $i++;
             }
             $keepChoices = $this->choice(
                 "Files to keep for: [{$video->uuid}] {$video->title}",
