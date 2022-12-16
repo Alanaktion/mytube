@@ -46,8 +46,8 @@ class DeleteDuplicateFiles extends Command
                 $type = strtoupper(pathinfo($file->path, PATHINFO_EXTENSION));
                 $size = number_format($file->size / 1024 / 1024, 1) . ' MiB';
                 $name = basename(dirname($file->path)) . '/' . basename($file->path);
-                $choices[$i] = "$type $size - $name {$file->id}";
                 $i++;
+                $choices[$i] = "$type $size - $name {$file->id}";
                 if ($this->option('mime-type') && $file->mime_type != $this->option('mime-type')) {
                     continue;
                 }
