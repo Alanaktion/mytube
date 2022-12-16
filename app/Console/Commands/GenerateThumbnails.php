@@ -75,7 +75,7 @@ class GenerateThumbnails extends Command
         $this->line('');
         $this->info("Generated {$bar->getMaxSteps()} thumbnails with {$errors} errors");
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

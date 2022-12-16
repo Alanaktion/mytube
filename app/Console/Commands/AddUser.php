@@ -37,6 +37,6 @@ class AddUser extends Command
             'role' => User::ROLE_ADMIN,
         ]);
         $this->info('Created user with ID ' . $user->id);
-        return 0;
+        return Command::SUCCESS;
     }
 }

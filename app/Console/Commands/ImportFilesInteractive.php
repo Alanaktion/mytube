@@ -35,10 +35,8 @@ class ImportFilesInteractive extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $directory = $this->argument('directory');
         if (!is_dir($directory)) {
@@ -69,7 +67,7 @@ class ImportFilesInteractive extends Command
             $this->import($file);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     protected function import(string $file): void

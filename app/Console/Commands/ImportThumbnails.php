@@ -26,10 +26,8 @@ class ImportThumbnails extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $videos = Video::whereHas('files')
             ->with('files:id,video_id,path')
@@ -39,7 +37,7 @@ class ImportThumbnails extends Command
 
         if (!$videos->count()) {
             $this->info('No videos missing thumbnails with files available.');
-            return 0;
+            return Command::SUCCESS;
         }
 
         $this->withProgressBar($videos, function (Video $video, $bar): void {
@@ -65,6 +63,6 @@ class ImportThumbnails extends Command
         });
         $this->line('');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

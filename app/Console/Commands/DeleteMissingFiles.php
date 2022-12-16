@@ -23,10 +23,8 @@ class DeleteMissingFiles extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $deleted = 0;
         $this->withProgressBar(VideoFile::cursor(), function (VideoFile $file, $bar) use (&$deleted): void {
@@ -39,6 +37,6 @@ class DeleteMissingFiles extends Command
 
         $this->line($deleted . ' records deleted.');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

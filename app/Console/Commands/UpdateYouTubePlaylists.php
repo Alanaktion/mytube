@@ -45,6 +45,6 @@ class UpdateYouTubePlaylists extends Command
             $this->error("Failed to update playlist {$error->uuid}");
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

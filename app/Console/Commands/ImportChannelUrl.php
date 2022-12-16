@@ -28,10 +28,8 @@ class ImportChannelUrl extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $urls = $this->argument('url');
 
@@ -87,6 +85,6 @@ class ImportChannelUrl extends Command
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

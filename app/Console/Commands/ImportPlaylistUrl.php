@@ -71,6 +71,6 @@ class ImportPlaylistUrl extends Command
             Playlist::import($type, $id, !$this->option('no-items'));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

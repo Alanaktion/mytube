@@ -34,11 +34,11 @@ class IndexSearch extends Command
         $driver = config('scout.driver');
         if ($driver === null) {
             $this->warn('No search index driver is configured.');
-            return 1;
+            return Command::INVALID;
         }
         if ($driver === 'database' || $driver === 'collection') {
             $this->warn("The search driver '$driver' does not require indexing.");
-            return 1;
+            return Command::INVALID;
         }
 
         if ($this->option('flush')) {
@@ -56,6 +56,6 @@ class IndexSearch extends Command
             $this->call('scout:import', ['model' => $model]);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

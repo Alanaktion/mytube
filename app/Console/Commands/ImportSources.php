@@ -19,7 +19,7 @@ class ImportSources extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(): int
     {
         /**
          * @var \App\Sources\Source[] $sources
@@ -28,5 +28,7 @@ class ImportSources extends Command
         foreach ($sources as $source) {
             $this->line($source->getSourceType());
         }
+
+        return Command::SUCCESS;
     }
 }

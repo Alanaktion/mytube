@@ -24,10 +24,8 @@ class ImportMetadata extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $files = VideoFile::whereNull('size');
         if (!$this->option('no-ffprobe')) {
@@ -35,7 +33,7 @@ class ImportMetadata extends Command
         }
         if (!$files->exists()) {
             $this->info('No video files are missing metadata.');
-            return 0;
+            return Command::SUCCESS;
         }
 
         $this->withProgressBar($files->cursor(), function (VideoFile $file, $bar): void {
@@ -59,6 +57,6 @@ class ImportMetadata extends Command
         });
         $this->line('');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

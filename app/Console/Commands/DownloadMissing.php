@@ -48,6 +48,6 @@ class DownloadMissing extends Command
             $this->info(sprintf('Queued %u downloads.', $videos->count()));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

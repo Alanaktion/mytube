@@ -27,7 +27,7 @@ class DownloadYouTubeThumbnails extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(): int
     {
         $this->warn('This command is deprecated as thumbnail download is now part of video import.');
 
@@ -78,6 +78,8 @@ class DownloadYouTubeThumbnails extends Command
         }
         $bar->finish();
         $this->line('');
+
+        return Command::SUCCESS;
     }
 
     protected function downloadThumbnail(string $uuid): void

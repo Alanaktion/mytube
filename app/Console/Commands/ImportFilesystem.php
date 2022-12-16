@@ -42,7 +42,7 @@ class ImportFilesystem extends Command
         $directory = $this->argument('directory');
         if (!is_dir($directory)) {
             $this->error('The specified directory does not exist.');
-            return 1;
+            return Command::INVALID;
         }
 
         $sources = app()->tagged('sources');
@@ -54,7 +54,7 @@ class ImportFilesystem extends Command
         $type = $this->option('source');
         if ($type && !isset($this->sources[$type])) {
             $this->error('Unable to find source type: ' . $type);
-            return 2;
+            return Command::INVALID;
         }
 
         $this->line('Scanning directory...');
@@ -69,7 +69,7 @@ class ImportFilesystem extends Command
                     }
                     if (fnmatch($pattern, $file)) {
                         $this->line('Excluded by pattern: ' . $pattern, null, 'vv');
-                        continue 2;
+                        return Command::INVALID;
                     }
                 }
             }
@@ -138,9 +138,9 @@ class ImportFilesystem extends Command
 
         if ($errorCount) {
             $this->error("Encountered errors importing $errorCount files.");
-            return 3;
+            return Command::FAILURE;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
