@@ -76,7 +76,7 @@ class TwitchVideo implements SourceVideo
 
     public function getSourceUrl(Video $video): string
     {
-        return 'https://www.twitch.tv/videos/' . $video->uuid;
+        return 'https://www.twitch.tv/videos/' . ltrim($video->uuid, 'v');
     }
 
     public function getEmbedHtml(Video $video): ?string
