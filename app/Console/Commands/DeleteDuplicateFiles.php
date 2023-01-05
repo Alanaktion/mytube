@@ -26,10 +26,8 @@ class DeleteDuplicateFiles extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $videos = Video::withCount('files')
             ->having('files_count', '>', 1)

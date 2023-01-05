@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Jobs\ProcessChannelImport;
 use App\Jobs\ProcessPlaylistImport;
 use App\Models\Video;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
@@ -172,7 +172,7 @@ class AdminController extends Controller
             $rows = DB::table(config('queue.connections.database.table'))
                 ->get();
             foreach ($rows as $row) {
-                $payload = json_decode($row->payload);
+                $payload = json_decode($row->payload, flags: JSON_THROW_ON_ERROR);
                 $queuedJobs[] = (object)[
                     'queue' => $row->queue,
                     'name' => basename(strtr($payload->displayName, '\\', '/')),
@@ -195,7 +195,7 @@ class AdminController extends Controller
                     $jobs = Redis::lrange('queues:' . $queue, 0, -1);
                 }
                 foreach ($jobs as $job) {
-                    $row = json_decode($job);
+                    $row = json_decode($job, flags: JSON_THROW_ON_ERROR);
                     $queuedJobs[] = (object)[
                         'queue' => $queue,
                         'name' => basename(strtr($row->displayName, '\\', '/')),

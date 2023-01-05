@@ -44,7 +44,7 @@ class VideoController extends Controller
             $videos->where('source_visibility', $request->input('visibility'));
         }
         if ($request->input('resolution')) {
-            $videos->whereHas('files', function (Builder $query) use ($request) {
+            $videos->whereHas('files', function (Builder $query) use ($request): void {
                 if ($request->input('resolution') == 'portrait') {
                     $query->where('height', '<', 'width');
                 } else {
@@ -53,7 +53,7 @@ class VideoController extends Controller
             });
         }
         if ($request->input('mime_type')) {
-            $videos->whereHas('files', function (Builder $query) use ($request) {
+            $videos->whereHas('files', function (Builder $query) use ($request): void {
                 $query->where('mime_type', $request->input('mime_type'));
             });
         }
@@ -78,7 +78,7 @@ class VideoController extends Controller
         $playlist = null;
         if ($request->has('playlist')) {
             $playlist = Playlist::where('uuid', $request->input('playlist'))
-                ->whereHas('items', function (Builder $query) use ($video) {
+                ->whereHas('items', function (Builder $query) use ($video): void {
                     $query->where('video_id', $video->id);
                 })
                 ->with([
@@ -108,7 +108,7 @@ class VideoController extends Controller
         }
 
         // File collection with specific info required for download component
-        $files = $video->files->map(fn($v) => [
+        $files = $video->files->map(fn($v): array => [
             'id' => $v->id,
             'url' => $v->url,
             'size' => $v->size,

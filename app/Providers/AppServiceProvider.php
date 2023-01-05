@@ -16,12 +16,10 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton(YouTube::class, function ($app) {
+        $this->app->singleton(YouTube::class, function ($app): \Google\Service\YouTube {
             $client = new GoogleClient();
             $client->setApplicationName('MyTube');
             $client->setScopes([
@@ -43,16 +41,12 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Model::preventLazyLoading(!app()->isProduction());
 
-        Blade::directive('description', function ($expression) {
-            return "<?php echo format_description($expression); ?>";
-        });
+        Blade::directive('description', fn($expression) => "<?php echo format_description($expression); ?>");
     }
 
     /**
@@ -60,7 +54,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function initPlugins(): void
     {
-        $items = glob(dirname(dirname(__DIR__)) . '/plugins/*', GLOB_ONLYDIR);
+        $items = glob(dirname(__DIR__, 2) . '/plugins/*', GLOB_ONLYDIR);
         foreach ($items as $item) {
             include "$item/init.php";
         }

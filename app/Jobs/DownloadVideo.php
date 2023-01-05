@@ -23,8 +23,10 @@ class DownloadVideo implements ShouldQueue
      */
     public $timeout = 3600;
 
-    public function __construct(public string $videoId, public ?string $downloadDir = null)
-    {
+    public function __construct(
+        public string $videoId,
+        public ?string $downloadDir = null,
+    ) {
     }
 
     /**
@@ -44,9 +46,9 @@ class DownloadVideo implements ShouldQueue
      */
     public function handle(): void
     {
+        $video = Video::where('uuid', $this->videoId)->first();
         try {
             // Download the video
-            $video = Video::where('uuid', $this->videoId)->first();
             $video->downloadVideo($this->downloadDir);
 
             // Delete any previous import errors on success

@@ -44,7 +44,7 @@ class PlaylistController extends Controller
         $playlist->load('channel');
         $items = $playlist->items()
             ->with([
-                'video' => function ($query) {
+                'video' => function ($query): void {
                     $query->withCount('files')
                         ->withMax('files', 'height');
                 },
