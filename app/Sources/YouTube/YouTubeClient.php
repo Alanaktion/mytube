@@ -52,9 +52,8 @@ class YouTubeClient
     {
         /** @var YouTube $youtube */
         $youtube = App::make(YouTube::class);
-        $response = $youtube->channels->listChannels('snippet', [
-            'id' => $id,
-        ]);
+        $params = $id[0] == '@' ? ['forUsername' => substr($id, 1)] : ['id' => $id];
+        $response = $youtube->channels->listChannels('snippet', $params);
         usleep(1e5);
         foreach ($response as $channel) {
             /** @var Channel $channel */

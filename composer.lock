@@ -1818,16 +1818,16 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "12.9.8",
+            "version": "12.9.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "4918967e9156d824372398276bd0e31a2f5570de"
+                "reference": "76af289a2c7ca9ffbeeb031277ee5713db62cf18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/4918967e9156d824372398276bd0e31a2f5570de",
-                "reference": "4918967e9156d824372398276bd0e31a2f5570de",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/76af289a2c7ca9ffbeeb031277ee5713db62cf18",
+                "reference": "76af289a2c7ca9ffbeeb031277ee5713db62cf18",
                 "shasum": ""
             },
             "require": {
@@ -1889,7 +1889,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-01-04T10:00:54+00:00"
+            "time": "2023-01-07T12:11:38+00:00"
         },
         {
             "name": "laravel/framework",

@@ -46,6 +46,13 @@ class Channel extends Model
      */
     protected $dates = ['published_at'];
 
+    /**
+     * @var array<string,string>
+     */
+    protected $casts = [
+        'metadata' => 'array',
+    ];
+
     public function getRouteKeyName(): string
     {
         return 'uuid';
