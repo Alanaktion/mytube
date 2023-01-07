@@ -6,7 +6,7 @@ jobs:
   laravel-tests:
     strategy:
       matrix:
-        php: ['8.0', '8.1', '8.2']
+        php: ['8.1', '8.2']
 
     runs-on: ubuntu-latest
     name: Test on PHP ${{ matrix.php }}
