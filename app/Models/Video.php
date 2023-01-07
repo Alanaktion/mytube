@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use YoutubeDl\Options;
@@ -160,7 +164,7 @@ class Video extends Model
         }
     }
 
-    public function searchable()
+    public function searchable(): void
     {
         $this->scoutSearchable();
         $this->prepareIndex();
@@ -200,22 +204,34 @@ class Video extends Model
         );
     }
 
-    public function channel()
+    /**
+     * @return BelongsTo<Channel,Video>
+     */
+    public function channel(): BelongsTo
     {
         return $this->belongsTo(Channel::class);
     }
 
-    public function playlists()
+    /**
+     * @return BelongsToMany<Playlist>
+     */
+    public function playlists(): BelongsToMany
     {
         return $this->belongsToMany(Playlist::class, 'playlist_items');
     }
 
-    public function files()
+    /**
+     * @return HasMany<VideoFile>
+     */
+    public function files(): HasMany
     {
         return $this->hasMany(VideoFile::class);
     }
 
-    public function jobDetails()
+    /**
+     * @return MorphMany<JobDetail>
+     */
+    public function jobDetails(): MorphMany
     {
         return $this->morphMany(JobDetail::class, 'model');
     }
@@ -313,7 +329,10 @@ class Video extends Model
         }
     }
 
-    public function favoritedBy()
+    /**
+     * @return BelongsToMany<User>
+     */
+    public function favoritedBy(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_favorite_videos')
             ->withTimestamps();
@@ -324,7 +343,7 @@ class Video extends Model
         return source($this->source_type);
     }
 
-    public function delete(bool $files = false)
+    public function delete(bool $files = false): bool|null
     {
         if ($files) {
             $this->files()->get()->each(function (VideoFile $file) {
@@ -337,6 +356,6 @@ class Video extends Model
         if ($this->poster_url) {
             @unlink($this->poster_url);
         }
-        parent::delete();
+        return parent::delete();
     }
 }

@@ -10,6 +10,8 @@ use App\Sources\YouTube\YouTubeDlClient;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Laravel\Scout\Searchable;
 
 /**
@@ -101,7 +103,7 @@ class Channel extends Model
         }
     }
 
-    public function searchable()
+    public function searchable(): void
     {
         $this->scoutSearchable();
         $this->prepareIndex();
@@ -198,17 +200,26 @@ class Channel extends Model
         );
     }
 
-    public function videos()
+    /**
+     * @return HasMany<Video>
+     */
+    public function videos(): HasMany
     {
         return $this->hasMany(Video::class);
     }
 
+    /**
+     * @return HasMany<Playlist>
+     */
     public function playlists()
     {
         return $this->hasMany(Playlist::class);
     }
 
-    public function jobDetails()
+    /**
+     * @return MorphMany<JobDetail>
+     */
+    public function jobDetails(): MorphMany
     {
         return $this->morphMany(JobDetail::class, 'model');
     }

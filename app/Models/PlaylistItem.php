@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -22,12 +23,18 @@ class PlaylistItem extends Model
      */
     protected $guarded = [];
 
-    public function playlist()
+    /**
+     * @return BelongsTo<Playlist,PlaylistItem>
+     */
+    public function playlist(): BelongsTo
     {
         return $this->belongsTo(Playlist::class);
     }
 
-    public function video()
+    /**
+     * @return BelongsTo<Video,PlaylistItem>
+     */
+    public function video(): BelongsTo
     {
         return $this->belongsTo(Video::class);
     }

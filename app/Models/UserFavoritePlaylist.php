@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -15,12 +16,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserFavoritePlaylist extends Model
 {
-    public function user()
+    /**
+     * @return BelongsTo<User,UserFavoritePlaylist>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function playlist()
+    /**
+     * @return BelongsTo<Playlist,UserFavoritePlaylist>
+     */
+    public function playlist(): BelongsTo
     {
         return $this->belongsTo(Playlist::class);
     }

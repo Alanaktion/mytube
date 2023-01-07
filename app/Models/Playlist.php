@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 
@@ -101,8 +105,8 @@ class Playlist extends Model
     /**
      * Modify the query used to retrieve models when making all of the models searchable.
      *
-     * @param Builder<Channel> $query
-     * @return Builder<Channel>
+     * @param Builder<Playlist> $query
+     * @return Builder<Playlist>
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
@@ -118,7 +122,7 @@ class Playlist extends Model
         }
     }
 
-    public function searchable()
+    public function searchable(): void
     {
         $this->scoutSearchable();
         $this->prepareIndex();
@@ -141,25 +145,34 @@ class Playlist extends Model
         );
     }
 
-    public function channel()
+    /**
+     * @return BelongsTo<Channel,Playlist>
+     */
+    public function channel(): BelongsTo
     {
         return $this->belongsTo(Channel::class);
     }
 
-    public function items()
+    /**
+     * @return HasMany<PlaylistItem>
+     */
+    public function items(): HasMany
     {
         return $this->hasMany(PlaylistItem::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<PlaylistItem>
+     * @return HasOne<PlaylistItem>
      */
-    public function firstItem()
+    public function firstItem(): HasOne
     {
         return $this->hasOne(PlaylistItem::class)->ofMany('position', 'min');
     }
 
-    public function jobDetails()
+    /**
+     * @return MorphMany<JobDetail>
+     */
+    public function jobDetails(): MorphMany
     {
         return $this->morphMany(JobDetail::class, 'model');
     }

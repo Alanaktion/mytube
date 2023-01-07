@@ -6,7 +6,7 @@ use App\Models\Channel;
 use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Http\Request;
-use MeiliSearch\Endpoints\Indexes;
+use Meilisearch\Endpoints\Indexes;
 
 class HomeController extends Controller
 {

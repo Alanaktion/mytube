@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -15,12 +16,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserFavoriteChannel extends Model
 {
-    public function user()
+    /**
+     * @return BelongsTo<User,UserFavoriteChannel>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function channel()
+    /**
+     * @return BelongsTo<Channel,UserFavoriteChannel>
+     */
+    public function channel(): BelongsTo
     {
         return $this->belongsTo(Channel::class);
     }

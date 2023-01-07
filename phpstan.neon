@@ -8,10 +8,6 @@ parameters:
     ignoreErrors:
         # Don't require explicit return types on controller actions
         - '#Method App\\Http\\Controllers\\[a-zA-Z0-9\\]+::[a-zA-Z0-9]+\(\) has no return type(hint)? specified.#'
-        # Don't require explicit return types on model relations
-        - '#Method App\\Models\\[a-zA-Z0-9\\]+::[a-zA-Z0-9]+\(\) has no return type(hint)? specified.#'
         # Let me do 1e3 plz
         - '/Parameter #1 \$microseconds of function usleep expects int, float given\./'
-        # LaraStan has a bug apparently so this is temporary
-        - '#Relation .(channel|files|video|items). is not found in App\\Models\\[a-zA-Z]+ model.#'
     reportUnmatchedIgnoredErrors: false

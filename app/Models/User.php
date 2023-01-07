@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -63,19 +64,28 @@ class User extends Authenticatable
         return $this->role === self::ROLE_ADMIN;
     }
 
-    public function favoriteVideos()
+    /**
+     * @return BelongsToMany<Video>
+     */
+    public function favoriteVideos(): BelongsToMany
     {
         return $this->belongsToMany(Video::class, 'user_favorite_videos')
             ->withTimestamps();
     }
 
-    public function favoritePlaylists()
+    /**
+     * @return BelongsToMany<Playlist>
+     */
+    public function favoritePlaylists(): BelongsToMany
     {
         return $this->belongsToMany(Playlist::class, 'user_favorite_playlists')
             ->withTimestamps();
     }
 
-    public function favoriteChannels()
+    /**
+     * @return BelongsToMany<Channel>
+     */
+    public function favoriteChannels(): BelongsToMany
     {
         return $this->belongsToMany(Channel::class, 'user_favorite_channels')
             ->withTimestamps();
