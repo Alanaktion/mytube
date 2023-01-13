@@ -40,7 +40,7 @@
                 <TabPanels>
                     <TabPanel>
                         <label for="videoIds" class="form-label mb-1">
-                            {{ $t('Video IDs/URLs') }}
+                            {{ $t('Video URLs/IDs') }}
                         </label>
                         <textarea name="videoIds" id="videoIds" v-model="videoIds" class="input-text" rows="5" required />
                     </TabPanel>
