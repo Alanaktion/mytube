@@ -15,14 +15,14 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Install dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Static analysis
       run: php vendor/bin/phpstan analyse --no-progress
     - name: Generate key
       run: php artisan key:generate --env=testing
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
       with:
         node-version: '16'
     - name: Install Node dependencies
