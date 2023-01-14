@@ -27,7 +27,8 @@ class TwitchCollection implements SourcePlaylist
 
     public function matchId(string $id): bool
     {
-        return (bool)preg_match('/^[0-9a-z]{14,}$/i', $id);
+        // return (bool)preg_match('/^[0-9a-z]{14,}$/i', $id);
+        return false;
     }
 
     public function getSourceUrl(Playlist $playlist): string
