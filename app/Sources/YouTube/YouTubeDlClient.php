@@ -49,7 +49,7 @@ class YouTubeDlClient extends YoutubeDl
      */
     public function getChannelPlaylistIds(string $channelId): array
     {
-        return $this->getIdsByUrl("https://www.youtube.com/channel/${channelId}/playlists");
+        return $this->getIdsByUrl("https://www.youtube.com/channel/${channelId}/playlists?view=1");
     }
 
     /**
@@ -64,6 +64,6 @@ class YouTubeDlClient extends YoutubeDl
         ]);
 
         $process->mustRun();
-        return array_map('trim', explode("\n", trim($process->getOutput())));
+        return array_filter(array_map('trim', explode("\n", trim($process->getOutput()))));
     }
 }
