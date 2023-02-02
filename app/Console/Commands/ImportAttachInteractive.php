@@ -84,10 +84,8 @@ class ImportAttachInteractive extends Command
                 ->where('source_type', 'like', $type ?? '%')
                 ->first();
 
-            if ($video) {
-                if (!$this->confirm("Use existing video: [{$video->uuid}] {$video->title}?", true)) {
-                    $video = null;
-                }
+            if ($video && !$this->confirm("Use existing video: [{$video->uuid}] {$video->title}?", true)) {
+                $video = null;
             }
         } while (!$video);
 

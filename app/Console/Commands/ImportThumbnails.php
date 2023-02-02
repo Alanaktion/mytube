@@ -40,7 +40,7 @@ class ImportThumbnails extends Command
             return Command::SUCCESS;
         }
 
-        $this->withProgressBar($videos, function (Video $video, $bar): void {
+        $this->withProgressBar($videos, function (Video $video): void {
             foreach ($video->files as $file) {
                 $ext = pathinfo($file->path, PATHINFO_EXTENSION);
                 $glob = substr($file->path, 0, -strlen($ext)) . '*';

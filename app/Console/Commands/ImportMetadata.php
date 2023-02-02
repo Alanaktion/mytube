@@ -36,7 +36,7 @@ class ImportMetadata extends Command
             return Command::SUCCESS;
         }
 
-        $this->withProgressBar($files->cursor(), function (VideoFile $file, $bar): void {
+        $this->withProgressBar($files->cursor(), function (VideoFile $file): void {
             if (!is_file($file->path)) {
                 $this->warn('File does not exist: ' . $file->path);
                 return;

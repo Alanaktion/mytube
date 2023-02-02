@@ -2,7 +2,7 @@
 
 namespace App\Sources\Twitch;
 
-use Exception;
+use App\Exceptions\ImportException;
 use romanzipp\Twitch\Enums\GrantType;
 use romanzipp\Twitch\Twitch as TwitchLib;
 
@@ -23,7 +23,7 @@ class TwitchClient
         // Get access token
         $result = $this->client->getOAuthToken(null, GrantType::CLIENT_CREDENTIALS, ['user_read']);
         if (!$result->success()) {
-            throw new Exception($result->getErrorMessage());
+            throw new ImportException($result->getErrorMessage());
         }
         $this->client->setToken($result->data()->access_token);
     }
@@ -39,7 +39,7 @@ class TwitchClient
             $field => $id,
         ]);
         if (!$result->success()) {
-            throw new Exception($result->getErrorMessage());
+            throw new ImportException($result->getErrorMessage());
         }
         return json_decode($result->getResponse()->getBody(), true)['data'][0];
     }
@@ -55,7 +55,7 @@ class TwitchClient
             $field => $id,
         ]);
         if (!$result->success()) {
-            throw new Exception($result->getErrorMessage());
+            throw new ImportException($result->getErrorMessage());
         }
         return json_decode($result->getResponse()->getBody(), true)['data'];
     }
@@ -71,7 +71,7 @@ class TwitchClient
             $field => $id,
         ]);
         if (!$result->success()) {
-            throw new Exception($result->getErrorMessage());
+            throw new ImportException($result->getErrorMessage());
         }
         return json_decode($result->getResponse()->getBody(), true)['data'];
     }

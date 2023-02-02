@@ -33,7 +33,7 @@ class DownloadMissing extends Command
             return 0;
         }
 
-        $this->withProgressBar($videos, function (Video $video, $bar): void {
+        $this->withProgressBar($videos, function (Video $video): void {
             if ($this->option('queue')) {
                 // Queue the video download
                 DownloadVideo::dispatch($video->uuid)->onQueue('download');

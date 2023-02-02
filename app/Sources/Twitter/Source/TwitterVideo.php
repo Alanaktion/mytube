@@ -2,12 +2,12 @@
 
 namespace App\Sources\Twitter\Source;
 
+use App\Exceptions\ImportException;
 use App\Models\Channel;
 use App\Models\Video;
 use App\Sources\SourceVideo;
 use App\Sources\Twitter\TwitterClient;
 use App\Traits\DownloadsImages;
-use Exception;
 use Illuminate\Support\Str;
 
 class TwitterVideo implements SourceVideo
@@ -25,7 +25,7 @@ class TwitterVideo implements SourceVideo
         $data = $twitter->getStatus($id);
 
         if (!empty($data->errors)) {
-            throw new Exception($data->errors[0]->message);
+            throw new ImportException($data->errors[0]->message);
         }
 
         // Download images

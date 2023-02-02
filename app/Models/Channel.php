@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Exceptions\ImportException;
 use App\Exceptions\InvalidSourceException;
 use App\Sources\Source;
-use Exception;
 use App\Sources\YouTube\YouTubeClient;
 use App\Sources\YouTube\YouTubeDlClient;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -118,7 +118,7 @@ class Channel extends Model
     public function importVideos(): void
     {
         if ($this->type != 'youtube') {
-            throw new Exception('Importing videos is not supported for this channel type.');
+            throw new ImportException('Importing videos is not supported for this channel type.');
         }
 
         $ytdl = new YouTubeDlClient();
@@ -153,7 +153,7 @@ class Channel extends Model
     public function importPlaylists(bool $importItems = true): void
     {
         if ($this->type != 'youtube') {
-            throw new Exception('Importing playlists is not supported for this channel type.');
+            throw new ImportException('Importing playlists is not supported for this channel type.');
         }
 
         $ytdl = new YouTubeDlClient();

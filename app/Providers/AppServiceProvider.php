@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(YouTube::class, function ($app): \Google\Service\YouTube {
+        $this->app->singleton(YouTube::class, function (): \Google\Service\YouTube {
             $client = new GoogleClient();
             $client->setApplicationName('MyTube');
             $client->setScopes([
@@ -56,7 +56,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $items = glob(dirname(__DIR__, 2) . '/plugins/*', GLOB_ONLYDIR);
         foreach ($items as $item) {
-            include "$item/init.php";
+            include_once "$item/init.php";
         }
     }
 }

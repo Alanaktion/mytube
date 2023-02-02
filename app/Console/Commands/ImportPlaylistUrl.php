@@ -60,7 +60,7 @@ class ImportPlaylistUrl extends Command
             } elseif ($typeSource->playlist() === null) {
                 $this->error('Source does not support playlists: ' . $type);
                 return 1;
-            } else {
+            } elseif ($id === null) {
                 $id = $typeSource->playlist()->matchUrl($url);
             }
             if ($id === null) {

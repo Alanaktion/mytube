@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Exceptions\ImportException;
 use App\Exceptions\InvalidSourceException;
 use App\Sources\Source;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -289,7 +289,7 @@ class Video extends Model
     public function downloadVideo(?string $downloadDir = null): void
     {
         if (!$this->source_link) {
-            throw new Exception('Video does not have a usable source link');
+            throw new ImportException('Video does not have a usable source link');
         }
 
         // Exit if a file already exists
@@ -318,7 +318,7 @@ class Video extends Model
         );
         foreach ($collection->getVideos() as $video) {
             if ($video->getError() !== null) {
-                throw new Exception($video->getError());
+                throw new ImportException($video->getError());
             }
             $filePath = $video->getFile()->getRealPath();
             $this->files()->create([

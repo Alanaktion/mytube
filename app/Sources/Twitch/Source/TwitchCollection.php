@@ -2,6 +2,7 @@
 
 namespace App\Sources\Twitch\Source;
 
+use App\Exceptions\ImportException;
 use App\Models\Playlist;
 use App\Sources\SourcePlaylist;
 
@@ -9,12 +10,12 @@ class TwitchCollection implements SourcePlaylist
 {
     public function import(string $id): Playlist
     {
-        throw new \Exception('Twitch collections cannot be imported automatically, they are not supported by the API.');
+        throw new ImportException('Twitch collections cannot be imported automatically, they are not supported by the API.');
     }
 
     public function importItems(Playlist $playlist): void
     {
-        throw new \Exception('Twitch collections cannot be imported automatically, they are not supported by the API.');
+        throw new ImportException('Twitch collections cannot be imported automatically, they are not supported by the API.');
     }
 
     public function matchUrl(string $url): ?string

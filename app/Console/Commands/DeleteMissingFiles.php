@@ -27,7 +27,7 @@ class DeleteMissingFiles extends Command
     public function handle(): int
     {
         $deleted = 0;
-        $this->withProgressBar(VideoFile::cursor(), function (VideoFile $file, $bar) use (&$deleted): void {
+        $this->withProgressBar(VideoFile::cursor(), function (VideoFile $file) use (&$deleted): void {
             if (!is_file($file->path)) {
                 $file->delete();
                 $deleted++;

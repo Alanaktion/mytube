@@ -2,6 +2,7 @@
 
 namespace App\Sources\YouTube;
 
+use App\Exceptions\ImportException;
 use Exception;
 use Google\Service\YouTube;
 use Google\Service\YouTube\Channel;
@@ -39,7 +40,7 @@ class YouTubeClient
                 'is_livestream' => (bool)$video->getLiveStreamingDetails(),
             ];
         }
-        throw new Exception('Video not found');
+        throw new ImportException('Video not found');
     }
 
     /**
@@ -67,7 +68,7 @@ class YouTubeClient
                 'thumbnails' => $channel->getSnippet()->getThumbnails(),
             ];
         }
-        throw new Exception('Channel not found');
+        throw new ImportException('Channel not found');
     }
 
     /**
@@ -165,7 +166,7 @@ class YouTubeClient
                 'published_at' => $playlist->getSnippet()->publishedAt,
             ];
         }
-        throw new Exception('Playlist not found');
+        throw new ImportException('Playlist not found');
     }
 
     /**
