@@ -102,6 +102,18 @@
                     </x-button>
                 </x-slot>
             </x-card>
+
+            <x-card>
+                <div class="text-sm uppercase font-semibold text-slate-500 dark:text-neutral-400 mb-2">
+                    Laravel Telescope
+                </div>
+                <p>View detailed application insights</p>
+                <x-slot name="footer">
+                    <x-button href="/telescope" primary>
+                        {{ __('View all') }}
+                    </x-button>
+                </x-slot>
+            </x-card>
         </div>
     </div>
 </div>

@@ -32,7 +32,7 @@ class VideoFileType extends GraphQLType
                 'description' => 'The URL to the video file.',
                 'alias' => 'path',
                 // 'selectable' => false,
-                'resolve' => fn(VideoFile $root): ?string => $root->url,
+                'resolve' => fn (VideoFile $root): ?string => $root->url,
             ],
             'mime_type' => [
                 'type' => Type::nonNull(Type::string()),

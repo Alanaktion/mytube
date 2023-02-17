@@ -41,9 +41,11 @@ class Playlist extends Model
     protected $guarded = [];
 
     /**
-     * @var string[]
+     * @var array<string,string>
      */
-    protected $dates = ['published_at'];
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
 
     public function getRouteKeyName(): string
     {

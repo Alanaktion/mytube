@@ -5,10 +5,10 @@ import i18n from 'laravel-vue-i18n/vite';
 
 export default defineConfig({
     plugins: [
-        laravel([
-            'resources/css/app.css',
-            'resources/js/app.js',
-        ]),
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
         vue({
             template: {
                 transformAssetUrls: {

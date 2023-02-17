@@ -1,9 +1,23 @@
 {
-    "name": "laravel/laravel",
+    "name": "alanaktion/mytube",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "A self-hostable video archive web app",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "rebing/graphql-laravel",
+                "version": "8.6.0",
+                "type": "library",
+                "source": {
+                    "url": "https://github.com/jasonvarga/graphql-laravel.git",
+                    "type": "git",
+                    "reference": "laravel-10"
+                }
+            }
+        }
+    ],
     "require": {
         "php": "^8.1",
         "abraham/twitteroauth": "^5.0",
@@ -12,28 +26,29 @@
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.5",
         "laravel-lang/lang": "^12.0",
-        "laravel/framework": "^9.19.0",
-        "laravel/sanctum": "^3.0.0",
+        "laravel/framework": "^10.0",
+        "laravel/sanctum": "^3.2",
         "laravel/scout": "^9.0",
-        "laravel/tinker": "^2.7",
+        "laravel/telescope": "^4.13",
+        "laravel/tinker": "^2.8",
         "laravel/ui": "^4.0",
-        "meilisearch/meilisearch-php": "^0.27",
+        "meilisearch/meilisearch-php": "^1.0",
         "norkunas/youtube-dl-php": "^2.0",
         "opcodesio/log-viewer": "^1.2",
         "predis/predis": "^2.0",
         "rebing/graphql-laravel": "^8.2",
-        "romanzipp/laravel-twitch": "^4.0"
+        "romanzipp/laravel-twitch": "^4.5.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
+        "laravel/pint": "^1.0",
+        "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.1",
+        "nunomaduro/collision": "^7.0",
         "nunomaduro/larastan": "^2.0",
-        "phpunit/phpunit": "^9.5.10",
+        "phpunit/phpunit": "^10.0",
         "rector/rector": "^0.15",
-        "spatie/laravel-ignition": "^1.0",
-        "squizlabs/php_codesniffer": "*"
+        "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
         "files": [
@@ -82,9 +97,10 @@
             "php": "8.1.13"
         },
         "allow-plugins": {
+            "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

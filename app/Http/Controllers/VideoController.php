@@ -108,7 +108,7 @@ class VideoController extends Controller
         }
 
         // File collection with specific info required for download component
-        $files = $video->files->map(fn($v): array => [
+        $files = $video->files->map(fn ($v): array => [
             'id' => $v->id,
             'url' => $v->url,
             'size' => $v->size,

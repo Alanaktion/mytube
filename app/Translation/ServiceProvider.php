@@ -2,7 +2,6 @@
 
 namespace App\Translation;
 
-use App\Translation\FileLoader;
 use Illuminate\Translation\TranslationServiceProvider;
 
 /**
@@ -19,10 +18,11 @@ class ServiceProvider extends TranslationServiceProvider
     {
         $this->app->singleton('translation.loader', function ($app): \App\Translation\FileLoader {
             $paths = [
+                $app['path.lang'],
                 base_path('vendor/laravel-lang/lang/locales'),
             ];
 
-            $loader = new FileLoader($app['files'], $app['path.lang'], $paths);
+            $loader = new FileLoader($app['files'], $paths);
             $loader->addJsonPath(base_path('vendor/laravel-lang/lang/locales'));
 
             return $loader;

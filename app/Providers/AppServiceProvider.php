@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::preventLazyLoading(!app()->isProduction());
 
-        Blade::directive('description', fn($expression) => "<?php echo format_description($expression); ?>");
+        Blade::directive('description', fn ($expression) => "<?php echo format_description($expression); ?>");
     }
 
     /**

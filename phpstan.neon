@@ -4,6 +4,9 @@ includes:
 parameters:
     paths:
         - app
+    # Temporarily excluding GraphQL until upstream issues are resolved
+    excludePaths:
+        - app/GraphQL
     level: 6
     ignoreErrors:
         # Don't require explicit return types on controller actions

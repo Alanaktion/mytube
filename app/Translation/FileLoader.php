@@ -3,7 +3,6 @@
 namespace App\Translation;
 
 use Illuminate\Support\Str;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader as LaravelTranslationFileLoader;
 use RuntimeException;
 
@@ -14,17 +13,6 @@ use RuntimeException;
  */
 class FileLoader extends LaravelTranslationFileLoader
 {
-    /**
-     * Create a new file loader instance.
-     *
-     * @param string $path
-     * @param string[] $paths
-     */
-    public function __construct(Filesystem $files, $path, protected $paths = [])
-    {
-        parent::__construct($files, $path);
-    }
-
     /**
      * Load the messages for the given locale.
      *
@@ -40,10 +28,7 @@ class FileLoader extends LaravelTranslationFileLoader
         }
 
         $defaults = [];
-
-        foreach ($this->paths as $path) {
-            $defaults = array_replace_recursive($defaults, $this->loadPath($path, $locale, $group));
-        }
+        $defaults = array_replace_recursive($defaults, $this->loadPaths($this->paths, $locale, $group));
 
         return array_replace_recursive($defaults, parent::load($locale, $group, $namespace));
     }
@@ -51,17 +36,17 @@ class FileLoader extends LaravelTranslationFileLoader
     /**
      * Fall back to base locale (i.e. de) if a countries specific locale (i.e. de-CH) is not available.
      *
-     * @param string $path
+     * @param string[] $paths
      * @param string $locale
      * @param string $group
      * @return array<string, string>
      */
-    protected function loadPath($path, $locale, $group): array
+    protected function loadPaths(array $paths, $locale, $group): array
     {
-        $result = parent::loadPath($path, $locale, $group);
+        $result = parent::loadPaths($paths, $locale, $group);
 
         if (empty($result) && Str::contains($locale, '-')) {
-            return parent::loadPath($path, strstr($locale, '-', true), $group);
+            return parent::loadPaths($paths, strstr($locale, '-', true), $group);
         }
 
         return $result;

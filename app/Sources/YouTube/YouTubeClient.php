@@ -3,7 +3,6 @@
 namespace App\Sources\YouTube;
 
 use App\Exceptions\ImportException;
-use Exception;
 use Google\Service\YouTube;
 use Google\Service\YouTube\Channel;
 use Google\Service\YouTube\Playlist;

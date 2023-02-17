@@ -44,15 +44,11 @@ class Channel extends Model
     protected $guarded = [];
 
     /**
-     * @var string[]
-     */
-    protected $dates = ['published_at'];
-
-    /**
      * @var array<string,string>
      */
     protected $casts = [
         'metadata' => 'array',
+        'published_at' => 'datetime',
     ];
 
     public function getRouteKeyName(): string
