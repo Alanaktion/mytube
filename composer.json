@@ -3,21 +3,6 @@
     "type": "project",
     "description": "A self-hostable video archive web app",
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "rebing/graphql-laravel",
-                "version": "8.6.0",
-                "type": "library",
-                "source": {
-                    "url": "https://github.com/jasonvarga/graphql-laravel.git",
-                    "type": "git",
-                    "reference": "laravel-10"
-                }
-            }
-        }
-    ],
     "require": {
         "php": "^8.1",
         "abraham/twitteroauth": "^5.0",
