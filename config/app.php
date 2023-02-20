@@ -227,7 +227,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Laravel\Telescope\TelescopeServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Translation\ServiceProvider::class,
 
     ],
