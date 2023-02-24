@@ -46,7 +46,7 @@ class VideoController extends Controller
         if ($request->input('resolution')) {
             $videos->whereHas('files', function (Builder $query) use ($request): void {
                 if ($request->input('resolution') == 'portrait') {
-                    $query->where('height', '<', 'width');
+                    $query->whereColumn('height', '<', 'width');
                 } else {
                     $query->where('height', $request->input('resolution'));
                 }
