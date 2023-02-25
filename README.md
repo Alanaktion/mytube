@@ -22,7 +22,7 @@ A self-hostable video archive web app
 
 ## Demo
 
-https://mytube-app-demo.herokuapp.com/
+https://mytube.phpizza.com/
 
 ## Requirements
 
