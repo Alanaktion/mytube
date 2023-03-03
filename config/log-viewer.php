@@ -1,6 +1,29 @@
 <?php
 
+use Opcodes\LogViewer\Level;
+
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Log Viewer
+    |--------------------------------------------------------------------------
+    | Log Viewer can be disabled, so it's no longer accessible via browser.
+    |
+    */
+
+    'enabled' => env('LOG_VIEWER_ENABLED', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Log Viewer Domain
+    |--------------------------------------------------------------------------
+    | You may change the domain where Log Viewer should be active.
+    | If the domain is empty, all domains will be valid.
+    |
+    */
+
+    'route_domain' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -31,12 +54,28 @@ return [
     |--------------------------------------------------------------------------
     | Log Viewer route middleware.
     |--------------------------------------------------------------------------
-    | The middleware should enable session and cookies support in order for the Log Viewer to work.
-    | The 'web' middleware will be applied automatically if empty.
+    | Optional middleware to use when loading the initial Log Viewer page.
     |
     */
 
-    'middleware' => ['web', 'auth', 'can:access-admin'],
+    'middleware' => [
+        'web',
+        \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Log Viewer API middleware.
+    |--------------------------------------------------------------------------
+    | Optional middleware to use on every API request. The same API is also
+    | used from within the Log Viewer user interface.
+    |
+    */
+
+    'api_middleware' => [
+        \Opcodes\LogViewer\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -45,7 +84,11 @@ return [
     |
     */
 
-    'include_files' => ['*.log'],
+    'include_files' => [
+        '*.log',
+        '**/*.log',
+        // '/absolute/paths/supported',
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +99,7 @@ return [
     */
 
     'exclude_files' => [
-        //'my_secret.log'
+        // 'my_secret.log'
     ],
 
     /*
@@ -73,4 +116,54 @@ return [
         '/vendor/laravel/framework/',
         '/vendor/barryvdh/laravel-debugbar/',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Log matching patterns
+    |--------------------------------------------------------------------------
+    | Regexes for matching log files
+    |
+    */
+
+    'patterns' => [
+        'laravel' => [
+            'log_matching_regex' => '/^\[(\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}\.?(\d{6}([\+-]\d\d:\d\d)?)?)\].*/',
+
+            /**
+             * This pattern, used for processing Laravel logs, returns these results:
+             * $matches[0] - the full log line being tested.
+             * $matches[1] - full timestamp between the square brackets (includes microseconds and timezone offset)
+             * $matches[2] - timestamp microseconds, if available
+             * $matches[3] - timestamp timezone offset, if available
+             * $matches[4] - contents between timestamp and the severity level
+             * $matches[5] - environment (local, production, etc)
+             * $matches[6] - log severity (info, debug, error, etc)
+             * $matches[7] - the log text, the rest of the text.
+             */
+            'log_parsing_regex' => '/^\[(\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}\.?(\d{6}([\+-]\d\d:\d\d)?)?)\](.*?(\w+)\.|.*?)('
+                .implode('|', array_filter(Level::caseValues()))
+                .')?: (.*?)( in [\/].*?:[0-9]+)?$/is',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache driver
+    |--------------------------------------------------------------------------
+    | Cache driver to use for storing the log indices. Indices are used to speed up
+    | log navigation. Defaults to your application's default cache driver.
+    |
+    */
+
+    'cache_driver' => env('LOG_VIEWER_CACHE_DRIVER', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Chunk size when scanning log files lazily
+    |--------------------------------------------------------------------------
+    | The size in MB of files to scan before updating the progress bar when searching across all files.
+    |
+    */
+
+    'lazy_scan_chunk_size_in_mb' => 50,
 ];
