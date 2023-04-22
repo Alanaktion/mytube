@@ -13,10 +13,11 @@ class ImportChannelUrl extends Command
      *
      * @var string
      */
-    protected $signature = 'import:playlist-url
+    protected $signature = 'import:channel-url
         {--source=}
         {--playlists}
         {--channels}
+        {--videos}
         {url*}';
 
     /**
