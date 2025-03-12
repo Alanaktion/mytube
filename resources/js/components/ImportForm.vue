@@ -1,6 +1,6 @@
 <template>
     <TabGroup @change="changeTab">
-        <form :action="action" method="post" class="shadow dark:shadow-inner-white-top overflow-hidden sm:rounded-md bg-white dark:bg-neutral-800">
+        <form :action="action" method="post" class="shadow-sm dark:shadow-inner-white-top overflow-hidden sm:rounded-md bg-white dark:bg-neutral-800">
             <input type="hidden" name="_token" :value="csrfToken">
             <div class="flex justify-between items-center px-4 sm:px-6 py-3">
                 <div class="text-sm uppercase font-semibold text-slate-500 dark:text-neutral-400">

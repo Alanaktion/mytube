@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
 
 class GenerateThumbnails extends Command
 {
@@ -43,7 +43,6 @@ class GenerateThumbnails extends Command
             $query->whereIn('uuid', $this->argument('uuid'));
         }
 
-        /** @var \Illuminate\Support\LazyCollection<int, Video> */
         $videos = $query->cursor();
 
         $bar = $this->output->createProgressBar($videos->count());
@@ -106,17 +105,17 @@ class GenerateThumbnails extends Command
         Storage::makeDirectory('public/thumbs/generated');
 
         // Generate resampled + cropped images
-        $thumb = Image::make($framePath)->resize(480, 360, function ($constraint): void {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        })->resizeCanvas(480, 360, 'center', false, '#000');
-        $thumb->save(storage_path("app/public/thumbs/generated/{$video->uuid}@360p.jpg"));
-
-        $thumb = Image::make($framePath)->resize(1280, 720, function ($constraint): void {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        })->resizeCanvas(1280, 720, 'center', false, '#000');
-        $thumb->save(storage_path("app/public/thumbs/generated/{$video->uuid}@720p.jpg"));
+        $manager = new ImageManager(
+            new \Intervention\Image\Drivers\Gd\Driver()
+        );
+        $manager->read($framePath)
+            ->scale(480, 360)
+            ->resizeCanvas(480, 360, 'center', false, '#000')
+            ->save(storage_path("app/public/thumbs/generated/{$video->uuid}@360p.jpg"));
+        $manager->read($framePath)
+            ->scale(1280, 720)
+            ->resizeCanvas(1280, 720, 'center', false, '#000')
+            ->save(storage_path("app/public/thumbs/generated/{$video->uuid}@720p.jpg"));
 
         unlink($framePath);
 

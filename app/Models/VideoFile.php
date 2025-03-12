@@ -52,7 +52,7 @@ class VideoFile extends Model
     {
         return new Attribute(
             get: function (): ?string {
-                if (!$this->path) {
+                if ($this->path === '' || $this->path === '0') {
                     return null;
                 }
 
@@ -117,7 +117,7 @@ class VideoFile extends Model
      *
      * @param bool $filesystem Delete the file from the filesystem.
      */
-    public function delete(bool $filesystem = true)
+    public function delete(bool $filesystem = true): void
     {
         if ($filesystem) {
             @unlink($this->path);

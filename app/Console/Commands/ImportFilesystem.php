@@ -64,7 +64,7 @@ class ImportFilesystem extends Command
             $this->line($file, null, 'vv');
             if ($this->option('exclude')) {
                 foreach ($this->option('exclude') as $pattern) {
-                    if (!str_contains($pattern, '*')) {
+                    if (!str_contains((string) $pattern, '*')) {
                         $pattern = "*{$pattern}*";
                     }
                     if (fnmatch($pattern, $file)) {
@@ -136,7 +136,7 @@ class ImportFilesystem extends Command
         });
         $this->line('');
 
-        if ($errorCount) {
+        if ($errorCount !== 0) {
             $this->error("Encountered errors importing $errorCount files.");
             return Command::FAILURE;
         }

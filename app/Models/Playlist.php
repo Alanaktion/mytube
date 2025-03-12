@@ -97,7 +97,7 @@ class Playlist extends Model
             'channel_id' => $this->channel_id,
             'published_at' => $this->published_at,
         ];
-        if ($this->channel === null) {
+        if (!$this->channel instanceof \App\Models\Channel) {
             unset($data['channel_title']);
             unset($data['source_type']);
         }
@@ -194,7 +194,7 @@ class Playlist extends Model
         ]);
     }
 
-    public function delete(bool $videos = false, bool $files = false)
+    public function delete(bool $videos = false, bool $files = false): void
     {
         if ($videos || $files) {
             $this->items()->with('video')->get()->each(function (PlaylistItem $item) use ($videos, $files): void {

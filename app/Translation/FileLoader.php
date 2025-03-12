@@ -45,7 +45,7 @@ class FileLoader extends LaravelTranslationFileLoader
     {
         $result = parent::loadPaths($paths, $locale, $group);
 
-        if (empty($result) && Str::contains($locale, '-')) {
+        if ($result === [] && Str::contains($locale, '-')) {
             return parent::loadPaths($paths, strstr($locale, '-', true), $group);
         }
 

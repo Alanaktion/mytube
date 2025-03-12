@@ -10,7 +10,7 @@
         <job-details></job-details>
     </div>
 
-    <table class="min-w-full divide-y divide-slate-200 dark:divide-neutral-800 shadow overflow-hidden sm:rounded-lg mb-4">
+    <table class="min-w-full divide-y divide-slate-200 dark:divide-neutral-800 shadow-sm overflow-hidden sm:rounded-lg mb-4">
         <thead>
             <tr>
                 <th class="px-6 py-3 bg-slate-100 dark:bg-neutral-800 text-left text-xs leading-4 font-medium text-slate-500 dark:text-neutral-300 uppercase tracking-wider">

@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <form action="{{ route('users.update', auth()->id()) }}" method="POST">
+                <form action="{{ route('user.update', auth()->id()) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <x-card>
@@ -85,7 +85,7 @@
                                 @csrf
                                 <label for="token-name" class="sr-only">Token name</label>
                                 <x-input class="max-w-md mr-3" name="name" id="token-name" placeholder="Token name" required />
-                                <x-button class="flex-shrink-0 ml-auto" type="submit" primary>Create token</x-button>
+                                <x-button class="shrink-0 ml-auto" type="submit" primary>Create token</x-button>
                             </form>
                         </x-slot>
                     @else
@@ -98,7 +98,7 @@
                                 @csrf
                                 <label for="token-name" class="sr-only">Token name</label>
                                 <x-input name="name" id="token-name" placeholder="Token name" required />
-                                <x-button class="flex-shrink-0" type="submit" primary>Create token</x-button>
+                                <x-button class="shrink-0" type="submit" primary>Create token</x-button>
                             </form>
                         </div>
                     @endif

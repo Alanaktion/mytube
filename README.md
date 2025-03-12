@@ -170,8 +170,6 @@ Keep in mind that this involves downloading the video files from the source, and
 
 The application provides a GraphQL API for accessing data in the archive. An example implementation of an API client is the [Expo-based mobile app](https://github.com/Alanaktion/mytube-exbo). Most access is not limited to authenticated users, but user-specific functionality will require a valid OAuth bearer token.
 
-This includes a [GraphiQL](https://github.com/graphql/graphiql) web interface for querying the API, available at the `/graphiql` path. This can be disabled by setting the `ENABLE_GRAPHIQL` environment variable to false.
-
 ### Examples
 
 This example gets recent videos with some basic metadata, including the channel. The `page` argument is optional.

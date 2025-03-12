@@ -16,7 +16,7 @@ class YouTubeClient
      * Get metadata for a video from YouTube by video ID
      *
      * @link https://developers.google.com/youtube/v3/docs/videos
-     * @return array<string, mixed>
+     * @return array{id: string, channel_id: string, title: string, description: string, visibility: string, duration: string, published_at: string, is_livestream: true}
      */
     public static function getVideoData(string $id): array
     {
@@ -29,13 +29,13 @@ class YouTubeClient
         foreach ($response as $video) {
             /** @var Video $video */
             return [
-                'id' => $video->id,
-                'channel_id' => $video->getSnippet()->channelId,
-                'title' => $video->getSnippet()->title,
-                'description' => $video->getSnippet()->description,
-                'visibility' => $video->getStatus()->privacyStatus,
-                'duration' => $video->getContentDetails()->duration,
-                'published_at' => $video->getSnippet()->publishedAt,
+                'id' => $video->getId(),
+                'channel_id' => $video->getSnippet()->getChannelId(),
+                'title' => $video->getSnippet()->getTitle(),
+                'description' => $video->getSnippet()->getDescription(),
+                'visibility' => $video->getStatus()->getPrivacyStatus(),
+                'duration' => $video->getContentDetails()->getDuration(),
+                'published_at' => $video->getSnippet()->getPublishedAt(),
                 'is_livestream' => (bool)$video->getLiveStreamingDetails(),
             ];
         }
@@ -46,7 +46,7 @@ class YouTubeClient
      * Get metadata for a channel from YouTube by channel ID
      *
      * @link https://developers.google.com/youtube/v3/docs/channels
-     * @return array<string, mixed>
+     * @return array{id: string, title: string, description: string, custom_url: string, country: string, published_at: string, thumbnails: \Google\Service\YouTube\ThumbnailDetails}
      */
     public static function getChannelData(string $id): array
     {
@@ -58,12 +58,12 @@ class YouTubeClient
         foreach ($response as $channel) {
             /** @var Channel $channel */
             return [
-                'id' => $channel->id,
-                'title' => $channel->getSnippet()->title,
-                'description' => $channel->getSnippet()->description,
-                'custom_url' => $channel->getSnippet()->customUrl,
-                'country' => $channel->getSnippet()->country,
-                'published_at' => $channel->getSnippet()->publishedAt,
+                'id' => $channel->getId(),
+                'title' => $channel->getSnippet()->getTitle(),
+                'description' => $channel->getSnippet()->getDescription(),
+                'custom_url' => $channel->getSnippet()->getCustomUrl(),
+                'country' => $channel->getSnippet()->getCountry(),
+                'published_at' => $channel->getSnippet()->getPublishedAt(),
                 'thumbnails' => $channel->getSnippet()->getThumbnails(),
             ];
         }
@@ -145,7 +145,7 @@ class YouTubeClient
      * Get metadata for a playlist by ID
      *
      * @link https://developers.google.com/youtube/v3/docs/playlists
-     * @return array<string, string>
+     * @return array{id: string, channel_id: string, title: string, description: string, published_at: string}
      */
     public static function getPlaylistData(string $id): array
     {
@@ -158,11 +158,11 @@ class YouTubeClient
         foreach ($response as $playlist) {
             /** @var Playlist $playlist */
             return [
-                'id' => $playlist->id,
-                'channel_id' => $playlist->getSnippet()->channelId,
-                'title' => $playlist->getSnippet()->title,
-                'description' => $playlist->getSnippet()->description,
-                'published_at' => $playlist->getSnippet()->publishedAt,
+                'id' => $playlist->getId(),
+                'channel_id' => $playlist->getSnippet()->getChannelId(),
+                'title' => $playlist->getSnippet()->getTitle(),
+                'description' => $playlist->getSnippet()->getDescription(),
+                'published_at' => $playlist->getSnippet()->getPublishedAt(),
             ];
         }
         throw new ImportException('Playlist not found');

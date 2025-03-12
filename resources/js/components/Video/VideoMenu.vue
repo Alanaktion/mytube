@@ -20,12 +20,12 @@
             leave-to-class="scale-95 opacity-0"
         >
             <MenuItems
-                class="origin-top-right absolute -right-2 w-40 p-2 mt-1 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-neutral-800 border dark:border-neutral-850 focus:outline-none"
+                class="origin-top-right absolute -right-2 w-40 p-2 mt-1 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-neutral-800 border border-slate-400 dark:border-neutral-850 focus:outline-hidden"
             >
                 <MenuItem v-slot="{ active }">
                     <button
                         :class="[
-                            active ? 'bg-gradient-to-b from-red-400 to-red-500 text-white text-shadow-px-red' : 'text-slate-700 dark:text-neutral-300',
+                            active ? 'bg-linear-to-b from-red-400 to-red-500 text-white text-shadow-px-red' : 'text-slate-700 dark:text-neutral-300',
                             'flex items-center appearance-none w-full px-4 py-2 text-sm cursor-pointer rounded-md',
                         ]"
                         @click="deleteOpen = true"

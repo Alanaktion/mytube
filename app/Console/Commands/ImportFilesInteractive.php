@@ -87,7 +87,7 @@ class ImportFilesInteractive extends Command
         }
 
         // TODO: allow manually specifying source when not matched
-        if (!$sources) {
+        if ($sources === []) {
             $this->error('No source matched this file.');
             $this->line('');
             return;
@@ -174,10 +174,8 @@ class ImportFilesInteractive extends Command
                     break;
                 }
             }
-        } else {
-            if ($this->confirm('Generate thumbnails?', true)) {
-                $this->call('generate:thumbs', ['uuid' => [$video->uuid]]);
-            }
+        } elseif ($this->confirm('Generate thumbnails?', true)) {
+            $this->call('generate:thumbs', ['uuid' => [$video->uuid]]);
         }
 
         $this->line('');

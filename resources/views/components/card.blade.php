@@ -1,4 +1,4 @@
-<div class="shadow dark:shadow-inner-white-top overflow-hidden sm:rounded-md bg-white dark:bg-neutral-800">
+<div class="shadow-sm dark:shadow-inner-white-top overflow-hidden sm:rounded-md bg-white dark:bg-neutral-800">
     <div class="px-4 py-5 sm:p-6">
         {{ $slot }}
     </div>

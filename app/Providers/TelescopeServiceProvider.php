@@ -19,7 +19,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 
         $this->hideSensitiveRequestDetails();
 
-        Telescope::filter(function (IncomingEntry $entry) {
+        Telescope::filter(function (IncomingEntry $entry): bool {
             if ($this->app->environment('local')) {
                 return true;
             }
@@ -57,6 +57,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewTelescope', fn (User $user) => $user->isAdmin());
+        Gate::define('viewTelescope', fn (User $user): bool => $user->isAdmin());
     }
 }

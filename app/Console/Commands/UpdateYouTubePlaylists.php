@@ -30,7 +30,6 @@ class UpdateYouTubePlaylists extends Command
             $query->where('type', 'youtube');
         })->cursor();
 
-        /** @var Playlist[] */
         $errors = [];
 
         $this->withProgressBar($playlists, function ($p) use ($errors): void {

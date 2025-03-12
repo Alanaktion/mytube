@@ -8,7 +8,7 @@ class ChannelPlaylistController extends Controller
 {
     public function index(Channel $channel)
     {
-        if (!source($channel->type)->playlist()) {
+        if (!source($channel->type)->playlist() instanceof \App\Sources\SourcePlaylist) {
             abort(404);
         }
         $playlists = $channel->playlists()

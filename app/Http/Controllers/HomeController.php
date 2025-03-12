@@ -39,7 +39,7 @@ class HomeController extends Controller
         // TODO: handle explicitly matching exact UUIDs
         $callback = null;
         if (config('scout.driver') === 'meilisearch') {
-            $callback = function (Indexes $index, ?string $query, array $searchParams) {
+            $callback = function (Indexes $index, ?string $query, array $searchParams): array {
                 $searchParams['sort'] = [
                     'published_at:desc',
                 ];

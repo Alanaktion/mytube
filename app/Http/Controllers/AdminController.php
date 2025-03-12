@@ -61,12 +61,12 @@ class AdminController extends Controller
         $data = $request->validate([
             'playlistIds' => 'required|string',
         ]);
-        $ids = array_map('trim', explode("\n", $data['playlistIds']));
+        $ids = array_map('trim', explode("\n", (string) $data['playlistIds']));
         $sources = app()->tagged('sources');
         foreach ($ids as $id) {
             foreach ($sources as $source) {
                 /** @var \App\Sources\Source $source */
-                if ($source->playlist() === null) {
+                if (!$source->playlist() instanceof \App\Sources\SourcePlaylist) {
                     continue;
                 }
                 $matched = $source->playlist()->matchUrl($id);
@@ -90,7 +90,7 @@ class AdminController extends Controller
         $data = $request->validate([
             'videoIds' => 'required|string',
         ]);
-        $ids = array_map('trim', explode("\n", $data['videoIds']));
+        $ids = array_map('trim', explode("\n", (string) $data['videoIds']));
         $count = count($ids);
         $success = 0;
         $sources = app()->tagged('sources');
@@ -185,10 +185,10 @@ class AdminController extends Controller
         } elseif (config('queue.default') == 'redis') {
             $queues = Redis::keys('queues:*');
             foreach ($queues as $queue) {
-                if (substr($queue, -7) == ':notify') {
+                if (str_ends_with((string) $queue, ':notify')) {
                     continue;
                 }
-                $queue = substr($queue, strpos($queue, ':') + 1);
+                $queue = substr((string) $queue, strpos((string) $queue, ':') + 1);
                 if (Redis::type('queues:' . $queue) == 'set') {
                     $jobs = Redis::zrange('queues:' . $queue, 0, -1);
                 } else {

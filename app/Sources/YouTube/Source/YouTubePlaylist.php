@@ -40,14 +40,14 @@ class YouTubePlaylist implements SourcePlaylist
 
         foreach ($items as $item) {
             /** @var \Google_Service_YouTube_PlaylistItem $item */
-            if ($dbItem = $playlist->items->firstWhere('uuid', $item->id)) {
+            if (($dbItem = $playlist->items->firstWhere('uuid', $item->id)) instanceof \Illuminate\Database\Eloquent\Model) {
                 // Skip existing item, updating positions where necessary
                 if ($dbItem->position != $item->getSnippet()->position) {
                     $dbItem->position = (int)$item->getSnippet()->position;
                     $dbItem->save();
                 }
                 $detail->update([
-                    'data->imported' => $detail->data['imported'] + 1,
+                    'data->imported' => 1,
                 ]);
                 continue;
             }
@@ -70,7 +70,7 @@ class YouTubePlaylist implements SourcePlaylist
                 Log::warning('Failed importing playlist item: ' . $videoId);
             }
             $detail->update([
-                'data->imported' => $detail->data['imported'] + 1,
+                'data->imported' => 1,
             ]);
         }
 

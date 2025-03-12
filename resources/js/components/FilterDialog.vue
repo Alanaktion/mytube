@@ -8,7 +8,7 @@
         <Dialog as="div" @close="close" class="relative z-40">
             <TransitionChild as="template" enter="duration-200 ease-out" enter-from="opacity-0" enter-to="opacity-100"
                 leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">
-                <div class="fixed inset-0 bg-black bg-opacity-25" />
+                <div class="fixed inset-0 bg-black/25" />
             </TransitionChild>
 
             <div class="fixed inset-y-0 right-0 overflow-hidden">
@@ -49,7 +49,7 @@
                                             <div
                                                 class="flex items-center w-full cursor-pointer btn border-transparent"
                                                 :class="{
-                                                    'hover:bg-slate-100 hover:dark:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
+                                                    'hover:bg-slate-100 dark:hover:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
                                                     'bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-800 dark:text-primary-50': checked,
                                                 }"
                                             >
@@ -70,7 +70,7 @@
                                             <div
                                                 class="flex items-center w-full cursor-pointer btn border-transparent"
                                                 :class="{
-                                                    'hover:bg-slate-100 hover:dark:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
+                                                    'hover:bg-slate-100 dark:hover:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
                                                     'bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-800 dark:text-primary-50': checked,
                                                 }"
                                             >
@@ -97,7 +97,7 @@
                                             <div
                                                 class="flex items-center w-full cursor-pointer btn border-transparent"
                                                 :class="{
-                                                    'hover:bg-slate-100 hover:dark:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
+                                                    'hover:bg-slate-100 dark:hover:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
                                                     'bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-800 dark:text-primary-50': checked,
                                                 }"
                                             >
@@ -123,7 +123,7 @@
                                             <div
                                                 class="flex items-center w-full cursor-pointer btn border-transparent"
                                                 :class="{
-                                                    'hover:bg-slate-100 hover:dark:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
+                                                    'hover:bg-slate-100 dark:hover:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
                                                     'bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-800 dark:text-primary-50': checked,
                                                 }"
                                             >
@@ -149,7 +149,7 @@
                                             <div
                                                 class="flex items-center w-full cursor-pointer btn border-transparent"
                                                 :class="{
-                                                    'hover:bg-slate-100 hover:dark:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
+                                                    'hover:bg-slate-100 dark:hover:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
                                                     'bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-800 dark:text-primary-50': checked,
                                                 }"
                                             >
@@ -175,7 +175,7 @@
                                             <div
                                                 class="flex items-center w-full cursor-pointer btn border-transparent"
                                                 :class="{
-                                                    'hover:bg-slate-100 hover:dark:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
+                                                    'hover:bg-slate-100 dark:hover:bg-neutral-700 text-slate-700 dark:text-neutral-300': !checked,
                                                     'bg-primary-100 hover:bg-primary-200 dark:bg-primary-800 dark:hover:bg-primary-700 text-primary-800 dark:text-primary-50': checked,
                                                 }"
                                             >

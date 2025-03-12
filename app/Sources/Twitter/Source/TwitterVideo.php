@@ -31,7 +31,7 @@ class TwitterVideo implements SourceVideo
         // Download images
         if (!empty($data->entities) && !empty($data->entities->media)) {
             $media = $data->entities->media[0];
-            $url = substr($media->media_url_https, 0, -4);
+            $url = substr((string) $media->media_url_https, 0, -4);
 
             $file = 'thumbs/twitter/' . basename($url) . '-small.jpg';
             $params = [
@@ -40,7 +40,7 @@ class TwitterVideo implements SourceVideo
             ];
             $thumbnailUrl = $this->downloadImage($url . '?' . http_build_query($params), $file);
 
-            $file = 'thumbs/twitter/' . basename($media->media_url_https);
+            $file = 'thumbs/twitter/' . basename((string) $media->media_url_https);
             $posterUrl = $this->downloadImage($url . '?' . http_build_query($params), $file);
         }
 

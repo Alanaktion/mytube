@@ -58,7 +58,7 @@ class ImportChannelUrl extends Command
                     }
                 }
             }
-            if ($type === null || $typeSource === null) {
+            if ($type === null || !$typeSource instanceof \App\Sources\Source) {
                 $this->error('Unable to find source for URL: ' . $url);
                 continue;
             } else {

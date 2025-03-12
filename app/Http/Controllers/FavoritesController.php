@@ -38,7 +38,10 @@ class FavoritesController extends Controller
         ]);
     }
 
-    public function toggleVideo(Request $request)
+    /**
+     * @return array{uuid: mixed, value: bool}
+     */
+    public function toggleVideo(Request $request): array
     {
         $request->validate([
             'uuid' => 'required|exists:videos',
@@ -61,7 +64,10 @@ class FavoritesController extends Controller
         ];
     }
 
-    public function togglePlaylist(Request $request)
+    /**
+     * @return array{uuid: mixed, value: bool}
+     */
+    public function togglePlaylist(Request $request): array
     {
         $request->validate([
             'uuid' => 'required|exists:playlists',
@@ -84,7 +90,10 @@ class FavoritesController extends Controller
         ];
     }
 
-    public function toggleChannel(Request $request)
+    /**
+     * @return array{uuid: mixed, value: bool}
+     */
+    public function toggleChannel(Request $request): array
     {
         $request->validate([
             'uuid' => 'required|exists:channels',

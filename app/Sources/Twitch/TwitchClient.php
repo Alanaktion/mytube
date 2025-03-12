@@ -3,29 +3,31 @@
 namespace App\Sources\Twitch;
 
 use App\Exceptions\ImportException;
-use romanzipp\Twitch\Enums\GrantType;
-use romanzipp\Twitch\Twitch as TwitchLib;
+use TwitchApi\HelixGuzzleClient;
+use TwitchApi\TwitchApi;
 
 class TwitchClient
 {
-    /**
-     * @var \romanzipp\Twitch\Twitch
-     */
-    protected $client;
+    protected TwitchApi $client;
+    protected string $token;
 
-    /**
-     * @link https://github.com/romanzipp/Laravel-Twitch#oauth-client-credentials-flow
-     */
     public function __construct()
     {
-        $this->client = new TwitchLib();
+        $clientId = config('twitch-api.client_id');
+        $clientSecret = config('twitch-api.client_secret');
 
-        // Get access token
-        $result = $this->client->getOAuthToken(null, GrantType::CLIENT_CREDENTIALS, ['user_read']);
-        if (!$result->success()) {
-            throw new ImportException($result->getErrorMessage());
+        $helixGuzzleClient = new HelixGuzzleClient($clientId);
+        $twitchApi = new TwitchApi($helixGuzzleClient, $clientId, $clientSecret);
+        $this->client = $twitchApi;
+        $oauth = $twitchApi->getOauthApi();
+
+        try {
+            $token = $oauth->getAppAccessToken();
+            $data = json_decode($token->getBody()->getContents());
+            $this->token = $data->access_token;
+        } catch (\Exception) {
+            //TODO: Handle auth errors
         }
-        $this->client->setToken($result->data()->access_token);
     }
 
     /**
@@ -35,13 +37,18 @@ class TwitchClient
      */
     public function getUser(string $id, string $field = 'login'): array
     {
-        $result = $this->client->getUsers([
-            $field => $id,
-        ]);
-        if (!$result->success()) {
-            throw new ImportException($result->getErrorMessage());
+        $api = $this->client->getUsersApi();
+        if ($field == 'login') {
+            $response = $api->getUserByUsername($this->token, $id);
+        } else {
+            $response = $api->getUserById($this->token, $id);
         }
-        return json_decode($result->getResponse()->getBody(), true)['data'][0];
+        if ($response->getStatusCode() != 200) {
+            // TODO: provide better exception messaging
+            $result = json_decode($response->getBody()->getContents());
+            throw new ImportException($result);
+        }
+        return json_decode($response->getBody(), true)['data'][0];
     }
 
     /**
@@ -51,13 +58,13 @@ class TwitchClient
      */
     public function getVideos(int $id, string $field = 'id'): array
     {
-        $result = $this->client->getVideos([
-            $field => $id,
-        ]);
-        if (!$result->success()) {
-            throw new ImportException($result->getErrorMessage());
+        $response = $this->client->getVideosApi()->getVideos($this->token, [$id]);
+        if ($response->getStatusCode() != 200) {
+            // TODO: provide better exception messaging
+            $result = json_decode($response->getBody()->getContents());
+            throw new ImportException($result);
         }
-        return json_decode($result->getResponse()->getBody(), true)['data'];
+        return json_decode($response->getBody(), true)['data'];
     }
 
     /**
@@ -67,12 +74,12 @@ class TwitchClient
      */
     public function getClips(string $id, string $field = 'id'): array
     {
-        $result = $this->client->getClips([
-            $field => $id,
-        ]);
-        if (!$result->success()) {
-            throw new ImportException($result->getErrorMessage());
+        $response = $this->client->getClipsApi()->getClips($this->token, clipIds: $id);
+        if ($response->getStatusCode() != 200) {
+            // TODO: provide better exception messaging
+            $result = json_decode($response->getBody()->getContents());
+            throw new ImportException($result);
         }
-        return json_decode($result->getResponse()->getBody(), true)['data'];
+        return json_decode($response->getBody(), true)['data'];
     }
 }

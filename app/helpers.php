@@ -30,12 +30,11 @@ if (!function_exists('format_description')) {
             '<a href="$1" class="' . $class . '" target="_blank" rel="noopener noreferrer">$1</a>',
             $str
         );
-        $str = preg_replace(
+        return preg_replace(
             '/(^|\s)#([0-9a-z_-]+)/i',
             '$1<a href="/search?q=$2" class="' . $class . '">#$2</a>',
             $str
         );
-        return $str;
     }
 }
 

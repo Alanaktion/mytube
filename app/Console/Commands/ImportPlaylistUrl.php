@@ -36,7 +36,7 @@ class ImportPlaylistUrl extends Command
             if ($type === null) {
                 foreach ($sources as $source) {
                     /** @var \App\Sources\Source $source */
-                    if (!$source->playlist()) {
+                    if (!$source->playlist() instanceof \App\Sources\SourcePlaylist) {
                         continue;
                     }
                     if ($id = $source->playlist()->matchUrl($url)) {
@@ -54,10 +54,10 @@ class ImportPlaylistUrl extends Command
                     }
                 }
             }
-            if ($type === null || $typeSource === null) {
+            if ($type === null || !$typeSource instanceof \App\Sources\Source) {
                 $this->error('Unable to find source for URL: ' . $url);
                 continue;
-            } elseif ($typeSource->playlist() === null) {
+            } elseif (!$typeSource->playlist() instanceof \App\Sources\SourcePlaylist) {
                 $this->error('Source does not support playlists: ' . $type);
                 return 1;
             } elseif ($id === null) {

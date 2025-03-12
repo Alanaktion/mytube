@@ -1,7 +1,7 @@
 <template>
     <button
         type="button"
-        class="md:hidden absolute top-1 right-3 px-3 py-2 rounded-md text-sm font-medium focus:text-white focus:bg-slate-700 dark:focus:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-primary-500 dark:focus:ring-offset-neutral-800 dark:focus:ring-primary-600"
+        class="md:hidden absolute top-1 right-3 px-3 py-2 rounded-md text-sm font-medium focus:text-white focus:bg-slate-700 dark:focus:bg-neutral-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-primary-500 dark:focus:ring-offset-neutral-800 dark:focus:ring-primary-600"
         :class="{
             'text-slate-300 dark:text-neutral-300 hover:text-white hover:bg-slate-700 dark:hover:bg-neutral-700': !open,
             'text-white bg-slate-700 dark:bg-neutral-700': open,

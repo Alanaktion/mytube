@@ -22,7 +22,7 @@
                 @endauth
             </div>
             <form class="sm:ml-auto mt-3 sm:mt-0" action="{{ route('channels.search.index', $channel) }}">
-                <input type="search" class="dark:bg-neutral-850 focus:outline-none focus:ring-primary-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-neutral-400 dark:text-neutral-100 border-slate-400 dark:border-neutral-700 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="{{ __('Search channel') }}">
+                <input type="search" class="dark:bg-neutral-850 focus:outline-hidden focus:ring-primary-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-neutral-400 dark:text-neutral-100 border-slate-400 dark:border-neutral-700 appearance-none leading-normal" name="q" value="{{ $channelQ ?? null }}" placeholder="{{ __('Search channel') }}">
             </form>
         </header>
         <nav class="flex">

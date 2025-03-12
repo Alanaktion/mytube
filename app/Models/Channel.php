@@ -76,7 +76,7 @@ class Channel extends Model
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{id: int, uuid: string, title: string, description: string, type: string, published_at: \Illuminate\Support\Carbon|null}
      */
     public function toSearchableArray(): array
     {
@@ -225,15 +225,15 @@ class Channel extends Model
         return source($this->type);
     }
 
-    public function delete(bool $playlistVideos = false, bool $files = false)
+    public function delete(bool $playlistVideos = false, bool $files = false): void
     {
         if ($playlistVideos) {
-            $this->playlists()->each(function (Playlist $playlist) use ($files) {
+            $this->playlists()->each(function (Playlist $playlist) use ($files): void {
                 $playlist->delete(true, $files);
             });
         }
         if ($files) {
-            $this->videos()->each(function (Video $video) {
+            $this->videos()->each(function (Video $video): void {
                 $video->delete(true);
             });
         }

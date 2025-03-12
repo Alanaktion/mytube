@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class FloatplaneClient
 {
-    public const BASE_URL = 'https://www.floatplane.com';
+    final public const BASE_URL = 'https://www.floatplane.com';
 
     /**
      * @return array|mixed
@@ -29,12 +29,11 @@ class FloatplaneClient
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{id: mixed, title: mixed, channel_id: mixed, channel_url: mixed, description: mixed, duration: mixed, published_at: \Carbon\Carbon, poster: mixed, thumbnail: mixed}
      */
     public static function getVideoData(string $id): array
     {
         $result = self::request("/api/v3/content/post?id=$id");
-        /** @var array<int, string[]> */
         $childImages = $result['thumbnail']['childImages'];
         $images = collect($childImages)->sortBy('width');
         $thumb = $images->count() !== 0 ? $images->first()['path'] : $result['thumbnail']['path'];
@@ -58,7 +57,6 @@ class FloatplaneClient
     {
         $result = self::request("/api/v2/creator/named?creatorURL[0]=$creatorUrl");
         $channel = $result[0];
-        /** @var array<int, string[]> */
         $childImages = $channel['icon']['childImages'];
         $images = collect($childImages)->sortBy('width');
         return [

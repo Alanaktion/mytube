@@ -48,9 +48,9 @@ class Video extends Model
         searchable as scoutSearchable;
     }
 
-    public const VISIBILITY_PUBLIC = 'public';
-    public const VISIBILITY_UNLISTED = 'unlisted';
-    public const VISIBILITY_PRIVATE = 'private';
+    final public const VISIBILITY_PUBLIC = 'public';
+    final public const VISIBILITY_UNLISTED = 'unlisted';
+    final public const VISIBILITY_PRIVATE = 'private';
 
     /**
      * @var string[]
@@ -125,7 +125,7 @@ class Video extends Model
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{id: int, uuid: string, title: string, channel_title?: string|null, description: string, source_type: string, channel_id: int|null, published_at: \Illuminate\Support\Carbon}
      */
     public function toSearchableArray(): array
     {
@@ -140,7 +140,7 @@ class Video extends Model
             'channel_id' => $this->channel_id,
             'published_at' => $this->published_at,
         ];
-        if ($this->channel === null) {
+        if (!$this->channel instanceof \App\Models\Channel) {
             unset($data['channel_title']);
         }
         return $data;
@@ -290,7 +290,7 @@ class Video extends Model
      */
     public function downloadVideo(?string $downloadDir = null): void
     {
-        if (!$this->source_link) {
+        if ($this->source_link === '' || $this->source_link === '0') {
             throw new ImportException('Video does not have a usable source link');
         }
 
@@ -348,7 +348,7 @@ class Video extends Model
     public function delete(bool $files = false): bool|null
     {
         if ($files) {
-            $this->files()->get()->each(function (VideoFile $file) {
+            $this->files()->get()->each(function (VideoFile $file): void {
                 $file->delete();
             });
         }

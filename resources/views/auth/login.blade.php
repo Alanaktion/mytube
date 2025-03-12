@@ -9,12 +9,12 @@
         @csrf
         <input type="hidden" name="remember" value="true">
 
-        <div class="rounded-md shadow-sm">
+        <div class="rounded-md shadow-xs">
             <div class="mb-3 lg:mb-4">
-                <input aria-label="{{ __('Email') }}" name="email" type="email" required class="dark:bg-neutral-800 dark:bg-opacity-75 border border-slate-300 dark:border-neutral-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500 rounded py-2 px-4 block w-full placeholder-slate-500 dark:placeholder-neutral-400 text-slate-900 dark:text-neutral-100 appearance-none leading-normal" placeholder="{{ __('Email') }}" value="{{ old('email') }}" autocomplete="email" autofocus>
+                <input aria-label="{{ __('Email') }}" name="email" type="email" required class="dark:bg-neutral-800/75 border border-slate-300 dark:border-neutral-700 focus:outline-hidden focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500 rounded-sm py-2 px-4 block w-full placeholder-slate-500 dark:placeholder-neutral-400 text-slate-900 dark:text-neutral-100 appearance-none leading-normal" placeholder="{{ __('Email') }}" value="{{ old('email') }}" autocomplete="email" autofocus>
             </div>
             <div>
-                <input aria-label="{{ __('Password') }}" name="password" type="password" required class="dark:bg-neutral-800 dark:bg-opacity-75 border border-slate-300 dark:border-neutral-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500 rounded py-2 px-4 block w-full placeholder-slate-500 dark:placeholder-neutral-400 text-slate-900 dark:text-neutral-100 appearance-none leading-normal" placeholder="{{ __('Password') }}" autocomplete="current-password">
+                <input aria-label="{{ __('Password') }}" name="password" type="password" required class="dark:bg-neutral-800/75 border border-slate-300 dark:border-neutral-700 focus:outline-hidden focus:ring-primary-500 focus:border-primary-500 dark:focus:border-primary-500 rounded-sm py-2 px-4 block w-full placeholder-slate-500 dark:placeholder-neutral-400 text-slate-900 dark:text-neutral-100 appearance-none leading-normal" placeholder="{{ __('Password') }}" autocomplete="current-password">
             </div>
         </div>
 
@@ -29,7 +29,7 @@
                 {{ __('Login') }}
             </x-button>
             <div class="text-sm leading-5">
-                <a href="{{ route('password.request') }}" class="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 focus:outline-none focus:underline">
+                <a href="{{ route('password.request') }}" class="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 focus:outline-hidden focus:underline">
                     {{ __('Forgot your password?') }}
                 </a>
             </div>

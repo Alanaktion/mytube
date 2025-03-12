@@ -1,6 +1,6 @@
 <template>
     <div
-        class="px-3 py-2 mb-4 flex items-center gap-2 bg-primary-100 dark:bg-primary-900 bg-opacity-50 border border-primary-100 dark:border-primary-600 p-3 rounded"
+        class="px-3 py-2 mb-4 flex items-center gap-2 bg-primary-100 dark:bg-primary-900/50 border border-primary-100 dark:border-primary-600 p-3 rounded-sm"
         v-for="item in details"
         :key="item.id"
     >
@@ -20,7 +20,7 @@
         </a>
         <div
             v-if="item.data?.count"
-            class="relative flex items-stretch bg-white dark:bg-neutral-900 rounded overflow-hidden w-32 h-5 ml-auto shadow-sm shrink-0"
+            class="relative flex items-stretch bg-white dark:bg-neutral-900 rounded-sm overflow-hidden w-32 h-5 ml-auto shadow-xs shrink-0"
             role="progressbar"
             :aria-valuemax="item.data.count"
             :aria-valuenow="item.data.imported"

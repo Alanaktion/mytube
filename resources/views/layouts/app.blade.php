@@ -23,11 +23,11 @@
         <div class="container md:flex items-center">
             <div class="flex py-2">
                 <a href="/" class="flex items-center mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="inline h-8 w-8 from-primary-400 to-primary-600" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="inline size-8" viewBox="0 0 24 24" aria-hidden="true">
                         <defs>
                             <linearGradient id="logoGradient" gradientTransform="rotate(90)">
-                                <stop offset="0%" stop-color="var(--tw-gradient-from)" />
-                                <stop offset="100%" stop-color="var(--tw-gradient-to)" />
+                                <stop offset="0%" stop-color="#38bdf8" />
+                                <stop offset="100%" stop-color="#0284c7" />
                             </linearGradient>
                         </defs>
                         <polygon points="5 3 19 12 5 21 5 3" fill="url(#logoGradient)"/>
@@ -59,7 +59,7 @@
                         <user-menu name="{{ Auth::user()->name }}" token="{{ csrf_token() }}" :admin="@json(Auth::user()->isAdmin())" v-cloak></user-menu>
                     @endauth
                     <form class="mb-3 md:mb-0 md:block md:ml-2 lg:ml-6 md:py-2" action="/search">
-                        <input type="search" class="dark:bg-neutral-900 dark:bg-opacity-75 dark:focus:bg-opacity-100 focus:outline-none focus:ring-primary-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-neutral-400 dark:text-neutral-100 border-slate-900 dark:border-neutral-700 appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="{{ __('Search') }}">
+                        <input type="search" class="dark:bg-neutral-900/70 dark:focus:bg-neutral-900 focus:outline-hidden focus:ring-primary-500 focus:ring-2 rounded-full py-2 pl-5 pr-3 block w-full dark:placeholder-neutral-400 dark:text-neutral-100 border-slate-900 dark:border-neutral-700 appearance-none leading-normal" name="q" value="{{ $q ?? null }}" placeholder="{{ __('Search') }}">
                     </form>
                 </nav-menu>
             </div>

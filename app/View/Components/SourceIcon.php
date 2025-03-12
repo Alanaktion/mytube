@@ -26,7 +26,7 @@ class SourceIcon extends Component
      */
     public function render()
     {
-        if ($this->source) {
+        if ($this->source instanceof \App\Sources\Source) {
             return $this->source->getIcon();
         }
         return view('components.source-icon');

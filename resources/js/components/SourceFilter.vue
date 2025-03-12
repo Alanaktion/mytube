@@ -15,7 +15,7 @@
                 leave-to-class="scale-95 opacity-0"
             >
                 <ListboxOptions
-                    class="origin-top-right sm:origin-top-right absolute -left-2 sm:left-auto sm:-right-2 w-44 p-2 mt-1 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-neutral-800 border dark:border-neutral-850 focus:outline-none"
+                    class="origin-top-right sm:origin-top-right absolute -left-2 sm:left-auto sm:-right-2 w-44 p-2 mt-1 z-30 flex flex-col gap-1 rounded-lg shadow-lg bg-white dark:bg-neutral-800 border border-slate-400 dark:border-neutral-850 focus:outline-hidden"
                 >
                     <!-- TODO: reduce duplication of code between "all" and list of sources -->
                     <ListboxOption
@@ -29,8 +29,8 @@
                                 'text-slate-700 dark:text-neutral-300': !selected,
                                 'bg-slate-100 dark:bg-neutral-700': !selected && active,
                                 'text-white text-shadow-px-primary': selected,
-                                'bg-gradient-to-b from-primary-400 to-primary-500 dark:from-primary-600 dark:to-primary-700': selected && !active,
-                                'bg-gradient-to-b from-primary-500 to-primary-600 dark:from-primary-500 dark:to-primary-600': selected && active,
+                                'bg-linear-to-b from-primary-400 to-primary-500 dark:from-primary-600 dark:to-primary-700': selected && !active,
+                                'bg-linear-to-b from-primary-500 to-primary-600 dark:from-primary-500 dark:to-primary-600': selected && active,
                             }"
                         >
                             {{ $t('All Sources') }}
@@ -60,8 +60,8 @@
                                 'text-slate-700 dark:text-neutral-300': !selected,
                                 'bg-slate-100 dark:bg-neutral-700': !selected && active,
                                 'text-white text-shadow-px-primary': selected,
-                                'bg-gradient-to-b from-primary-400 to-primary-500 dark:from-primary-600 dark:to-primary-700': selected && !active,
-                                'bg-gradient-to-b from-primary-500 to-primary-600 dark:from-primary-500 dark:to-primary-600': selected && active,
+                                'bg-linear-to-b from-primary-400 to-primary-500 dark:from-primary-600 dark:to-primary-700': selected && !active,
+                                'bg-linear-to-b from-primary-500 to-primary-600 dark:from-primary-500 dark:to-primary-600': selected && active,
                             }"
                         >
                             <slot :name="`icon-${key}`"></slot>

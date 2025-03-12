@@ -56,12 +56,12 @@
         <div class="mb-4">
             <pre class="text-slate-600 dark:text-neutral-400 whitespace-pre-wrap break-words font-sans">@description($video->description)</pre>
         </div>
-        <div class="flex-shrink-0 sm:w-72 md:w-80">
+        <div class="shrink-0 sm:w-72 md:w-80">
             @if ($playlist)
                 <div class="text-lg mb-3 truncate text-slate-600 dark:text-neutral-400">
                     <a href="{{ route('playlists.show', $playlist) }}">{{ $playlist->title }}</a>
                 </div>
-                <div class="shadow overflow-hidden sm:rounded-md">
+                <div class="shadow-sm overflow-hidden sm:rounded-md">
                     <ul class="bg-white dark:bg-neutral-800 h-96 overflow-y-scroll">
                         @foreach ($playlist->items as $item)
                             <li>

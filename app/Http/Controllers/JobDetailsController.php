@@ -21,7 +21,7 @@ class JobDetailsController extends Controller
 
         $details = JobDetail::query();
         if ($request->filled('type')) {
-            $details->where('model_type', 'App\\Models\\' . ucfirst($request->input('type')));
+            $details->where('model_type', 'App\\Models\\' . ucfirst((string) $request->input('type')));
         }
         if ($request->filled('id')) {
             $details->where('model_id', $request->input('id'));
