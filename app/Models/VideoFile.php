@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
@@ -24,15 +23,13 @@ use Illuminate\Support\Facades\Storage;
  */
 class VideoFile extends Model
 {
-    use HasFactory;
-
     /**
      * @var string[]
      */
     protected $guarded = [];
 
     /**
-     * @return BelongsTo<Video,VideoFile>
+     * @return BelongsTo<Video, $this>
      */
     public function video(): BelongsTo
     {
@@ -117,11 +114,11 @@ class VideoFile extends Model
      *
      * @param bool $filesystem Delete the file from the filesystem.
      */
-    public function delete(bool $filesystem = true): void
+    public function delete(bool $filesystem = true): ?bool
     {
         if ($filesystem) {
             @unlink($this->path);
         }
-        parent::delete();
+        return parent::delete();
     }
 }

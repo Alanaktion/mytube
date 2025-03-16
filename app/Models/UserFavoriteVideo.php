@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserFavoriteVideo extends Model
 {
     /**
-     * @return BelongsTo<User,UserFavoriteVideo>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {
@@ -25,7 +25,7 @@ class UserFavoriteVideo extends Model
     }
 
     /**
-     * @return BelongsTo<Video,UserFavoriteVideo>
+     * @return BelongsTo<Video, $this>
      */
     public function video(): BelongsTo
     {

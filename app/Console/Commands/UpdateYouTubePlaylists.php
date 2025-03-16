@@ -32,7 +32,7 @@ class UpdateYouTubePlaylists extends Command
 
         $errors = [];
 
-        $this->withProgressBar($playlists, function ($p) use ($errors): void {
+        $this->withProgressBar($playlists, function ($p) use (&$errors): void {
             try {
                 Playlist::import('youtube', $p->uuid);
             } catch (Exception) {

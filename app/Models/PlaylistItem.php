@@ -24,7 +24,7 @@ class PlaylistItem extends Model
     protected $guarded = [];
 
     /**
-     * @return BelongsTo<Playlist,PlaylistItem>
+     * @return BelongsTo<Playlist, $this>
      */
     public function playlist(): BelongsTo
     {
@@ -32,7 +32,7 @@ class PlaylistItem extends Model
     }
 
     /**
-     * @return BelongsTo<Video,PlaylistItem>
+     * @return BelongsTo<Video, $this>
      */
     public function video(): BelongsTo
     {

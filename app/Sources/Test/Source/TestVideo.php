@@ -25,7 +25,7 @@ class TestVideo implements SourceVideo
     {
         $pattern = '/^(https:\/\/)?example\.com\/([0-9A-Za-z_\-]{11})/i';
         if (preg_match($pattern, $url, $matches)) {
-            return $matches[4];
+            return $matches[2];
         }
         return null;
     }

@@ -13,7 +13,7 @@ use Rebing\GraphQL\Support\SelectFields;
 
 class ChannelsQuery extends Query
 {
-    /** @var class-string[] */
+    /** @var list<class-string> */
     protected $middleware = [
         ResolvePage::class,
     ];

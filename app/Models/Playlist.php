@@ -30,6 +30,7 @@ use Laravel\Scout\Searchable;
  */
 class Playlist extends Model
 {
+    /** @use HasFactory<\Database\Factories\PlaylistFactory> */
     use HasFactory;
     use Searchable {
         searchable as scoutSearchable;
@@ -148,7 +149,7 @@ class Playlist extends Model
     }
 
     /**
-     * @return BelongsTo<Channel,Playlist>
+     * @return BelongsTo<Channel, $this>
      */
     public function channel(): BelongsTo
     {
@@ -156,7 +157,7 @@ class Playlist extends Model
     }
 
     /**
-     * @return HasMany<PlaylistItem>
+     * @return HasMany<PlaylistItem, $this>
      */
     public function items(): HasMany
     {
@@ -164,7 +165,7 @@ class Playlist extends Model
     }
 
     /**
-     * @return HasOne<PlaylistItem>
+     * @return HasOne<PlaylistItem, $this>
      */
     public function firstItem(): HasOne
     {
@@ -172,7 +173,7 @@ class Playlist extends Model
     }
 
     /**
-     * @return MorphMany<JobDetail>
+     * @return MorphMany<JobDetail, $this>
      */
     public function jobDetails(): MorphMany
     {
@@ -194,7 +195,7 @@ class Playlist extends Model
         ]);
     }
 
-    public function delete(bool $videos = false, bool $files = false): void
+    public function delete(bool $videos = false, bool $files = false): ?bool
     {
         if ($videos || $files) {
             $this->items()->with('video')->get()->each(function (PlaylistItem $item) use ($videos, $files): void {
@@ -210,6 +211,6 @@ class Playlist extends Model
             $this->items()->delete();
         }
         $this->jobDetails()->delete();
-        parent::delete();
+        return parent::delete();
     }
 }

@@ -145,11 +145,11 @@ class DownloadYouTubeThumbnails extends Command
         );
         $manager->read($framePath)
             ->scale(480, 360)
-            ->resizeCanvas(480, 360, 'center', false, '#000')
+            ->resizeCanvas(480, 360, '#000')
             ->save(storage_path("app/public/thumbs/generated/{$video->uuid}@360p.jpg"));
         $manager->read($framePath)
             ->scale(1280, 720)
-            ->resizeCanvas(1280, 720, 'center', false, '#000')
+            ->resizeCanvas(1280, 720, '#000')
             ->save(storage_path("app/public/thumbs/generated/{$video->uuid}@720p.jpg"));
 
         unlink($framePath);

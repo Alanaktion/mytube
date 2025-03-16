@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserFavoritePlaylist extends Model
 {
     /**
-     * @return BelongsTo<User,UserFavoritePlaylist>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {
@@ -25,7 +25,7 @@ class UserFavoritePlaylist extends Model
     }
 
     /**
-     * @return BelongsTo<Playlist,UserFavoritePlaylist>
+     * @return BelongsTo<Playlist, $this>
      */
     public function playlist(): BelongsTo
     {

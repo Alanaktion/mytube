@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserFavoriteChannel extends Model
 {
     /**
-     * @return BelongsTo<User,UserFavoriteChannel>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {
@@ -25,7 +25,7 @@ class UserFavoriteChannel extends Model
     }
 
     /**
-     * @return BelongsTo<Channel,UserFavoriteChannel>
+     * @return BelongsTo<Channel, $this>
      */
     public function channel(): BelongsTo
     {

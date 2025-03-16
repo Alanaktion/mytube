@@ -26,10 +26,10 @@ https://mytube.phpizza.com/
 
 ## Requirements
 
-- [PHP](https://php.net) 8.1 or later with [Composer](https://getcomposer.org)
+- [PHP](https://php.net) 8.2 or later with [Composer](https://getcomposer.org)
 - [MySQL](https://dev.mysql.com/downloads/) 8 (or any RDBMS supported by Laravel)
 - Web server with support for rewrites and following symbolic links ([nginx](https://nginx.org/en/) recommended)
-- [NodeJS](https://nodejs.org/en/) LTS 18 or later for building front-end assets
+- [NodeJS](https://nodejs.org/en/) LTS 20 or later for building front-end assets
 - [ffmpeg](https://ffmpeg.org) for converting files and reading metadata
 
 ## Setup

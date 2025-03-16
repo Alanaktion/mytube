@@ -25,10 +25,10 @@ class TwitchVideo implements SourceVideo
 
         // Download images
         if ($data['thumbnail_url']) {
-            $url = str_replace(['%{width}', '%{height}'], [640, 360], (string) $data['thumbnail_url']);
+            $url = str_replace(['%{width}', '%{height}'], ['640', '360'], (string) $data['thumbnail_url']);
             $thumbnailUrl = $this->downloadImage($url, "thumbs/twitch/{$data['id']}.png");
 
-            $url = str_replace(['%{width}', '%{height}'], [1280, 720], (string) $data['thumbnail_url']);
+            $url = str_replace(['%{width}', '%{height}'], ['1280', '720'], (string) $data['thumbnail_url']);
             $posterUrl = $this->downloadImage($url, "thumbs/twitch/{$data['id']}-poster.png");
         } else {
             $thumbnailUrl = null;

@@ -25,6 +25,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens;
+    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use Notifiable;
 
@@ -34,7 +35,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -45,7 +46,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -67,7 +68,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @return BelongsToMany<Video>
+     * @return BelongsToMany<Video, $this>
      */
     public function favoriteVideos(): BelongsToMany
     {
@@ -76,7 +77,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @return BelongsToMany<Playlist>
+     * @return BelongsToMany<Playlist, $this>
      */
     public function favoritePlaylists(): BelongsToMany
     {
@@ -85,7 +86,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @return BelongsToMany<Channel>
+     * @return BelongsToMany<Channel, $this>
      */
     public function favoriteChannels(): BelongsToMany
     {

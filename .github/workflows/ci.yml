@@ -6,7 +6,7 @@ jobs:
   laravel-tests:
     strategy:
       matrix:
-        php: ['8.1', '8.2']
+        php: ['8.2', '8.3', '8.4']
 
     runs-on: ubuntu-latest
     name: Test on PHP ${{ matrix.php }}
@@ -24,11 +24,11 @@ jobs:
       run: php vendor/bin/phpstan analyse --no-progress
     - name: Generate key
       run: php artisan key:generate --env=testing
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: 'lts/*'
     - name: Install Node dependencies
-      run: npm install
+      run: npm ci
     - name: Build frontend code
       run: npm run build
     - name: Directory permissions
@@ -40,7 +40,7 @@ jobs:
         php artisan migrate --seed --env=testing
     - name: Execute tests
       run: php artisan test --without-tty --env=testing
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: "!cancelled()"
       with:
         name: ${{ matrix.php }}-logs

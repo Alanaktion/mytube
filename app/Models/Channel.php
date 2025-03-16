@@ -33,6 +33,7 @@ use Laravel\Scout\Searchable;
  */
 class Channel extends Model
 {
+    /** @use HasFactory<\Database\Factories\ChannelFactory> */
     use HasFactory;
     use Searchable {
         searchable as scoutSearchable;
@@ -197,7 +198,7 @@ class Channel extends Model
     }
 
     /**
-     * @return HasMany<Video>
+     * @return HasMany<Video, $this>
      */
     public function videos(): HasMany
     {
@@ -205,7 +206,7 @@ class Channel extends Model
     }
 
     /**
-     * @return HasMany<Playlist>
+     * @return HasMany<Playlist, $this>
      */
     public function playlists()
     {
@@ -213,7 +214,7 @@ class Channel extends Model
     }
 
     /**
-     * @return MorphMany<JobDetail>
+     * @return MorphMany<JobDetail, $this>
      */
     public function jobDetails(): MorphMany
     {
@@ -225,7 +226,7 @@ class Channel extends Model
         return source($this->type);
     }
 
-    public function delete(bool $playlistVideos = false, bool $files = false): void
+    public function delete(bool $playlistVideos = false, bool $files = false): ?bool
     {
         if ($playlistVideos) {
             $this->playlists()->each(function (Playlist $playlist) use ($files): void {
@@ -245,6 +246,6 @@ class Channel extends Model
         if ($this->image_url_lg) {
             @unlink($this->image_url_lg);
         }
-        parent::delete();
+        return parent::delete();
     }
 }

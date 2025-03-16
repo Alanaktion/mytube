@@ -13,7 +13,7 @@ use Rebing\GraphQL\Support\SelectFields;
 
 class VideosQuery extends Query
 {
-    /** @var class-string[] */
+    /** @var list<class-string> */
     protected $middleware = [
         ResolvePage::class,
     ];

@@ -1,13 +1,11 @@
 includes:
     - ./vendor/larastan/larastan/extension.neon
-    - ./vendor/tomasvotruba/bladestan/config/extension.neon
 
 parameters:
     paths:
         - app
-    # Temporarily excluding GraphQL until upstream issues are resolved
     excludePaths:
-        - app/GraphQL
+        - app/Sources/Floatplane
     level: 6
     ignoreErrors:
         # Don't require explicit return types on controller actions
@@ -15,3 +13,4 @@ parameters:
         # Let me do 1e3 plz
         - '/Parameter #1 \$microseconds of function usleep expects int, float given\./'
     reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false

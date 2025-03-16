@@ -43,6 +43,7 @@ use YoutubeDl\YoutubeDl;
  */
 class Video extends Model
 {
+    /** @use HasFactory<\Database\Factories\VideoFactory> */
     use HasFactory;
     use Searchable {
         searchable as scoutSearchable;
@@ -207,7 +208,7 @@ class Video extends Model
     }
 
     /**
-     * @return BelongsTo<Channel,Video>
+     * @return BelongsTo<Channel, $this>
      */
     public function channel(): BelongsTo
     {
@@ -215,7 +216,7 @@ class Video extends Model
     }
 
     /**
-     * @return BelongsToMany<Playlist>
+     * @return BelongsToMany<Playlist, $this>
      */
     public function playlists(): BelongsToMany
     {
@@ -223,7 +224,7 @@ class Video extends Model
     }
 
     /**
-     * @return HasMany<VideoFile>
+     * @return HasMany<VideoFile, $this>
      */
     public function files(): HasMany
     {
@@ -231,7 +232,7 @@ class Video extends Model
     }
 
     /**
-     * @return MorphMany<JobDetail>
+     * @return MorphMany<JobDetail, $this>
      */
     public function jobDetails(): MorphMany
     {
@@ -332,7 +333,7 @@ class Video extends Model
     }
 
     /**
-     * @return BelongsToMany<User>
+     * @return BelongsToMany<User, $this>
      */
     public function favoritedBy(): BelongsToMany
     {
@@ -345,7 +346,7 @@ class Video extends Model
         return source($this->source_type);
     }
 
-    public function delete(bool $files = false): bool|null
+    public function delete(bool $files = false): ?bool
     {
         if ($files) {
             $this->files()->get()->each(function (VideoFile $file): void {
