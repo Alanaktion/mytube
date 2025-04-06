@@ -24,13 +24,17 @@ jobs:
       run: php vendor/bin/phpstan analyse --no-progress
     - name: Generate key
       run: php artisan key:generate --env=testing
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 10
     - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
+        cache: 'pnpm'
     - name: Install Node dependencies
-      run: npm ci
+      run: pnpm install
     - name: Build frontend code
-      run: npm run build
+      run: pnpm run build
     - name: Directory permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Create database
