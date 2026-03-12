@@ -42,23 +42,17 @@ class ImportThumbnails extends Command
 
         $this->withProgressBar($videos, function (Video $video): void {
             foreach ($video->files as $file) {
-                $ext = pathinfo($file->path, PATHINFO_EXTENSION);
-                $glob = substr($file->path, 0, -strlen($ext)) . '*';
-                $imageFiles = glob($glob);
-                if (!$imageFiles) {
+                $imagePath = $this->findSidecarImageFile($file->path, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+                if (!$imagePath) {
                     continue;
                 }
-                foreach ($imageFiles as $path) {
-                    $imageExt = pathinfo($path, PATHINFO_EXTENSION);
-                    if (in_array($imageExt, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
-                        $url = $this->copyThumbnailImage($path);
-                        $video->update([
-                            'thumbnail_url' => $url,
-                            'poster_url' => $url,
-                        ]);
-                        break 2;
-                    }
-                }
+
+                $url = $this->copyThumbnailImage($imagePath);
+                $video->update([
+                    'thumbnail_url' => $url,
+                    'poster_url' => $url,
+                ]);
+                break;
             }
         });
         $this->line('');

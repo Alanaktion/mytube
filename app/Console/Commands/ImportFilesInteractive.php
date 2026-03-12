@@ -158,22 +158,14 @@ class ImportFilesInteractive extends Command
 
         // Find thumbnail files, falling back to generated thumbnail prompt
         /** @see ImportThumbnails */
-        $ext = pathinfo($file, PATHINFO_EXTENSION);
-        $glob = substr($file, 0, -strlen($ext)) . '*';
-        $imageFiles = glob($glob);
-        if ($imageFiles) {
-            foreach ($imageFiles as $path) {
-                $imageExt = pathinfo($path, PATHINFO_EXTENSION);
-                if (in_array($imageExt, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
-                    $this->info('Found local thumbnail image, using that.');
-                    $url = $this->copyThumbnailImage($path);
-                    $video->update([
-                        'thumbnail_url' => $url,
-                        'poster_url' => $url,
-                    ]);
-                    break;
-                }
-            }
+        $imagePath = $this->findSidecarImageFile($file, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+        if ($imagePath) {
+            $this->info('Found local thumbnail image, using that.');
+            $url = $this->copyThumbnailImage($imagePath);
+            $video->update([
+                'thumbnail_url' => $url,
+                'poster_url' => $url,
+            ]);
         } elseif ($this->confirm('Generate thumbnails?', true)) {
             $this->call('generate:thumbs', ['uuid' => [$video->uuid]]);
         }
