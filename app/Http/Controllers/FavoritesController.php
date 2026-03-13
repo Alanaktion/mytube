@@ -4,15 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Channel;
 use App\Models\Playlist;
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FavoritesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
         $videos = $user->favoriteVideos()
             ->with('channel:id,uuid,title,image_url')
@@ -44,13 +50,15 @@ class FavoritesController extends Controller
     public function toggleVideo(Request $request): array
     {
         $request->validate([
-            'uuid' => 'required|exists:videos',
+            'uuid' => 'required|exists:videos,uuid',
             'value' => 'sometimes|boolean',
         ]);
 
         $video = Video::where('uuid', $request->input('uuid'))->first();
         $val = $request->boolean('value', true);
-        $favorites = Auth::user()->favoriteVideos();
+        /** @var User $user */
+        $user = Auth::user();
+        $favorites = $user->favoriteVideos();
 
         if ($val) {
             $favorites->attach($video->id);
@@ -70,13 +78,15 @@ class FavoritesController extends Controller
     public function togglePlaylist(Request $request): array
     {
         $request->validate([
-            'uuid' => 'required|exists:playlists',
+            'uuid' => 'required|exists:playlists,uuid',
             'value' => 'sometimes|boolean',
         ]);
 
         $playlist = Playlist::where('uuid', $request->input('uuid'))->first();
         $val = $request->boolean('value', true);
-        $favorites = Auth::user()->favoritePlaylists();
+        /** @var User $user */
+        $user = Auth::user();
+        $favorites = $user->favoritePlaylists();
 
         if ($val) {
             $favorites->attach($playlist->id);
@@ -96,13 +106,15 @@ class FavoritesController extends Controller
     public function toggleChannel(Request $request): array
     {
         $request->validate([
-            'uuid' => 'required|exists:channels',
+            'uuid' => 'required|exists:channels,uuid',
             'value' => 'sometimes|boolean',
         ]);
 
         $channel = Channel::where('uuid', $request->input('uuid'))->first();
         $val = $request->boolean('value', true);
-        $favorites = Auth::user()->favoriteChannels();
+        /** @var User $user */
+        $user = Auth::user();
+        $favorites = $user->favoriteChannels();
 
         if ($val) {
             $favorites->attach($channel->id);

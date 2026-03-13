@@ -19,7 +19,7 @@ class TokensController extends Controller
             'name' => ['required', 'string', 'max:255'],
         ]);
         $token = $user->createToken($request->input('name'));
-        return redirect()->route('users.show', $user)
+        return redirect()->route('user.show', $user)
             ->with('message', 'Created access token: ' . $token->plainTextToken);
     }
 
@@ -28,7 +28,7 @@ class TokensController extends Controller
         $user = $request->user();
         $this->authorize('update', $user);
         $user->tokens()->where('id', $tokenId)->delete();
-        return redirect()->route('users.show', $user)
+        return redirect()->route('user.show', $user)
             ->with('message', 'Access token revoked.');
     }
 }
