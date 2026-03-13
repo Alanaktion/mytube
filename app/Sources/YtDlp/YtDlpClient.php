@@ -124,6 +124,9 @@ class YtDlpClient extends YoutubeDl
         return array_values(array_filter(array_map('trim', explode("\n", trim($output)))));
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function getPublishedAt(array $data): ?Carbon
     {
         foreach (['timestamp', 'release_timestamp'] as $field) {
@@ -145,6 +148,9 @@ class YtDlpClient extends YoutubeDl
         return null;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function getThumbnailUrl(array $data, ?int $minimumWidth = null): ?string
     {
         $thumbnails = $data['thumbnails'] ?? null;

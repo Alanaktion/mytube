@@ -74,7 +74,7 @@ trait FilesystemHelpers
         ];
 
         foreach ($candidates as $candidate) {
-            if ($candidate !== '' && is_file($candidate)) {
+            if (is_file($candidate)) {
                 return $candidate;
             }
         }
