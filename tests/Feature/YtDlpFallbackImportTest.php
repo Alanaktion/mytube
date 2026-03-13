@@ -7,6 +7,7 @@ use App\Models\Video;
 use App\Sources\YtDlp\YtDlpClient;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class YtDlpFallbackImportTest extends TestCase
@@ -28,9 +29,8 @@ class YtDlpFallbackImportTest extends TestCase
      * These are optional network-backed tests.
      *
      * Run tests with RUN_OPTIONAL_YTDLP_FEATURE_TESTS=true
-     *
-     * @dataProvider channelImportCases
      */
+    #[DataProvider('channelImportCases')]
     public function testChannelImportFallsBackToYtDlp(string $type, string $url): void
     {
         $this->skipUnlessOptionalImportsEnabled();
@@ -52,9 +52,7 @@ class YtDlpFallbackImportTest extends TestCase
         $this->assertSame($source->channel()->getSourceUrl($channel), $channel->source_link);
     }
 
-    /**
-     * @dataProvider videoImportCases
-     */
+    #[DataProvider('videoImportCases')]
     public function testVideoImportFallsBackToYtDlp(string $type, string $url): void
     {
         $this->skipUnlessOptionalImportsEnabled();
