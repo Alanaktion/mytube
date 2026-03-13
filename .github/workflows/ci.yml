@@ -15,7 +15,7 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - name: Install dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Pint formatting check
@@ -27,7 +27,7 @@ jobs:
     - uses: pnpm/action-setup@v4
       with:
         version: 10
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       with:
         node-version: 'lts/*'
         cache: 'pnpm'
@@ -44,7 +44,7 @@ jobs:
         php artisan migrate --seed --env=testing
     - name: Execute tests
       run: php artisan test --without-tty --env=testing
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       if: "!cancelled()"
       with:
         name: ${{ matrix.php }}-logs
