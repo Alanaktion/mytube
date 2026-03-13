@@ -8,7 +8,12 @@ use Illuminate\Support\Facades\Http;
 
 class FloatplaneClient
 {
-    final public const BASE_URL = 'https://www.floatplane.com';
+    public const BASE_URL = 'https://www.floatplane.com';
+
+    public static function isConfigured(): bool
+    {
+        return (string) config('services.floatplane.session_id') !== '';
+    }
 
     /**
      * @return array|mixed
@@ -29,7 +34,17 @@ class FloatplaneClient
     }
 
     /**
-     * @return array{id: mixed, title: mixed, channel_id: mixed, channel_url: mixed, description: mixed, duration: mixed, published_at: \Carbon\Carbon, poster: mixed, thumbnail: mixed}
+    * @return array{
+    *     id: mixed,
+    *     title: mixed,
+    *     channel_id: mixed,
+    *     channel_url: mixed,
+    *     description: mixed,
+    *     duration: mixed,
+    *     published_at: \Carbon\Carbon,
+    *     poster: mixed,
+    *     thumbnail: mixed
+    * }
      */
     public static function getVideoData(string $id): array
     {

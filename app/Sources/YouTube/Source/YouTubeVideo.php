@@ -2,9 +2,11 @@
 
 namespace App\Sources\YouTube\Source;
 
+use App\Exceptions\ImportException;
 use App\Models\Channel;
 use App\Models\Video;
 use App\Sources\SourceVideo;
+use App\Sources\YtDlp\YtDlpClient;
 use App\Sources\YouTube\YouTubeClient;
 use App\Traits\DownloadsImages;
 use DateInterval;
@@ -15,27 +17,59 @@ class YouTubeVideo implements SourceVideo
 
     public function import(string $id): Video
     {
-        $data = YouTubeClient::getVideoData($id);
+        if (YouTubeClient::isConfigured()) {
+            $data = YouTubeClient::getVideoData($id);
 
-        // Create video
-        $channel = Channel::import('youtube', $data['channel_id']);
+            $channel = Channel::import('youtube', $data['channel_id']);
+            return $channel->videos()->create([
+                'uuid' => $data['id'],
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'source_type' => 'youtube',
+                'source_visibility' => $data['visibility'],
+                'duration' => $this->formatDuration($data['duration']),
+                'is_livestream' => $data['is_livestream'],
+                'published_at' => $data['published_at'],
+                'thumbnail_url' => $this->downloadImage(
+                    "https://img.youtube.com/vi/{$id}/hqdefault.jpg",
+                    "thumbs/youtube/{$id}.jpg"
+                ),
+                'poster_url' => $this->downloadImage(
+                    "https://img.youtube.com/vi/{$id}/maxresdefault.jpg",
+                    "thumbs/youtube-maxres/{$id}.jpg"
+                ),
+            ]);
+        }
+
+        $ytdl = new YtDlpClient();
+        if (!$ytdl->isAvailable()) {
+            throw new ImportException('YouTube API is not configured and yt-dlp is not available.');
+        }
+
+        $data = $ytdl->getVideoMetadata($this->getSourceUrlFromId($id));
+        $channelImportId = $data['channel_id'] ?? null;
+        if ((!is_string($channelImportId) || $channelImportId === '') && !empty($data['uploader_id'])) {
+            $channelImportId = '@' . ltrim((string) $data['uploader_id'], '@');
+        }
+        if (!is_string($channelImportId) || $channelImportId === '') {
+            throw new ImportException('yt-dlp did not return a YouTube channel reference.');
+        }
+
+        $thumbnail = YtDlpClient::getThumbnailUrl($data, 320);
+        $poster = YtDlpClient::getThumbnailUrl($data);
+
+        $channel = Channel::import('youtube', $channelImportId);
         return $channel->videos()->create([
-            'uuid' => $data['id'],
-            'title' => $data['title'],
-            'description' => $data['description'],
+            'uuid' => (string) ($data['id'] ?? $id),
+            'title' => (string) ($data['title'] ?? $id),
+            'description' => (string) ($data['description'] ?? ''),
             'source_type' => 'youtube',
-            'source_visibility' => $data['visibility'],
-            'duration' => $this->formatDuration($data['duration']),
-            'is_livestream' => $data['is_livestream'],
-            'published_at' => $data['published_at'],
-            'thumbnail_url' => $this->downloadImage(
-                "https://img.youtube.com/vi/{$id}/hqdefault.jpg",
-                "thumbs/youtube/{$id}.jpg"
-            ),
-            'poster_url' => $this->downloadImage(
-                "https://img.youtube.com/vi/{$id}/maxresdefault.jpg",
-                "thumbs/youtube-maxres/{$id}.jpg"
-            ),
+            'source_visibility' => $this->normalizeVisibility($data),
+            'duration' => isset($data['duration']) ? (int) round((float) $data['duration']) : null,
+            'is_livestream' => !empty($data['is_live']),
+            'published_at' => YtDlpClient::getPublishedAt($data),
+            'thumbnail_url' => $thumbnail ? $this->downloadImage($thumbnail, "thumbs/youtube/{$id}.jpg") : null,
+            'poster_url' => $poster ? $this->downloadImage($poster, "thumbs/youtube-maxres/{$id}.jpg") : null,
         ]);
     }
 
@@ -89,5 +123,22 @@ class YouTubeVideo implements SourceVideo
         }
         $interval = new DateInterval($duration);
         return $interval->d * 86400 + $interval->h * 3600 + $interval->i * 60 + $interval->s;
+    }
+
+    protected function getSourceUrlFromId(string $id): string
+    {
+        return 'https://www.youtube.com/watch?v=' . $id;
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    protected function normalizeVisibility(array $data): string
+    {
+        return match (strtolower((string) ($data['availability'] ?? 'public'))) {
+            Video::VISIBILITY_PRIVATE => Video::VISIBILITY_PRIVATE,
+            Video::VISIBILITY_UNLISTED => Video::VISIBILITY_UNLISTED,
+            default => Video::VISIBILITY_PUBLIC,
+        };
     }
 }

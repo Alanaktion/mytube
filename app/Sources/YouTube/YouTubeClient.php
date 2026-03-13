@@ -12,11 +12,25 @@ use Illuminate\Support\Facades\App;
 
 class YouTubeClient
 {
+    public static function isConfigured(): bool
+    {
+        return (string) config('services.youtube.key') !== '';
+    }
+
     /**
      * Get metadata for a video from YouTube by video ID
      *
      * @link https://developers.google.com/youtube/v3/docs/videos
-     * @return array{id: string, channel_id: string, title: string, description: string, visibility: string, duration: string, published_at: string, is_livestream: true}
+    * @return array{
+    *     id: string,
+    *     channel_id: string,
+    *     title: string,
+    *     description: string,
+    *     visibility: string,
+    *     duration: string,
+    *     published_at: string,
+    *     is_livestream: true
+    * }
      */
     public static function getVideoData(string $id): array
     {
@@ -46,7 +60,15 @@ class YouTubeClient
      * Get metadata for a channel from YouTube by channel ID
      *
      * @link https://developers.google.com/youtube/v3/docs/channels
-     * @return array{id: string, title: string, description: string, custom_url: string, country: string, published_at: string, thumbnails: \Google\Service\YouTube\ThumbnailDetails}
+    * @return array{
+    *     id: string,
+    *     title: string,
+    *     description: string,
+    *     custom_url: string,
+    *     country: string,
+    *     published_at: string,
+    *     thumbnails: \Google\Service\YouTube\ThumbnailDetails
+    * }
      */
     public static function getChannelData(string $id): array
     {

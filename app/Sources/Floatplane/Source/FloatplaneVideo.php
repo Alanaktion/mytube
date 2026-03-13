@@ -2,14 +2,17 @@
 
 namespace App\Sources\Floatplane\Source;
 
+use App\Exceptions\ImportException;
 use App\Models\Channel;
 use App\Models\Video;
 use App\Sources\Floatplane\FloatplaneClient;
 use App\Sources\SourceVideo;
-use Illuminate\Support\Facades\Storage;
+use App\Traits\DownloadsImages;
 
 class FloatplaneVideo implements SourceVideo
 {
+    use DownloadsImages;
+
     public function canonicalizeId(string $id): string
     {
         return $id;
@@ -17,18 +20,15 @@ class FloatplaneVideo implements SourceVideo
 
     public function import(string $id): Video
     {
+        if (! FloatplaneClient::isConfigured()) {
+            throw new ImportException('Floatplane session access is not configured.');
+        }
+
         $data = FloatplaneClient::getVideoData($id);
 
-        // Download images
-        $disk = Storage::disk('public');
-        $file = 'thumbs/floatplane/' . basename((string) $data['thumbnail']);
-        $disk->put($file, file_get_contents($data['thumbnail']), 'public');
-        $thumbnailUrl = Storage::url('public/' . $file);
-        $file = 'thumbs/floatplane/' . basename((string) $data['poster']);
-        $disk->put($file, file_get_contents($data['poster']), 'public');
-        $posterUrl = Storage::url('public/' . $file);
+        $thumbnailUrl = $this->downloadImage((string) $data['thumbnail'], 'thumbs/floatplane');
+        $posterUrl = $this->downloadImage((string) $data['poster'], 'thumbs/floatplane');
 
-        // Create video
         $channel = Channel::import('floatplane', $data['channel_url']);
         return $channel->videos()->create([
             'uuid' => $data['id'],
@@ -69,5 +69,10 @@ class FloatplaneVideo implements SourceVideo
     public function getEmbedHtml(Video $video): ?string
     {
         return null;
+    }
+
+    protected function getSourceUrlFromId(string $id): string
+    {
+        return 'https://www.floatplane.com/post/' . $id;
     }
 }

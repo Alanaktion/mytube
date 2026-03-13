@@ -2,9 +2,11 @@
 
 namespace App\Sources\Twitch\Source;
 
+use App\Exceptions\ImportException;
 use App\Models\Channel;
 use App\Models\Video;
 use App\Sources\SourceVideo;
+use App\Sources\YtDlp\YtDlpClient;
 use App\Sources\Twitch\TwitchClient;
 use App\Traits\DownloadsImages;
 use Illuminate\Support\Str;
@@ -20,33 +22,64 @@ class TwitchVideo implements SourceVideo
 
     public function import(string $id): Video
     {
-        $twitch = new TwitchClient();
-        $data = $twitch->getVideos((int)ltrim($id, 'v'))[0];
+        if (TwitchClient::isConfigured()) {
+            $twitch = new TwitchClient();
+            $data = $twitch->getVideos((int) ltrim($id, 'v'))[0];
 
-        // Download images
-        if ($data['thumbnail_url']) {
-            $url = str_replace(['%{width}', '%{height}'], ['640', '360'], (string) $data['thumbnail_url']);
-            $thumbnailUrl = $this->downloadImage($url, "thumbs/twitch/{$data['id']}.png");
+            if ($data['thumbnail_url']) {
+                $url = str_replace(['%{width}', '%{height}'], ['640', '360'], (string) $data['thumbnail_url']);
+                $thumbnailUrl = $this->downloadImage($url, "thumbs/twitch/{$data['id']}.png");
 
-            $url = str_replace(['%{width}', '%{height}'], ['1280', '720'], (string) $data['thumbnail_url']);
-            $posterUrl = $this->downloadImage($url, "thumbs/twitch/{$data['id']}-poster.png");
-        } else {
-            $thumbnailUrl = null;
-            $posterUrl = null;
+                $url = str_replace(['%{width}', '%{height}'], ['1280', '720'], (string) $data['thumbnail_url']);
+                $posterUrl = $this->downloadImage($url, "thumbs/twitch/{$data['id']}-poster.png");
+            } else {
+                $thumbnailUrl = null;
+                $posterUrl = null;
+            }
+
+            $channel = Channel::import('twitch', $data['user_login']);
+            return $channel->videos()->create([
+                'uuid' => Str::start($data['id'], 'v'),
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'source_type' => 'twitch',
+                'duration' => $this->formatDuration($data['duration']),
+                'is_livestream' => true,
+                'published_at' => $data['published_at'],
+                'thumbnail_url' => $thumbnailUrl,
+                'poster_url' => $posterUrl,
+            ]);
         }
 
-        // Create video
-        $channel = Channel::import('twitch', $data['user_login']);
+        $ytdl = new YtDlpClient();
+        if (!$ytdl->isAvailable()) {
+            throw new ImportException('Twitch API is not configured and yt-dlp is not available.');
+        }
+
+        $data = $ytdl->getVideoMetadata($this->getSourceUrlFromId($id));
+        $thumbnail = YtDlpClient::getThumbnailUrl($data, 640);
+        $poster = YtDlpClient::getThumbnailUrl($data);
+
+        $channelImportId = (string) ($data['uploader_id'] ?? $data['channel_id'] ?? $data['display_id'] ?? '');
+        if ($channelImportId === '') {
+            throw new ImportException('yt-dlp did not return a Twitch channel reference.');
+        }
+
+        $channel = Channel::import('twitch', $channelImportId);
         return $channel->videos()->create([
-            'uuid' => Str::start($data['id'], 'v'),
-            'title' => $data['title'],
-            'description' => $data['description'],
+            'uuid' => Str::start((string) ($data['id'] ?? ltrim($id, 'v')), 'v'),
+            'title' => (string) ($data['title'] ?? $id),
+            'description' => (string) ($data['description'] ?? ''),
             'source_type' => 'twitch',
-            'duration' => $this->formatDuration($data['duration']),
+            'duration' => isset($data['duration']) ? (int) round((float) $data['duration']) : null,
             'is_livestream' => true,
-            'published_at' => $data['published_at'],
-            'thumbnail_url' => $thumbnailUrl,
-            'poster_url' => $posterUrl,
+            'published_at' => YtDlpClient::getPublishedAt($data),
+            'thumbnail_url' => $thumbnail
+                ? $this->downloadImage($thumbnail, 'thumbs/twitch/' . ltrim($id, 'v') . '.png')
+                : null,
+            'poster_url' => $poster
+                ? $this->downloadImage($poster, 'thumbs/twitch/' . ltrim($id, 'v') . '-poster.png')
+                : null,
         ]);
     }
 
@@ -98,5 +131,10 @@ class TwitchVideo implements SourceVideo
         $minutes = $matches[6] ?: 0;
         $seconds = $matches[8] ?: 0;
         return $days * 86400 + $hours * 3600 + $minutes * 60 + $seconds;
+    }
+
+    protected function getSourceUrlFromId(string $id): string
+    {
+        return 'https://www.twitch.tv/videos/' . ltrim($id, 'v');
     }
 }

@@ -11,6 +11,12 @@ class TwitchClient
     protected TwitchApi $client;
     protected string $token;
 
+    public static function isConfigured(): bool
+    {
+        return (string) config('twitch-api.client_id') !== ''
+            && (string) config('twitch-api.client_secret') !== '';
+    }
+
     public function __construct()
     {
         $clientId = config('twitch-api.client_id');

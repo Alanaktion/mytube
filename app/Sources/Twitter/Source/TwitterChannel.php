@@ -2,9 +2,11 @@
 
 namespace App\Sources\Twitter\Source;
 
+use App\Exceptions\ImportException;
 use App\Models\Channel;
 use App\Sources\SourceChannel;
 use App\Sources\Twitter\TwitterClient;
+use App\Sources\YtDlp\YtDlpClient;
 use App\Traits\DownloadsImages;
 
 class TwitterChannel implements SourceChannel
@@ -18,22 +20,42 @@ class TwitterChannel implements SourceChannel
 
     public function import(string $id): Channel
     {
-        $twitter = new TwitterClient();
-        $channelData = $twitter->getUser($id);
+        if (TwitterClient::isConfigured()) {
+            $twitter = new TwitterClient();
+            $channelData = $twitter->getUser($id);
 
-        // Download images
-        $imageUrl = $this->downloadImage($channelData->profile_image_url_https, 'thumbs/twitter-user');
+            $imageUrl = $this->downloadImage($channelData->profile_image_url_https, 'thumbs/twitter-user');
 
-        // Create channel
+            return Channel::create([
+                'uuid' => $channelData->id_str,
+                'title' => $channelData->name,
+                'description' => $channelData->description,
+                'custom_url' => $channelData->screen_name,
+                'type' => 'twitter',
+                'image_url' => $imageUrl,
+                'image_url_lg' => $imageUrl,
+                'published_at' => $channelData->created_at,
+            ]);
+        }
+
+        $ytdl = new YtDlpClient();
+        if (!$ytdl->isAvailable()) {
+            throw new ImportException('Twitter API is not configured and yt-dlp is not available.');
+        }
+
+        $channelData = $ytdl->getChannelMetadata($this->getSourceUrlById($id));
+        $image = YtDlpClient::getThumbnailUrl($channelData);
+        $imageUrl = $image ? $this->downloadImage($image, 'thumbs/twitter-user') : null;
+
         return Channel::create([
-            'uuid' => $channelData->id_str, // may want a Twitter prefix or something, this is an int
-            'title' => $channelData->name,
-            'description' => $channelData->description,
-            'custom_url' => $channelData->screen_name,
+            'uuid' => (string) ($channelData['channel_id'] ?? $channelData['id'] ?? $id),
+            'title' => (string) ($channelData['channel'] ?? $channelData['uploader'] ?? $channelData['title'] ?? $id),
+            'description' => (string) ($channelData['description'] ?? ''),
+            'custom_url' => (string) ($channelData['uploader_id'] ?? $channelData['display_id'] ?? $id),
             'type' => 'twitter',
             'image_url' => $imageUrl,
             'image_url_lg' => $imageUrl,
-            'published_at' => $channelData->created_at,
+            'published_at' => YtDlpClient::getPublishedAt($channelData),
         ]);
     }
 
@@ -48,5 +70,10 @@ class TwitterChannel implements SourceChannel
     public function getSourceUrl(Channel $channel): string
     {
         return 'https://twitter.com/' . $channel->custom_url;
+    }
+
+    protected function getSourceUrlById(string $id): string
+    {
+        return 'https://twitter.com/' . $id;
     }
 }

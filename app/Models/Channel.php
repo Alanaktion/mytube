@@ -77,7 +77,14 @@ class Channel extends Model
     }
 
     /**
-     * @return array{id: int, uuid: string, title: string, description: string, type: string, published_at: \Illuminate\Support\Carbon|null}
+    * @return array{
+    *     id: int,
+    *     uuid: string,
+    *     title: string,
+    *     description: string,
+    *     type: string,
+    *     published_at: \Illuminate\Support\Carbon|null
+    * }
      */
     public function toSearchableArray(): array
     {
@@ -119,12 +126,16 @@ class Channel extends Model
         }
 
         $ytdl = new YouTubeDlClient();
-        if ($ytdl->getVersion()) {
+        if ($ytdl->isAvailable()) {
             $ids = $ytdl->getChannelVideoIds($this->uuid);
             foreach ($ids as $id) {
                 Video::import('youtube', $id);
             }
             return;
+        }
+
+        if (!YouTubeClient::isConfigured()) {
+            throw new ImportException('YouTube API is not configured and yt-dlp is not available.');
         }
 
         $videos = YouTubeClient::getChannelVideos($this->uuid);
@@ -154,12 +165,16 @@ class Channel extends Model
         }
 
         $ytdl = new YouTubeDlClient();
-        if ($ytdl->getVersion()) {
+        if ($ytdl->isAvailable()) {
             $ids = $ytdl->getChannelPlaylistIds($this->uuid);
             foreach ($ids as $id) {
                 Playlist::import('youtube', $id, $importItems);
             }
             return;
+        }
+
+        if (!YouTubeClient::isConfigured()) {
+            throw new ImportException('YouTube API is not configured and yt-dlp is not available.');
         }
 
         $playlists = YouTubeClient::getChannelPlaylists($this->uuid);

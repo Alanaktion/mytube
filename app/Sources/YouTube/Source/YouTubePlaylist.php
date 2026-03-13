@@ -2,11 +2,13 @@
 
 namespace App\Sources\YouTube\Source;
 
+use App\Exceptions\ImportException;
 use App\Models\Channel;
 use App\Models\ImportError;
 use App\Models\Playlist;
 use App\Models\Video;
 use App\Sources\SourcePlaylist;
+use App\Sources\YtDlp\YtDlpClient;
 use App\Sources\YouTube\YouTubeClient;
 use Illuminate\Support\Facades\Log;
 
@@ -14,13 +16,37 @@ class YouTubePlaylist implements SourcePlaylist
 {
     public function import(string $id): Playlist
     {
-        $data = YouTubeClient::getPlaylistData($id);
-        $channel = Channel::import('youtube', $data['channel_id']);
+        if (YouTubeClient::isConfigured()) {
+            $data = YouTubeClient::getPlaylistData($id);
+            $channel = Channel::import('youtube', $data['channel_id']);
+            return $channel->playlists()->create([
+                'uuid' => $data['id'],
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'published_at' => $data['published_at'],
+            ]);
+        }
+
+        $ytdl = new YtDlpClient();
+        if (!$ytdl->isAvailable()) {
+            throw new ImportException('YouTube API is not configured and yt-dlp is not available.');
+        }
+
+        $data = $ytdl->getPlaylistMetadata($this->getSourceUrlById($id));
+        $channelImportId = $data['channel_id'] ?? null;
+        if ((!is_string($channelImportId) || $channelImportId === '') && !empty($data['uploader_id'])) {
+            $channelImportId = '@' . ltrim((string) $data['uploader_id'], '@');
+        }
+        if (!is_string($channelImportId) || $channelImportId === '') {
+            throw new ImportException('yt-dlp did not return a YouTube playlist owner.');
+        }
+
+        $channel = Channel::import('youtube', $channelImportId);
         return $channel->playlists()->create([
-            'uuid' => $data['id'],
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'published_at' => $data['published_at'],
+            'uuid' => (string) ($data['id'] ?? $id),
+            'title' => (string) ($data['title'] ?? $id),
+            'description' => (string) ($data['description'] ?? ''),
+            'published_at' => YtDlpClient::getPublishedAt($data) ?? now(),
         ]);
     }
 
@@ -31,34 +57,64 @@ class YouTubePlaylist implements SourcePlaylist
             'type' => 'import_items',
         ]);
 
-        $items = YouTubeClient::getPlaylistItemData($playlist->uuid);
+        if (YouTubeClient::isConfigured()) {
+            $items = YouTubeClient::getPlaylistItemData($playlist->uuid);
+            $detail->data = [
+                'count' => count($items),
+                'imported' => 0,
+            ];
+            $detail->save();
+
+            foreach ($items as $index => $item) {
+                /** @var \Google_Service_YouTube_PlaylistItem $item */
+                $videoId = $item->getSnippet()->getResourceId()->videoId;
+                try {
+                    $video = Video::import('youtube', $videoId);
+                    $playlist->items()->updateOrCreate([
+                        'uuid' => $item->id,
+                    ], [
+                        'video_id' => $video->id,
+                        'position' => (int) $item->getSnippet()->position,
+                    ]);
+                } catch (\Exception $e) {
+                    ImportError::updateOrCreate([
+                        'uuid' => $videoId,
+                        'type' => 'youtube',
+                    ], [
+                        'reason' => $e->getMessage(),
+                    ]);
+                    Log::warning('Failed importing playlist item: ' . $videoId);
+                }
+
+                $detail->update([
+                    'data->imported' => $index + 1,
+                ]);
+            }
+
+            $detail->delete();
+            return;
+        }
+
+        $ytdl = new YtDlpClient();
+        if (!$ytdl->isAvailable()) {
+            throw new ImportException('YouTube API is not configured and yt-dlp is not available.');
+        }
+
+        $videoIds = $ytdl->getPlaylistVideoIds($this->getSourceUrl($playlist));
         $detail->data = [
-            'count' => count($items),
+            'count' => count($videoIds),
             'imported' => 0,
         ];
         $detail->save();
 
-        foreach ($items as $item) {
-            /** @var \Google_Service_YouTube_PlaylistItem $item */
-            if (($dbItem = $playlist->items->firstWhere('uuid', $item->id)) instanceof \Illuminate\Database\Eloquent\Model) {
-                // Skip existing item, updating positions where necessary
-                if ($dbItem->position != $item->getSnippet()->position) {
-                    $dbItem->position = (int)$item->getSnippet()->position;
-                    $dbItem->save();
-                }
-                $detail->update([
-                    'data->imported' => 1,
-                ]);
-                continue;
-            }
-
-            $videoId = $item->getSnippet()->getResourceId()->videoId;
+        $playlist->items()->delete();
+        foreach ($videoIds as $position => $videoId) {
             try {
                 $video = Video::import('youtube', $videoId);
                 $playlist->items()->create([
                     'video_id' => $video->id,
-                    'uuid' => $item->id,
-                    'position' => (int)$item->getSnippet()->position,
+                    'uuid' => 'ytdlp:' . sha1($playlist->uuid . ':' . $position . ':' . $videoId),
+                    'position' => $position,
                 ]);
             } catch (\Exception $e) {
                 ImportError::updateOrCreate([
@@ -69,8 +125,9 @@ class YouTubePlaylist implements SourcePlaylist
                 ]);
                 Log::warning('Failed importing playlist item: ' . $videoId);
             }
+
             $detail->update([
-                'data->imported' => 1,
+                'data->imported' => $position + 1,
             ]);
         }
 
@@ -79,7 +136,13 @@ class YouTubePlaylist implements SourcePlaylist
 
     public function matchUrl(string $url): ?string
     {
-        if (preg_match('/^(https?:\/\/)?(www\.)?youtube\.com\/playlist\?list=(PL[0-9a-z_-]{16,32})$/i', $url, $matches)) {
+        if (
+            preg_match(
+                '/^(https?:\/\/)?(www\.)?youtube\.com\/playlist\?list=(PL[0-9a-z_-]{16,32})$/i',
+                $url,
+                $matches,
+            )
+        ) {
             return $matches[3];
         }
         return null;
@@ -93,5 +156,10 @@ class YouTubePlaylist implements SourcePlaylist
     public function getSourceUrl(Playlist $playlist): string
     {
         return 'https://www.youtube.com/playlist?list=' . $playlist->uuid;
+    }
+
+    protected function getSourceUrlById(string $id): string
+    {
+        return 'https://www.youtube.com/playlist?list=' . $id;
     }
 }

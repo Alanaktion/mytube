@@ -11,6 +11,12 @@ class TwitterClient
 {
     protected \Abraham\TwitterOAuth\TwitterOAuth $client;
 
+    public static function isConfigured(): bool
+    {
+        return (string) config('services.twitter.consumer_key') !== ''
+            && (string) config('services.twitter.consumer_secret') !== '';
+    }
+
     /**
      * @link
      */

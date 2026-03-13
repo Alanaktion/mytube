@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -147,7 +148,7 @@ trait FilesystemHelpers
     protected function copyThumbnailImage(string $imagePath): string
     {
         $disk = Storage::disk('public');
-        $destPath = 'thumbs/local/' . basename($imagePath);
+        $destPath = 'thumbs/local/' . Str::slug(basename($imagePath));
         $data = file_get_contents($imagePath);
         $disk->put($destPath, $data, 'public');
         return Storage::url("public/$destPath");

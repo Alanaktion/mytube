@@ -2,13 +2,16 @@
 
 namespace App\Sources\Floatplane\Source;
 
+use App\Exceptions\ImportException;
 use App\Models\Channel;
 use App\Sources\Floatplane\FloatplaneClient;
 use App\Sources\SourceChannel;
-use Illuminate\Support\Facades\Storage;
+use App\Traits\DownloadsImages;
 
 class FloatplaneChannel implements SourceChannel
 {
+    use DownloadsImages;
+
     public function getField(): string
     {
         return 'custom_url';
@@ -16,20 +19,15 @@ class FloatplaneChannel implements SourceChannel
 
     public function import(string $id): Channel
     {
+        if (FloatplaneClient::isConfigured()) {
+            throw new ImportException('Floatplane session access is not configured.');
+        }
+
         $channelData = FloatplaneClient::getChannelData($id);
 
-        // Download images
-        $disk = Storage::disk('public');
-        $data = file_get_contents($channelData['icon']);
-        $file = 'thumbs/floatplane-channel/' . basename($channelData['icon']);
-        $disk->put($file, $data, 'public');
-        $imageUrl = Storage::url('public/' . $file);
-        $data = file_get_contents($channelData['icon-lg']);
-        $file = 'thumbs/floatplane-channel/' . basename($channelData['icon-lg']);
-        $disk->put($file, $data, 'public');
-        $imageUrlLg = Storage::url('public/' . $file);
+        $imageUrl = $this->downloadImage($channelData['icon'], 'thumbs/floatplane-channel');
+        $imageUrlLg = $this->downloadImage($channelData['icon-lg'], 'thumbs/floatplane-channel-lg');
 
-        // Create channel
         return Channel::create([
             'uuid' => $channelData['id'],
             'title' => $channelData['title'],
@@ -52,5 +50,10 @@ class FloatplaneChannel implements SourceChannel
     public function getSourceUrl(Channel $channel): string
     {
         return 'https://www.floatplane.com/channel/' . $channel->custom_url;
+    }
+
+    protected function getSourceUrlById(string $id): string
+    {
+        return 'https://www.floatplane.com/channel/' . $id;
     }
 }
