@@ -53,6 +53,10 @@ class VideoFile extends Model
                     return null;
                 }
 
+                if ($externalUrl = $this->resolveExternalUrl($this->path)) {
+                    return $externalUrl;
+                }
+
                 // Symlinks on Windows are just a pain and I don't care.
                 if (DIRECTORY_SEPARATOR === '\\') {
                     return null;
@@ -63,7 +67,7 @@ class VideoFile extends Model
                 $file = "{$file[0]}/{$file[1]}/$file";
 
                 // Ensure video directory and hash prefixes exist.
-                Storage::makeDirectory('public/videos/' . dirname($file));
+                Storage::disk('public')->makeDirectory('videos/' . dirname($file));
 
                 // Create symlink if it doesn't exist
                 $linkPath = storage_path("app/public/videos") . DIRECTORY_SEPARATOR . $file;
@@ -74,6 +78,28 @@ class VideoFile extends Model
                 return url("/storage/videos/$file");
             }
         );
+    }
+
+    protected function resolveExternalUrl(string $path): ?string
+    {
+        /** @var array<int, array{filesystem_prefix?: string, url_prefix?: string}> $mappings */
+        $mappings = config('filesystems.video_file_url_mappings', []);
+
+        foreach ($mappings as $mapping) {
+            $filesystemPrefix = rtrim((string) ($mapping['filesystem_prefix'] ?? ''), '/\\');
+            $urlPrefix = rtrim((string) ($mapping['url_prefix'] ?? ''), '/');
+
+            if ($filesystemPrefix === '' || $urlPrefix === '' || !str_starts_with($path, $filesystemPrefix)) {
+                continue;
+            }
+
+            $relativePath = ltrim(substr($path, strlen($filesystemPrefix)), '/\\');
+            $relativePath = str_replace('\\', '/', $relativePath);
+
+            return $relativePath === '' ? $urlPrefix : $urlPrefix . '/' . ltrim($relativePath, '/');
+        }
+
+        return null;
     }
 
     /**

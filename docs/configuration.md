@@ -53,6 +53,26 @@ YTDL_PATH=/usr/local/bin/yt-dlp
 
 `YTDL_PATH` is optional if `yt-dlp` is already on your `$PATH`.
 
+## External video file URLs (optional)
+
+If downloaded files are stored on disk paths that should be served from a separate web host, configure a filesystem prefix to URL mapping:
+
+```ini
+VIDEO_FILE_FILESYSTEM_PREFIX=/storage/Videos
+VIDEO_FILE_URL_PREFIX=https://videos.example.com/~user/videos
+```
+
+With this config, a stored file path like `/storage/Videos/example.mp4` is served as `https://videos.example.com/~user/videos/example.mp4`.
+
+For multiple mappings, provide comma-separated values in matching order:
+
+```ini
+VIDEO_FILE_FILESYSTEM_PREFIXES=/storage/Videos,/mnt/archive
+VIDEO_FILE_URL_PREFIXES=https://videos.example.com/~user/videos,https://archive.example.com/videos
+```
+
+The first filesystem prefix maps to the first URL prefix, the second to the second, and so on.
+
 ## Search backend (optional)
 
 By default, MyTube uses SQL `LIKE` searching. For better search quality/performance with larger libraries, use Meilisearch:

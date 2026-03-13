@@ -41,7 +41,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/') . '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -76,5 +76,33 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
+
+    'video_file_url_mappings' => (function (): array {
+        $filesystemPrefixes = array_map(
+            static fn (string $value): string => trim($value),
+            explode(',', (string) env('VIDEO_FILE_FILESYSTEM_PREFIXES', env('VIDEO_FILE_FILESYSTEM_PREFIX', ''))),
+        );
+
+        $urlPrefixes = array_map(
+            static fn (string $value): string => trim($value),
+            explode(',', (string) env('VIDEO_FILE_URL_PREFIXES', env('VIDEO_FILE_URL_PREFIX', ''))),
+        );
+
+        $count = min(count($filesystemPrefixes), count($urlPrefixes));
+        $mappings = [];
+
+        for ($index = 0; $index < $count; $index++) {
+            if ($filesystemPrefixes[$index] === '' || $urlPrefixes[$index] === '') {
+                continue;
+            }
+
+            $mappings[] = [
+                'filesystem_prefix' => $filesystemPrefixes[$index],
+                'url_prefix' => $urlPrefixes[$index],
+            ];
+        }
+
+        return $mappings;
+    })(),
 
 ];
