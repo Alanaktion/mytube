@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1
 
-FROM docker.io/library/node:20-bookworm-slim AS frontend-build
+FROM docker.io/library/node:24-bookworm-slim AS frontend-build
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN corepack enable && pnpm install --frozen-lockfile
 
 COPY resources ./resources

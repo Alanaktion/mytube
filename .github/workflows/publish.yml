@@ -54,7 +54,7 @@ jobs:
             type=edge,branch=main
             # always include the git SHA
             type=sha
-            ${{ github.event.inputs.tag }}
+            type=raw,value=${{ github.event.inputs.tag }},enable=${{ github.event_name == 'workflow_dispatch' }}
 
       - name: Build and push
         uses: docker/build-push-action@v7

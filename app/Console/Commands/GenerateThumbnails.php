@@ -108,11 +108,11 @@ class GenerateThumbnails extends Command
         $manager = new ImageManager(
             new \Intervention\Image\Drivers\Gd\Driver()
         );
-        $manager->read($framePath)
+        $manager->decodePath($framePath)
             ->scale(480, 360)
             ->resizeCanvas(480, 360, '#000')
             ->save(storage_path("app/public/thumbs/generated/{$video->uuid}@360p.jpg"));
-        $manager->read($framePath)
+        $manager->decodePath($framePath)
             ->scale(1280, 720)
             ->resizeCanvas(1280, 720, '#000')
             ->save(storage_path("app/public/thumbs/generated/{$video->uuid}@720p.jpg"));
